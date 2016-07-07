@@ -24,8 +24,13 @@
          
              if ($('#item_status').val() == 4) {
                     $("#dateBanGiao").attr('style', '');
-                }
+             }
+             if ($('#item_status').val() == 4) {
+                 $("#dateFinish").attr('style', '');
+             } 
+
             });
+           
             $('#startWarranty').click(function () {
                 $('#newWarrantyForm').attr('style', '');
             });
@@ -119,12 +124,19 @@
                         </tr>
                    
                             <tr id="dateBanGiao" style="display: none;">
-                                <td>Ngày sửa xong  </td>
+                                <td>Ngày bàn giao  </td>
                                 <td> @Html.TextBoxFor(Model => item.realeaseDATE) </td>
                             </tr>
 
+                        <tr></tr>
+
+                        <tr id="dateFinish" style="display: none;">
+                            <td>Ngày sửa xong  </td>
+                            <td> @Html.TextBoxFor(Model => item.finishFixingDate) </td>
+                        </tr>
+
                         <tr>
-                            <td >
+                            <td>
                                 <button type="summit">Cập nhật trạng thái bảo hành</button>
                             </td>
                         </tr>

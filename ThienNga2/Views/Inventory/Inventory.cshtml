@@ -98,7 +98,7 @@
                 <tr>
                     <th> Tên Kho </th>
                     <th>  Số Lượng </th>
-                    <th>  Action </th>
+               
                 </tr>
 
                 @foreach (var item in (List
@@ -111,12 +111,10 @@
                             <td>@item.tb_inventory_name.InventoryName</td>
 
                             <td>
-                                <input id="quantityInput" type="text" name="Quantity" value="@item.quantity" />
+                               @item.quantity
                             </td>
-                            <input type="text" name="Quantity" hidden="true" value="@item.id " />
-                            <td>
-                                <button type="submit"> Apply </button>
-                            </td>
+                                    
+                        
                         </tr>
 
                     }
