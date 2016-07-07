@@ -1,0 +1,550 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ThienNgaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="ThienNgaEntities3" annotation:LazyLoadingEnabled="true">
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(ThienNgaModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(ThienNgaModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <FunctionImport Name="ThienNga_Login" ReturnType="Collection(Int32)">
+      <Parameter Name="usernamee" Mode="In" Type="String" />
+      <Parameter Name="passwordd" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ThienNga_FindProduct" ReturnType="Collection(ThienNgaModel.ThienNga_FindProduct_Result)">
+      <Parameter Name="productcode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ThienNga_FindProductDetailID" ReturnType="Collection(Int32)">
+      <Parameter Name="productcode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ThienNga_TimSDT" ReturnType="Collection(ThienNgaModel.ThienNga_TimSDT_Result)">
+      <Parameter Name="phone" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ThienNga_findbyIMEI" ReturnType="Collection(ThienNgaModel.ThienNga_findbyIMEI_Result)">
+      <Parameter Name="IMEI" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="C__MigrationHistory" EntityType="ThienNgaModel.C__MigrationHistory" />
+    <EntitySet Name="accounts" EntityType="ThienNgaModel.account" />
+    <EntitySet Name="AspNetRoles" EntityType="ThienNgaModel.AspNetRole" />
+    <EntitySet Name="AspNetUserClaims" EntityType="ThienNgaModel.AspNetUserClaim" />
+    <EntitySet Name="AspNetUserLogins" EntityType="ThienNgaModel.AspNetUserLogin" />
+    <EntitySet Name="AspNetUsers" EntityType="ThienNgaModel.AspNetUser" />
+    <EntitySet Name="employees" EntityType="ThienNgaModel.employee" />
+    <EntitySet Name="inventories" EntityType="ThienNgaModel.inventory" />
+    <EntitySet Name="items" EntityType="ThienNgaModel.item" />
+    <EntitySet Name="logs" EntityType="ThienNgaModel.log" />
+    <EntitySet Name="roles" EntityType="ThienNgaModel.role" />
+    <EntitySet Name="sysdiagrams" EntityType="ThienNgaModel.sysdiagram" />
+    <EntitySet Name="tb_cate" EntityType="ThienNgaModel.tb_cate" />
+    <EntitySet Name="tb_customer" EntityType="ThienNgaModel.tb_customer" />
+    <EntitySet Name="tb_inventory_name" EntityType="ThienNgaModel.tb_inventory_name" />
+    <EntitySet Name="tb_product_detail" EntityType="ThienNgaModel.tb_product_detail" />
+    <EntitySet Name="tb_warranty" EntityType="ThienNgaModel.tb_warranty" />
+    <EntitySet Name="tb_warranty_activities" EntityType="ThienNgaModel.tb_warranty_activities" />
+    <EntitySet Name="tb_warrnaty_status" EntityType="ThienNgaModel.tb_warrnaty_status" />
+    <AssociationSet Name="FK_account_role" Association="ThienNgaModel.FK_account_role">
+      <End Role="role" EntitySet="roles" />
+      <End Role="account" EntitySet="accounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_log_account" Association="ThienNgaModel.FK_log_account">
+      <End Role="account" EntitySet="accounts" />
+      <End Role="log" EntitySet="logs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="ThienNgaModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="ThienNgaModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_warranty_activities_employee" Association="ThienNgaModel.FK_tb_warranty_activities_employee">
+      <End Role="employee" EntitySet="employees" />
+      <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_inventory_tb_inventory_name" Association="ThienNgaModel.FK_inventory_tb_inventory_name">
+      <End Role="tb_inventory_name" EntitySet="tb_inventory_name" />
+      <End Role="inventory" EntitySet="inventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_item_tb_customer" Association="ThienNgaModel.FK_item_tb_customer">
+      <End Role="tb_customer" EntitySet="tb_customer" />
+      <End Role="item" EntitySet="items" />
+    </AssociationSet>
+    <AssociationSet Name="FK_item_tb_inventory_name" Association="ThienNgaModel.FK_item_tb_inventory_name">
+      <End Role="tb_inventory_name" EntitySet="tb_inventory_name" />
+      <End Role="item" EntitySet="items" />
+    </AssociationSet>
+    <AssociationSet Name="FK_item_tb_product_detail" Association="ThienNgaModel.FK_item_tb_product_detail">
+      <End Role="tb_product_detail" EntitySet="tb_product_detail" />
+      <End Role="item" EntitySet="items" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_product_detail_tb_cate" Association="ThienNgaModel.FK_tb_product_detail_tb_cate">
+      <End Role="tb_cate" EntitySet="tb_cate" />
+      <End Role="tb_product_detail" EntitySet="tb_product_detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_warranty_activities_tb_warrnaty_status" Association="ThienNgaModel.FK_tb_warranty_activities_tb_warrnaty_status">
+      <End Role="tb_warrnaty_status" EntitySet="tb_warrnaty_status" />
+      <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserRoles" Association="ThienNgaModel.AspNetUserRoles">
+      <End Role="AspNetRole" EntitySet="AspNetRoles" />
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+    </AssociationSet>
+    <FunctionImport Name="ThienNga_findbyIMEI2" EntitySet="items" ReturnType="Collection(ThienNgaModel.item)">
+      <Parameter Name="IMEI" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ThienNga_FindProduct2" EntitySet="tb_product_detail" ReturnType="Collection(ThienNgaModel.tb_product_detail)">
+      <Parameter Name="productcode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ThienNga_TimSDT2" EntitySet="tb_customer" ReturnType="Collection(ThienNgaModel.tb_customer)">
+      <Parameter Name="phone" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ThienNga_checkkho2" EntitySet="inventories" ReturnType="Collection(ThienNgaModel.inventory)">
+      <Parameter Name="productcode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ThienNga_findwarranty" ReturnType="Collection(ThienNgaModel.ThienNga_findwarranty_Result)">
+      <Parameter Name="warrantycode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ThienNga_warrantyHistory" ReturnType="Collection(ThienNgaModel.ThienNga_warrantyHistory_Result)">
+      <Parameter Name="warrantycode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ThienNga_warrantyHistory2" EntitySet="tb_warranty_activities" ReturnType="Collection(ThienNgaModel.tb_warranty_activities)">
+      <Parameter Name="warrantycode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ThienNga_findwarranty2" EntitySet="tb_warranty" ReturnType="Collection(ThienNgaModel.tb_warranty)">
+      <Parameter Name="warrantycode" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="ThienNga_checkkho_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="productStoreCode" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="productFactoryCode" Nullable="false" MaxLength="50" />
+    <Property Type="DateTime" Name="dateAdded" Nullable="false" />
+    <Property Type="Int32" Name="inventoryID" Nullable="false" />
+    <Property Type="Int32" Name="quantity" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="ThienNga_FindProduct_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="producFactoryID" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="productStoreID" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="productName" Nullable="false" />
+    <Property Type="Double" Name="price" Nullable="false" />
+    <Property Type="Int32" Name="cateID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="ThienNga_TimSDT_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="customerName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="phonenumber" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="address" Nullable="false" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="ThienNga_findbyIMEI_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="productID" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="productDetailID" Nullable="false" />
+    <Property Type="Int32" Name="inventoryID" Nullable="false" />
+    <Property Type="Int32" Name="customerID" Nullable="true" />
+    <Property Type="DateTime" Name="DateOfSold" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+    <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="account">
+    <Key>
+      <PropertyRef Name="username" />
+    </Key>
+    <Property Name="accountOwner" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="roleID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="role" Relationship="ThienNgaModel.FK_account_role" FromRole="account" ToRole="role" />
+    <NavigationProperty Name="logs" Relationship="ThienNgaModel.FK_log_account" FromRole="account" ToRole="log" />
+  </EntityType>
+  <EntityType Name="AspNetRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="ThienNgaModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaim">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="ThienNgaModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogin">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="ThienNgaModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="AspNetUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUserClaims" Relationship="ThienNgaModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+    <NavigationProperty Name="AspNetUserLogins" Relationship="ThienNgaModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+    <NavigationProperty Name="AspNetRoles" Relationship="ThienNgaModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+  </EntityType>
+  <EntityType Name="employee">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="employeeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tb_warranty_activities" Relationship="ThienNgaModel.FK_tb_warranty_activities_employee" FromRole="employee" ToRole="tb_warranty_activities" />
+  </EntityType>
+  <EntityType Name="inventory">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="productStoreCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="productFactoryCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="dateAdded" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="inventoryID" Type="Int32" Nullable="false" />
+    <Property Name="quantity" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tb_inventory_name" Relationship="ThienNgaModel.FK_inventory_tb_inventory_name" FromRole="inventory" ToRole="tb_inventory_name" />
+  </EntityType>
+  <EntityType Name="item">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="productID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="productDetailID" Type="Int32" Nullable="false" />
+    <Property Name="inventoryID" Type="Int32" Nullable="false" />
+    <Property Name="customerID" Type="Int32" />
+    <Property Name="DateOfSold" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="tb_customer" Relationship="ThienNgaModel.FK_item_tb_customer" FromRole="item" ToRole="tb_customer" />
+    <NavigationProperty Name="tb_inventory_name" Relationship="ThienNgaModel.FK_item_tb_inventory_name" FromRole="item" ToRole="tb_inventory_name" />
+    <NavigationProperty Name="tb_product_detail" Relationship="ThienNgaModel.FK_item_tb_product_detail" FromRole="item" ToRole="tb_product_detail" />
+  </EntityType>
+  <EntityType Name="log">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="warrantyActivitiesID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="action" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="account" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="account1" Relationship="ThienNgaModel.FK_log_account" FromRole="log" ToRole="account" />
+  </EntityType>
+  <EntityType Name="role">
+    <Key>
+      <PropertyRef Name="roleID" />
+    </Key>
+    <Property Name="roleID" Type="Int32" Nullable="false" />
+    <Property Name="roleName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="accounts" Relationship="ThienNgaModel.FK_account_role" FromRole="role" ToRole="account" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tb_cate">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tb_product_detail" Relationship="ThienNgaModel.FK_tb_product_detail_tb_cate" FromRole="tb_cate" ToRole="tb_product_detail" />
+  </EntityType>
+  <EntityType Name="tb_customer">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="customerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="phonenumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="items" Relationship="ThienNgaModel.FK_item_tb_customer" FromRole="tb_customer" ToRole="item" />
+  </EntityType>
+  <EntityType Name="tb_inventory_name">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="InventoryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="inventories" Relationship="ThienNgaModel.FK_inventory_tb_inventory_name" FromRole="tb_inventory_name" ToRole="inventory" />
+    <NavigationProperty Name="items" Relationship="ThienNgaModel.FK_item_tb_inventory_name" FromRole="tb_inventory_name" ToRole="item" />
+  </EntityType>
+  <EntityType Name="tb_product_detail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="producFactoryID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="productStoreID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="productName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="price" Type="Double" Nullable="false" />
+    <Property Name="cateID" Type="Int32" />
+    <NavigationProperty Name="items" Relationship="ThienNgaModel.FK_item_tb_product_detail" FromRole="tb_product_detail" ToRole="item" />
+    <NavigationProperty Name="tb_cate" Relationship="ThienNgaModel.FK_tb_product_detail_tb_cate" FromRole="tb_product_detail" ToRole="tb_cate" />
+  </EntityType>
+  <EntityType Name="tb_warranty">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="warrantyID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="itemID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="startdate" Type="DateTime" Precision="0" />
+    <Property Name="duration" Type="Int32" Nullable="false" />
+    <Property Name="description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tb_warranty_activities">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="startDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="employee" Type="Int32" Nullable="false" />
+    <Property Name="warrantyID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="status" Type="Int32" Nullable="false" />
+    <Property Name="realeaseDATE" Type="DateTime" Precision="0" />
+    <Property Name="itemID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="employee1" Relationship="ThienNgaModel.FK_tb_warranty_activities_employee" FromRole="tb_warranty_activities" ToRole="employee" />
+    <NavigationProperty Name="tb_warrnaty_status" Relationship="ThienNgaModel.FK_tb_warranty_activities_tb_warrnaty_status" FromRole="tb_warranty_activities" ToRole="tb_warrnaty_status" />
+    <Property Name="finishFixingDate" Type="DateTime" Precision="0" />
+  </EntityType>
+  <EntityType Name="tb_warrnaty_status">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="statusName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tb_warranty_activities" Relationship="ThienNgaModel.FK_tb_warranty_activities_tb_warrnaty_status" FromRole="tb_warrnaty_status" ToRole="tb_warranty_activities" />
+  </EntityType>
+  <Association Name="FK_account_role">
+    <End Type="ThienNgaModel.role" Role="role" Multiplicity="1" />
+    <End Type="ThienNgaModel.account" Role="account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="role">
+        <PropertyRef Name="roleID" />
+      </Principal>
+      <Dependent Role="account">
+        <PropertyRef Name="roleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_log_account">
+    <End Type="ThienNgaModel.account" Role="account" Multiplicity="1" />
+    <End Type="ThienNgaModel.log" Role="log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="account">
+        <PropertyRef Name="username" />
+      </Principal>
+      <Dependent Role="log">
+        <PropertyRef Name="account" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Type="ThienNgaModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ThienNgaModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaim">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Type="ThienNgaModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ThienNgaModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogin">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_warranty_activities_employee">
+    <End Type="ThienNgaModel.employee" Role="employee" Multiplicity="1" />
+    <End Type="ThienNgaModel.tb_warranty_activities" Role="tb_warranty_activities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="employee">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tb_warranty_activities">
+        <PropertyRef Name="employee" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_inventory_tb_inventory_name">
+    <End Type="ThienNgaModel.tb_inventory_name" Role="tb_inventory_name" Multiplicity="1" />
+    <End Type="ThienNgaModel.inventory" Role="inventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_inventory_name">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="inventory">
+        <PropertyRef Name="inventoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_item_tb_customer">
+    <End Type="ThienNgaModel.tb_customer" Role="tb_customer" Multiplicity="0..1" />
+    <End Type="ThienNgaModel.item" Role="item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_customer">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="item">
+        <PropertyRef Name="customerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_item_tb_inventory_name">
+    <End Type="ThienNgaModel.tb_inventory_name" Role="tb_inventory_name" Multiplicity="1" />
+    <End Type="ThienNgaModel.item" Role="item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_inventory_name">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="item">
+        <PropertyRef Name="inventoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_item_tb_product_detail">
+    <End Type="ThienNgaModel.tb_product_detail" Role="tb_product_detail" Multiplicity="1" />
+    <End Type="ThienNgaModel.item" Role="item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_product_detail">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="item">
+        <PropertyRef Name="productDetailID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_product_detail_tb_cate">
+    <End Type="ThienNgaModel.tb_cate" Role="tb_cate" Multiplicity="0..1" />
+    <End Type="ThienNgaModel.tb_product_detail" Role="tb_product_detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_cate">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tb_product_detail">
+        <PropertyRef Name="cateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_warranty_activities_tb_warrnaty_status">
+    <End Type="ThienNgaModel.tb_warrnaty_status" Role="tb_warrnaty_status" Multiplicity="1" />
+    <End Type="ThienNgaModel.tb_warranty_activities" Role="tb_warranty_activities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_warrnaty_status">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tb_warranty_activities">
+        <PropertyRef Name="status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserRoles">
+    <End Type="ThienNgaModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+    <End Type="ThienNgaModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+  </Association>
+  <ComplexType Name="ThienNga_findwarranty_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="warrantyID" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="itemID" Nullable="false" MaxLength="50" />
+    <Property Type="DateTime" Name="startdate" Nullable="true" />
+    <Property Type="Int32" Name="duration" Nullable="false" />
+    <Property Type="String" Name="description" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="ThienNga_warrantyHistory_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="DateTime" Name="startDate" Nullable="false" />
+    <Property Type="Int32" Name="employee" Nullable="false" />
+    <Property Type="String" Name="warrantyID" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Description" Nullable="true" />
+    <Property Type="Int32" Name="status" Nullable="false" />
+    <Property Type="DateTime" Name="realeaseDATE" Nullable="false" />
+    <Property Type="String" Name="itemID" Nullable="false" MaxLength="50" />
+  </ComplexType>
+</Schema>

@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ThienNgaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="account">
+    <Key>
+      <PropertyRef Name="username" />
+    </Key>
+    <Property Name="accountOwner" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="roleID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="role" Relationship="Self.FK_account_role" FromRole="account" ToRole="role" />
+    <NavigationProperty Name="logs" Relationship="Self.FK_log_account" FromRole="account" ToRole="log" />
+  </EntityType>
+  <EntityType Name="employee">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="employeeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="tb_warranty_activities" Relationship="Self.FK_tb_warranty_activities_employee" FromRole="employee" ToRole="tb_warranty_activities" />
+  </EntityType>
+  <EntityType Name="item">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="productID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="productDetailID" Type="Int32" Nullable="false" />
+    <Property Name="inventoryID" Type="Int32" Nullable="false" />
+    <Property Name="customerID" Type="Int32" />
+    <NavigationProperty Name="tb_customer" Relationship="Self.FK_item_tb_customer" FromRole="item" ToRole="tb_customer" />
+    <NavigationProperty Name="tb_inventory_name" Relationship="Self.FK_item_tb_inventory_name" FromRole="item" ToRole="tb_inventory_name" />
+    <NavigationProperty Name="tb_product_detail" Relationship="Self.FK_item_tb_product_detail" FromRole="item" ToRole="tb_product_detail" />
+  </EntityType>
+  <EntityType Name="log">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="warrantyActivitiesID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="action" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="account" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="account1" Relationship="Self.FK_log_account" FromRole="log" ToRole="account" />
+  </EntityType>
+  <EntityType Name="role">
+    <Key>
+      <PropertyRef Name="roleID" />
+    </Key>
+    <Property Name="roleID" Type="Int32" Nullable="false" />
+    <Property Name="roleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="accounts" Relationship="Self.FK_account_role" FromRole="role" ToRole="account" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tb_cate">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tb_product_detail" Relationship="Self.FK_tb_product_detail_tb_cate" FromRole="tb_cate" ToRole="tb_product_detail" />
+  </EntityType>
+  <EntityType Name="tb_customer">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="customerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="phonenumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="items" Relationship="Self.FK_item_tb_customer" FromRole="tb_customer" ToRole="item" />
+  </EntityType>
+  <EntityType Name="tb_inventory_name">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="InventoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="items" Relationship="Self.FK_item_tb_inventory_name" FromRole="tb_inventory_name" ToRole="item" />
+    <NavigationProperty Name="inventories" Relationship="Self.FK_inventory_tb_inventory_name" FromRole="tb_inventory_name" ToRole="inventory" />
+  </EntityType>
+  <EntityType Name="tb_product_detail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="producFactoryID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="productStoreID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="productName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="price" Type="Double" Nullable="false" />
+    <Property Name="cateID" Type="Int32" />
+    <NavigationProperty Name="items" Relationship="Self.FK_item_tb_product_detail" FromRole="tb_product_detail" ToRole="item" />
+    <NavigationProperty Name="tb_cate" Relationship="Self.FK_tb_product_detail_tb_cate" FromRole="tb_product_detail" ToRole="tb_cate" />
+  </EntityType>
+  <EntityType Name="tb_warranty">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="warrantyID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="itemID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="startdate" Type="DateTime" Precision="0" />
+    <Property Name="duration" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tb_warranty_activities">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="startDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="employee" Type="Int32" Nullable="false" />
+    <Property Name="warrantyID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="status" Type="Int32" Nullable="false" />
+    <Property Name="realeaseDATE" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="itemID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="employee1" Relationship="Self.FK_tb_warranty_activities_employee" FromRole="tb_warranty_activities" ToRole="employee" />
+    <NavigationProperty Name="tb_warrnaty_status" Relationship="Self.FK_tb_warranty_activities_tb_warrnaty_status" FromRole="tb_warranty_activities" ToRole="tb_warrnaty_status" />
+  </EntityType>
+  <EntityType Name="tb_warrnaty_status">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="statusName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="tb_warranty_activities" Relationship="Self.FK_tb_warranty_activities_tb_warrnaty_status" FromRole="tb_warrnaty_status" ToRole="tb_warranty_activities" />
+  </EntityType>
+  <EntityType Name="inventory">
+    <Key>
+      <PropertyRef Name="productFactoryID" />
+      <PropertyRef Name="productStoreID" />
+      <PropertyRef Name="addedDate" />
+      <PropertyRef Name="quantity" />
+      <PropertyRef Name="inventoryID" />
+    </Key>
+    <Property Name="productFactoryID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="productStoreID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="addedDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="quantity" Type="Int32" Nullable="false" />
+    <Property Name="inventoryID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tb_inventory_name" Relationship="Self.FK_inventory_tb_inventory_name" FromRole="inventory" ToRole="tb_inventory_name" />
+  </EntityType>
+  <Association Name="FK_account_role">
+    <End Role="role" Type="Self.role" Multiplicity="1" />
+    <End Role="account" Type="Self.account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="role">
+        <PropertyRef Name="roleID" />
+      </Principal>
+      <Dependent Role="account">
+        <PropertyRef Name="roleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_log_account">
+    <End Role="account" Type="Self.account" Multiplicity="1" />
+    <End Role="log" Type="Self.log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="account">
+        <PropertyRef Name="username" />
+      </Principal>
+      <Dependent Role="log">
+        <PropertyRef Name="account" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_warranty_activities_employee">
+    <End Role="employee" Type="Self.employee" Multiplicity="1" />
+    <End Role="tb_warranty_activities" Type="Self.tb_warranty_activities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="employee">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tb_warranty_activities">
+        <PropertyRef Name="employee" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_item_tb_customer">
+    <End Role="tb_customer" Type="Self.tb_customer" Multiplicity="0..1" />
+    <End Role="item" Type="Self.item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_customer">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="item">
+        <PropertyRef Name="customerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_item_tb_inventory_name">
+    <End Role="tb_inventory_name" Type="Self.tb_inventory_name" Multiplicity="1" />
+    <End Role="item" Type="Self.item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_inventory_name">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="item">
+        <PropertyRef Name="inventoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_item_tb_product_detail">
+    <End Role="tb_product_detail" Type="Self.tb_product_detail" Multiplicity="1" />
+    <End Role="item" Type="Self.item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_product_detail">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="item">
+        <PropertyRef Name="productDetailID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_product_detail_tb_cate">
+    <End Role="tb_cate" Type="Self.tb_cate" Multiplicity="0..1" />
+    <End Role="tb_product_detail" Type="Self.tb_product_detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_cate">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tb_product_detail">
+        <PropertyRef Name="cateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_inventory_tb_inventory_name">
+    <End Role="tb_inventory_name" Type="Self.tb_inventory_name" Multiplicity="1" />
+    <End Role="inventory" Type="Self.inventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_inventory_name">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="inventory">
+        <PropertyRef Name="inventoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_warranty_activities_tb_warrnaty_status">
+    <End Role="tb_warrnaty_status" Type="Self.tb_warrnaty_status" Multiplicity="1" />
+    <End Role="tb_warranty_activities" Type="Self.tb_warranty_activities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_warrnaty_status">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tb_warranty_activities">
+        <PropertyRef Name="status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ThienNgaEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+    <EntitySet Name="accounts" EntityType="Self.account" />
+    <EntitySet Name="employees" EntityType="Self.employee" />
+    <EntitySet Name="items" EntityType="Self.item" />
+    <EntitySet Name="logs" EntityType="Self.log" />
+    <EntitySet Name="roles" EntityType="Self.role" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="tb_cate" EntityType="Self.tb_cate" />
+    <EntitySet Name="tb_customer" EntityType="Self.tb_customer" />
+    <EntitySet Name="tb_inventory_name" EntityType="Self.tb_inventory_name" />
+    <EntitySet Name="tb_product_detail" EntityType="Self.tb_product_detail" />
+    <EntitySet Name="tb_warranty" EntityType="Self.tb_warranty" />
+    <EntitySet Name="tb_warranty_activities" EntityType="Self.tb_warranty_activities" />
+    <EntitySet Name="tb_warrnaty_status" EntityType="Self.tb_warrnaty_status" />
+    <EntitySet Name="inventories" EntityType="Self.inventory" />
+    <AssociationSet Name="FK_account_role" Association="Self.FK_account_role">
+      <End Role="role" EntitySet="roles" />
+      <End Role="account" EntitySet="accounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_log_account" Association="Self.FK_log_account">
+      <End Role="account" EntitySet="accounts" />
+      <End Role="log" EntitySet="logs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_warranty_activities_employee" Association="Self.FK_tb_warranty_activities_employee">
+      <End Role="employee" EntitySet="employees" />
+      <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_item_tb_customer" Association="Self.FK_item_tb_customer">
+      <End Role="tb_customer" EntitySet="tb_customer" />
+      <End Role="item" EntitySet="items" />
+    </AssociationSet>
+    <AssociationSet Name="FK_item_tb_inventory_name" Association="Self.FK_item_tb_inventory_name">
+      <End Role="tb_inventory_name" EntitySet="tb_inventory_name" />
+      <End Role="item" EntitySet="items" />
+    </AssociationSet>
+    <AssociationSet Name="FK_item_tb_product_detail" Association="Self.FK_item_tb_product_detail">
+      <End Role="tb_product_detail" EntitySet="tb_product_detail" />
+      <End Role="item" EntitySet="items" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_product_detail_tb_cate" Association="Self.FK_tb_product_detail_tb_cate">
+      <End Role="tb_cate" EntitySet="tb_cate" />
+      <End Role="tb_product_detail" EntitySet="tb_product_detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_inventory_tb_inventory_name" Association="Self.FK_inventory_tb_inventory_name">
+      <End Role="tb_inventory_name" EntitySet="tb_inventory_name" />
+      <End Role="inventory" EntitySet="inventories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_warranty_activities_tb_warrnaty_status" Association="Self.FK_tb_warranty_activities_tb_warrnaty_status">
+      <End Role="tb_warrnaty_status" EntitySet="tb_warrnaty_status" />
+      <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

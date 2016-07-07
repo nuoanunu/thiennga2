@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c39d1ba3e713474a9832afbfc77a4a26" Name="Diagram1">
+        <EntityTypeShape EntityType="ThienNgaModel.C__MigrationHistory" Width="1.5" PointX="7.75" PointY="11.125" />
+        <EntityTypeShape EntityType="ThienNgaModel.account" Width="1.5" PointX="13" PointY="7.25" />
+        <EntityTypeShape EntityType="ThienNgaModel.AspNetRole" Width="1.5" PointX="5.75" PointY="2.875" />
+        <EntityTypeShape EntityType="ThienNgaModel.AspNetUserClaim" Width="1.5" PointX="10.25" PointY="3.875" />
+        <EntityTypeShape EntityType="ThienNgaModel.AspNetUserLogin" Width="1.5" PointX="10.25" PointY="1.375" />
+        <EntityTypeShape EntityType="ThienNgaModel.AspNetUser" Width="1.5" PointX="8" PointY="1.75" />
+        <EntityTypeShape EntityType="ThienNgaModel.employee" Width="1.5" PointX="5.75" PointY="11" />
+        <EntityTypeShape EntityType="ThienNgaModel.inventory" Width="1.5" PointX="3" PointY="6.75" />
+        <EntityTypeShape EntityType="ThienNgaModel.item" Width="1.5" PointX="3" PointY="3" />
+        <EntityTypeShape EntityType="ThienNgaModel.log" Width="1.5" PointX="15.25" PointY="7.25" />
+        <EntityTypeShape EntityType="ThienNgaModel.role" Width="1.5" PointX="10.75" PointY="7.625" />
+        <EntityTypeShape EntityType="ThienNgaModel.sysdiagram" Width="1.5" PointX="9.75" PointY="11.125" />
+        <EntityTypeShape EntityType="ThienNgaModel.tb_cate" Width="1.5" PointX="1.5" PointY="9.875" />
+        <EntityTypeShape EntityType="ThienNgaModel.tb_customer" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ThienNgaModel.tb_inventory_name" Width="1.5" PointX="0.75" PointY="3.5" />
+        <EntityTypeShape EntityType="ThienNgaModel.tb_product_detail" Width="1.5" PointX="0.75" PointY="6.5" />
+        <EntityTypeShape EntityType="ThienNgaModel.tb_warranty" Width="1.5" PointX="11.75" PointY="11.125" />
+        <EntityTypeShape EntityType="ThienNgaModel.tb_warranty_activities" Width="1.5" PointX="8" PointY="7.375" />
+        <EntityTypeShape EntityType="ThienNgaModel.tb_warrnaty_status" Width="1.5" PointX="5.75" PointY="8" />
+        <AssociationConnector Association="ThienNgaModel.FK_account_role" />
+        <AssociationConnector Association="ThienNgaModel.FK_log_account" />
+        <AssociationConnector Association="ThienNgaModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="ThienNgaModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="ThienNgaModel.FK_tb_warranty_activities_employee" />
+        <AssociationConnector Association="ThienNgaModel.FK_inventory_tb_inventory_name" />
+        <AssociationConnector Association="ThienNgaModel.FK_item_tb_customer" />
+        <AssociationConnector Association="ThienNgaModel.FK_item_tb_inventory_name" />
+        <AssociationConnector Association="ThienNgaModel.FK_item_tb_product_detail" />
+        <AssociationConnector Association="ThienNgaModel.FK_tb_product_detail_tb_cate" />
+        <AssociationConnector Association="ThienNgaModel.FK_tb_warranty_activities_tb_warrnaty_status" />
+        <AssociationConnector Association="ThienNgaModel.AspNetUserRoles" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

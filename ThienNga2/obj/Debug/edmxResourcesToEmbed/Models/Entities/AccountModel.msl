@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ThienNgaModel1StoreContainer" CdmEntityContainer="ThienNgaEntities1">
+    <EntitySetMapping Name="accounts">
+      <EntityTypeMapping TypeName="ThienNgaModel1.account">
+        <MappingFragment StoreEntitySet="account">
+          <ScalarProperty Name="accountOwner" ColumnName="accountOwner" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="roleID" ColumnName="roleID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="employees">
+      <EntityTypeMapping TypeName="ThienNgaModel1.employee">
+        <MappingFragment StoreEntitySet="employee">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="employeeName" ColumnName="employeeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="items">
+      <EntityTypeMapping TypeName="ThienNgaModel1.item">
+        <MappingFragment StoreEntitySet="item">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="productID" ColumnName="productID" />
+          <ScalarProperty Name="productDetailID" ColumnName="productDetailID" />
+          <ScalarProperty Name="inventoryID" ColumnName="inventoryID" />
+          <ScalarProperty Name="customerID" ColumnName="customerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="logs">
+      <EntityTypeMapping TypeName="ThienNgaModel1.log">
+        <MappingFragment StoreEntitySet="log">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="warrantyActivitiesID" ColumnName="warrantyActivitiesID" />
+          <ScalarProperty Name="action" ColumnName="action" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="account" ColumnName="account" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="roles">
+      <EntityTypeMapping TypeName="ThienNgaModel1.role">
+        <MappingFragment StoreEntitySet="role">
+          <ScalarProperty Name="roleID" ColumnName="roleID" />
+          <ScalarProperty Name="roleName" ColumnName="roleName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="ThienNgaModel1.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_cate">
+      <EntityTypeMapping TypeName="ThienNgaModel1.tb_cate">
+        <MappingFragment StoreEntitySet="tb_cate">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_customer">
+      <EntityTypeMapping TypeName="ThienNgaModel1.tb_customer">
+        <MappingFragment StoreEntitySet="tb_customer">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="customerName" ColumnName="customerName" />
+          <ScalarProperty Name="phonenumber" ColumnName="phonenumber" />
+          <ScalarProperty Name="address" ColumnName="address" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_inventory_name">
+      <EntityTypeMapping TypeName="ThienNgaModel1.tb_inventory_name">
+        <MappingFragment StoreEntitySet="tb_inventory_name">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="InventoryName" ColumnName="InventoryName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_product_detail">
+      <EntityTypeMapping TypeName="ThienNgaModel1.tb_product_detail">
+        <MappingFragment StoreEntitySet="tb_product_detail">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="producFactoryID" ColumnName="producFactoryID" />
+          <ScalarProperty Name="productStoreID" ColumnName="productStoreID" />
+          <ScalarProperty Name="productName" ColumnName="productName" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="cateID" ColumnName="cateID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_warranty">
+      <EntityTypeMapping TypeName="ThienNgaModel1.tb_warranty">
+        <MappingFragment StoreEntitySet="tb_warranty">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="warrantyID" ColumnName="warrantyID" />
+          <ScalarProperty Name="itemID" ColumnName="itemID" />
+          <ScalarProperty Name="startdate" ColumnName="startdate" />
+          <ScalarProperty Name="duration" ColumnName="duration" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_warranty_activities">
+      <EntityTypeMapping TypeName="ThienNgaModel1.tb_warranty_activities">
+        <MappingFragment StoreEntitySet="tb_warranty_activities">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="startDate" ColumnName="startDate" />
+          <ScalarProperty Name="employee" ColumnName="employee" />
+          <ScalarProperty Name="warrantyID" ColumnName="warrantyID" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="realeaseDATE" ColumnName="realeaseDATE" />
+          <ScalarProperty Name="itemID" ColumnName="itemID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_warrnaty_status">
+      <EntityTypeMapping TypeName="ThienNgaModel1.tb_warrnaty_status">
+        <MappingFragment StoreEntitySet="tb_warrnaty_status">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="statusName" ColumnName="statusName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="inventories">
+      <EntityTypeMapping TypeName="ThienNgaModel1.inventory">
+        <MappingFragment StoreEntitySet="inventory">
+          <ScalarProperty Name="productFactoryID" ColumnName="productFactoryID" />
+          <ScalarProperty Name="productStoreID" ColumnName="productStoreID" />
+          <ScalarProperty Name="addedDate" ColumnName="addedDate" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="inventoryID" ColumnName="inventoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="ThienNgaModel1.Store.sp_alterdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="ThienNgaModel1.Store.sp_creatediagram" />
+    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="ThienNgaModel1.Store.sp_dropdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="ThienNgaModel1.Store.sp_helpdiagramdefinition">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ThienNgaModel1.sp_helpdiagramdefinition_Result">
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="ThienNgaModel1.Store.sp_helpdiagrams">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ThienNgaModel1.sp_helpdiagrams_Result">
+          <ScalarProperty Name="Database" ColumnName="Database" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Owner" ColumnName="Owner" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="ThienNgaModel1.Store.sp_renamediagram" />
+    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="ThienNgaModel1.Store.sp_upgraddiagrams" />
+    <FunctionImportMapping FunctionImportName="ThienNga_Login" FunctionName="ThienNgaModel1.Store.ThienNga_Login" />
+  </EntityContainerMapping>
+</Mapping>
