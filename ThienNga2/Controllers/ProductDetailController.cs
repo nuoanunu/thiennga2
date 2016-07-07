@@ -7,63 +7,44 @@ using ThienNga2.Models.Entities;
 
 namespace ThienNga2.Controllers
 {
-    public class ProductController : Controller
+    public class ProductDetailController : Controller
     {
         private ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();
-        // GET: Product
+        // GET: ProductDetail
         public ActionResult Index()
         {
-            return View();
-        }
-        public List<String> getAll()
-        {
            
-            List<String> lst = new List<String>();
-            lst.Add("CCC");
-            lst.Add("ZZZ");
-            foreach (tb_product_detail t in am.tb_product_detail.ToList()) {
-                lst.Add(t.producFactoryID);
-                lst.Add(t.productName);
-                lst.Add(t.productStoreID);
-            }
-            return lst;
+            return View("NewProduct");
         }
 
-        // GET: Product/Details/5
+        // GET: ProductDetail/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
-
-        // GET: Product/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Product/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        // POST: ProductDetail/Create
+        public ActionResult Create(tb_product_detail Model)
         {
-            try
+            if (Model != null)
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                am.tb_product_detail.Add(Model);
+                am.SaveChanges();
+                return View("NewProduct", Model);
             }
-            catch
-            {
-                return View();
-            }
+            return View("NewProduct");
         }
 
-        // GET: Product/Edit/5
+       
+    
+
+        // GET: ProductDetail/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Product/Edit/5
+        // POST: ProductDetail/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -79,13 +60,13 @@ namespace ThienNga2.Controllers
             }
         }
 
-        // GET: Product/Delete/5
+        // GET: ProductDetail/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Product/Delete/5
+        // POST: ProductDetail/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {

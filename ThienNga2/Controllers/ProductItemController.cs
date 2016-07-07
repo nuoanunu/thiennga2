@@ -14,7 +14,8 @@ namespace ThienNga2.Controllers
         // GET: ProductItem
         public ActionResult Index()
         {
-           
+
+            ViewData["dsk"] = am.tb_inventory_name.ToList<tb_inventory_name>();
             return View("NewProductItem",new NewItemViewModel());
       
         }

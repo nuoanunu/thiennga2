@@ -30,12 +30,12 @@
             </div>
             <div  class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @if (Request.RawUrl.Contains("ProductItem")) { 
-                        <li style="background-color:#022F5A"> @Html.ActionLink("Nhập Sản Phẩm", "", "ProductItem")</li>
+                    @if (Request.RawUrl.Contains("ProductDetail")) { 
+                        <li style="background-color:#022F5A"> @Html.ActionLink("Nhập Sản Phẩm", "", "ProductDetail")</li>
                     }
                     else
                     {
-                    <li > @Html.ActionLink("Nhập Sản Phẩm", "", "ProductItem")</li> }
+                    <li > @Html.ActionLink("Nhập Sản Phẩm", "", "ProductDetail")</li> }
                     @if (Request.RawUrl.Contains("ProductItem"))
                     {
                     <li style="background-color:#022F5A"> @Html.ActionLink("Bán và Kích hoạt bảo hành", "", "ProductItem")</li>

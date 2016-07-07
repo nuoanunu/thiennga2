@@ -8,6 +8,8 @@
 
     <meta name="viewport" content="width=device-width" />
     <title>Inventory</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/SearchBar.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Table.css">
     <script src="http://www.google.com/jsapi"></script>
 
     <script src="~/Scripts/jquery-1.10.2.js"></script>
@@ -55,14 +57,10 @@
         {
 
 
-            <div id="form" class="input-container">
-                <label for="Username">Mã Sản Phẩm</label>
-                <input class="suggestionsinput" name="code" type="text" />
-                @*<div id="suggestions">
-                        Suggestions for <span class="searchterm"></span>...
-                    </div>
-                    <div class="bar"></div>*@
-                <button type="submit" value="Search">Tìm Trong Kho</button>
+            <div id="form" class="form-wrapper">
+                <input id="search" class="suggestionsinput" name="code" type="text" placeholder="Nhập mã sản phẩm" required />
+                
+                <button type="submit" value="Search" id="submit">Tìm  </button>
             </div>
 
 
@@ -77,7 +75,7 @@
                             )
         {
             tb_product_detail t = (tb_product_detail)ViewData["productdetail"];
-            <table>
+            <table class="responstable">
                 <td> <img src="http://wetrek.vn/pic/Service/duyanh.wetrek.vn@gmail.com/images/dji-trinh-lang-may-bay-dieu-khien-tu-xa-the-he-moi-phantom-3-wetrek_vn.jpg" width="500" height="auto" /></td>
                 <td>
                     <p>Name: @t.productName</p>
@@ -96,11 +94,11 @@
                             )
         {
             <h1> Sản phẩm đang có tại: </h1>
-            <table border="1">
+            <table class="responstable" border="1">
                 <tr>
-                    <td> Tên Kho </td>
-                    <td>  Số Lượng </td>
-                    <td>  Action </td>
+                    <th> Tên Kho </th>
+                    <th>  Số Lượng </th>
+                    <th>  Action </th>
                 </tr>
 
                 @foreach (var item in (List

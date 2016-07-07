@@ -8,7 +8,8 @@
 
     <meta name="viewport" content="width=device-width" />
     <title>Inventory</title>
-    
+    <link rel="stylesheet" type="text/css" href="~/Content/SearchBar.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Table.css">
     <script src="http://www.google.com/jsapi"></script>
 
     <script>
@@ -38,10 +39,10 @@
         {
 
 
-            <div id="form" class="input-container">
-                <label for="Username">Mã Bảo hành</label>
-                <input name="code" type="text" id="CodeText" />
-                <button type="submit" value="Search">Check</button>
+            <div id="form" class="form-wrapper">
+                <input id="search" class="suggestionsinput" name="code" type="text" placeholder="Nhập mã bảo hành" required />
+
+                <button type="submit" value="Search" id="submit">Tìm  </button>
             </div>
 
 
@@ -56,7 +57,7 @@
                         )
         {
             tb_warranty t = (tb_warranty)ViewData["warrantyDetail"];
-            <table>
+            <table class="responstable">
                 <td>
                     <p>Ngày Kích Hoạt: @t.startdate</p>
                     <p>Thời gian còn lại: @t.duration</p>
@@ -95,7 +96,7 @@
                 <div style="display:none;"></div>
                 <div style="display:none;"></div>
                 <div style="display:none;"></div>
-                    <table>
+                    <table class="responstable">
                         <tr>
                             <td>Ngày tiếp nhận : </td>
                             <td>@item.startDate </td>
@@ -134,7 +135,7 @@
 
 
     }
-    if (!flag)
+    if (!flag && (tb_warranty)ViewData["warrantyDetail"] != null )
     {
 
         tb_warranty t = (tb_warranty)ViewData["warrantyDetail"];
@@ -152,7 +153,7 @@
                  @Html.TextBoxFor(item => t2.itemID, new { @Value = t.itemID })
                    
                 </div>
-            <table>
+            <table class="responstable">
                 <tr>
                     <td>
                         Ngày nhận:
@@ -191,13 +192,13 @@
                         )
         {
             <h1> Lịch Sử Bảo Hành </h1>
-            <table border="1">
+            <table class="responstable">
                 <tr>
-                    <td>Ngày nhận  </td>
-                    <td>Mã Nhân Viên </td>
-                    <td>Tình trạng </td>
-                    <td>  Ngày hoàn tất sửa </td>
-                    <td>  Ngày Trả </td>
+                    <th>Ngày nhận  </th>
+                    <th>Mã Nhân Viên </th>
+                    <th>Tình trạng </th>
+                    <th>  Ngày hoàn tất sửa </th>
+                    <th>  Ngày Trả </th>
                 </tr>
 
                 @foreach (var item in (List

@@ -217,6 +217,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ProductDetailController.cs" />
     <Compile Include="Controllers\ProductItemController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\WarrantyController.cs" />
@@ -245,21 +246,6 @@
     <Compile Include="Models\Entities\database_firewall_rules.cs">
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Entities\DataModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Entities\DataModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Entities\DataModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataModel.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\Entities\employee.cs">
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
     </Compile>
@@ -274,15 +260,6 @@
     </Compile>
     <Compile Include="Models\Entities\role.cs">
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Entities\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Entities\sp_helpdiagrams_Result.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Entities\sysdiagram.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\tb_cate.cs">
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
@@ -347,21 +324,14 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\formTemplate.css" />
     <Content Include="Content\navigation.css" />
+    <Content Include="Content\SearchBar.css" />
+    <Content Include="Content\Table.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\Entities\DataModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DataModel.edmx</DependentUpon>
-      <LastGenOutput>DataModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\Entities\DataModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DataModel.edmx</DependentUpon>
-      <LastGenOutput>DataModel.cs</LastGenOutput>
-    </Content>
     <Content Include="Models\Entities\ThienNgaModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ThienNgaModel.edmx</DependentUpon>
@@ -385,13 +355,6 @@
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\JavaScript.js" />
     <Content Include="Views\Inventory\Inventory.cshtml" />
-    <EntityDeploy Include="Models\Entities\DataModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DataModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Entities\DataModel.edmx.diagram">
-      <DependentUpon>DataModel.edmx</DependentUpon>
-    </Content>
     <EntityDeploy Include="Models\Entities\ThienNgaModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ThienNgaModel.Designer.cs</LastGenOutput>
@@ -454,6 +417,7 @@
     <Content Include="Views\Role\Create.cshtml" />
     <Content Include="Views\ProductItem\NewProductItem.cshtml" />
     <Content Include="Views\Warranty\WarrantyCheck.cshtml" />
+    <Content Include="Views\ProductDetail\NewProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

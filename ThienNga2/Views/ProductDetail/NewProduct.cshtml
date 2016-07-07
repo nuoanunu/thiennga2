@@ -1,0 +1,33 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>NewProduct</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/formTemplate.css">
+</head>
+<body>
+    @using (Html.BeginForm("Create", "ProductDetail"))
+    {
+        @model ThienNga2.Models.Entities.tb_product_detail
+        <div class="form-style-10">
+            <form>
+
+                <div class="section"><span></span>Thông tin sản phẩm</div>
+                <div class="inner-wrap">
+                    <label>Tên sản phẩm @Html.TextBoxFor(Model => Model.productName)</label>
+                    <label>Mã nhà máy @Html.TextBoxFor(Model => Model.producFactoryID)</label>
+                    <label>Mã cửa hàng @Html.TextBoxFor(Model => Model.productStoreID)</label>
+                    <label>Giá @Html.TextBoxFor(Model => Model.price)</label>
+                    <label>Category @Html.TextBoxFor(Model => Model.tb_cate) </label>
+                </div>
+                <div class="button-section">
+                    <input type="submit" name="Tạo" />
+
+                </div>
+            </form>
+            </div>
+            }
+</body>
+</html>

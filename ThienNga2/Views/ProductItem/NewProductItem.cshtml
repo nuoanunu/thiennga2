@@ -6,6 +6,8 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>NewProductItem</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/formTemplate.css">
+  
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.2.js">
     </script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.8.1/jquery.validate.js">
@@ -47,66 +49,6 @@
 <body>
     @using (Html.BeginForm("CreateWhenSale", "ProductItem"))
     {
-        @model ThienNga2.Models.ViewModel.NewItemViewModel
-        <div> Ngày/Tháng/Năm @Html.TextBoxFor(Model => Model.item.DateOfSold) </div>
-        <h2>Thông Tin Khách Hàng</h2>
-        <table>
-          <tr>
-              <td>
-                  Tên Khách Hàng
-              </td>  
-              <td>
-                  @Html.TextBoxFor(Model => Model.item.tb_customer.customerName)
-              </td> 
-          </tr> 
-          <tr>
-                <td>
-                    Sđt
-                </td>
-                <td>
-                    @Html.TextBoxFor(Model => Model.item.tb_customer.phonenumber)
-                </td>
-            </tr>   
-            <tr>
-                <td>
-                    Địa chỉ
-                </td>
-                <td>
-                    @Html.TextBoxFor(Model => Model.item.tb_customer.address)
-                </td>
-            </tr>  
-     
-        </table>
-        
-        <h2>Thông Tin Sản Phẩm</h2>
-        <table>
-            <tr>
-                <td>
-                    Tên/Mã nhà máy/Mã cửa hàng
-                </td>
-                <td>
-                    @Html.TextBoxFor(Model => Model.item.tb_product_detail.producFactoryID)
-                </td>
-            </tr>  
-            <tr>
-                <td>
-                    Lấy từ kho
-                </td>
-                <td>
-                    @Html.TextBoxFor(Model => Model.item.inventoryID)
-                </td>
-            </tr>  
-            <tr>
-                <td>
-                    Nhập IMEI
-                </td>
-                <td>
-                   @Html.TextBoxFor(Model => Model.item.productID)
-                </td>
-            </tr>  
-        
-        </table>
-        <h2>Các mã bảo hành</h2>
         int id = 0;
         bool myFlag = true;
         List<SelectListItem> ls = new List<SelectListItem> {
@@ -116,25 +58,63 @@
      new SelectListItem { Text  = "6 tháng",Value="6"},
      new SelectListItem { Text = "12 tháng", Value = "12" },
      new SelectListItem { Text = "24 tháng", Value = "24" }
-  };
-        foreach (ThienNga2.Models.Entities.tb_warranty war in Model.warranties.TakeWhile(x => myFlag) )
-        {
-            String newId = "warrantyNo" + id;
-            String divId = "warrantyDiv" + id;
-            <div id=@divId >
-               
-                Mã bảo hành 1  @Html.TextBoxFor(Model => war.warrantyID)
-                Tên loại bảo hành  @Html.TextBoxFor(Model => war.description)
-                Thời gian bảo hành @Html.DropDownListFor(Model => war.duration ,ls)
-            </div>
-           // if (war.duration == 0) { myFlag = false; }
-            id = id + 1;
-
+    }; List<SelectListItem> ls2 = new List<SelectListItem>();
+        foreach (tb_inventory_name kho in (List
+                <tb_inventory_name>
+                    )ViewData["dsk"] ) {
+            ls2.Add(new SelectListItem { Text =kho.InventoryName, Value = kho.id+"" });
         }
 
 
-         <div>   <button type="submit">Check valid</button></div>
+        @model ThienNga2.Models.ViewModel.NewItemViewModel
+
+        <div class="form-style-10">
+            <h1>Tạo đơn hàng<span>Bán và kich hoạt bảo hành</span></h1>
+            <form>
+                <label>Ngày/tháng/năm @Html.TextBoxFor(Model => Model.item.DateOfSold) </label>
+                <div class="section"><span>1</span>Thông tin khách hàng</div>
+                <div class="inner-wrap">
+                    <label>Tên khách hàng @Html.TextBoxFor(Model => Model.item.tb_customer.customerName)</label>
+                    <label>SDT @Html.TextBoxFor(Model => Model.item.tb_customer.phonenumber)</label>
+                    <label>Địa chỉ @Html.TextBoxFor(Model => Model.item.tb_customer.address)</label>
+                </div>
+
+                <div class="section"><span>2</span>Thông tin sản phẩm</div>
+                <div class="inner-wrap">
+                    <label>Tên/Mã nhà máy/Mã cửa hàng @Html.TextBoxFor(Model => Model.item.tb_product_detail.producFactoryID)</label>
+                    <label>Lấy từ kho @Html.DropDownListFor(Model => Model.item.inventoryID, ls2)</label>
+                    <label>Nhập IMEI @Html.TextBoxFor(Model => Model.item.productID)</label>
+
+                </div>
+
+                <div class="section"><span>3</span>Thông tin bảo hành</div>
+                @foreach (ThienNga2.Models.Entities.tb_warranty war in Model.warranties.TakeWhile(x => myFlag) )
+                {
+                String newId = "warrantyNo" + id;
+                String divId = "warrantyDiv" + id;
+                <div id=@divId class="inner-wrap">
+                    <label>Mã bảo hành  @Html.TextBoxFor(Model => war.warrantyID)</label>
+                    <label>Tên loại bảo hành @Html.TextBoxFor(Model => war.description)</label>
+                    <label>Thời gian bảo hành @Html.DropDownListFor(Model => war.duration, ls)</label>
+                 
+                </div>
+                // if (war.duration == 0) { myFlag = false; }
+                id = id + 1;
+
+                }
+         
+                <div class="button-section">
+                    <input type="submit" name="Hoàn tất" />
+                   
+                </div>
+            </form>
+        </div>
+       
 
     }
+
+
+
+
 </body>
 </html>
