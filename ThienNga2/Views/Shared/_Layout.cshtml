@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        .liact act {
+        background-color:#022F5A;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div id="navbar-darkblue" class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("FLYCAM", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div  class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (Request.RawUrl.Contains("ProductItem")) { 
+                        <li style="background-color:#022F5A"> @Html.ActionLink("Nhập Sản Phẩm", "", "ProductItem")</li>
+                    }
+                    else
+                    {
+                    <li > @Html.ActionLink("Nhập Sản Phẩm", "", "ProductItem")</li> }
+                    @if (Request.RawUrl.Contains("ProductItem"))
+                    {
+                    <li style="background-color:#022F5A"> @Html.ActionLink("Bán và Kích hoạt bảo hành", "", "ProductItem")</li>
+                    }
+                    else
+                    {
+                        <li > @Html.ActionLink("Bán và Kích hoạt bảo hành", "", "ProductItem")</li> }
+                    @if (Request.RawUrl.Contains("Warranty")){
+                       <li style="background-color:#022F5A"> @Html.ActionLink("Kiểm Tra Bảo Hành", "", "Warranty")</li>
+                    }
+                    else
+                    {
+                        <li >@Html.ActionLink("Kiểm Tra Bảo Hành", "", "Warranty")</li> }
+                    @if (Request.RawUrl.Contains("Inventory"))
+                    {
+                    <li style="background-color:#022F5A"> @Html.ActionLink("Kiểm hàng tồn kho", "", "Inventory")</li>}
+                    else
+                    {
+                        <li > @Html.ActionLink("Kiểm hàng tồn kho", "", "Inventory")</li> }
+                   
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+    </div>
+
+    @*@Scripts.Render("~/bundles/jquery")*@
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

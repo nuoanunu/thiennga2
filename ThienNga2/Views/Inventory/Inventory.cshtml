@@ -1,0 +1,132 @@
+﻿@using ThienNga2.Models;
+@using ThienNga2.Models.Entities;
+@model ThienNga2.Models.Entities.inventory
+<!DOCTYPE html>
+
+<html>
+<head
+
+    <meta name="viewport" content="width=device-width" />
+    <title>Inventory</title>
+    <script src="http://www.google.com/jsapi"></script>
+
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript">
+	    $(document).ready(function(){
+	        $("#increasequantity").click(function () {
+                $("#quantityInput").val() =  $("#quantityInput").val() +1;
+    });
+        $("#decreasequantity").click(function () {
+
+    });
+	    $(".suggestionsinput").click(function () {
+	        if ($(".suggestionsinput").val() == "Search") {
+	            $(".suggestionsinput").val("");
+	        }
+	    });
+        $(".suggestionsinput").keyup(function(event){
+		if($(".suggestionsinput").val() != "")
+		{
+			// make suggestions visible
+			$("#suggestions").css('visibility', 'visible');
+			$("#suggestions").hide();
+			$("#suggestions").fadeIn('slow');
+			$(".searchterm").text($(".suggestionsinput").val());
+		 $("#suggestions").load('http://localhost:53874/Product/getAll');
+
+		} else {
+			// hide suggestions
+			$("#suggestions").fadeOut('slow', function(){
+				$("#suggestions").css('visibility', 'hidden');
+			});
+
+		}
+	});
+
+
+
+	})
+
+    </script>
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm("Search", "Inventory"))
+        {
+
+
+            <div id="form" class="input-container">
+                <label for="Username">Mã Sản Phẩm</label>
+                <input class="suggestionsinput" name="code" type="text" />
+                @*<div id="suggestions">
+                        Suggestions for <span class="searchterm"></span>...
+                    </div>
+                    <div class="bar"></div>*@
+                <button type="submit" value="Search">Tìm Trong Kho</button>
+            </div>
+
+
+
+
+        }
+
+    </div>
+    <div>
+
+        @if (ViewData["productdetail"] != null
+                            )
+        {
+            tb_product_detail t = (tb_product_detail)ViewData["productdetail"];
+            <table>
+                <td> <img src="http://wetrek.vn/pic/Service/duyanh.wetrek.vn@gmail.com/images/dji-trinh-lang-may-bay-dieu-khien-tu-xa-the-he-moi-phantom-3-wetrek_vn.jpg" width="500" height="auto" /></td>
+                <td>
+                    <p>Name: @t.productName</p>
+                    <p>Factory Code: @t.producFactoryID</p>
+                    <p>Store Code: @t.productStoreID</p>
+                    <p>Price: @t.price $</p>
+                </td>
+
+
+            </table>
+
+
+        }
+
+        @if ((List<inventory>)ViewData["dsspdt"] != null
+                            )
+        {
+            <h1> Sản phẩm đang có tại: </h1>
+            <table border="1">
+                <tr>
+                    <td> Tên Kho </td>
+                    <td>  Số Lượng </td>
+                    <td>  Action </td>
+                </tr>
+
+                @foreach (var item in (List
+                <inventory>
+                    )ViewData["dsspdt"])
+                {
+                    using (Html.BeginForm("Update", "Warranty"))
+                    {
+                        <tr>
+                            <td>@item.tb_inventory_name.InventoryName</td>
+
+                            <td>
+                                <input id="quantityInput" type="text" name="Quantity" value="@item.quantity" />
+                            </td>
+                            <input type="text" name="Quantity" hidden="true" value="@item.id " />
+                            <td>
+                                <button type="submit"> Apply </button>
+                            </td>
+                        </tr>
+
+                    }
+                }
+            </table>
+
+
+        }
+    </div>
+</body>
+</html>

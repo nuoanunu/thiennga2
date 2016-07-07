@@ -1,0 +1,225 @@
+﻿@using ThienNga2.Models;
+@using ThienNga2.Models.Entities;
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width" />
+    <title>Inventory</title>
+    
+    <script src="http://www.google.com/jsapi"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $('#CodeText').autocomplete({
+                source: '@Url.Action("Autocomplete")'
+
+            });
+            $(".ui-helper-hidden-accessible").hide();
+            $('#item_status').click(function () {
+         
+             if ($('#item_status').val() == 4) {
+                    $("#dateBanGiao").attr('style', '');
+                }
+            });
+            $('#startWarranty').click(function () {
+                $('#newWarrantyForm').attr('style', '');
+            });
+        });
+    </script>
+</head>
+<body>
+  
+    <div>
+        @using (Html.BeginForm("Search", "Warranty"))
+        {
+
+
+            <div id="form" class="input-container">
+                <label for="Username">Mã Bảo hành</label>
+                <input name="code" type="text" id="CodeText" />
+                <button type="submit" value="Search">Check</button>
+            </div>
+
+
+
+
+        }
+
+    </div>
+    <div>
+
+        @if (ViewData["warrantyDetail"] != null
+                        )
+        {
+            tb_warranty t = (tb_warranty)ViewData["warrantyDetail"];
+            <table>
+                <td>
+                    <p>Ngày Kích Hoạt: @t.startdate</p>
+                    <p>Thời gian còn lại: @t.duration</p>
+                    <p>IMEI Sản phẩm: @t.itemID</p>
+                </td>
+
+
+            </table>
+
+
+        }
+@if (ViewData["lsbh"] != null)
+{
+    bool flag = false;
+    foreach (var item in (List
+    <tb_warranty_activities>
+        )ViewData["lsbh"])
+    {
+
+        if (item.status != 4)
+        {
+            flag = true;
+            List<SelectListItem> ls = new List<SelectListItem> {
+     new SelectListItem { Text = "Đang kiểm tra", Value = "1"},
+     new SelectListItem { Text = "Đang sửa chữa", Value = "2"},
+     new SelectListItem { Text = "Hoàn tất sửa chữa", Value = "3"},
+     new SelectListItem { Text  = "Đã bàn giao",Value="4"}
+
+  };
+
+                <h1> Quản lý quy trình bảo hành </h1>
+                using (Html.BeginForm("Update", "Warranty"))
+                {
+                
+                <div style="display:none;">@Html.TextBoxFor(Model => item.id) </div>
+                <div style="display:none;"></div>
+                <div style="display:none;"></div>
+                <div style="display:none;"></div>
+                    <table>
+                        <tr>
+                            <td>Ngày tiếp nhận : </td>
+                            <td>@item.startDate </td>
+                        </tr>
+                        <tr>
+                            <td>Tên nhân viên:</td>
+                            <td> @item.employee1.employeeName </td>
+                        </tr>
+                        <tr>
+                            <td>Tình trạng lúc nhận:</td>
+                            <td>@item.Description</td>
+                        </tr>
+
+
+
+                        <tr>
+                            <td>Trạng Thái:  </td>
+                            <td id="statusWar">@Html.DropDownListFor(Model => item.status, ls)</td>
+                            
+                        </tr>
+                   
+                            <tr id="dateBanGiao" style="display: none;">
+                                <td>Ngày sửa xong  </td>
+                                <td> @Html.TextBoxFor(Model => item.realeaseDATE) </td>
+                            </tr>
+
+                        <tr>
+                            <td >
+                                <button type="summit">Cập nhật trạng thái bảo hành</button>
+                            </td>
+                        </tr>
+                      
+                    </table>
+            }
+        }
+
+
+    }
+    if (!flag)
+    {
+
+        tb_warranty t = (tb_warranty)ViewData["warrantyDetail"];
+       
+        <button id="startWarranty"> Bắt đầu quy trình bảo hành</button>
+        <div id="newWarrantyForm" style="display:none">
+            @using (Html.BeginForm("Add", "Warranty"))
+            {
+                tb_warranty_activities t2 = new tb_warranty_activities();
+                t2.warrantyID = t.warrantyID;
+                t2.itemID = t.itemID;
+                
+                <div>
+                 @Html.TextBoxFor(item => t2.warrantyID, new { @Value = t.warrantyID })
+                 @Html.TextBoxFor(item => t2.itemID, new { @Value = t.itemID })
+                   
+                </div>
+            <table>
+                <tr>
+                    <td>
+                        Ngày nhận:
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(item => t2.startDate )
+                 
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Nhân Viên chịu trách nhiệm
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(item => t2.employee  )
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Tình trạng lúc nhận
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(item => t2.Description)
+                    </td>
+                </tr>
+                <tr>
+                    <button type="summit"> Bắt đầu</button>
+                </tr>
+            </table>
+            }
+        </div>
+    }
+}
+
+        @if (ViewData["lsbh"] != null
+                        )
+        {
+            <h1> Lịch Sử Bảo Hành </h1>
+            <table border="1">
+                <tr>
+                    <td>Ngày nhận  </td>
+                    <td>Mã Nhân Viên </td>
+                    <td>Tình trạng </td>
+                    <td>  Ngày hoàn tất sửa </td>
+                    <td>  Ngày Trả </td>
+                </tr>
+
+                @foreach (var item in (List
+                <tb_warranty_activities>
+                    )ViewData["lsbh"])
+                {
+                    
+                        <tr>
+                            <td>@item.startDate </td>
+                            <td>@item.employee1.employeeName </td>
+                            <td>@item.tb_warrnaty_status.statusName </td>
+                            <td>@item.finishFixingDate</td>
+                            <td>@item.realeaseDATE </td>
+                           
+                        </tr>
+
+                    
+                }
+            </table>
+
+
+        }
+    </div>
+</body>
+</html>

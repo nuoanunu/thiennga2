@@ -1,0 +1,328 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ThienNgaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+    <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="account">
+    <Key>
+      <PropertyRef Name="username" />
+    </Key>
+    <Property Name="accountOwner" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="roleID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="employee">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="employeeName" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'ThienNga.dbo.inventory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="inventory">
+    <Key>
+      <PropertyRef Name="productFactoryID" />
+      <PropertyRef Name="productStoreID" />
+      <PropertyRef Name="addedDate" />
+      <PropertyRef Name="quantity" />
+      <PropertyRef Name="inventoryID" />
+    </Key>
+    <Property Name="productFactoryID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="productStoreID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="addedDate" Type="date" Nullable="false" />
+    <Property Name="quantity" Type="int" Nullable="false" />
+    <Property Name="inventoryID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="item">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="productDetailID" Type="int" Nullable="false" />
+    <Property Name="inventoryID" Type="int" Nullable="false" />
+    <Property Name="customerID" Type="int" />
+  </EntityType>
+  <EntityType Name="log">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="warrantyActivitiesID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="action" Type="varchar(max)" Nullable="false" />
+    <Property Name="date" Type="date" Nullable="false" />
+    <Property Name="account" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="role">
+    <Key>
+      <PropertyRef Name="roleID" />
+    </Key>
+    <Property Name="roleID" Type="int" Nullable="false" />
+    <Property Name="roleName" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="tb_cate">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar(max)" Nullable="false" />
+    <Property Name="description" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="tb_customer">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="customerName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="phonenumber" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="address" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tb_inventory_name">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="InventoryName" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tb_product_detail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="producFactoryID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="productStoreID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="productName" Type="varchar(max)" Nullable="false" />
+    <Property Name="price" Type="float" Nullable="false" />
+    <Property Name="cateID" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_warranty">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="warrantyID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="itemID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="startdate" Type="date" />
+    <Property Name="duration" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tb_warranty_activities">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="startDate" Type="date" Nullable="false" />
+    <Property Name="employee" Type="int" Nullable="false" />
+    <Property Name="warrantyID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="varchar(max)" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="realeaseDATE" Type="date" Nullable="false" />
+    <Property Name="itemID" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tb_warrnaty_status">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="statusName" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_account_role">
+    <End Role="role" Type="Self.role" Multiplicity="1" />
+    <End Role="account" Type="Self.account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="role">
+        <PropertyRef Name="roleID" />
+      </Principal>
+      <Dependent Role="account">
+        <PropertyRef Name="roleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_inventory_tb_inventory_name">
+    <End Role="tb_inventory_name" Type="Self.tb_inventory_name" Multiplicity="1" />
+    <End Role="inventory" Type="Self.inventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_inventory_name">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="inventory">
+        <PropertyRef Name="inventoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_inventory_tb_product_detail' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_inventory_tb_product_detail" />-->
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_inventory_tb_product_detail1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_inventory_tb_product_detail1" />-->
+  <Association Name="FK_item_tb_customer">
+    <End Role="tb_customer" Type="Self.tb_customer" Multiplicity="0..1" />
+    <End Role="item" Type="Self.item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_customer">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="item">
+        <PropertyRef Name="customerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_item_tb_inventory_name">
+    <End Role="tb_inventory_name" Type="Self.tb_inventory_name" Multiplicity="1" />
+    <End Role="item" Type="Self.item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_inventory_name">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="item">
+        <PropertyRef Name="inventoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_item_tb_product_detail">
+    <End Role="tb_product_detail" Type="Self.tb_product_detail" Multiplicity="1" />
+    <End Role="item" Type="Self.item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_product_detail">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="item">
+        <PropertyRef Name="productDetailID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_log_account">
+    <End Role="account" Type="Self.account" Multiplicity="1" />
+    <End Role="log" Type="Self.log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="account">
+        <PropertyRef Name="username" />
+      </Principal>
+      <Dependent Role="log">
+        <PropertyRef Name="account" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_product_detail_tb_cate">
+    <End Role="tb_cate" Type="Self.tb_cate" Multiplicity="0..1" />
+    <End Role="tb_product_detail" Type="Self.tb_product_detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_cate">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tb_product_detail">
+        <PropertyRef Name="cateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_warranty_activities_employee">
+    <End Role="employee" Type="Self.employee" Multiplicity="1" />
+    <End Role="tb_warranty_activities" Type="Self.tb_warranty_activities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="employee">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tb_warranty_activities">
+        <PropertyRef Name="employee" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_tb_warranty_activities_tb_warranty' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_tb_warranty_activities_tb_warranty" />-->
+  <Association Name="FK_tb_warranty_activities_tb_warrnaty_status">
+    <End Role="tb_warrnaty_status" Type="Self.tb_warrnaty_status" Multiplicity="1" />
+    <End Role="tb_warranty_activities" Type="Self.tb_warranty_activities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_warrnaty_status">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tb_warranty_activities">
+        <PropertyRef Name="status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_tb_warranty_item" />-->
+  <EntityContainer Name="ThienNgaModelStoreContainer">
+    <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="account" EntityType="Self.account" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="employee" EntityType="Self.employee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="item" EntityType="Self.item" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="log" EntityType="Self.log" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="role" EntityType="Self.role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_cate" EntityType="Self.tb_cate" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_customer" EntityType="Self.tb_customer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_inventory_name" EntityType="Self.tb_inventory_name" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_product_detail" EntityType="Self.tb_product_detail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_warranty" EntityType="Self.tb_warranty" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_warranty_activities" EntityType="Self.tb_warranty_activities" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_warrnaty_status" EntityType="Self.tb_warrnaty_status" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="inventory" EntityType="Self.inventory" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [inventory].[productFactoryID] AS [productFactoryID], 
+    [inventory].[productStoreID] AS [productStoreID], 
+    [inventory].[addedDate] AS [addedDate], 
+    [inventory].[quantity] AS [quantity], 
+    [inventory].[inventoryID] AS [inventoryID]
+    FROM [dbo].[inventory] AS [inventory]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_account_role" Association="Self.FK_account_role">
+      <End Role="role" EntitySet="role" />
+      <End Role="account" EntitySet="account" />
+    </AssociationSet>
+    <AssociationSet Name="FK_inventory_tb_inventory_name" Association="Self.FK_inventory_tb_inventory_name">
+      <End Role="tb_inventory_name" EntitySet="tb_inventory_name" />
+      <End Role="inventory" EntitySet="inventory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_item_tb_customer" Association="Self.FK_item_tb_customer">
+      <End Role="tb_customer" EntitySet="tb_customer" />
+      <End Role="item" EntitySet="item" />
+    </AssociationSet>
+    <AssociationSet Name="FK_item_tb_inventory_name" Association="Self.FK_item_tb_inventory_name">
+      <End Role="tb_inventory_name" EntitySet="tb_inventory_name" />
+      <End Role="item" EntitySet="item" />
+    </AssociationSet>
+    <AssociationSet Name="FK_item_tb_product_detail" Association="Self.FK_item_tb_product_detail">
+      <End Role="tb_product_detail" EntitySet="tb_product_detail" />
+      <End Role="item" EntitySet="item" />
+    </AssociationSet>
+    <AssociationSet Name="FK_log_account" Association="Self.FK_log_account">
+      <End Role="account" EntitySet="account" />
+      <End Role="log" EntitySet="log" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_product_detail_tb_cate" Association="Self.FK_tb_product_detail_tb_cate">
+      <End Role="tb_cate" EntitySet="tb_cate" />
+      <End Role="tb_product_detail" EntitySet="tb_product_detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_warranty_activities_employee" Association="Self.FK_tb_warranty_activities_employee">
+      <End Role="employee" EntitySet="employee" />
+      <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_warranty_activities_tb_warrnaty_status" Association="Self.FK_tb_warranty_activities_tb_warrnaty_status">
+      <End Role="tb_warrnaty_status" EntitySet="tb_warrnaty_status" />
+      <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
