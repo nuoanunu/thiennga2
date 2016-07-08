@@ -212,5 +212,50 @@ namespace ThienNga2.Models.Entities
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<tb_customer>("ThienNga_TimSDT2", mergeOption, phoneParameter);
         }
+    
+        public virtual ObjectResult<item> ThienNga_findbyIMEI2(string iMEI)
+        {
+            var iMEIParameter = iMEI != null ?
+                new ObjectParameter("IMEI", iMEI) :
+                new ObjectParameter("IMEI", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<item>("ThienNga_findbyIMEI2", iMEIParameter);
+        }
+    
+        public virtual ObjectResult<item> ThienNga_findbyIMEI2(string iMEI, MergeOption mergeOption)
+        {
+            var iMEIParameter = iMEI != null ?
+                new ObjectParameter("IMEI", iMEI) :
+                new ObjectParameter("IMEI", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<item>("ThienNga_findbyIMEI2", mergeOption, iMEIParameter);
+        }
+    
+        public virtual ObjectResult<ThienNga_findwarrantyByIMEI_Result> ThienNga_findwarrantyByIMEI(string imei)
+        {
+            var imeiParameter = imei != null ?
+                new ObjectParameter("imei", imei) :
+                new ObjectParameter("imei", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ThienNga_findwarrantyByIMEI_Result>("ThienNga_findwarrantyByIMEI", imeiParameter);
+        }
+    
+        public virtual ObjectResult<tb_warranty> ThienNga_findwarrantyByIMEI2(string imei)
+        {
+            var imeiParameter = imei != null ?
+                new ObjectParameter("imei", imei) :
+                new ObjectParameter("imei", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<tb_warranty>("ThienNga_findwarrantyByIMEI2", imeiParameter);
+        }
+    
+        public virtual ObjectResult<tb_warranty> ThienNga_findwarrantyByIMEI2(string imei, MergeOption mergeOption)
+        {
+            var imeiParameter = imei != null ?
+                new ObjectParameter("imei", imei) :
+                new ObjectParameter("imei", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<tb_warranty>("ThienNga_findwarrantyByIMEI2", mergeOption, imeiParameter);
+        }
     }
 }

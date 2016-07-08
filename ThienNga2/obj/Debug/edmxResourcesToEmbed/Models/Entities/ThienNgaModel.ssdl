@@ -392,6 +392,9 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
   <Function Name="ThienNga_findwarranty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="warrantycode" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="ThienNga_findwarrantyByIMEI" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="imei" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="ThienNga_Login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="usernamee" Type="varchar" Mode="In" />
     <Parameter Name="passwordd" Type="varchar" Mode="In" />

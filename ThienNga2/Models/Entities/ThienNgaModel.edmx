@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ThienNgaDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ThienNgaDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -397,6 +397,9 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
         <Function Name="ThienNga_findwarranty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="warrantycode" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="ThienNga_findwarrantyByIMEI" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="imei" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="ThienNga_Login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="usernamee" Type="varchar" Mode="In" />
           <Parameter Name="passwordd" Type="varchar" Mode="In" />
@@ -490,8 +493,7 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
             <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ThienNgaDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -919,44 +921,53 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
           <FunctionImport Name="ThienNga_checkkho" ReturnType="Collection(ThienNgaDatabaseModel.ThienNga_checkkho_Result)">
-            <Parameter Name="productcode" Mode="In" Type="String" />
+          <Parameter Name="productcode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ThienNga_findbyIMEI" ReturnType="Collection(ThienNgaDatabaseModel.ThienNga_findbyIMEI_Result)">
-            <Parameter Name="IMEI" Mode="In" Type="String" />
+          <Parameter Name="IMEI" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ThienNga_FindProduct" ReturnType="Collection(ThienNgaDatabaseModel.ThienNga_FindProduct_Result)">
-            <Parameter Name="productcode" Mode="In" Type="String" />
+          <Parameter Name="productcode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ThienNga_FindProductDetailID" ReturnType="Collection(Int32)">
-            <Parameter Name="productcode" Mode="In" Type="String" />
+          <Parameter Name="productcode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ThienNga_findwarranty" ReturnType="Collection(ThienNgaDatabaseModel.ThienNga_findwarranty_Result)">
-            <Parameter Name="warrantycode" Mode="In" Type="String" />
+          <Parameter Name="warrantycode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ThienNga_Login" ReturnType="Collection(Int32)">
             <Parameter Name="usernamee" Mode="In" Type="String" />
             <Parameter Name="passwordd" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ThienNga_TimSDT" ReturnType="Collection(ThienNgaDatabaseModel.ThienNga_TimSDT_Result)">
-            <Parameter Name="phone" Mode="In" Type="String" />
+          <Parameter Name="phone" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ThienNga_warrantyHistory" ReturnType="Collection(ThienNgaDatabaseModel.ThienNga_warrantyHistory_Result)">
-            <Parameter Name="warrantycode" Mode="In" Type="String" />
+          <Parameter Name="warrantycode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ThienNga_FindProduct2" EntitySet="tb_product_detail" ReturnType="Collection(ThienNgaDatabaseModel.tb_product_detail)">
-            <Parameter Name="productcode" Mode="In" Type="String" />
+          <Parameter Name="productcode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ThienNga_checkkho2" EntitySet="inventories" ReturnType="Collection(ThienNgaDatabaseModel.inventory)">
-            <Parameter Name="productcode" Mode="In" Type="String" />
+          <Parameter Name="productcode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ThienNga_findwarranty2" EntitySet="tb_warranty" ReturnType="Collection(ThienNgaDatabaseModel.tb_warranty)">
-            <Parameter Name="warrantycode" Mode="In" Type="String" />
+          <Parameter Name="warrantycode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ThienNga_warrantyHistory2" EntitySet="tb_warranty_activities" ReturnType="Collection(ThienNgaDatabaseModel.tb_warranty_activities)">
-            <Parameter Name="warrantycode" Mode="In" Type="String" />
+          <Parameter Name="warrantycode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ThienNga_TimSDT2" EntitySet="tb_customer" ReturnType="Collection(ThienNgaDatabaseModel.tb_customer)">
-            <Parameter Name="phone" Mode="In" Type="String" />
+          <Parameter Name="phone" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ThienNga_findbyIMEI2" EntitySet="items" ReturnType="Collection(ThienNgaDatabaseModel.item)">
+          <Parameter Name="IMEI" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ThienNga_findwarrantyByIMEI" ReturnType="Collection(ThienNgaDatabaseModel.ThienNga_findwarrantyByIMEI_Result)">
+            <Parameter Name="imei" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ThienNga_findwarrantyByIMEI2" EntitySet="tb_warranty" ReturnType="Collection(ThienNgaDatabaseModel.tb_warranty)">
+            <Parameter Name="imei" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="ThienNga_checkkho_Result">
@@ -1007,6 +1018,14 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
           <Property Type="DateTime" Name="realeaseDATE" Nullable="true" />
           <Property Type="String" Name="itemID" Nullable="false" MaxLength="50" />
           <Property Type="DateTime" Name="finishFixingDate" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="ThienNga_findwarrantyByIMEI_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="warrantyID" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="itemID" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="startdate" Nullable="true" />
+          <Property Type="Int32" Name="duration" Nullable="false" />
+          <Property Type="String" Name="description" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1304,6 +1323,20 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
           <FunctionImportMapping FunctionImportName="ThienNga_findwarranty2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_findwarranty" />
           <FunctionImportMapping FunctionImportName="ThienNga_warrantyHistory2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_warrantyHistory" />
           <FunctionImportMapping FunctionImportName="ThienNga_TimSDT2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_TimSDT" />
+          <FunctionImportMapping FunctionImportName="ThienNga_findbyIMEI2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_findbyIMEI" />
+          <FunctionImportMapping FunctionImportName="ThienNga_findwarrantyByIMEI" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_findwarrantyByIMEI">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ThienNgaDatabaseModel.ThienNga_findwarrantyByIMEI_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="warrantyID" ColumnName="warrantyID" />
+                <ScalarProperty Name="itemID" ColumnName="itemID" />
+                <ScalarProperty Name="startdate" ColumnName="startdate" />
+                <ScalarProperty Name="duration" ColumnName="duration" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ThienNga_findwarrantyByIMEI2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_findwarrantyByIMEI" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -58,19 +58,26 @@
     </div>
     <div>
 
-        @if (ViewData["warrantyDetail"] != null
-                        )
+        @if ((List<tb_warranty>)ViewData["warrantyDetail"] != null
+                            )
         {
-            tb_warranty t = (tb_warranty)ViewData["warrantyDetail"];
-            <table class="responstable">
-                <td>
-                    <p>Ngày Kích Hoạt: @t.startdate</p>
-                    <p>Thời gian còn lại: @t.duration</p>
-                    <p>IMEI Sản phẩm: @t.itemID</p>
-                </td>
+
+            foreach (tb_warranty t in (List<tb_warranty>)ViewData["warrantyDetail"])
+            {
+                <table class="responstable">
+
+                    <td>
+                        <p>Mã bảo hành: @t.warrantyID </p>
+                        <p>IMEI sản phẩm: @t.itemID </p>
+                        <p>Ngày Kích Hoạt: @t.startdate</p>
+                        <p>Thời gian còn lại: @t.duration</p>
+                        <p>IMEI Sản phẩm: @t.itemID</p>
+                    </td>
 
 
-            </table>
+                </table>
+            }
+
 
 
         }
@@ -93,7 +100,7 @@
 
   };
 
-                <h1> Quản lý quy trình bảo hành </h1>
+                <h1> Quản lý quy trình bảo hành của mã bảo hành : @item.warrantyID</h1>
                 using (Html.BeginForm("Update", "Warranty"))
                 {
                 
@@ -147,11 +154,11 @@
 
 
     }
-    if (!flag && (tb_warranty)ViewData["warrantyDetail"] != null )
+    if (!flag && (List< tb_warranty>)ViewData["warrantyDetail"] != null && ((List<tb_warranty>)ViewData["warrantyDetail"]).Count() == 1  )
     {
 
-        tb_warranty t = (tb_warranty)ViewData["warrantyDetail"];
-       
+        tb_warranty t = ((List<tb_warranty>)ViewData["warrantyDetail"]).ElementAt(0);
+
         <button id="startWarranty"> Bắt đầu quy trình bảo hành</button>
         <div id="newWarrantyForm" style="display:none">
             @using (Html.BeginForm("Add", "Warranty"))
@@ -200,7 +207,7 @@
     }
 }
 
-        @if (ViewData["lsbh"] != null
+        @if (ViewData["lsbh"] != null &&( (List<tb_warranty_activities>)ViewData["lsbh"] ).Count() > 0
                         )
         {
             <h1> Lịch Sử Bảo Hành </h1>
@@ -208,7 +215,7 @@
                 <tr>
                     <th>Ngày nhận  </th>
                     <th>Mã Nhân Viên </th>
-                    <th>Tình trạng </th>
+                    <th>Tình trạng lúc nhận </th>
                     <th>  Ngày hoàn tất sửa </th>
                     <th>  Ngày Trả </th>
                 </tr>
@@ -228,6 +235,41 @@
                         </tr>
 
                     
+                }
+            </table>
+
+
+        }
+        @if (ViewData["alsbh"] != null && ((List<tb_warranty_activities>)ViewData["alsbh"]).Count() > 0
+                            )
+        {
+            <h1> Lịch Sử Bảo Hành của sản phẩm </h1>
+            <table class="responstable">
+                <tr>
+                    <th>Mã bảo hành  </th>
+                    <th>Ngày nhận  </th>
+                    <th>Mã Nhân Viên </th>
+                    <th>Tình trạng </th>
+                    <th>  Ngày hoàn tất sửa </th>
+                    <th>  Ngày Trả </th>
+                </tr>
+
+                @foreach (var item in (List
+                <tb_warranty_activities>
+                    )ViewData["alsbh"])
+                {
+
+                    <tr>
+                        <td>@item.warrantyID </td>
+                        <td>@item.startDate </td>
+                        <td>@item.employee1.employeeName </td>
+                        <td>@item.tb_warrnaty_status.statusName </td>
+                        <td>@item.finishFixingDate</td>
+                        <td>@item.realeaseDATE </td>
+
+                    </tr>
+
+
                 }
             </table>
 

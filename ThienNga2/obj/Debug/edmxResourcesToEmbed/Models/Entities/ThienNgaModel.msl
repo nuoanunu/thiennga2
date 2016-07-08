@@ -291,5 +291,19 @@
     <FunctionImportMapping FunctionImportName="ThienNga_findwarranty2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_findwarranty" />
     <FunctionImportMapping FunctionImportName="ThienNga_warrantyHistory2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_warrantyHistory" />
     <FunctionImportMapping FunctionImportName="ThienNga_TimSDT2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_TimSDT" />
+    <FunctionImportMapping FunctionImportName="ThienNga_findbyIMEI2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_findbyIMEI" />
+    <FunctionImportMapping FunctionImportName="ThienNga_findwarrantyByIMEI" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_findwarrantyByIMEI">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ThienNgaDatabaseModel.ThienNga_findwarrantyByIMEI_Result">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="warrantyID" ColumnName="warrantyID" />
+          <ScalarProperty Name="itemID" ColumnName="itemID" />
+          <ScalarProperty Name="startdate" ColumnName="startdate" />
+          <ScalarProperty Name="duration" ColumnName="duration" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ThienNga_findwarrantyByIMEI2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_findwarrantyByIMEI" />
   </EntityContainerMapping>
 </Mapping>

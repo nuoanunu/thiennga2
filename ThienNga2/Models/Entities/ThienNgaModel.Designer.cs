@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Nguyen Nhat\Desktop\thiennga.git\trunk\ThienNga2\ThienNga2\Models\Entities\ThienNgaModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Nguyen Nhat\Desktop\thiennga2\thiennga2\ThienNga2\Models\Entities\ThienNgaModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

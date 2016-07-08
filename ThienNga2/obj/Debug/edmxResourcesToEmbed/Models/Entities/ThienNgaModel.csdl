@@ -463,6 +463,15 @@
     <FunctionImport Name="ThienNga_TimSDT2" EntitySet="tb_customer" ReturnType="Collection(ThienNgaDatabaseModel.tb_customer)">
       <Parameter Name="phone" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="ThienNga_findbyIMEI2" EntitySet="items" ReturnType="Collection(ThienNgaDatabaseModel.item)">
+      <Parameter Name="IMEI" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ThienNga_findwarrantyByIMEI" ReturnType="Collection(ThienNgaDatabaseModel.ThienNga_findwarrantyByIMEI_Result)">
+      <Parameter Name="imei" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ThienNga_findwarrantyByIMEI2" EntitySet="tb_warranty" ReturnType="Collection(ThienNgaDatabaseModel.tb_warranty)">
+      <Parameter Name="imei" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="ThienNga_checkkho_Result">
     <Property Type="Int32" Name="id" Nullable="false" />
@@ -512,5 +521,13 @@
     <Property Type="DateTime" Name="realeaseDATE" Nullable="true" />
     <Property Type="String" Name="itemID" Nullable="false" MaxLength="50" />
     <Property Type="DateTime" Name="finishFixingDate" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="ThienNga_findwarrantyByIMEI_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="warrantyID" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="itemID" Nullable="false" MaxLength="50" />
+    <Property Type="DateTime" Name="startdate" Nullable="true" />
+    <Property Type="Int32" Name="duration" Nullable="false" />
+    <Property Type="String" Name="description" Nullable="false" />
   </ComplexType>
 </Schema>

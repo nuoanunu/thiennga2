@@ -107,10 +107,24 @@ namespace ThienNga2.Controllers
         }
         public ActionResult Search(string code)
         {
+            item  thatitem= (item)am.ThienNga_findbyIMEI2(code).FirstOrDefault();
 
-
-            ViewData["warrantydetail"] = (tb_warranty) am.ThienNga_findwarranty2(code).FirstOrDefault();
-            ViewData["lsbh"] = (List<tb_warranty_activities>)am.ThienNga_warrantyHistory2(code).ToList();
+            if (thatitem == null)
+            {
+                ViewData["warrantydetail"] =  (List<tb_warranty>)am.ThienNga_findwarranty2(code).ToList();
+                ViewData["lsbh"] = (List<tb_warranty_activities>)am.ThienNga_warrantyHistory2(code).ToList();
+            }
+            else {
+                ViewData["warrantydetail"] = (List<tb_warranty>)am.ThienNga_findwarrantyByIMEI2(code).ToList();
+                List< tb_warranty> temp1 = (List < tb_warranty>)am.ThienNga_findwarrantyByIMEI2 (code).ToList();
+                List<tb_warranty_activities> temp2 = new List<tb_warranty_activities>();
+                foreach (tb_warranty a in temp1) {
+                    List<tb_warranty_activities> temp3= (List<tb_warranty_activities>)am.ThienNga_warrantyHistory2(a.warrantyID).ToList();
+                    if(temp3!=null && temp3.Count() > 0)
+                    temp2.AddRange(temp3);
+                }
+                ViewData["lsbh"] = temp2;
+            }
             //  ViewData["dsspdt"] = am.inventories.ToList();
             return View("WarrantyCheck");
         }

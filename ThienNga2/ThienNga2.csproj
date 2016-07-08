@@ -306,6 +306,9 @@
     <Compile Include="Models\Entities\ThienNga_FindProduct_Result.cs">
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\ThienNga_findwarrantyByIMEI_Result.cs">
+      <DependentUpon>ThienNgaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entities\ThienNga_findwarranty_Result.cs">
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
     </Compile>
