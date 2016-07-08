@@ -7,14 +7,11 @@
     <meta name="viewport" content="width=device-width" />
     <title>NewProductItem</title>
     <link rel="stylesheet" type="text/css" href="~/Content/formTemplate.css">
-  
-    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.2.js">
-    </script>
+ 
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.8.1/jquery.validate.js">
     </script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js">
     </script>
-    <script src="~/Scripts/jquery-1.10.2.js"></script>
     <script>
         function checkHidden() {
             var flag = true;
@@ -31,16 +28,29 @@
                     $("#warrantyDiv" + i).hide();
                 }
             }
+            $(".ui-helper-hidden-accessible").hide();
         }
  
         setInterval(checkHidden, 100);
     </script>
     <script>
         $(document).ready(function () {
+            $('#item_tb_product_detail_producFactoryID').autocomplete({
+                source: '@Url.Action("Autocomplete")'
+                
+            })
+                .data("ui-autocomplete")._renderItem = function (ul, item) {
+                    return $("<li>")
+                      .data("ui-autocomplete-item", item)
+                      .append('<a style="color:black">' + item.label +"</a>")
+                      .appendTo(ul);
+                };
+
             $("#warrantyDiv1 war_warrantyID").on('input', function () {
                 // do your stuff
 
             });
+            
         });
         
     </script>
@@ -67,7 +77,7 @@
 
 
         @model ThienNga2.Models.ViewModel.NewItemViewModel
-
+        
         <div class="form-style-10">
             <h1>Tạo đơn hàng<span>Bán và kich hoạt bảo hành</span></h1>
             <form>

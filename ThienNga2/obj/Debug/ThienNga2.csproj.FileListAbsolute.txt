@@ -262,3 +262,4 @@ C:\Users\Nguyen Nhat\Desktop\thiennga2\thiennga2\ThienNga2\bin\Microsoft.Owin.Se
 C:\Users\Nguyen Nhat\Desktop\thiennga2\thiennga2\ThienNga2\obj\Debug\ThienNga2.csprojResolveAssemblyReference.cache
 C:\Users\Nguyen Nhat\Desktop\thiennga2\thiennga2\ThienNga2\obj\Debug\ThienNga2.dll
 C:\Users\Nguyen Nhat\Desktop\thiennga2\thiennga2\ThienNga2\obj\Debug\ThienNga2.pdb
+C:\Users\Nguyen Nhat\Desktop\thiennga2\thiennga2\ThienNga2\bin\Content\images\flying-drones.jpg
