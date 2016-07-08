@@ -421,6 +421,7 @@
     <Content Include="Views\ProductItem\NewProductItem.cshtml" />
     <Content Include="Views\Warranty\WarrantyCheck.cshtml" />
     <Content Include="Views\ProductDetail\NewProduct.cshtml" />
+    <Content Include="Views\ProductDetail\ConfirmNewProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

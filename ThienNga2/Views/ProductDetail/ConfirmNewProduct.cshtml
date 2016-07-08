@@ -1,0 +1,52 @@
+﻿@using ThienNga2.Models;
+@using ThienNga2.Models.Entities;
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ConfirmNewProduct</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/Table.css">
+</head>
+<body>
+    <div>
+        @model tb_product_detail
+         @using (Html.BeginForm("Edit", "ProductDetail", FormMethod.Post , new { id = "submitForm" }))
+         {
+
+             if ((tb_product_detail)ViewData["newproduct"] != null)
+             {
+                 tb_product_detail a = (tb_product_detail)ViewData["newproduct"];
+                         <h1>Xác nhận việc thông tin sản phảm</h1>
+
+
+                         <table class="responstable">
+
+                   
+                        <tr> <td> Tên sản phẩm </td><td> @Html.TextBoxFor(x => x.productName, new { @Value = a.productName, @readonly = true }) </td></tr>
+                        <tr> <td>Mã nhà máy</td><td> @Html.TextBoxFor(x => x.producFactoryID, new { @Value = a.producFactoryID, @readonly = true }) </td></tr>
+                        <tr><td>Mã cửa hàng </td><td>@Html.TextBoxFor(x => x.productStoreID, new { @Value = a.productStoreID, @readonly = true })  </td></tr>
+                        <tr><td>Giá </td><td>@Html.TextBoxFor(x => x.price, new { @Value = a.price, @readonly = true }) </tr>
+                        <tr><td>Category  </td><td>@Html.TextBoxFor(x => x.tb_cate.Name, new { @Value = a.tb_cate.Name, @readonly = true })</td> </tr>
+                        <tr>
+                            <td>
+                                <button type="submit" id="btnEdit" name="Command" value="edit">Chỉnh sửa</button>
+                            </td>
+                            <td>
+                                <button type="submit" id="btnSave" name="Command" value="save">Lưu</button>
+                            </td>
+
+                        </tr>
+
+
+                </table>
+             }
+
+
+
+
+         }
+       
+    </div>
+</body>
+</html>

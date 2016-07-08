@@ -28,9 +28,32 @@ namespace ThienNga2.Controllers
         {
             if (Model != null)
             {
-                am.tb_product_detail.Add(Model);
-                am.SaveChanges();
-                return View("NewProduct", Model);
+                int id = -1;
+                if (am.ThienNga_FindProductDetailID(Model.productStoreID).FirstOrDefault().HasValue )
+                    id = (int)am.ThienNga_FindProductDetailID(Model.productStoreID).FirstOrDefault().Value;
+                else if (am.ThienNga_FindProductDetailID(Model.producFactoryID).FirstOrDefault().HasValue)
+                    id = (int)am.ThienNga_FindProductDetailID(Model.producFactoryID).FirstOrDefault().Value;
+                else if (am.ThienNga_FindProductDetailID(Model.productName).FirstOrDefault().HasValue )
+                    id = (int)am.ThienNga_FindProductDetailID(Model.productName).FirstOrDefault().Value;
+                if (id < 1 )
+                {
+                    Model.tb_cate = am.tb_cate.Find(Model.cateID);
+                    am.tb_product_detail.Add(Model);
+                    am.SaveChangesAsync();
+                }
+                else {
+                    Model.tb_cate = am.tb_cate.Find(Model.cateID);
+                    tb_product_detail edit = am.tb_product_detail.Find(id);
+                    edit.cateID = Model.cateID;
+                    edit.tb_cate = Model.tb_cate;
+                    edit.price = Model.price;
+                    edit.producFactoryID = Model.producFactoryID;
+                    edit.productStoreID = Model.productStoreID;
+                    edit.productName = Model.productName;
+                    am.SaveChanges();
+                }
+                ViewData["newproduct"] = Model;
+                return View("ConfirmNewProduct");
             }
             return View("NewProduct");
         }
@@ -38,28 +61,22 @@ namespace ThienNga2.Controllers
        
     
 
-        // GET: ProductDetail/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: ProductDetail/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(tb_product_detail t , string Command)
         {
-            try
-            {
-                // TODO: Add update logic here
+           
+            if (Command.Equals("save")) {
+                ModelState.Clear();
+                return View("NewProduct");
+            }
+            else if(Command.Equals ( "edit")) {
+                return View("NewProduct" ,t);
+            }
+            return View(Command);
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
 
+  
         // GET: ProductDetail/Delete/5
         public ActionResult Delete(int id)
         {
