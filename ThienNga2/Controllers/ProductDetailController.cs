@@ -42,10 +42,10 @@ namespace ThienNga2.Controllers
                     am.SaveChangesAsync();
                 }
                 else {
-                    Model.tb_cate = am.tb_cate.Find(Model.cateID);
+       
                     tb_product_detail edit = am.tb_product_detail.Find(id);
                     edit.cateID = Model.cateID;
-                    edit.tb_cate = Model.tb_cate;
+             
                     edit.price = Model.price;
                     edit.producFactoryID = Model.producFactoryID;
                     edit.productStoreID = Model.productStoreID;
