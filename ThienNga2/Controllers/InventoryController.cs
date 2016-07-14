@@ -10,8 +10,7 @@ using Twilio;
 
 namespace ThienNga2.Areas.Admin.Controllers
 {
-    [Authorize(Roles ="admin")]
-    [Authorize(Roles = "InventoryManager")]
+    [Authorize(Roles ="admin, InventoryManager")]
     public class InventoryController : Controller
     {
         private ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();
