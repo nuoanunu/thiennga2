@@ -12,7 +12,7 @@ using ThienNga2.Models;
 
 namespace ThienNga2.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
