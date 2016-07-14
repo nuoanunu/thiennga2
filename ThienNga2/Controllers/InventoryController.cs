@@ -11,7 +11,7 @@ using Twilio;
 namespace ThienNga2.Areas.Admin.Controllers
 {
     [Authorize(Roles ="admin")]
-    [Authorize(Roles = "InventoryController")]
+    [Authorize(Roles = "InventoryManager")]
     public class InventoryController : Controller
     {
         private ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();
