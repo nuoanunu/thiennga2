@@ -263,3 +263,8 @@ C:\Users\Nguyen Nhat\Desktop\thiennga2\thiennga2\ThienNga2\obj\Debug\ThienNga2.c
 C:\Users\Nguyen Nhat\Desktop\thiennga2\thiennga2\ThienNga2\obj\Debug\ThienNga2.dll
 C:\Users\Nguyen Nhat\Desktop\thiennga2\thiennga2\ThienNga2\obj\Debug\ThienNga2.pdb
 C:\Users\Nguyen Nhat\Desktop\thiennga2\thiennga2\ThienNga2\bin\Content\images\flying-drones.jpg
+C:\Users\Nguyen Nhat\Desktop\thiennga2\thiennga2\ThienNga2\bin\RestSharp.dll
+C:\Users\Nguyen Nhat\Desktop\thiennga2\thiennga2\ThienNga2\bin\Twilio.Api.dll
+C:\Users\Nguyen Nhat\Desktop\thiennga2\thiennga2\ThienNga2\bin\RestSharp.xml
+C:\Users\Nguyen Nhat\Desktop\thiennga2\thiennga2\ThienNga2\bin\Twilio.Api.pdb
+C:\Users\Nguyen Nhat\Desktop\thiennga2\thiennga2\ThienNga2\bin\Twilio.Api.xml

@@ -20,4 +20,20 @@ namespace ThienNga2.Models.ViewModel
             }
         }
     }
+    public class InvenotyChangeModel
+    {
+        public int newadd { get; set; }
+        public inventory inven { get; set; }
+        public InvenotyChangeModel()
+        {
+            newadd = 0;
+            inven = new inventory();
+        }
+        public InvenotyChangeModel(inventory i)
+        {
+            newadd = 0;
+            inven = i;
+        }
+
+    }
 }

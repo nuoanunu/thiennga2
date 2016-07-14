@@ -50,12 +50,24 @@
                     else
                     {
                         <li >@Html.ActionLink("Kiểm Tra Bảo Hành", "", "Warranty")</li> }
-                    @if (Request.RawUrl.Contains("Inventory"))
+                    @if (Request.RawUrl.Contains("Inventory") && !Request.RawUrl.Contains("themkho") && !Request.RawUrl.Contains("trukho"))
                     {
                     <li style="background-color:#022F5A"> @Html.ActionLink("Kiểm hàng tồn kho", "", "Inventory")</li>}
                     else
                     {
                         <li > @Html.ActionLink("Kiểm hàng tồn kho", "", "Inventory")</li> }
+                    @if (Request.RawUrl.Contains("themkho") )
+                    {
+                        <li style="background-color:#022F5A"> @Html.ActionLink("Nhập kho", "", "Inventory/themkho")</li>}
+                    else
+                    {
+                        <li> @Html.ActionLink("Nhập kho", "", "Inventory/themkho")</li> }
+                    @if (Request.RawUrl.Contains("trukho"))
+                    {
+                        <li style="background-color:#022F5A"> @Html.ActionLink("Xuất kho", "", "Inventory/trukho")</li>}
+                    else
+                    {
+                        <li> @Html.ActionLink("Xuất Kho", "", "Inventory/trukho")</li> }
                    
                 </ul>
                 @Html.Partial("_LoginPartial")

@@ -7,6 +7,8 @@ using ThienNga2.Models.Entities;
 
 namespace ThienNga2.Controllers
 {
+    [Authorize(Roles = "admin")]
+
     public class WarrantyController : Controller
     {
         private ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();

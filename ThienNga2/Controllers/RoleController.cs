@@ -8,6 +8,8 @@ using ThienNga2.Models;
 
 namespace ThienNga2.Controllers
 {
+    [Authorize(Roles = "admin")]
+
     public class RoleController : Controller
     {
         ApplicationDbContext context;
