@@ -5,11 +5,12 @@ using System.Web;
 using System.Web.Mvc;
 using ThienNga2.Models.Entities;
 
-namespace ThienNga2.Controllers
+namespace ThienNga2.Areas.Admin.Controllers
 {
     [Authorize(Roles = "admin, InventoryManager")]
     public class ProductDetailController : Controller
     {
+        
         private ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();
         // GET: ProductDetail
         public ActionResult Index()
