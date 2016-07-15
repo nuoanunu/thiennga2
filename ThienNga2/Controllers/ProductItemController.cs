@@ -8,7 +8,7 @@ using ThienNga2.Models.ViewModel;
 
 namespace ThienNga2.Controllers
 {
-    [Authorize(Roles = "admin, InventoryManager")]
+    [Authorize(Roles = "admin")]
     public class ProductItemController : Controller
     {
         private ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();

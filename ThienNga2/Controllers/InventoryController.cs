@@ -39,8 +39,8 @@ namespace ThienNga2.Areas.Admin.Controllers
         {
            
 
-            ViewData["productdetail"] = am.ThienNga_FindProduct2(code).FirstOrDefault();
-            ViewData["dsspdt"] = am.ThienNga_checkkho2(code).ToList(); 
+            ViewData["productdetail"] = am.ThienNga_FindProduct2(code);
+            ViewData["dsspdt"] = am.ThienNga_checkkho2(code); 
           //  ViewData["dsspdt"] = am.inventories.ToList();
             return View("Inventory");
         }
@@ -48,8 +48,8 @@ namespace ThienNga2.Areas.Admin.Controllers
         {
 
 
-            ViewData["productdetail"] = am.ThienNga_FindProduct2(code).FirstOrDefault();
-            ViewData["inventoryDetail"] = am.ThienNga_checkkho2(code).FirstOrDefault();
+            ViewData["productdetail"] = am.ThienNga_FindProduct2(code);
+            ViewData["inventoryDetail"] = am.ThienNga_checkkho2(code);
             //  ViewData["dsspdt"] = am.inventories.ToList();
             return View("NhapKho");
         }
@@ -57,8 +57,8 @@ namespace ThienNga2.Areas.Admin.Controllers
         {
 
 
-            ViewData["productdetail"] = am.ThienNga_FindProduct2(code).FirstOrDefault();
-            ViewData["inventoryDetail"] = am.ThienNga_checkkho2(code).FirstOrDefault();
+            ViewData["productdetail"] = am.ThienNga_FindProduct2(code);
+            ViewData["inventoryDetail"] = am.ThienNga_checkkho2(code);
             //  ViewData["dsspdt"] = am.inventories.ToList();
             return View("XuatKho");
         }
@@ -83,8 +83,8 @@ namespace ThienNga2.Areas.Admin.Controllers
                 t.quantity = t.quantity + fixkho.newadd;
                 am.SaveChanges();
             }
-            ViewData["productdetail"] = am.ThienNga_FindProduct2(fixkho.inven.productFactoryCode).FirstOrDefault();
-            ViewData["inventoryDetail"] = am.ThienNga_checkkho2(fixkho.inven.productFactoryCode).FirstOrDefault();
+            ViewData["productdetail"] = am.ThienNga_FindProduct2(fixkho.inven.productFactoryCode);
+            ViewData["inventoryDetail"] = am.ThienNga_checkkho2(fixkho.inven.productFactoryCode);
             return View("NhapKho");
         }
 
@@ -98,8 +98,8 @@ namespace ThienNga2.Areas.Admin.Controllers
             inventory t = am.inventories.Find(fixkho.inven.id);
             t.quantity = t.quantity - fixkho.newadd;
             am.SaveChanges();
-            ViewData["productdetail"] = am.ThienNga_FindProduct2(fixkho.inven.productFactoryCode).FirstOrDefault();
-            ViewData["inventoryDetail"] = am.ThienNga_checkkho2(fixkho.inven.productFactoryCode).FirstOrDefault();
+            ViewData["productdetail"] = am.ThienNga_FindProduct2(fixkho.inven.productFactoryCode);
+            ViewData["inventoryDetail"] = am.ThienNga_checkkho2(fixkho.inven.productFactoryCode);
             return View("XuatKho");
         }
 

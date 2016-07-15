@@ -74,18 +74,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="inventories">
-      <EntityTypeMapping TypeName="ThienNgaDatabaseModel.inventory">
-        <MappingFragment StoreEntitySet="inventory">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="productStoreCode" ColumnName="productStoreCode" />
-          <ScalarProperty Name="productFactoryCode" ColumnName="productFactoryCode" />
-          <ScalarProperty Name="dateAdded" ColumnName="dateAdded" />
-          <ScalarProperty Name="inventoryID" ColumnName="inventoryID" />
-          <ScalarProperty Name="quantity" ColumnName="quantity" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="items">
       <EntityTypeMapping TypeName="ThienNgaDatabaseModel.item">
         <MappingFragment StoreEntitySet="item">
@@ -141,18 +129,6 @@
         <MappingFragment StoreEntitySet="tb_inventory_name">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="InventoryName" ColumnName="InventoryName" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="tb_product_detail">
-      <EntityTypeMapping TypeName="ThienNgaDatabaseModel.tb_product_detail">
-        <MappingFragment StoreEntitySet="tb_product_detail">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="producFactoryID" ColumnName="producFactoryID" />
-          <ScalarProperty Name="productStoreID" ColumnName="productStoreID" />
-          <ScalarProperty Name="productName" ColumnName="productName" />
-          <ScalarProperty Name="price" ColumnName="price" />
-          <ScalarProperty Name="cateID" ColumnName="cateID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -305,5 +281,30 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="ThienNga_findwarrantyByIMEI2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_findwarrantyByIMEI" />
+    <EntitySetMapping Name="tb_product_detail">
+      <EntityTypeMapping TypeName="ThienNgaDatabaseModel.tb_product_detail">
+        <MappingFragment StoreEntitySet="tb_product_detail">
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="cateID" ColumnName="cateID" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="productName" ColumnName="productName" />
+          <ScalarProperty Name="productStoreID" ColumnName="productStoreID" />
+          <ScalarProperty Name="producFactoryID" ColumnName="producFactoryID" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="inventories">
+      <EntityTypeMapping TypeName="ThienNgaDatabaseModel.inventory">
+        <MappingFragment StoreEntitySet="inventory">
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="inventoryID" ColumnName="inventoryID" />
+          <ScalarProperty Name="dateAdded" ColumnName="dateAdded" />
+          <ScalarProperty Name="productFactoryCode" ColumnName="productFactoryCode" />
+          <ScalarProperty Name="productStoreCode" ColumnName="productStoreCode" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>
