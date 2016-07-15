@@ -34,18 +34,18 @@ namespace ThienNga2.Models.Entities
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<employee> employees { get; set; }
-        public virtual DbSet<inventory> inventories { get; set; }
         public virtual DbSet<item> items { get; set; }
         public virtual DbSet<log> logs { get; set; }
         public virtual DbSet<role> roles { get; set; }
         public virtual DbSet<tb_cate> tb_cate { get; set; }
         public virtual DbSet<tb_customer> tb_customer { get; set; }
         public virtual DbSet<tb_inventory_name> tb_inventory_name { get; set; }
-        public virtual DbSet<tb_product_detail> tb_product_detail { get; set; }
         public virtual DbSet<tb_warranty> tb_warranty { get; set; }
         public virtual DbSet<tb_warranty_activities> tb_warranty_activities { get; set; }
         public virtual DbSet<tb_warrnaty_status> tb_warrnaty_status { get; set; }
         public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
+        public virtual DbSet<tb_product_detail> tb_product_detail { get; set; }
+        public virtual DbSet<inventory> inventories { get; set; }
     
         public virtual ObjectResult<ThienNga_checkkho_Result> ThienNga_checkkho(string productcode)
         {
@@ -123,40 +123,22 @@ namespace ThienNga2.Models.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ThienNga_warrantyHistory_Result>("ThienNga_warrantyHistory", warrantycodeParameter);
         }
     
-        public virtual ObjectResult<tb_product_detail> ThienNga_FindProduct2(string productcode)
+        public virtual int ThienNga_FindProduct2(string productcode)
         {
             var productcodeParameter = productcode != null ?
                 new ObjectParameter("productcode", productcode) :
                 new ObjectParameter("productcode", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<tb_product_detail>("ThienNga_FindProduct2", productcodeParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ThienNga_FindProduct2", productcodeParameter);
         }
     
-        public virtual ObjectResult<tb_product_detail> ThienNga_FindProduct2(string productcode, MergeOption mergeOption)
+        public virtual int ThienNga_checkkho2(string productcode)
         {
             var productcodeParameter = productcode != null ?
                 new ObjectParameter("productcode", productcode) :
                 new ObjectParameter("productcode", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<tb_product_detail>("ThienNga_FindProduct2", mergeOption, productcodeParameter);
-        }
-    
-        public virtual ObjectResult<inventory> ThienNga_checkkho2(string productcode)
-        {
-            var productcodeParameter = productcode != null ?
-                new ObjectParameter("productcode", productcode) :
-                new ObjectParameter("productcode", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<inventory>("ThienNga_checkkho2", productcodeParameter);
-        }
-    
-        public virtual ObjectResult<inventory> ThienNga_checkkho2(string productcode, MergeOption mergeOption)
-        {
-            var productcodeParameter = productcode != null ?
-                new ObjectParameter("productcode", productcode) :
-                new ObjectParameter("productcode", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<inventory>("ThienNga_checkkho2", mergeOption, productcodeParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ThienNga_checkkho2", productcodeParameter);
         }
     
         public virtual ObjectResult<tb_warranty> ThienNga_findwarranty2(string warrantycode)
