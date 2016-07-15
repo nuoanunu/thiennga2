@@ -70,6 +70,11 @@ namespace ThienNga2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            try {
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            }
+            catch (Exception e) { }
+            
             if (!ModelState.IsValid)
             {
                 return View(model);
