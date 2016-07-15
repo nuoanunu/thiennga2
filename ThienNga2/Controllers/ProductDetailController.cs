@@ -39,6 +39,7 @@ namespace ThienNga2.Controllers
                 if (id < 1 )
                 {
                     Model.tb_cate = am.tb_cate.Find(Model.cateID);
+                    if (Model.producFactoryID == null || Model.producFactoryID.Equals("")) { Model.producFactoryID = Model.productStoreID; }
                     am.tb_product_detail.Add(Model);
                     am.SaveChangesAsync();
                 }
@@ -50,6 +51,7 @@ namespace ThienNga2.Controllers
                     edit.price = Model.price;
                     edit.producFactoryID = Model.producFactoryID;
                     edit.productStoreID = Model.productStoreID;
+
                     edit.productName = Model.productName;
                     am.SaveChanges();
                 }
