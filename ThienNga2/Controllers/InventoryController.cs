@@ -17,13 +17,7 @@ namespace ThienNga2.Areas.Admin.Controllers
         public ActionResult Autocomplete(string term)
         {
             List<tb_product_detail> items = am.tb_product_detail.ToList();
-            List<String> result = new List<String>();
-            foreach (tb_product_detail t in items)
-            {
-                if (t.productName.ToString().IndexOf(term, StringComparison.InvariantCultureIgnoreCase) >= 0) result.Add(t.productName.ToString() + " StoreSKU: " + t.productStoreID.ToString() );
-                if (t.productStoreID.ToString().IndexOf(term, StringComparison.InvariantCultureIgnoreCase) >= 0) result.Add(t.productStoreID.ToString());
-                if (t.producFactoryID.ToString().IndexOf(term, StringComparison.InvariantCultureIgnoreCase) >= 0) result.Add(t.producFactoryID.ToString());
-            }
+            List<String> result = am.ThienNga_FindProductName2(term).ToList();
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         // GET: Admin/Invenotry

@@ -147,7 +147,7 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="Int32" Nullable="false" />
-    <Property Name="InventoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="InventoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="inventories" Relationship="Self.FK_inventory_tb_inventory_name" FromRole="tb_inventory_name" ToRole="inventory" />
     <NavigationProperty Name="items" Relationship="Self.FK_item_tb_inventory_name" FromRole="tb_inventory_name" ToRole="item" />
   </EntityType>
@@ -472,6 +472,12 @@
     </FunctionImport>
     <FunctionImport Name="ThienNga_findbyIMEI2" EntitySet="items" ReturnType="Collection(ThienNgaDatabaseModel.item)">
       <Parameter Name="IMEI" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ThienNga_FindProductName" ReturnType="Collection(String)">
+      <Parameter Name="productcode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ThienNga_FindProductName2" ReturnType="Collection(String)">
+      <Parameter Name="productcode" Mode="In" Type="String" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="ThienNga_checkkho_Result">

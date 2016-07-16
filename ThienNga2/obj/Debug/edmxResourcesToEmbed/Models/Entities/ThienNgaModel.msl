@@ -307,5 +307,7 @@
     <FunctionImportMapping FunctionImportName="ThienNga_warrantyHistory2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_warrantyHistory" />
     <FunctionImportMapping FunctionImportName="ThienNga_findwarrantyByIMEI2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_findwarrantyByIMEI" />
     <FunctionImportMapping FunctionImportName="ThienNga_findbyIMEI2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_findbyIMEI" />
+    <FunctionImportMapping FunctionImportName="ThienNga_FindProductName" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_FindProductName" />
+    <FunctionImportMapping FunctionImportName="ThienNga_FindProductName2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_FindProductName" />
   </EntityContainerMapping>
 </Mapping>

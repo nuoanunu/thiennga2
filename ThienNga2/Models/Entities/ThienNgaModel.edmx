@@ -143,7 +143,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" Nullable="false" />
-          <Property Name="InventoryName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="InventoryName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="tb_product_detail">
           <Key>
@@ -390,10 +390,13 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
           <Parameter Name="IMEI" Type="varchar" Mode="In" />
         </Function>
         <Function Name="ThienNga_FindProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="productcode" Type="varchar" Mode="In" />
+          <Parameter Name="productcode" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="ThienNga_FindProductDetailID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="productcode" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ThienNga_FindProductName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="productcode" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="ThienNga_findwarranty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="warrantycode" Type="varchar" Mode="In" />
@@ -645,7 +648,7 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="InventoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="InventoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="inventories" Relationship="Self.FK_inventory_tb_inventory_name" FromRole="tb_inventory_name" ToRole="inventory" />
           <NavigationProperty Name="items" Relationship="Self.FK_item_tb_inventory_name" FromRole="tb_inventory_name" ToRole="item" />
         </EntityType>
@@ -970,6 +973,12 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
           </FunctionImport>
           <FunctionImport Name="ThienNga_findbyIMEI2" EntitySet="items" ReturnType="Collection(ThienNgaDatabaseModel.item)">
           <Parameter Name="IMEI" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ThienNga_FindProductName" ReturnType="Collection(String)">
+          <Parameter Name="productcode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ThienNga_FindProductName2" ReturnType="Collection(String)">
+          <Parameter Name="productcode" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="ThienNga_checkkho_Result">
@@ -1342,6 +1351,8 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
           <FunctionImportMapping FunctionImportName="ThienNga_warrantyHistory2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_warrantyHistory" />
           <FunctionImportMapping FunctionImportName="ThienNga_findwarrantyByIMEI2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_findwarrantyByIMEI" />
           <FunctionImportMapping FunctionImportName="ThienNga_findbyIMEI2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_findbyIMEI" />
+          <FunctionImportMapping FunctionImportName="ThienNga_FindProductName" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_FindProductName" />
+          <FunctionImportMapping FunctionImportName="ThienNga_FindProductName2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_FindProductName" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

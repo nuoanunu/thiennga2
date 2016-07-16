@@ -257,5 +257,23 @@ namespace ThienNga2.Models.Entities
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<item>("ThienNga_findbyIMEI2", mergeOption, iMEIParameter);
         }
+    
+        public virtual ObjectResult<string> ThienNga_FindProductName(string productcode)
+        {
+            var productcodeParameter = productcode != null ?
+                new ObjectParameter("productcode", productcode) :
+                new ObjectParameter("productcode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("ThienNga_FindProductName", productcodeParameter);
+        }
+    
+        public virtual ObjectResult<string> ThienNga_FindProductName2(string productcode)
+        {
+            var productcodeParameter = productcode != null ?
+                new ObjectParameter("productcode", productcode) :
+                new ObjectParameter("productcode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("ThienNga_FindProductName2", productcodeParameter);
+        }
     }
 }
