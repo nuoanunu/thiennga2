@@ -391,7 +391,7 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
     <Parameter Name="productcode" Type="varchar" Mode="In" />
   </Function>
   <Function Name="ThienNga_FindProductName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="productcode" Type="varchar" Mode="In" />
+    <Parameter Name="productcode" Type="nvarchar" Mode="In" />
   </Function>
   <Function Name="ThienNga_findwarranty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="warrantycode" Type="varchar" Mode="In" />

@@ -36,9 +36,10 @@ namespace ThienNga2.Areas.Admin.Controllers
             {
                 code = code.Substring(code.IndexOf("StoreSKU") + 10, code.Length - code.IndexOf("StoreSKU") - 10);
             }
-
+            tb_product_detail t = am.ThienNga_FindProduct2(code).FirstOrDefault();
             ViewData["productdetail"] = am.ThienNga_FindProduct2(code).FirstOrDefault();
-            ViewData["dsspdt"] = am.ThienNga_checkkho2(code).ToList(); 
+            ViewData["dsspdt"] = am.ThienNga_checkkho2(t.productStoreID).ToList(); 
+
           //  ViewData["dsspdt"] = am.inventories.ToList();
             return View("Inventory");
         }
