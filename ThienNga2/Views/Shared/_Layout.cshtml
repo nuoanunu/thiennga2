@@ -56,7 +56,7 @@
                     else
                     {
                         <li > @Html.ActionLink("Kiểm hàng tồn kho", "", "Inventory")</li> }
-                    @if (Request.RawUrl.Contains("themkho") )
+                    @*@if (Request.RawUrl.Contains("themkho") )
                     {
                         <li style="background-color:#022F5A"> @Html.ActionLink("Nhập kho", "", "Inventory/themkho")</li>}
                     else
@@ -67,7 +67,7 @@
                         <li style="background-color:#022F5A"> @Html.ActionLink("Xuất kho", "", "Inventory/trukho")</li>}
                     else
                     {
-                        <li> @Html.ActionLink("Xuất Kho", "", "Inventory/trukho")</li> }
+                        <li> @Html.ActionLink("Xuất Kho", "", "Inventory/trukho")</li> }*@
                    
                 </ul>
                 @Html.Partial("_LoginPartial")
