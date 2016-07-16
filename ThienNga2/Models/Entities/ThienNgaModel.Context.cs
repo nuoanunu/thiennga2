@@ -44,8 +44,8 @@ namespace ThienNga2.Models.Entities
         public virtual DbSet<tb_warranty_activities> tb_warranty_activities { get; set; }
         public virtual DbSet<tb_warrnaty_status> tb_warrnaty_status { get; set; }
         public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
-        public virtual DbSet<tb_product_detail> tb_product_detail { get; set; }
         public virtual DbSet<inventory> inventories { get; set; }
+        public virtual DbSet<tb_product_detail> tb_product_detail { get; set; }
     
         public virtual ObjectResult<ThienNga_checkkho_Result> ThienNga_checkkho(string productcode)
         {

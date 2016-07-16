@@ -152,7 +152,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="producFactoryID" Type="varchar" MaxLength="50" />
           <Property Name="productStoreID" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="productName" Type="varchar(max)" Nullable="false" />
+          <Property Name="productName" Type="nvarchar(max)" Nullable="false" />
           <Property Name="price" Type="float" Nullable="false" />
           <Property Name="cateID" Type="int" />
           <Property Name="description" Type="varchar(max)" />
@@ -895,6 +895,11 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
           <FunctionImport Name="ThienNga_findwarrantyByIMEI2" EntitySet="tb_warranty" ReturnType="Collection(ThienNgaDatabaseModel.tb_warranty)">
           <Parameter Name="imei" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="inventories" EntityType="ThienNgaDatabaseModel.inventory" />
+          <AssociationSet Name="FK_inventory_tb_inventory_name" Association="ThienNgaDatabaseModel.FK_inventory_tb_inventory_name">
+            <End Role="tb_inventory_name" EntitySet="tb_inventory_name" />
+            <End Role="inventory" EntitySet="inventories" />
+          </AssociationSet>
           <EntitySet Name="tb_product_detail" EntityType="ThienNgaDatabaseModel.tb_product_detail" />
           <AssociationSet Name="FK_item_tb_product_detail" Association="ThienNgaDatabaseModel.FK_item_tb_product_detail">
             <End Role="tb_product_detail" EntitySet="tb_product_detail" />
@@ -903,11 +908,6 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
           <AssociationSet Name="FK_tb_product_detail_tb_cate" Association="ThienNgaDatabaseModel.FK_tb_product_detail_tb_cate">
             <End Role="tb_cate" EntitySet="tb_cate" />
             <End Role="tb_product_detail" EntitySet="tb_product_detail" />
-          </AssociationSet>
-          <EntitySet Name="inventories" EntityType="ThienNgaDatabaseModel.inventory" />
-          <AssociationSet Name="FK_inventory_tb_inventory_name" Association="ThienNgaDatabaseModel.FK_inventory_tb_inventory_name">
-            <End Role="tb_inventory_name" EntitySet="tb_inventory_name" />
-            <End Role="inventory" EntitySet="inventories" />
           </AssociationSet>
         </EntityContainer>
         <ComplexType Name="ThienNga_checkkho_Result">
@@ -967,6 +967,30 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
           <Property Type="Int32" Name="duration" Nullable="false" />
           <Property Type="String" Name="description" Nullable="false" />
         </ComplexType>
+        <EntityType Name="inventory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="productStoreCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="productFactoryCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="dateAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="inventoryID" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tb_inventory_name" Relationship="ThienNgaDatabaseModel.FK_inventory_tb_inventory_name" FromRole="inventory" ToRole="tb_inventory_name" />
+        </EntityType>
+        <Association Name="FK_inventory_tb_inventory_name">
+          <End Type="ThienNgaDatabaseModel.tb_inventory_name" Role="tb_inventory_name" Multiplicity="1" />
+          <End Type="ThienNgaDatabaseModel.inventory" Role="inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_inventory_name">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="inventory">
+              <PropertyRef Name="inventoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="tb_product_detail">
           <Key>
             <PropertyRef Name="id" />
@@ -974,7 +998,7 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="producFactoryID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="productStoreID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="productName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="productName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="price" Type="Double" Nullable="false" />
           <Property Name="cateID" Type="Int32" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -1002,30 +1026,6 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
             </Principal>
             <Dependent Role="tb_product_detail">
               <PropertyRef Name="cateID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="inventory">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="productStoreCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="productFactoryCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="dateAdded" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="inventoryID" Type="Int32" Nullable="false" />
-          <Property Name="quantity" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tb_inventory_name" Relationship="ThienNgaDatabaseModel.FK_inventory_tb_inventory_name" FromRole="inventory" ToRole="tb_inventory_name" />
-        </EntityType>
-        <Association Name="FK_inventory_tb_inventory_name">
-          <End Type="ThienNgaDatabaseModel.tb_inventory_name" Role="tb_inventory_name" Multiplicity="1" />
-          <End Type="ThienNgaDatabaseModel.inventory" Role="inventory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_inventory_name">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="inventory">
-              <PropertyRef Name="inventoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1315,6 +1315,18 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="ThienNga_findwarrantyByIMEI2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_findwarrantyByIMEI" />
+          <EntitySetMapping Name="inventories">
+            <EntityTypeMapping TypeName="ThienNgaDatabaseModel.inventory">
+              <MappingFragment StoreEntitySet="inventory">
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="inventoryID" ColumnName="inventoryID" />
+                <ScalarProperty Name="dateAdded" ColumnName="dateAdded" />
+                <ScalarProperty Name="productFactoryCode" ColumnName="productFactoryCode" />
+                <ScalarProperty Name="productStoreCode" ColumnName="productStoreCode" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tb_product_detail">
             <EntityTypeMapping TypeName="ThienNgaDatabaseModel.tb_product_detail">
               <MappingFragment StoreEntitySet="tb_product_detail">
@@ -1324,18 +1336,6 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
                 <ScalarProperty Name="productName" ColumnName="productName" />
                 <ScalarProperty Name="productStoreID" ColumnName="productStoreID" />
                 <ScalarProperty Name="producFactoryID" ColumnName="producFactoryID" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="inventories">
-            <EntityTypeMapping TypeName="ThienNgaDatabaseModel.inventory">
-              <MappingFragment StoreEntitySet="inventory">
-                <ScalarProperty Name="quantity" ColumnName="quantity" />
-                <ScalarProperty Name="inventoryID" ColumnName="inventoryID" />
-                <ScalarProperty Name="dateAdded" ColumnName="dateAdded" />
-                <ScalarProperty Name="productFactoryCode" ColumnName="productFactoryCode" />
-                <ScalarProperty Name="productStoreCode" ColumnName="productStoreCode" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

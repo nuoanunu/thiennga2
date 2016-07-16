@@ -31,11 +31,11 @@
         <AssociationConnector Association="ThienNgaDatabaseModel.FK_item_tb_inventory_name" ManuallyRouted="false" />
         <AssociationConnector Association="ThienNgaDatabaseModel.FK_tb_warranty_activities_tb_warrnaty_status" ManuallyRouted="false" />
         <AssociationConnector Association="ThienNgaDatabaseModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.inventory" Width="1.5" PointX="3" PointY="4.25" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_inventory_tb_inventory_name" />
         <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_product_detail" Width="1.5" PointX="3.75" PointY="17.375" />
         <AssociationConnector Association="ThienNgaDatabaseModel.FK_item_tb_product_detail" />
         <AssociationConnector Association="ThienNgaDatabaseModel.FK_tb_product_detail_tb_cate" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.inventory" Width="1.5" PointX="3" PointY="4.25" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.FK_inventory_tb_inventory_name" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
