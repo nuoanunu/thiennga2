@@ -20,7 +20,7 @@ namespace ThienNga2.Areas.Admin.Controllers
             List<String> result = new List<String>();
             foreach (tb_product_detail t in items)
             {
-                if (t.productName.ToString().IndexOf(term, StringComparison.InvariantCultureIgnoreCase) >= 0) result.Add(t.productName.ToString());
+                if (t.productName.ToString().IndexOf(term, StringComparison.InvariantCultureIgnoreCase) >= 0) result.Add(t.productName.ToString() + " StoreSKU: " + t.productStoreID.ToString() );
                 if (t.productStoreID.ToString().IndexOf(term, StringComparison.InvariantCultureIgnoreCase) >= 0) result.Add(t.productStoreID.ToString());
                 if (t.producFactoryID.ToString().IndexOf(term, StringComparison.InvariantCultureIgnoreCase) >= 0) result.Add(t.producFactoryID.ToString());
             }
@@ -31,34 +31,58 @@ namespace ThienNga2.Areas.Admin.Controllers
         public ActionResult Index()
         {
             ViewData["dssp"] = am.inventories.ToList();
-            
+         
             return View("Inventory");
         }
         // GET: Admin/Search
         public ActionResult Search(string code)
         {
-           
+            if (code == null || code.Equals("") ) return View("Inventory");
+            if (code.IndexOf("StoreSKU") > 0)
+            {
+                code = code.Substring(code.IndexOf("StoreSKU") + 10, code.Length - code.IndexOf("StoreSKU") - 10);
+            }
 
-            ViewData["productdetail"] = am.ThienNga_FindProduct2(code);
-            ViewData["dsspdt"] = am.ThienNga_checkkho2(code); 
+            ViewData["productdetail"] = am.ThienNga_FindProduct2(code).FirstOrDefault();
+            ViewData["dsspdt"] = am.ThienNga_checkkho2(code).ToList(); 
           //  ViewData["dsspdt"] = am.inventories.ToList();
             return View("Inventory");
         }
-        public ActionResult Search2(string code)
+        [HttpPost]
+        public ActionResult Search2(string code, string invID)
         {
+            if( code.IndexOf("StoreSKU") > 0 ) {
+                code = code.Substring(code.IndexOf("StoreSKU") + 10, code.Length - code.IndexOf("StoreSKU") - 10);
+            }
+             
+            System.Diagnostics.Debug.WriteLine(" no dayu ne " + invID);
 
+            ViewData["productdetail"] = am.ThienNga_FindProduct2(code).FirstOrDefault();
 
-            ViewData["productdetail"] = am.ThienNga_FindProduct2(code);
-            ViewData["inventoryDetail"] = am.ThienNga_checkkho2(code);
+            List<inventory> lst = am.ThienNga_checkkho2(code).ToList();
+            System.Diagnostics.Debug.WriteLine(" no day ne " + invID + " no day ne" + code + "SIZE NE " + lst.Count() ) ;
+
+            foreach (inventory i in lst) {
+                if (i.inventoryID == int.Parse(invID)) ViewData["inventoryDetail"] = i;
+            }
+            
             //  ViewData["dsspdt"] = am.inventories.ToList();
             return View("NhapKho");
         }
-        public ActionResult Search3(string code)
+        [HttpPost]
+        public ActionResult Search3(string code, string invID)
         {
+            if (code.IndexOf("StoreSKU") > 0)
+            {
+                code = code.Substring(code.IndexOf("StoreSKU") + 10, code.Length - code.IndexOf("StoreSKU") - 10);
+            }
 
-
-            ViewData["productdetail"] = am.ThienNga_FindProduct2(code);
-            ViewData["inventoryDetail"] = am.ThienNga_checkkho2(code);
+            ViewData["productdetail"] = am.ThienNga_FindProduct2(code).FirstOrDefault();
+            List<inventory> lst = am.ThienNga_checkkho2(code).ToList();
+            foreach (inventory i in lst)
+            {
+                if (i.inventoryID == int.Parse(invID)) ViewData["inventoryDetail"] = i;
+            }
             //  ViewData["dsspdt"] = am.inventories.ToList();
             return View("XuatKho");
         }
@@ -71,8 +95,18 @@ namespace ThienNga2.Areas.Admin.Controllers
         }
         public ActionResult themkho( )
         {
+            List<tb_inventory_name> nameList = am.tb_inventory_name.ToList();
 
-            return View("NhapKho");
+            List<SelectListItem> ls = new List<SelectListItem>();
+            SelectList ls2 = new SelectList(ls);
+             
+            
+            foreach (tb_inventory_name y in nameList) {
+                ls.Add(new SelectListItem { Text = y.InventoryName, Value = y.id + "" });
+            }
+            ViewData["invID"] = ls2;
+            ViewBag.invID = new SelectList(ls, "Value", "Text");
+            return View("Inventory");
         }
         public ActionResult addkho(InvenotyChangeModel fixkho)
         {
@@ -83,9 +117,10 @@ namespace ThienNga2.Areas.Admin.Controllers
                 t.quantity = t.quantity + fixkho.newadd;
                 am.SaveChanges();
             }
-            ViewData["productdetail"] = am.ThienNga_FindProduct2(fixkho.inven.productFactoryCode);
-            ViewData["inventoryDetail"] = am.ThienNga_checkkho2(fixkho.inven.productFactoryCode);
-            return View("NhapKho");
+            ViewData["productdetail"] = am.ThienNga_FindProduct2(fixkho.inven.productFactoryCode).FirstOrDefault();
+            ViewData["inventoryDetail"] = am.ThienNga_checkkho2(fixkho.inven.productFactoryCode).ToList();
+            return RedirectToAction("Search", "Inventory", new { code = t.productStoreCode+"" });
+          
         }
 
         public ActionResult trukho()
@@ -96,11 +131,27 @@ namespace ThienNga2.Areas.Admin.Controllers
         public ActionResult removeKho(InvenotyChangeModel fixkho)
         {
             inventory t = am.inventories.Find(fixkho.inven.id);
+            if (fixkho.newadd > t.quantity) return RedirectToAction("Search", "Inventory", new { code = t.productStoreCode + "" });
             t.quantity = t.quantity - fixkho.newadd;
             am.SaveChanges();
-            ViewData["productdetail"] = am.ThienNga_FindProduct2(fixkho.inven.productFactoryCode);
-            ViewData["inventoryDetail"] = am.ThienNga_checkkho2(fixkho.inven.productFactoryCode);
-            return View("XuatKho");
+            ViewData["productdetail"] = am.ThienNga_FindProduct2(fixkho.inven.productFactoryCode).FirstOrDefault();
+            ViewData["inventoryDetail"] = am.ThienNga_checkkho2(fixkho.inven.productFactoryCode).ToList();
+            return RedirectToAction("Search", "Inventory", new { code = t.productStoreCode + "" });
+        }
+        public ActionResult changeKho(InvenotyChangeModel fixkho)
+        {
+
+            System.Diagnostics.Debug.WriteLine( "  check ID nòa  "  + fixkho.inven.productStoreCode);
+            inventory t = am.inventories.Find(fixkho.inven.id);
+            int id2 = int.Parse(fixkho.inven.productStoreCode); 
+            inventory t2 = am.inventories.Find(id2);
+            if(fixkho.newadd > t.quantity) return RedirectToAction("Search", "Inventory", new { code = t.productStoreCode + "" });
+            t.quantity = t.quantity - fixkho.newadd;
+            t2.quantity = t2.quantity + fixkho.newadd;
+            am.SaveChanges();
+            ViewData["productdetail"] = am.ThienNga_FindProduct2(fixkho.inven.productFactoryCode).FirstOrDefault();
+            ViewData["inventoryDetail"] = am.ThienNga_checkkho2(fixkho.inven.productFactoryCode).ToList();
+            return RedirectToAction("Search", "Inventory", new { code = t.productStoreCode + "" });
         }
 
 

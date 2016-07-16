@@ -19,5 +19,6 @@ namespace ThienNga2.Models.Entities
         public string productName { get; set; }
         public double price { get; set; }
         public Nullable<int> cateID { get; set; }
+        public string description { get; set; }
     }
 }

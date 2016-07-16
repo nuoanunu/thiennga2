@@ -147,7 +147,7 @@
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="producFactoryID" Type="varchar" MaxLength="50" />
     <Property Name="productStoreID" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="productName" Type="varchar(max)" Nullable="false" />
+    <Property Name="productName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="price" Type="float" Nullable="false" />
     <Property Name="cateID" Type="int" />
     <Property Name="description" Type="varchar(max)" />

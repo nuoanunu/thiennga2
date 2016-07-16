@@ -1,6 +1,5 @@
 ﻿@using ThienNga2.Models;
 @using ThienNga2.Models.Entities;
-@model ThienNga2.Models.Entities.inventory
 <!DOCTYPE html>
 
 <html>
@@ -12,9 +11,9 @@
     <link rel="stylesheet" type="text/css" href="~/Content/Table.css">
     <script src="http://www.google.com/jsapi"></script>
 
-    <script src="~/Scripts/jquery-1.10.2.js"></script>
     <script type="text/javascript">
-	    $(document).ready(function(){
+        $(document).ready(function () {
+            $('#myModal').modal('toggle');
 	        $("#increasequantity").click(function () {
                 $("#quantityInput").val() =  $("#quantityInput").val() +1;
     });
@@ -50,6 +49,29 @@
 	})
 
     </script>
+    <script>
+        $(document).ready(function () {
+            $('#search').autocomplete({
+                source: '@Url.Action("Autocomplete")'
+
+            })
+                .data("ui-autocomplete")._renderItem = function (ul, item) {
+                    return $("<li>")
+                      .data("ui-autocomplete-item", item)
+                      .append('<a style="color:black">' + item.label +"</a>")
+                      .appendTo(ul);
+                };
+
+
+        });
+        function checkHidden() {
+
+            $(".ui-helper-hidden-accessible").hide();
+        }
+
+        setInterval(checkHidden, 100);
+
+    </script>
 </head>
 <body>
     <div>
@@ -75,9 +97,11 @@
                             )
         {
             tb_product_detail t = (tb_product_detail)ViewData["productdetail"];
+            //String srcImage = t.description.Substring(t.description.IndexOf("<img>") + 4, t.description.IndexOf("</img>"));
+
             <table class="responstable">
-                <td> <img src="http://wetrek.vn/pic/Service/duyanh.wetrek.vn@gmail.com/images/dji-trinh-lang-may-bay-dieu-khien-tu-xa-the-he-moi-phantom-3-wetrek_vn.jpg" width="500" height="auto" /></td>
-                <td>
+
+              <td>
                     <p>Name: @t.productName</p>
                     <p>Factory Code: @t.producFactoryID</p>
                     <p>Store Code: @t.productStoreID</p>
@@ -89,40 +113,203 @@
 
 
         }
+        
+
 
         @if ((List<inventory>)ViewData["dsspdt"] != null
-                            )
+                                )
         {
+            List<SelectListItem> ls = new List<SelectListItem>
+            {
+            };
+            foreach (var item in (List
+                    <inventory>
+                        )ViewData["dsspdt"])
+            {
+                ls.Add(new SelectListItem { Text = item.tb_inventory_name.InventoryName + "" , Value = item.id+"" });
+            }
             <h1> Sản phẩm đang có tại: </h1>
             <table class="responstable" border="1">
                 <tr>
                     <th> Tên Kho </th>
                     <th>  Số Lượng </th>
-               
+                    <th>  Chỉnh sửa </th>
                 </tr>
 
-                @foreach (var item in (List
+               @foreach (var item in (List
                 <inventory>
                     )ViewData["dsspdt"])
                 {
-                    using (Html.BeginForm("Update", "Warranty"))
-                    {
+
+                   // using (Html.BeginForm("Update", "Warranty"))
+                  //  {
+                  
                         <tr>
                             <td>@item.tb_inventory_name.InventoryName</td>
 
                             <td>
                                @item.quantity
+                                </td>
+                            <td>
+                                <button type="button" class="btn btn-info btn-lg" data-toggle='modal' data-target="#@(item.id + "model")">Nhập kho</button>
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#@(item.id + "modelR")">Xuất kho</button>
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#@(item.id + "modelM")">Chuyển kho</button>
                             </td>
+                            <div class="modal fade" id='@(item.id + "model")' role="dialog">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal add content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Nhập vào kho</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            @using (Html.BeginForm("addkho", "Inventory"))
+                                            {
+                                                inventory t = item;
+                                                @model ThienNga2.Models.ViewModel.InvenotyChangeModel
+                                            <div class="form-style-10">
+                                                <form>
+
+                                                    <div class="section"><span></span>Thông tin sản phẩm</div>
+                                                    <div class="inner-wrap">
+                                                        <div style="display:none"> @Html.TextBoxFor(Model => @Model.inven.id, new { @Value = t.id }) </div>
+                                                        <div style="display:none"> @Html.TextBoxFor(Model => @Model.inven.productFactoryCode, new { @Value = t.productFactoryCode }) </div>
+                                                        <label>Tên kho : @t.tb_inventory_name.InventoryName </label>
+                                                        <label>Số lượng hiện tại : @t.quantity </label>
+                                                        <label>Nhập thêm:  @Html.TextBoxFor(Model => @Model.newadd)</label>
+
+
+                                                    </div>
+                                                    <div class="button-section">
+                                                        <input type="submit" name="Thêm" />
+
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            }
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>    
+                            <!-- Modal remove content-->
+                            <div class="modal fade" id='@(item.id + "modelR")' role="dialog">
+                                <div class="modal-dialog">
+
                                     
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Nhập vào kho</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            @using (Html.BeginForm("removeKho", "Inventory"))
+                                            {
+                                            inventory t = item;
+
+                                            <div class="form-style-10">
+                                                <form>
+
+
+                                                    <div class="inner-wrap">
+                                                        <div style="display:none"> @Html.TextBoxFor(Model => @Model.inven.id, new { @Value = t.id }) </div>
+                                                        <div style="display:none"> @Html.TextBoxFor(Model => @Model.inven.productFactoryCode, new { @Value = t.productFactoryCode }) </div>
+                                                        <label>Số lượng hiện tại : @t.quantity </label>
+                                                        <label>Trừ ra:  @Html.TextBoxFor(Model => @Model.newadd)</label>
+
+
+                                                    </div>
+                                                    <div class="button-section">
+                                                        <input type="submit" name="Trừ" />
+
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            }
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>   
+                            <!-- Modal change content-->
+                            <div class="modal fade" id='@(item.id + "modelM")' role="dialog">
+                                <div class="modal-dialog">
+
+
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Nhập vào kho</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            @using (Html.BeginForm("changeKho", "Inventory"))
+                                            {
+                                                inventory t = item;
+
+                                                <div class="form-style-10">
+                                                    <form>
+
+
+                                                        <div class="inner-wrap">
+                                                            <div style="display:none"> @Html.TextBoxFor(Model => @Model.inven.id, new { @Value = t.id }) </div>
+                                                            <div style="display:none"> @Html.TextBoxFor(Model => @Model.inven.productFactoryCode, new { @Value = t.productFactoryCode }) </div>
+                                                            <label>Số lượng hiện tại : @t.quantity </label>
+                                                            <label>Số lượng cần chuyển:  @Html.TextBoxFor(Model => @Model.newadd)</label>
+                                                            @* I use some cheat here, hue hue hue , use productStoreCode as a carrier for my 2nd inventory ID....... *@
+                                                            <label> Chọn kho để chuyển: @Html.DropDownListFor(Model => Model.inven.productStoreCode , ls)</label>
+
+                                                        </div>
+                                                        <div class="button-section">
+                                                            <input type="submit" name="Trừ" />
+
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            }
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>     
                         
                         </tr>
 
-                    }
+                    // }
+                  
                 }
             </table>
 
 
         }
+        @if (ViewData["productdetail"] != null
+                                )
+        {
+            <h1> Thông tin mô tả sản phẩm</h1>
+            tb_product_detail t = (tb_product_detail)ViewData["productdetail"];
+
+            <div>
+        
+             @Html.Raw(t.description)
+               
+            </div>
+
+
+        }
     </div>
+   
 </body>
 </html>
