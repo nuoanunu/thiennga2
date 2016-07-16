@@ -14,16 +14,36 @@ namespace ThienNga2.Areas.Admin.Controllers
     public class InventoryController : Controller
     {
         private ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();
+        private List<String> allname = new List<String>();
+        // Implementation removed.
+
+        public void getAllName()
+        {
+            allname = am.ThienNga_FindProductName2("").ToList();
+        }
+
         public ActionResult Autocomplete(string term)
         {
-            List<tb_product_detail> items = am.tb_product_detail.ToList();
-            List<String> result = am.ThienNga_FindProductName2(term).ToList();
+            allname = am.ThienNga_FindProductName2("").ToList();
+            System.Diagnostics.Debug.WriteLine("SIZE " + allname.Count());
+
+            List<String> result = new List<string>();
+            foreach (String e in allname)
+            {
+                if (e.IndexOf(term, StringComparison.InvariantCultureIgnoreCase) >= 0)
+                {
+                    result.Add(e);
+                }
+            }
+            //  return Json(result);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         // GET: Admin/Invenotry
 
         public ActionResult Index()
         {
+            getAllName();
+            System.Diagnostics.Debug.WriteLine("SIZE " + allname.Count());
             ViewData["allInvenName"] = am.tb_inventory_name.ToList();
             return View("Inventory");
         }
