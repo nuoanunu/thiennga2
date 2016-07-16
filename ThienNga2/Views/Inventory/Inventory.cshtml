@@ -89,6 +89,29 @@
 
 
         }
+        <table>
+            <tr>
+                <td>
+                    @using (Html.BeginForm("GetAllHaNoi", "Warranty"))
+                    {
+                        <div id="form" class="form-wrapper">      <button type="submit" value="Search" id="submit2">Duyệt kho Hà Nội  </button></div>
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("GetAllHCM", "Warranty"))
+                    {
+                        <div id="form" class="form-wrapper">      <button type="submit" value="Search" id="submit2">Duyệt kho Sài Gòn  </button></div>
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("GetAllKT", "Warranty"))
+                    {
+                        <div id="form" class="form-wrapper">      <button type="submit" value="Search" id="submit2">Duyệt kho Tổng </button></div>
+                    }
+                </td>
+
+            </tr>
+        </table>
 
     </div>
     <div>
