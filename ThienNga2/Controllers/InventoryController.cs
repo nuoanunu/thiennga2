@@ -30,13 +30,13 @@ namespace ThienNga2.Areas.Admin.Controllers
 
         public ActionResult Index()
         {
-            ViewData["dssp"] = am.inventories.ToList();
-         
+            ViewData["allInvenName"] = am.tb_inventory_name.ToList();
             return View("Inventory");
         }
         // GET: Admin/Search
         public ActionResult Search(string code)
         {
+            ViewData["allInvenName"] = am.tb_inventory_name.ToList();
             if (code == null || code.Equals("") ) return View("Inventory");
             if (code.IndexOf("StoreSKU") > 0)
             {
@@ -48,6 +48,31 @@ namespace ThienNga2.Areas.Admin.Controllers
           //  ViewData["dsspdt"] = am.inventories.ToList();
             return View("Inventory");
         }
+    
+        public ActionResult SearchGetAll( String idd )
+        {
+            ViewData["allInvenName"] = am.tb_inventory_name.ToList();
+            if (idd == null || idd.Equals("")) {
+                
+                return View("Inventory");
+
+            }
+         
+            int id = int.Parse(idd);
+            List<inventory> lst = am.inventories.ToList();
+            List<InventoryView> lst2 = new List<InventoryView>();
+            foreach (inventory i in lst) {
+                if (i.tb_inventory_name.id == id) {
+                    InventoryView k = new InventoryView();
+                    k.invendetail = i;
+                    k.productdetail = am.ThienNga_FindProduct2(i.productStoreCode).FirstOrDefault();
+                    lst2.Add(k);
+                }
+            }
+            ViewData["allInven"] = lst2;
+            return View("Inventory");
+        }
+   
         [HttpPost]
         public ActionResult Search2(string code, string invID)
         {

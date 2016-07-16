@@ -1,5 +1,6 @@
 ﻿@using ThienNga2.Models;
 @using ThienNga2.Models.Entities;
+@using ThienNga2.Models.ViewModel;
 <!DOCTYPE html>
 
 <html>
@@ -75,8 +76,10 @@
 </head>
 <body>
     <div>
+
         @using (Html.BeginForm("Search", "Inventory"))
         {
+            
 
 
             <div id="form" class="form-wrapper">
@@ -85,39 +88,63 @@
                 <button type="submit" value="Search" id="submit">Tìm  </button>
             </div>
 
-
+            
 
 
         }
+
+
         <table>
             <tr>
+              
+              
+               @foreach (tb_inventory_name name in (List<tb_inventory_name>)ViewData["allInvenName"])
+               {
                 <td>
-                    @using (Html.BeginForm("GetAllHaNoi", "Warranty"))
+                    @using (Html.BeginForm("SearchGetAll", "Inventory"))
                     {
-                        <div id="form" class="form-wrapper">      <button type="submit" value="Search" id="submit2">Duyệt kho Hà Nội  </button></div>
+                        <div style="display:none"> <input name="idd" value="@name.id"/> </div>
+                        <div id="form" class="form-wrapper">      <button type="submit" value="Search" id="submit2">Duyệt kho @name.InventoryName  </button></div>
                     }
                 </td>
-                <td>
-                    @using (Html.BeginForm("GetAllHCM", "Warranty"))
-                    {
-                        <div id="form" class="form-wrapper">      <button type="submit" value="Search" id="submit2">Duyệt kho Sài Gòn  </button></div>
-                    }
-                </td>
-                <td>
-                    @using (Html.BeginForm("GetAllKT", "Warranty"))
-                    {
-                        <div id="form" class="form-wrapper">      <button type="submit" value="Search" id="submit2">Duyệt kho Tổng </button></div>
-                    }
-                </td>
+
+               }
+
+                
+          
 
             </tr>
         </table>
 
     </div>
     <div>
+        @if (ViewData["allInven"] != null &&
+                 ((List<InventoryView>)ViewData["allInven"]).Count() > 0)
+        {
+            String name = ((InventoryView)((List<InventoryView>)ViewData["allInven"]).ElementAt(0)).invendetail.tb_inventory_name.InventoryName;
+            <h1> Thông tin kho @name</h1>
+            <table class="responstable">
+                <tr>
+                    <th>tên</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+            
+                </tr>
+                @foreach (InventoryView i in (List<InventoryView>)ViewData["allInven"]) {
 
-        @if (ViewData["productdetail"] != null
-                            )
+                    <tr>
+                        <td> @i.productdetail.productName </td>
+                        <td> @i.productdetail.price </td>
+                        <td> @i.invendetail.quantity </td>
+                    </tr>
+                }
+
+            </table>
+
+        }
+
+        @if (ViewData["productdetail"] != null)
+            
         {
             tb_product_detail t = (tb_product_detail)ViewData["productdetail"];
             //String srcImage = t.description.Substring(t.description.IndexOf("<img>") + 4, t.description.IndexOf("</img>"));
@@ -128,7 +155,7 @@
                     <p>Name: @t.productName</p>
                     <p>Factory Code: @t.producFactoryID</p>
                     <p>Store Code: @t.productStoreID</p>
-                    <p>Price: @t.price $</p>
+                    <p>Số luong: @t.price VND</p>
                 </td>
 
 
@@ -140,17 +167,17 @@
 
 
         @if ((List<inventory>)ViewData["dsspdt"] != null
-                                )
-        {
-            List<SelectListItem> ls = new List<SelectListItem>
-            {
-            };
-            foreach (var item in (List
-                    <inventory>
-                        )ViewData["dsspdt"])
-            {
-                ls.Add(new SelectListItem { Text = item.tb_inventory_name.InventoryName + "" , Value = item.id+"" });
-            }
+                       && ((List<inventory>)ViewData["dsspdt"]).Count() >0)
+                    {
+                        List<SelectListItem> ls = new List<SelectListItem>
+                        {
+                        };
+                        foreach (var item in (List
+                                <inventory>
+                                    )ViewData["dsspdt"])
+                        {
+                            ls.Add(new SelectListItem { Text = item.tb_inventory_name.InventoryName + "" , Value = item.id+"" });
+                        }
             <h1> Sản phẩm đang có tại: </h1>
             <table class="responstable" border="1">
                 <tr>
@@ -191,8 +218,8 @@
                                             @using (Html.BeginForm("addkho", "Inventory"))
                                             {
                                                 inventory t = item;
-                                                @model ThienNga2.Models.ViewModel.InvenotyChangeModel
-                                            <div class="form-style-10">
+                @model ThienNga2.Models.ViewModel.InvenotyChangeModel
+            <div class="form-style-10">
                                                 <form>
 
                                                     <div class="section"><span></span>Thông tin sản phẩm</div>

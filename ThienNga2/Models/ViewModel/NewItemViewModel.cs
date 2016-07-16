@@ -36,4 +36,20 @@ namespace ThienNga2.Models.ViewModel
         }
 
     }
+    public class InventoryView
+    {
+        public tb_product_detail productdetail { get; set; }
+        public inventory invendetail { get; set; }
+        public InventoryView()
+        {
+            productdetail = new tb_product_detail();
+            invendetail = new inventory();
+        }
+        public InventoryView(inventory i)
+        {
+            productdetail = new tb_product_detail();
+            invendetail = i;
+        }
+
+    }
 }
