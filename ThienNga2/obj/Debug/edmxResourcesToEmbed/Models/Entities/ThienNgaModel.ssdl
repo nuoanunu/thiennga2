@@ -150,7 +150,7 @@
     <Property Name="productName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="price" Type="float" Nullable="false" />
     <Property Name="cateID" Type="int" />
-    <Property Name="description" Type="varchar(max)" />
+    <Property Name="description" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="tb_warranty">
     <Key>
@@ -398,6 +398,9 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
   </Function>
   <Function Name="ThienNga_findwarrantyByIMEI" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="imei" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="ThienNga_getkho" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="khocode" Type="int" Mode="In" />
   </Function>
   <Function Name="ThienNga_Login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="usernamee" Type="varchar" Mode="In" />

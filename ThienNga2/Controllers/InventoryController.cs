@@ -72,19 +72,12 @@ namespace ThienNga2.Areas.Admin.Controllers
                 return View("Inventory");
 
             }
+          
          
             int id = int.Parse(idd);
-            List<inventory> lst = am.inventories.ToList();
-            List<InventoryView> lst2 = new List<InventoryView>();
-            foreach (inventory i in lst) {
-                if (i.tb_inventory_name.id == id) {
-                    InventoryView k = new InventoryView();
-                    k.invendetail = i;
-                    k.productdetail = am.ThienNga_FindProduct2(i.productStoreCode).FirstOrDefault();
-                    lst2.Add(k);
-                }
-            }
-            ViewData["allInven"] = lst2;
+            List<ThienNga_getkho_Result2> lstt = am.ThienNga_getkhoFinal(id).ToList();
+            ViewData["invename"] =  am.tb_inventory_name.Find(1).InventoryName;
+            ViewData["allInven"] = lstt;
             return View("Inventory");
         }
    

@@ -275,5 +275,32 @@ namespace ThienNga2.Models.Entities
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("ThienNga_FindProductName2", productcodeParameter);
         }
+    
+        public virtual ObjectResult<ThienNga_getkho_Result> ThienNga_getkho(Nullable<int> khocode)
+        {
+            var khocodeParameter = khocode.HasValue ?
+                new ObjectParameter("khocode", khocode) :
+                new ObjectParameter("khocode", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ThienNga_getkho_Result>("ThienNga_getkho", khocodeParameter);
+        }
+    
+        public virtual ObjectResult<ThienNga_getkho3_Result> ThienNga_getkho3(Nullable<int> khocode)
+        {
+            var khocodeParameter = khocode.HasValue ?
+                new ObjectParameter("khocode", khocode) :
+                new ObjectParameter("khocode", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ThienNga_getkho3_Result>("ThienNga_getkho3", khocodeParameter);
+        }
+    
+        public virtual ObjectResult<ThienNga_getkho_Result2> ThienNga_getkhoFinal(Nullable<int> khocode)
+        {
+            var khocodeParameter = khocode.HasValue ?
+                new ObjectParameter("khocode", khocode) :
+                new ObjectParameter("khocode", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ThienNga_getkho_Result2>("ThienNga_getkhoFinal", khocodeParameter);
+        }
     }
 }

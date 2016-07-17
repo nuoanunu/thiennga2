@@ -320,6 +320,18 @@
     <Compile Include="Models\Entities\ThienNga_findwarranty_Result.cs">
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\ThienNga_getkho3_Result.cs">
+      <DependentUpon>ThienNgaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\ThienNga_getkho_Result.cs">
+      <DependentUpon>ThienNgaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\ThienNga_getkho_Result1.cs">
+      <DependentUpon>ThienNgaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\ThienNga_getkho_Result2.cs">
+      <DependentUpon>ThienNgaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entities\ThienNga_TimSDT_Result.cs">
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
     </Compile>

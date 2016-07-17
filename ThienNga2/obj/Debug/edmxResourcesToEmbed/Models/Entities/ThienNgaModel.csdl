@@ -161,7 +161,7 @@
     <Property Name="productName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="price" Type="Double" Nullable="false" />
     <Property Name="cateID" Type="Int32" />
-    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="items" Relationship="Self.FK_item_tb_product_detail" FromRole="tb_product_detail" ToRole="item" />
     <NavigationProperty Name="tb_cate" Relationship="Self.FK_tb_product_detail_tb_cate" FromRole="tb_product_detail" ToRole="tb_cate" />
   </EntityType>
@@ -479,6 +479,15 @@
     <FunctionImport Name="ThienNga_FindProductName2" ReturnType="Collection(String)">
       <Parameter Name="productcode" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="ThienNga_getkho" ReturnType="Collection(ThienNgaDatabaseModel.ThienNga_getkho_Result)">
+      <Parameter Name="khocode" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="ThienNga_getkho3" ReturnType="Collection(ThienNgaDatabaseModel.ThienNga_getkho3_Result)">
+      <Parameter Name="khocode" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="ThienNga_getkhoFinal" ReturnType="Collection(ThienNgaDatabaseModel.ThienNga_getkho_Result2)">
+      <Parameter Name="khocode" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="ThienNga_checkkho_Result">
     <Property Type="Int32" Name="id" Nullable="false" />
@@ -537,5 +546,45 @@
     <Property Type="DateTime" Name="realeaseDATE" Nullable="true" />
     <Property Type="String" Name="itemID" Nullable="false" MaxLength="50" />
     <Property Type="DateTime" Name="finishFixingDate" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="ThienNga_getkho_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="productStoreCode" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="productFactoryCode" Nullable="false" MaxLength="50" />
+    <Property Type="DateTime" Name="dateAdded" Nullable="false" Precision="23" />
+    <Property Type="Int32" Name="inventoryID" Nullable="false" />
+    <Property Type="Int32" Name="quantity" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="ThienNga_getkho_Result1">
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="productStoreCode" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="productFactoryCode" Nullable="false" MaxLength="50" />
+    <Property Type="DateTime" Name="dateAdded" Nullable="false" Precision="23" />
+    <Property Type="Int32" Name="inventoryID" Nullable="false" />
+    <Property Type="Int32" Name="quantity" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="ThienNga_getkho3_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="productStoreCode" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="productFactoryCode" Nullable="false" MaxLength="50" />
+    <Property Type="DateTime" Name="dateAdded" Nullable="false" Precision="23" />
+    <Property Type="Int32" Name="inventoryID" Nullable="false" />
+    <Property Type="Int32" Name="quantity" Nullable="false" />
+    <Property Type="Int32" Name="id1" Nullable="false" />
+    <Property Type="String" Name="producFactoryID" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="productStoreID" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="productName" Nullable="false" />
+    <Property Type="Double" Name="price" Nullable="false" />
+    <Property Type="Int32" Name="cateID" Nullable="true" />
+    <Property Type="String" Name="description" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="ThienNga_getkho_Result2">
+    <Property Type="Int32" Name="inventoryID" Nullable="false" />
+    <Property Type="Int32" Name="quantity" Nullable="false" />
+    <Property Type="String" Name="productName" Nullable="false" />
+    <Property Type="String" Name="producFactoryID" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="productStoreID" Nullable="false" MaxLength="50" />
+    <Property Type="Double" Name="price" Nullable="false" />
+    <Property Type="String" Name="description" Nullable="true" />
   </ComplexType>
 </Schema>

@@ -93,35 +93,39 @@
 
         }
 
+        <div id="form" class="form-wrapper">
+            <table>
+                <tr>
 
-        <table>
-            <tr>
-              
-              
-               @foreach (tb_inventory_name name in (List<tb_inventory_name>)ViewData["allInvenName"])
-               {
-                <td>
-                    @using (Html.BeginForm("SearchGetAll", "Inventory"))
+
+                    @foreach (tb_inventory_name name in (List<tb_inventory_name>)ViewData["allInvenName"])
                     {
-                        <div style="display:none"> <input name="idd" value="@name.id"/> </div>
-                        <div id="form" class="form-wrapper">      <button type="submit" value="Search" id="submit2">Duyệt @name.InventoryName  </button></div>
+
+                        <td>
+                            @using (Html.BeginForm("SearchGetAll", "Inventory"))
+                            {
+                                <div style="display:none"> <input name="idd" value="@name.id" /> </div>
+                                <button type="submit" value="Search" id="submit2">Duyệt @name.InventoryName  </button>
+                            }
+                        </td>
+
+
                     }
-                </td>
 
-               }
 
-                
-          
 
-            </tr>
-        </table>
+
+
+                </tr>
+            </table>
+        </div>
 
     </div>
     <div>
         @if (ViewData["allInven"] != null &&
-                 ((List<InventoryView>)ViewData["allInven"]).Count() > 0)
+                 ((List<ThienNga_getkho_Result2>)ViewData["allInven"]).Count() > 0)
         {
-            String name = ((InventoryView)((List<InventoryView>)ViewData["allInven"]).ElementAt(0)).invendetail.tb_inventory_name.InventoryName;
+            String name = (String)ViewData["invename"];
             <h1> Thông tin kho @name</h1>
             <table class="responstable">
                 <tr>
@@ -130,12 +134,12 @@
                     <th>Số lượng</th>
             
                 </tr>
-                @foreach (InventoryView i in (List<InventoryView>)ViewData["allInven"]) {
+                @foreach (ThienNga_getkho_Result2 i in (List<ThienNga_getkho_Result2>)ViewData["allInven"]) {
 
                     <tr>
-                        <td> @i.productdetail.productName </td>
-                        <td> @i.productdetail.price </td>
-                        <td> @i.invendetail.quantity </td>
+                        <td> @i.productName </td>
+                        <td> @i.price </td>
+                        <td> @i.quantity </td>
                     </tr>
                 }
 
