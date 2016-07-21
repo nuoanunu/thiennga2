@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="~/Content/SearchBar.css">
     <link rel="stylesheet" type="text/css" href="~/Content/Table.css">
     <script src="http://www.google.com/jsapi"></script>
+    <link rel="stylesheet" href="~/Content/jquery-ui.css" type="text/css">
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -59,6 +60,7 @@
                 .data("ui-autocomplete")._renderItem = function (ul, item) {
                     return $("<li>")
                       .data("ui-autocomplete-item", item)
+                    
                       .append('<a style="color:black">' + item.label +"</a>")
                       .appendTo(ul);
                 };
@@ -73,6 +75,20 @@
         setInterval(checkHidden, 100);
 
     </script>
+    <style>
+         .ui-autocomplete {
+             max-height: 100px;
+             overflow-y: auto;
+             /* prevent horizontal scrollbar */
+             overflow-x: hidden;
+         }
+         /* IE 6 doesn't support max-height
+        * we use height instead, but this forces the menu to always be this tall
+        */
+         * html .ui-autocomplete {
+             height: 100px;
+         }
+    </style>
 </head>
 <body>
     <div>
