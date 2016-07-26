@@ -352,6 +352,7 @@
     <Content Include="Content\images\flying-drones.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\navigation.css" />
     <Content Include="Content\SearchBar.css" />
     <Content Include="Content\Table.css" />
