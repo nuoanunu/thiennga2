@@ -32,7 +32,10 @@ namespace ThienNga2.Controllers
                     {
                         
                        tb_product_detail a = new tb_product_detail();
-                        a.producFactoryID = ManufacturerPartNumber;
+                        if (a.producFactoryID != null && a.producFactoryID.Length > 1)
+                            a.producFactoryID = ManufacturerPartNumber;
+                        else
+                            a.producFactoryID = SKU;
                         a.productStoreID = SKU;
                         a.productName = Name;
                         a.price = pricef;
@@ -48,6 +51,10 @@ namespace ThienNga2.Controllers
                             b.productName = Name;
                             b.price = a.price;
                             System.Diagnostics.Debug.WriteLine("UPDATED " + SKU);
+                            am.SaveChanges();
+                        }
+                        else {
+                            am.tb_product_detail.Add(a);
                             am.SaveChanges();
                         }
                         
