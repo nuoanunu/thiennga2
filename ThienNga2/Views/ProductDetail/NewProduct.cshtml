@@ -29,5 +29,19 @@
             </form>
             </div>
             }
+
+    <h1> Update thông tin từ file xml</h1>
+
+    @using (Html.BeginForm("UpdateFromXML", "ProductDetail", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        if (ViewData["updateResult"] != null) {
+            String resultttt = (String) ViewData["updateResult"];
+            <h2> @resultttt</h2>
+        }
+    <input type="file" name="file" />
+    <div class="button-section">
+        <input type="submit" value="Upload" />
+    </div>
+    }
 </body>
 </html>

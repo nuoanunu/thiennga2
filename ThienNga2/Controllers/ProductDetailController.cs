@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml;
+using ThienNga2.Controllers;
 using ThienNga2.Models.Entities;
 
 namespace ThienNga2.Areas.Admin.Controllers
@@ -61,9 +63,29 @@ namespace ThienNga2.Areas.Admin.Controllers
             }
             return View("NewProduct");
         }
+        [HttpPost]
+        public ActionResult UpdateFromXML(HttpPostedFileBase file)
+        {
+            try { 
+            if (file != null && file.ContentLength > 0 && file.ContentType == "text/xml")
+            {
+                var document = new XmlDocument();
+                document.Load(file.InputStream);
+                XMLReader reader = new XMLReader();
+                reader.reader(document);
+                
+                    ViewData["updateResult"] = "Cập nhật thành công";
+                }
+            }
+            catch (Exception e) {
+                ViewData["updateResult"] = "Cập nhật thất bại;
+            }
+            
+            return View("NewProduct");
 
-       
-    
+        }
+
+
 
         [HttpPost]
         public ActionResult Edit(tb_product_detail t , string Command)
