@@ -78,7 +78,7 @@ namespace ThienNga2.Areas.Admin.Controllers
                 }
             }
             catch (Exception e) {
-                ViewData["updateResult"] = "Cập nhật thất bại;
+                ViewData["updateResult"] = "Cập nhật thất bại";
             }
             
             return View("NewProduct");
