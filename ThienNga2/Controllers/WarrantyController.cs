@@ -137,14 +137,14 @@ namespace ThienNga2.Controllers
         {
             am.warrantyActivityFees.Remove(am.warrantyActivityFees.Find(int.Parse(feeID)));
             am.SaveChanges();
-            return RedirectToAction("Search", "Warranty", new { code = activitiesID });
+            return RedirectToAction("Search", "Warranty", new { code = activitiesID, searchType = "warrantyActID" });
 
         }
         public ActionResult XoaFixingFee(String feeID, String activitiesID)
         {
             am.warrantyActivityFixingFees.Remove(am.warrantyActivityFixingFees.Find(int.Parse(feeID)));
             am.SaveChanges();
-            return RedirectToAction("Search", "Warranty", new { code = activitiesID });
+            return RedirectToAction("Search", "Warranty", new { code = activitiesID, searchType = "warrantyActID" });
 
         }
         public ActionResult AddFee( String ksu, String quantity , String fixPrice, String activitiesID )
@@ -166,7 +166,7 @@ namespace ThienNga2.Controllers
                             }
                 }
             }
-            return RedirectToAction("Search", "Warranty", new { code = activitiesID });
+            return RedirectToAction("Search", "Warranty", new { code = activitiesID , searchType= "warrantyActID" });
         }
         public ActionResult AddFixingFee(String fixDetail, String price, String activitiesID)
         {
@@ -188,7 +188,7 @@ namespace ThienNga2.Controllers
                     }
                 }
             }
-            return RedirectToAction("Search", "Warranty", new { code = activitiesID });
+            return RedirectToAction("Search", "Warranty", new { code = activitiesID, searchType = "warrantyActID" });
         }
         public ActionResult Search(string code ,string searchType)
         {
