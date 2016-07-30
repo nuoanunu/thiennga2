@@ -1,0 +1,97 @@
+﻿@using ThienNga2.Models.Entities;
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>NewProduct</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/formTemplate.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/SearchBar.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Table.css">
+    <script>
+        $(document).ready(function () {
+            $('#Emp1').autocomplete({
+                source: '@Url.Action("Autocomplete")'
+
+            })
+                .data("ui-autocomplete")._renderItem = function (ul, item) {
+                    return $("<li>")
+                      .data("ui-autocomplete-item", item)
+
+                      .append('<a style="color:black">' + item.label +"</a>")
+                      .appendTo(ul);
+                };
+            $('#Emp2').autocomplete({
+                source: '@Url.Action("Autocomplete")'
+
+            })
+               .data("ui-autocomplete")._renderItem = function (ul, item) {
+                   return $("<li>")
+                     .data("ui-autocomplete-item", item)
+
+                     .append('<a style="color:black">' + item.label + "</a>")
+                     .appendTo(ul);
+               };
+
+
+        });
+        </script>
+</head>
+<body>
+    @if (ViewData["newwarranty"] == null)
+    {
+        using (Html.BeginForm("CreateNew", "CreateWarranty", FormMethod.Post))
+        {
+        <div class="form-style-10">
+            <form>
+
+                <div class="section"><span></span>Thông tin sản phẩm</div>
+                <div class="inner-wrap">
+                    <input type="hidden" id="actid" name="actid" value="" />
+                    <label>SDT khách hàng <input type="text" id="phoneNumber" name="phoneNumber" value="" /></label>
+                    <label>Tên khách hàng <input type="text" id="cusname" name="cusname" value="" /></label>
+                    <label>IMEI sản phẩm <input type="text" id="IMEI"  name="IMEI" value="" /></label>
+                    <label>Tình trạng lúc nhận <input type="text" id="Descrip"  name="Descrip" value="" /></label>
+                    <label>Nhân viên tiếp nhận <input type="text" id="Emp1"  name="Emp1" value="" /></label>
+                    <label>Nhân viên sửa chữa <input type="text" id="Emp2"  name="Emp2" value="" /></label>
+
+                </div>
+                <div class="button-section">
+                    <input type="submit" name="Tạo" />
+
+                </div>
+            </form>
+        </div>
+        }
+    }
+    @if (ViewData["newwarranty"] != null)
+    {
+        tb_warranty_activities a = (tb_warranty_activities)ViewData["newwarranty"];
+        using (Html.BeginForm("CreateNew", "CreateWarranty", FormMethod.Post))
+        {
+            <div class="form-style-10">
+                <form>
+                    
+                    <div class="section"><span></span>Thông tin sản phẩm</div>
+                    <div class="inner-wrap">
+                      <input type="hidden" id="actid" name="actid" value="@a.id" />
+                        <label>SDT khách hàng <input type="text" id="phoneNumber" name="phoneNumber" value="@a.SDT" /></label>
+                        <label>Tên khách hàng <input type="text" id="cusname" name="cusname" value="@a.TenKhach" /></label>
+                        <label>IMEI sản phẩm <input type="text" id="IMEI" name="IMEI" value="@a.itemID" /></label>
+                        <label>Tình trạng lúc nhận <input type="text" id="Descrip" name="Descrip" value="@a.Description" /></label>
+                        <label>Nhân viên tiếp nhận <input type="text" id="Emp1" name="Emp1" value="@a.employee" /></label>
+                        <label>Nhân viên sửa chữa <input type="text" id="Emp2" name="Emp2" value="@a.empFixer" /></label>
+
+                    </div>
+                    <div class="button-section">
+                        <input type="submit" name="Tạo" />
+
+                    </div>
+                </form>
+            </div>
+        }
+
+
+    }
+
+</body>

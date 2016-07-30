@@ -69,6 +69,7 @@
     <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
     <Property Name="AccessFailedCount" Type="int" Nullable="false" />
     <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="256" />
   </EntityType>
   <EntityType Name="employee">
     <Key>
@@ -116,6 +117,16 @@
     <Property Name="roleID" Type="int" Nullable="false" />
     <Property Name="roleName" Type="varchar" MaxLength="50" Nullable="false" />
   </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
   <EntityType Name="tb_cate">
     <Key>
       <PropertyRef Name="id" />
@@ -132,6 +143,7 @@
     <Property Name="customerName" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="phonenumber" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="address" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="int" />
   </EntityType>
   <EntityType Name="tb_inventory_name">
     <Key>
@@ -169,13 +181,17 @@
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="startDate" Type="date" Nullable="false" />
-    <Property Name="employee" Type="int" Nullable="false" />
+    <Property Name="employee" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="warrantyID" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Description" Type="varchar(max)" />
     <Property Name="status" Type="int" Nullable="false" />
     <Property Name="realeaseDATE" Type="date" />
-    <Property Name="itemID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="itemID" Type="varchar" MaxLength="50" />
     <Property Name="finishFixingDate" Type="date" />
+    <Property Name="empFixer" Type="nvarchar" MaxLength="128" />
+    <Property Name="CodeBaoHanh" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="TenKhach" Type="nvarchar" MaxLength="50" />
+    <Property Name="SDT" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="tb_warrnaty_status">
     <Key>
@@ -183,6 +199,25 @@
     </Key>
     <Property Name="id" Type="int" Nullable="false" />
     <Property Name="statusName" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="warrantyActivityFee">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productSKU" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="quantity" Type="int" Nullable="false" />
+    <Property Name="activityID" Type="int" Nullable="false" />
+    <Property Name="fixingfee" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="warrantyActivityFixingFee">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FixDetail" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="fee" Type="float" Nullable="false" />
+    <Property Name="activityID" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'ThienNgaDatabase.sys.database_firewall_rules' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -348,15 +383,27 @@ warning 6035: The relationship 'FK_inventory_tb_product_detail1' has columns tha
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_warranty_activities_employee">
-    <End Role="employee" Type="Self.employee" Multiplicity="1" />
+  <Association Name="FK_tb_warranty_activities_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
     <End Role="tb_warranty_activities" Type="Self.tb_warranty_activities" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="employee">
-        <PropertyRef Name="id" />
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="tb_warranty_activities">
         <PropertyRef Name="employee" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_warranty_activities_AspNetUsers1">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+    <End Role="tb_warranty_activities" Type="Self.tb_warranty_activities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tb_warranty_activities">
+        <PropertyRef Name="empFixer" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -378,6 +425,64 @@ warning 6035: The relationship 'FK_tb_warranty_activities_tb_warranty1' has colu
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="FK_tb_warranty_item" />-->
+  <Association Name="FK_warrantyActivityFee_tb_warranty_activities">
+    <End Role="tb_warranty_activities" Type="Self.tb_warranty_activities" Multiplicity="1" />
+    <End Role="warrantyActivityFee" Type="Self.warrantyActivityFee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_warranty_activities">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="warrantyActivityFee">
+        <PropertyRef Name="activityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_warrantyActivityFixingFee_tb_warranty_activities">
+    <End Role="tb_warranty_activities" Type="Self.tb_warranty_activities" Multiplicity="1" />
+    <End Role="warrantyActivityFixingFee" Type="Self.warrantyActivityFixingFee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_warranty_activities">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="warrantyActivityFixingFee">
+        <PropertyRef Name="activityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'key_auto_update' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="key_auto_update" />-->
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ThienNga_checkkho" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="productcode" Type="varchar" Mode="In" />
   </Function>
@@ -425,6 +530,7 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
     <EntitySet Name="item" EntityType="Self.item" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="log" EntityType="Self.log" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="role" EntityType="Self.role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_cate" EntityType="Self.tb_cate" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_customer" EntityType="Self.tb_customer" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_inventory_name" EntityType="Self.tb_inventory_name" Schema="dbo" store:Type="Tables" />
@@ -432,6 +538,8 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
     <EntitySet Name="tb_warranty" EntityType="Self.tb_warranty" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_warranty_activities" EntityType="Self.tb_warranty_activities" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_warrnaty_status" EntityType="Self.tb_warrnaty_status" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="warrantyActivityFee" EntityType="Self.warrantyActivityFee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="warrantyActivityFixingFee" EntityType="Self.warrantyActivityFixingFee" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" store:Type="Views" store:Schema="sys">
       <DefiningQuery>SELECT 
     [database_firewall_rules].[id] AS [id], 
@@ -486,13 +594,25 @@ warning 6035: The relationship 'FK_tb_warranty_item' has columns that are not pa
       <End Role="tb_cate" EntitySet="tb_cate" />
       <End Role="tb_product_detail" EntitySet="tb_product_detail" />
     </AssociationSet>
-    <AssociationSet Name="FK_tb_warranty_activities_employee" Association="Self.FK_tb_warranty_activities_employee">
-      <End Role="employee" EntitySet="employee" />
+    <AssociationSet Name="FK_tb_warranty_activities_AspNetUsers" Association="Self.FK_tb_warranty_activities_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_warranty_activities_AspNetUsers1" Association="Self.FK_tb_warranty_activities_AspNetUsers1">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_warranty_activities_tb_warrnaty_status" Association="Self.FK_tb_warranty_activities_tb_warrnaty_status">
       <End Role="tb_warrnaty_status" EntitySet="tb_warrnaty_status" />
       <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_warrantyActivityFee_tb_warranty_activities" Association="Self.FK_warrantyActivityFee_tb_warranty_activities">
+      <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
+      <End Role="warrantyActivityFee" EntitySet="warrantyActivityFee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_warrantyActivityFixingFee_tb_warranty_activities" Association="Self.FK_warrantyActivityFixingFee_tb_warranty_activities">
+      <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
+      <End Role="warrantyActivityFixingFee" EntitySet="warrantyActivityFixingFee" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

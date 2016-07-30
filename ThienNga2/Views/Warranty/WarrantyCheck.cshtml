@@ -10,6 +10,7 @@
     <title>Inventory</title>
     <link rel="stylesheet" type="text/css" href="~/Content/SearchBar.css">
     <link rel="stylesheet" type="text/css" href="~/Content/Table.css">
+    <link rel="stylesheet" href="~/Content/jquery-ui.css" type="text/css">
     <script src="http://www.google.com/jsapi"></script>
 
     <script>
@@ -21,32 +22,81 @@
             });
             $(".ui-helper-hidden-accessible").hide();
             $('#item_status').click(function () {
-         
-             if ($('#item_status').val() == 4) {
+
+                if ($('#item_status').val() == 4) {
                     $("#dateBanGiao").attr('style', '');
-             }
-             if ($('#item_status').val() == 4) {
-                 $("#dateFinish").attr('style', '');
-             } 
+                }
+                if ($('#item_status').val() == 4) {
+                    $("#dateFinish").attr('style', '');
+                }
 
             });
-           
+
             $('#startWarranty').click(function () {
                 $('#newWarrantyForm').attr('style', '');
             });
+
+
+
         });
     </script>
+    <script>
+        $(document).ready(function () {
+            $('#searchID').autocomplete({
+                source: '@Url.Action("Autocomplete")'
+
+            })
+                .data("ui-autocomplete")._renderItem = function (ul, item) {
+                    return $("<li>")
+                      .data("ui-autocomplete-item", item)
+
+                      .append('<a style="color:black">' + item.label + "</a>")
+                      .appendTo(ul);
+                };
+
+
+        });
+        function checkHidden() {
+
+            $(".ui-helper-hidden-accessible").hide();
+        }
+
+
+        setInterval(function () { loadprice($('#searchID').val(), $('#quantitySKU').val()); }, 100);
+        var skupicked = $('#searchID').val();
+        var quanitypicked = $('#quantitySKU').val();
+        function loadprice(val1, val2) {
+
+            if (val1 != '' && val2 != '' && (val1 != skupicked || val2 != quanitypicked) && val2) {
+                skupicked = val1;
+                quanitypicked = val2;
+                $.get('@(Url.Action("loadPrice", "Warranty",null, Request.Url.Scheme))?code=' + encodeURIComponent(val1) + '&quantity=' + encodeURIComponent(quanitypicked), function (result) {
+                    $('#skuprice').val(result);
+                });
+            }
+
+        }
+        setInterval(checkHidden, 100);
+        setInterval(loadprice, 100);
+    </script>
+
 </head>
 <body>
-  
+
     <div>
         @using (Html.BeginForm("Search", "Warranty"))
-        {
-
-
+                {
+   
             <div id="form" class="form-wrapper">
-                <input id="search" class="suggestionsinput" name="code" type="text" placeholder="Nhập mã bảo hành" required />
+                <input id="search" class="suggestionsinput" name="code" type="text" placeholder="Nhập mã hóa đơn/mã sản phẩm " required />
+                <select name="searchType" class="suggestionsinput">
+                    <option value="warrantyCODE"> Mã hóa đơn bảo hành</option>
+                    <option value="item">Mã sản phẩm</option>
+                    <option value="warrantyIMEI"> Mã bảo hành</option>
+                    <option value="warrantyCODEDate">Ngày tháng</option>
+                    <option value="warrantyCODEPhone">Số điện thoại</option>
 
+                </select>
                 <button type="submit" value="Search" id="submit">Tìm  </button>
             </div>
 
@@ -54,14 +104,14 @@
 
 
         }
-       
-       
+
+
 
     </div>
     <div>
 
         @if ((List<tb_warranty>)ViewData["warrantyDetail"] != null
-                            )
+                                )
         {
 
             foreach (tb_warranty t in (List<tb_warranty>)ViewData["warrantyDetail"])
@@ -83,18 +133,20 @@
 
 
         }
-@if (ViewData["lsbh"] != null)
-{
-    bool flag = false;
-    foreach (var item in (List
-    <tb_warranty_activities>
-        )ViewData["lsbh"])
-    {
-
-        if (item.status != 4)
+        @if (ViewData["lsbh"] != null && ((List
+        <tb_warranty_activities>
+            )ViewData["lsbh"]).Count == 1)
         {
-            flag = true;
-            List<SelectListItem> ls = new List<SelectListItem> {
+            bool flag = false;
+            foreach (var item in (List
+            <tb_warranty_activities>
+                )ViewData["lsbh"])
+            {
+
+                if (item.status != 4)
+                {
+                    flag = true;
+                    List<SelectListItem> ls = new List<SelectListItem> {
      new SelectListItem { Text = "Đang kiểm tra", Value = "1"},
      new SelectListItem { Text = "Đang sửa chữa", Value = "2"},
      new SelectListItem { Text = "Hoàn tất sửa chữa", Value = "3"},
@@ -102,178 +154,304 @@
 
   };
 
-                <h1> Quản lý quy trình bảo hành của mã bảo hành : @item.warrantyID</h1>
-                using (Html.BeginForm("Update", "Warranty"))
-                {
-                
-                <div style="display:none;">@Html.TextBoxFor(Model => item.id) </div>
-                <div style="display:none;"></div>
-                <div style="display:none;"></div>
-                <div style="display:none;"></div>
-                    <table class="responstable">
-                        <tr>
-                            <td>Ngày tiếp nhận : </td>
-                            <td>@item.startDate </td>
-                        </tr>
-                        <tr>
-                            <td>Tên nhân viên:</td>
-                            <td> @item.employee1.employeeName </td>
-                        </tr>
-                        <tr>
-                            <td>Tình trạng lúc nhận:</td>
-                            <td>@item.Description</td>
-                        </tr>
+                    <h1> Quản lý quy trình bảo hành của mã bảo hành : @item.CodeBaoHanh</h1>
+                    using (Html.BeginForm("Update", "Warranty"))
+                    {
+
+                        <div style="display:none;">@Html.TextBoxFor(Model => item.id) </div>
+                        <div style="display:none;"></div>
+                        <div style="display:none;"></div>
+                        <div style="display:none;"></div>
+                        <table class="responstable">
+                            <tr>
+                                <td>Ngày tiếp nhận : </td>
+                                <td>@item.startDate </td>
+                            </tr>
+                            <tr>
+                                <td>Nhân viên nhận:</td>
+                                <td> @item.AspNetUser.FullName </td>
+                            </tr>
+                            <tr>
+                                <td>Nhân viên đang sửa:</td>
+                                <td> @item.AspNetUser1.FullName </td>
+                            </tr>
+                            <tr>
+                                <td>Tình trạng lúc nhận:</td>
+                                <td>@item.Description</td>
+                            </tr>
 
 
 
-                        <tr>
-                            <td>Trạng Thái:  </td>
-                            <td id="statusWar">@Html.DropDownListFor(Model => item.status, ls)</td>
-                            
-                        </tr>
-                   
+                            <tr>
+                                <td>Trạng Thái:  </td>
+                                <td id="statusWar">@Html.DropDownListFor(Model => item.status, ls)</td>
+
+                            </tr>
+
                             <tr id="dateBanGiao" style="display: none;">
                                 <td>Ngày bàn giao  </td>
                                 <td> @Html.TextBoxFor(Model => item.realeaseDATE) </td>
                             </tr>
 
-                        <tr></tr>
+                            <tr></tr>
 
-                        <tr id="dateFinish" style="display: none;">
-                            <td>Ngày sửa xong  </td>
-                            <td> @Html.TextBoxFor(Model => item.finishFixingDate) </td>
-                        </tr>
+                            <tr id="dateFinish" style="display: none;">
+                                <td>Ngày sửa xong  </td>
+                                <td> @Html.TextBoxFor(Model => item.finishFixingDate) </td>
+                            </tr>
 
-                        <tr>
-                            <td>
-                                <button type="summit">Cập nhật trạng thái bảo hành</button>
-                            </td>
-                        </tr>
-                      
+                            <tr>
+                                <td>
+                                    <button type="submit">Cập nhật trạng thái bảo hành</button>
+                                </td>
+                            </tr>
+
+                        </table>
+
+
+                    }
+                    <h3> Linh kiện thay thế</h3>
+                    <table id="fee" class="responstable">
+                        <th> Tên Linh Kiện </th>
+                        <th> Số lượng</th>
+                        <th> Phí thay thế</th>
+                        <th> Thêm / SSửa</th>
+                        <th> Xóa</th>
+
+                        @foreach (warrantyActivityFee fee in item.warrantyActivityFees)
+                        {
+                            <tr>
+                                <td>
+                                    @fee.productSKU
+                                </td>
+                                <td>
+                                    @fee.quantity
+                                </td>
+                                <td>
+                                    @fee.fixingfee
+                                </td>
+                                <td></td>
+                                <td>
+                                    @using (Html.BeginForm("XoaFee", "Warranty"))
+                            {
+                                        <input type="hidden" name="feeID" value="@fee.id" />
+                                        <input type="hidden" name="activitiesID" value="@item.itemID" />
+                                        <input type="submit" name="Xóa" value="Xóa" />
+                                    }
+                                </td>
+
+
+
+                            </tr>
+                        }
+
+                        @using (Html.BeginForm("AddFee", "Warranty"))
+                        {
+                            <tr>
+                                <td>
+                                    <input type="hidden" name="activitiesID" value="@item.itemID" />
+                                    <input id="searchID" type="text" name="ksu" />
+                                </td>
+                                <td>
+                                    <input id="quantitySKU" type="text" name="quantity" />
+                                </td>
+                                <td>
+                                    <input id="skuprice" type="text" name="fixPrice" />
+                                </td>
+                                <td>
+                                    <input type="submit" name="ThêmS" />
+                                </td>
+                            </tr>
+                        }
+
                     </table>
+
+                    <h3> Thông tin sửa chữa</h3>
+                    <table class="responstable">
+                        <th> Mô tả </th>
+                        <th>  Tiền công</th>
+                        <th> Thêm </th>
+                        <th> Xóa</th>
+                        @foreach (warrantyActivityFixingFee fee in item.warrantyActivityFixingFees)
+                        {
+                            <tr>
+                                <td>
+                                    @fee.FixDetail
+                                </td>
+                                <td>
+                                    @fee.fee
+                                </td>
+                                <td></td>
+                                <td>
+                                    @using (Html.BeginForm("XoaFixingFee", "Warranty"))
+                                    {<input type="hidden" name="feeID" value="@fee.id" />
+                                        <input type="hidden" name="activitiesID" value="@item.itemID" />
+                                        <input type="submit" name="Xóa" value="Xóa" />
+                                    }
+                                </td>
+
+                            </tr>
+                        }
+
+                        @using (Html.BeginForm("AddFixingFee", "Warranty"))
+                        {
+                            <tr>
+                                <td>
+                                    <input type="hidden" name="activitiesID" value="@item.itemID" />
+                                    <input type="text" name="fixDetail" />
+                                </td>
+                                <td>
+                                    <input type="text" name="price" />
+                                </td>
+                                <td>
+                                    <input type="submit" name="ThêmS" />
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+
+
+            }
+            if (!flag && (List
+            <tb_warranty>
+                )ViewData["warrantyDetail"] != null && ((List<tb_warranty>
+                    )ViewData["warrantyDetail"]).Count() == 1)
+            {
+
+                tb_warranty t = ((List<tb_warranty>
+                    )ViewData["warrantyDetail"]).ElementAt(0);
+
+                <button id="startWarranty"> Bắt đầu quy trình bảo hành</button>
+                                    <div id="newWarrantyForm" style="display:none">
+                                        @using (Html.BeginForm("Add", "Warranty"))
+                                        {
+                                            tb_warranty_activities t2 = new tb_warranty_activities();
+                                            t2.warrantyID = t.warrantyID;
+                                            t2.itemID = t.itemID;
+
+                                            <div>
+                                                @Html.TextBoxFor(item => t2.warrantyID, new { @Value = t.warrantyID })
+                                                @Html.TextBoxFor(item => t2.itemID, new { @Value = t.itemID })
+
+                                            </div>
+                                            <table class="responstable">
+                                                <tr>
+                                                    <td>
+                                                        Ngày nhận:
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(item => t2.startDate)
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Nhân Viên chịu trách nhiệm
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(item => t2.employee)
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Tình trạng lúc nhận
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(item => t2.Description)
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <button type="summit"> Bắt đầu</button>
+                                                </tr>
+                                            </table>
+                                        }
+                                    </div>
+
+
             }
         }
 
 
-    }
-    if (!flag && (List< tb_warranty>)ViewData["warrantyDetail"] != null && ((List<tb_warranty>)ViewData["warrantyDetail"]).Count() == 1  )
-    {
-
-        tb_warranty t = ((List<tb_warranty>)ViewData["warrantyDetail"]).ElementAt(0);
-
-        <button id="startWarranty"> Bắt đầu quy trình bảo hành</button>
-        <div id="newWarrantyForm" style="display:none">
-            @using (Html.BeginForm("Add", "Warranty"))
-            {
-                tb_warranty_activities t2 = new tb_warranty_activities();
-                t2.warrantyID = t.warrantyID;
-                t2.itemID = t.itemID;
-                
-                <div>
-                 @Html.TextBoxFor(item => t2.warrantyID, new { @Value = t.warrantyID })
-                 @Html.TextBoxFor(item => t2.itemID, new { @Value = t.itemID })
-                   
-                </div>
-            <table class="responstable">
-                <tr>
-                    <td>
-                        Ngày nhận:
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(item => t2.startDate )
-                 
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Nhân Viên chịu trách nhiệm
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(item => t2.employee  )
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Tình trạng lúc nhận
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(item => t2.Description)
-                    </td>
-                </tr>
-                <tr>
-                    <button type="summit"> Bắt đầu</button>
-                </tr>
-            </table>
-            }
-        </div>
-    }
-}
-
-        @if (ViewData["lsbh"] != null &&( (List<tb_warranty_activities>)ViewData["lsbh"] ).Count() > 0
-                        )
+        @if (ViewData["lsbh"] != null && ((List<tb_warranty_activities>)ViewData["lsbh"]).Count() > 0
+                    )
         {
             <h1> Lịch Sử Bảo Hành </h1>
-            <table class="responstable">
-                <tr>
-                    <th>Ngày nhận  </th>
-                    <th>Mã Nhân Viên </th>
-                    <th>Tình trạng lúc nhận </th>
-                    <th>  Ngày hoàn tất sửa </th>
-                    <th>  Ngày Trả </th>
-                </tr>
+                                        <table class="responstable">
+                                            <tr><th>Mã bill bảo hành   </th>
+                                                <th>Ngày nhận  </th>
+                                                <th>Nhân viên nhận </th>
+                                                <th>Nhân viên sửa </th>
+                                                <th>Tình trạng lúc nhận </th>
+                                                <th>  Ngày hoàn tất sửa </th>
+                                                <th>  Ngày Trả </th>
+                                                <th>  Chi tiết  </th>
+                                            </tr>
 
-                @foreach (var item in (List
-                <tb_warranty_activities>
-                    )ViewData["lsbh"])
-                {
-                    
-                        <tr>
-                            <td>@item.startDate </td>
-                            <td>@item.employee1.employeeName </td>
-                            <td>@item.tb_warrnaty_status.statusName </td>
-                            <td>@item.finishFixingDate</td>
-                            <td>@item.realeaseDATE </td>
-                           
-                        </tr>
+                                            @foreach (var item in (List <tb_warranty_activities>)ViewData["lsbh"])
+                                            {
 
-                    
-                }
-            </table>
+                                                <tr>
+                                                    <td>@item.CodeBaoHanh </td>
+                                                    <td>@item.startDate </td>
+                                                    <td>@item.AspNetUser.FullName </td>
+                                                    <td>@item.AspNetUser1.FullName </td>
+                                                    <td>@item.tb_warrnaty_status.statusName </td>
+                                                    <td>@item.finishFixingDate</td>
+                                                    <td>@item.realeaseDATE </td>
+                                                    @using (Html.BeginForm("Search", "Warranty"))
+                                                    {
+                                                        <td>
+                                                            <input type="hidden" value="@item.id" name="code" />
+                                                            <input type="hidden" value="warrantyActID" name="searchType" />
+                                                            <button type="submit"  value="submit" name="submit" > Chi tiết</button>
+                                                        </td>
+                                                    }
+                                                   
+
+                                                </tr>
+
+
+                                            }
+
+                                        </table>
 
 
         }
         @if (ViewData["alsbh"] != null && ((List<tb_warranty_activities>)ViewData["alsbh"]).Count() > 0
-                            )
+                        )
         {
             <h1> Lịch Sử Bảo Hành của sản phẩm </h1>
-            <table class="responstable">
-                <tr>
-                    <th>Mã bảo hành  </th>
-                    <th>Ngày nhận  </th>
-                    <th>Mã Nhân Viên </th>
-                    <th>Tình trạng </th>
-                    <th>  Ngày hoàn tất sửa </th>
-                    <th>  Ngày Trả </th>
-                </tr>
+                                        <table class="responstable">
+                                            <tr>
+                                                <th>Mã bảo hành  </th>
+                                                <th>Ngày nhận  </th>
+                                                <th>Nhân Viên Nhận </th>
+                                                <th>Nhân Viên Sửa </th>
+                                                <th>Tình trạng </th>
+                                                <th>  Ngày hoàn tất sửa </th>
+                                                <th>  Ngày Trả </th>
+                                            </tr>
 
-                @foreach (var item in (List
-                <tb_warranty_activities>
-                    )ViewData["alsbh"])
-                {
+                                            @foreach (var item in (List
+<tb_warranty_activities>
+)ViewData["alsbh"])
+                                            {
 
-                    <tr>
-                        <td>@item.warrantyID </td>
-                        <td>@item.startDate </td>
-                        <td>@item.employee1.employeeName </td>
-                        <td>@item.tb_warrnaty_status.statusName </td>
-                        <td>@item.finishFixingDate</td>
-                        <td>@item.realeaseDATE </td>
+                                                <tr>
+                                                    <td>@item.warrantyID </td>
+                                                    <td>@item.startDate </td>
+                                                    <td>@item.AspNetUser.FullName </td>
+                                                    <td>@item.AspNetUser1.FullName </td>
+                                                    <td>@item.tb_warrnaty_status.statusName </td>
+                                                    <td>@item.finishFixingDate</td>
+                                                    <td>@item.realeaseDATE </td>
 
-                    </tr>
+                                                </tr>
 
 
-                }
-            </table>
+                                            }
+                                        </table>
 
 
         }

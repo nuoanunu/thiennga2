@@ -10,11 +10,10 @@
 namespace ThienNga2.Models.Entities
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class employee
+    public partial class sp_helpdiagramdefinition_Result
     {
-        public int id { get; set; }
-        public string employeeName { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

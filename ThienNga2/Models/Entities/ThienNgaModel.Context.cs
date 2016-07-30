@@ -33,7 +33,6 @@ namespace ThienNga2.Models.Entities
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-        public virtual DbSet<employee> employees { get; set; }
         public virtual DbSet<inventory> inventories { get; set; }
         public virtual DbSet<item> items { get; set; }
         public virtual DbSet<log> logs { get; set; }
@@ -43,9 +42,13 @@ namespace ThienNga2.Models.Entities
         public virtual DbSet<tb_inventory_name> tb_inventory_name { get; set; }
         public virtual DbSet<tb_product_detail> tb_product_detail { get; set; }
         public virtual DbSet<tb_warranty> tb_warranty { get; set; }
-        public virtual DbSet<tb_warranty_activities> tb_warranty_activities { get; set; }
         public virtual DbSet<tb_warrnaty_status> tb_warrnaty_status { get; set; }
         public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
+        public virtual DbSet<warrantyActivityFee> warrantyActivityFees { get; set; }
+        public virtual DbSet<warrantyActivityFixingFee> warrantyActivityFixingFees { get; set; }
+        public virtual DbSet<employee> employees { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<tb_warranty_activities> tb_warranty_activities { get; set; }
     
         public virtual ObjectResult<ThienNga_checkkho_Result> ThienNga_checkkho(string productcode)
         {
@@ -204,24 +207,6 @@ namespace ThienNga2.Models.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<tb_customer>("ThienNga_TimSDT2", mergeOption, phoneParameter);
         }
     
-        public virtual ObjectResult<tb_warranty_activities> ThienNga_warrantyHistory2(string warrantycode)
-        {
-            var warrantycodeParameter = warrantycode != null ?
-                new ObjectParameter("warrantycode", warrantycode) :
-                new ObjectParameter("warrantycode", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<tb_warranty_activities>("ThienNga_warrantyHistory2", warrantycodeParameter);
-        }
-    
-        public virtual ObjectResult<tb_warranty_activities> ThienNga_warrantyHistory2(string warrantycode, MergeOption mergeOption)
-        {
-            var warrantycodeParameter = warrantycode != null ?
-                new ObjectParameter("warrantycode", warrantycode) :
-                new ObjectParameter("warrantycode", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<tb_warranty_activities>("ThienNga_warrantyHistory2", mergeOption, warrantycodeParameter);
-        }
-    
         public virtual ObjectResult<tb_warranty> ThienNga_findwarrantyByIMEI2(string imei)
         {
             var imeiParameter = imei != null ?
@@ -301,6 +286,127 @@ namespace ThienNga2.Models.Entities
                 new ObjectParameter("khocode", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ThienNga_getkho_Result2>("ThienNga_getkhoFinal", khocodeParameter);
+        }
+    
+        public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            var versionParameter = version.HasValue ?
+                new ObjectParameter("version", version) :
+                new ObjectParameter("version", typeof(int));
+    
+            var definitionParameter = definition != null ?
+                new ObjectParameter("definition", definition) :
+                new ObjectParameter("definition", typeof(byte[]));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_alterdiagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
+        }
+    
+        public virtual int sp_creatediagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            var versionParameter = version.HasValue ?
+                new ObjectParameter("version", version) :
+                new ObjectParameter("version", typeof(int));
+    
+            var definitionParameter = definition != null ?
+                new ObjectParameter("definition", definition) :
+                new ObjectParameter("definition", typeof(byte[]));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_creatediagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
+        }
+    
+        public virtual int sp_dropdiagram(string diagramname, Nullable<int> owner_id)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dropdiagram", diagramnameParameter, owner_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_helpdiagramdefinition_Result> sp_helpdiagramdefinition(string diagramname, Nullable<int> owner_id)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagramdefinition_Result>("sp_helpdiagramdefinition", diagramnameParameter, owner_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_helpdiagrams_Result> sp_helpdiagrams(string diagramname, Nullable<int> owner_id)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagrams_Result>("sp_helpdiagrams", diagramnameParameter, owner_idParameter);
+        }
+    
+        public virtual int sp_renamediagram(string diagramname, Nullable<int> owner_id, string new_diagramname)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            var new_diagramnameParameter = new_diagramname != null ?
+                new ObjectParameter("new_diagramname", new_diagramname) :
+                new ObjectParameter("new_diagramname", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_renamediagram", diagramnameParameter, owner_idParameter, new_diagramnameParameter);
+        }
+    
+        public virtual int sp_upgraddiagrams()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
+        }
+    
+        public virtual ObjectResult<tb_warranty_activities> ThienNga_warrantyHistory2(string warrantycode)
+        {
+            var warrantycodeParameter = warrantycode != null ?
+                new ObjectParameter("warrantycode", warrantycode) :
+                new ObjectParameter("warrantycode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<tb_warranty_activities>("ThienNga_warrantyHistory2", warrantycodeParameter);
+        }
+    
+        public virtual ObjectResult<tb_warranty_activities> ThienNga_warrantyHistory2(string warrantycode, MergeOption mergeOption)
+        {
+            var warrantycodeParameter = warrantycode != null ?
+                new ObjectParameter("warrantycode", warrantycode) :
+                new ObjectParameter("warrantycode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<tb_warranty_activities>("ThienNga_warrantyHistory2", mergeOption, warrantycodeParameter);
         }
     }
 }

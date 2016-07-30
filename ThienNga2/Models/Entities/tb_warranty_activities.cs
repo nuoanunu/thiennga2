@@ -14,17 +14,33 @@ namespace ThienNga2.Models.Entities
     
     public partial class tb_warranty_activities
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tb_warranty_activities()
+        {
+            this.warrantyActivityFees = new HashSet<warrantyActivityFee>();
+            this.warrantyActivityFixingFees = new HashSet<warrantyActivityFixingFee>();
+        }
+    
         public int id { get; set; }
         public System.DateTime startDate { get; set; }
-        public int employee { get; set; }
+        public string employee { get; set; }
         public string warrantyID { get; set; }
         public string Description { get; set; }
         public int status { get; set; }
         public Nullable<System.DateTime> realeaseDATE { get; set; }
         public string itemID { get; set; }
         public Nullable<System.DateTime> finishFixingDate { get; set; }
+        public string empFixer { get; set; }
+        public string CodeBaoHanh { get; set; }
+        public string TenKhach { get; set; }
+        public string SDT { get; set; }
     
-        public virtual employee employee1 { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual AspNetUser AspNetUser1 { get; set; }
         public virtual tb_warrnaty_status tb_warrnaty_status { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<warrantyActivityFee> warrantyActivityFees { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<warrantyActivityFixingFee> warrantyActivityFixingFees { get; set; }
     }
 }

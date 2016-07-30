@@ -1,0 +1,93 @@
+﻿@using ThienNga2.Models.Entities
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ConfirmCreate</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/SearchBar.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Table.css">
+    <script src="http://www.google.com/jsapi"></script>
+    <link rel="stylesheet" href="~/Content/jquery-ui.css" type="text/css">
+</head>
+<body>
+   @if (ViewData["newwarranty"] != null)
+           {
+               tb_warranty_activities act = (tb_warranty_activities) ViewData["newwarranty"];
+            
+       
+       <div>
+          <h1> Xác nhận thông tin code bảo hành : @act.CodeBaoHanh </h1>
+                <table class="responstable">
+            <tr>
+                <td>
+                    SDT khách hàng @act.id
+                </td>
+                <td>
+                    @act.SDT
+                </td>
+            </tr>
+                    <tr>
+                        <td>
+                            Tên
+                        </td>
+                        <td>
+                            @act.TenKhach
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Tình trạng
+                        </td>
+                        <td>
+                            @act.Description
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Ngày tiếp nhận
+                        </td>
+                        <td>
+                            @act.startDate
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Mã sản phẩm
+                        </td>
+                        <td>
+                            @act.warrantyID
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Nhân viên tiếp nhận
+                        </td>
+                        <td>
+                            @act.AspNetUser.FullName
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @using (Html.BeginForm("EditAct", "ProductItem"))
+                            {
+                                <input type="hidden" value="@act.id" name="actid" />
+                                <button type="submit" name="Edit" value="Sửa" title="Sửa" />
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("Confirrm", "ProductItem"))
+                            {
+                                <input type="hidden" value="@act.id" name="actid" />
+                                <button type="submit" name="Edit" value="Hoàn tất" title="Hoàn tất" />
+                            }
+                        </td>
+                    </tr>
+
+        </table>
+    </div>
+                            }
+    
+</body>
+</html>

@@ -39,17 +39,27 @@
                     <li > @Html.ActionLink("Nhập Sản Phẩm", "", "ProductDetail")</li> }
                     @if (Request.RawUrl.Contains("ProductItem"))
                     {
-                    <li style="background-color:#022F5A"> @Html.ActionLink("Bán và Kích hoạt bảo hành", "", "ProductItem")</li>
+                    <li style="background-color:#022F5A"> @Html.ActionLink("Bán", "", "ProductItem")</li>
                     }
                     else
                     {
-                        <li > @Html.ActionLink("Bán và Kích hoạt bảo hành", "", "ProductItem")</li> }
-                    @if (Request.RawUrl.Contains("Warranty")){
+                        <li > @Html.ActionLink("Bán", "", "ProductItem")</li> }
+                    @if (Request.RawUrl.Contains("CreateWarranty"))
+                    {
+                        <li style="background-color:#022F5A"> @Html.ActionLink("Tạo hóa đơn bảo hành", "", "CreateWarranty")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Tạo hóa đơn bảo hành", "", "CreateWarranty")</li>
+                    }
+                     @if (Request.RawUrl.Contains("Warranty") && !Request.RawUrl.Contains("CreateWarranty"))
+                     {
                        <li style="background-color:#022F5A"> @Html.ActionLink("Kiểm Tra Bảo Hành", "", "Warranty")</li>
                     }
                     else
                     {
-                        <li >@Html.ActionLink("Kiểm Tra Bảo Hành", "", "Warranty")</li> }
+                        <li >@Html.ActionLink("Kiểm Tra Bảo Hành", "", "Warranty")</li> 
+                    }
                     @if (Request.RawUrl.Contains("Inventory") && !Request.RawUrl.Contains("themkho") && !Request.RawUrl.Contains("trukho"))
                     {
                     <li style="background-color:#022F5A"> @Html.ActionLink("Kiểm hàng tồn kho", "", "Inventory")</li>}

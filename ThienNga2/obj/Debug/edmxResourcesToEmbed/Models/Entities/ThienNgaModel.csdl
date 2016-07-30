@@ -69,14 +69,9 @@
     <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
     <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
     <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
-  </EntityType>
-  <EntityType Name="employee">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="employeeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <NavigationProperty Name="tb_warranty_activities" Relationship="Self.FK_tb_warranty_activities_employee" FromRole="employee" ToRole="tb_warranty_activities" />
+    <Property Name="FullName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tb_warranty_activities" Relationship="ThienNgaDatabaseModel.FK_tb_warranty_activities_AspNetUsers" FromRole="AspNetUser" ToRole="tb_warranty_activities" />
+    <NavigationProperty Name="tb_warranty_activities1" Relationship="ThienNgaDatabaseModel.FK_tb_warranty_activities_AspNetUsers1" FromRole="AspNetUser" ToRole="tb_warranty_activities" />
   </EntityType>
   <EntityType Name="inventory">
     <Key>
@@ -141,6 +136,7 @@
     <Property Name="phonenumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="items" Relationship="Self.FK_item_tb_customer" FromRole="tb_customer" ToRole="item" />
+    <Property Name="Type" Type="Int32" />
   </EntityType>
   <EntityType Name="tb_inventory_name">
     <Key>
@@ -176,29 +172,13 @@
     <Property Name="duration" Type="Int32" Nullable="false" />
     <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
   </EntityType>
-  <EntityType Name="tb_warranty_activities">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="startDate" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="employee" Type="Int32" Nullable="false" />
-    <Property Name="warrantyID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="status" Type="Int32" Nullable="false" />
-    <Property Name="realeaseDATE" Type="DateTime" Precision="0" />
-    <Property Name="itemID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="finishFixingDate" Type="DateTime" Precision="0" />
-    <NavigationProperty Name="employee1" Relationship="Self.FK_tb_warranty_activities_employee" FromRole="tb_warranty_activities" ToRole="employee" />
-    <NavigationProperty Name="tb_warrnaty_status" Relationship="Self.FK_tb_warranty_activities_tb_warrnaty_status" FromRole="tb_warranty_activities" ToRole="tb_warrnaty_status" />
-  </EntityType>
   <EntityType Name="tb_warrnaty_status">
     <Key>
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="Int32" Nullable="false" />
     <Property Name="statusName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-    <NavigationProperty Name="tb_warranty_activities" Relationship="Self.FK_tb_warranty_activities_tb_warrnaty_status" FromRole="tb_warrnaty_status" ToRole="tb_warranty_activities" />
+    <NavigationProperty Name="tb_warranty_activities" Relationship="ThienNgaDatabaseModel.FK_tb_warranty_activities_tb_warrnaty_status" FromRole="tb_warrnaty_status" ToRole="tb_warranty_activities" />
   </EntityType>
   <EntityType Name="database_firewall_rules">
     <Key>
@@ -268,18 +248,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_warranty_activities_employee">
-    <End Role="employee" Type="Self.employee" Multiplicity="1" />
-    <End Role="tb_warranty_activities" Type="Self.tb_warranty_activities" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="employee">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="tb_warranty_activities">
-        <PropertyRef Name="employee" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_inventory_tb_inventory_name">
     <End Role="tb_inventory_name" Type="Self.tb_inventory_name" Multiplicity="1" />
     <End Role="inventory" Type="Self.inventory" Multiplicity="*" />
@@ -340,18 +308,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_warranty_activities_tb_warrnaty_status">
-    <End Role="tb_warrnaty_status" Type="Self.tb_warrnaty_status" Multiplicity="1" />
-    <End Role="tb_warranty_activities" Type="Self.tb_warranty_activities" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_warrnaty_status">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="tb_warranty_activities">
-        <PropertyRef Name="status" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="AspNetUserRoles">
     <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
     <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
@@ -363,7 +319,6 @@
     <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
     <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
-    <EntitySet Name="employees" EntityType="Self.employee" />
     <EntitySet Name="inventories" EntityType="Self.inventory" />
     <EntitySet Name="items" EntityType="Self.item" />
     <EntitySet Name="logs" EntityType="Self.log" />
@@ -373,7 +328,6 @@
     <EntitySet Name="tb_inventory_name" EntityType="Self.tb_inventory_name" />
     <EntitySet Name="tb_product_detail" EntityType="Self.tb_product_detail" />
     <EntitySet Name="tb_warranty" EntityType="Self.tb_warranty" />
-    <EntitySet Name="tb_warranty_activities" EntityType="Self.tb_warranty_activities" />
     <EntitySet Name="tb_warrnaty_status" EntityType="Self.tb_warrnaty_status" />
     <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" />
     <AssociationSet Name="FK_account_role" Association="Self.FK_account_role">
@@ -391,10 +345,6 @@
     <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_warranty_activities_employee" Association="Self.FK_tb_warranty_activities_employee">
-      <End Role="employee" EntitySet="employees" />
-      <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
     </AssociationSet>
     <AssociationSet Name="FK_inventory_tb_inventory_name" Association="Self.FK_inventory_tb_inventory_name">
       <End Role="tb_inventory_name" EntitySet="tb_inventory_name" />
@@ -415,10 +365,6 @@
     <AssociationSet Name="FK_tb_product_detail_tb_cate" Association="Self.FK_tb_product_detail_tb_cate">
       <End Role="tb_cate" EntitySet="tb_cate" />
       <End Role="tb_product_detail" EntitySet="tb_product_detail" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_warranty_activities_tb_warrnaty_status" Association="Self.FK_tb_warranty_activities_tb_warrnaty_status">
-      <End Role="tb_warrnaty_status" EntitySet="tb_warrnaty_status" />
-      <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
     </AssociationSet>
     <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -464,9 +410,6 @@
     <FunctionImport Name="ThienNga_TimSDT2" EntitySet="tb_customer" ReturnType="Collection(ThienNgaDatabaseModel.tb_customer)">
       <Parameter Name="phone" Mode="In" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="ThienNga_warrantyHistory2" EntitySet="tb_warranty_activities" ReturnType="Collection(ThienNgaDatabaseModel.tb_warranty_activities)">
-      <Parameter Name="warrantycode" Mode="In" Type="String" />
-    </FunctionImport>
     <FunctionImport Name="ThienNga_findwarrantyByIMEI2" EntitySet="tb_warranty" ReturnType="Collection(ThienNgaDatabaseModel.tb_warranty)">
       <Parameter Name="imei" Mode="In" Type="String" />
     </FunctionImport>
@@ -487,6 +430,64 @@
     </FunctionImport>
     <FunctionImport Name="ThienNga_getkhoFinal" ReturnType="Collection(ThienNgaDatabaseModel.ThienNga_getkho_Result2)">
       <Parameter Name="khocode" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="warrantyActivityFees" EntityType="ThienNgaDatabaseModel.warrantyActivityFee" />
+    <EntitySet Name="warrantyActivityFixingFees" EntityType="ThienNgaDatabaseModel.warrantyActivityFixingFee" />
+    <EntitySet Name="employees" EntityType="ThienNgaDatabaseModel.employee" />
+    <EntitySet Name="sysdiagrams" EntityType="ThienNgaDatabaseModel.sysdiagram" />
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(ThienNgaDatabaseModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(ThienNgaDatabaseModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <EntitySet Name="tb_warranty_activities" EntityType="ThienNgaDatabaseModel.tb_warranty_activities" />
+    <AssociationSet Name="FK_tb_warranty_activities_AspNetUsers" Association="ThienNgaDatabaseModel.FK_tb_warranty_activities_AspNetUsers">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_warranty_activities_AspNetUsers1" Association="ThienNgaDatabaseModel.FK_tb_warranty_activities_AspNetUsers1">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_warranty_activities_tb_warrnaty_status" Association="ThienNgaDatabaseModel.FK_tb_warranty_activities_tb_warrnaty_status">
+      <End Role="tb_warrnaty_status" EntitySet="tb_warrnaty_status" />
+      <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_warrantyActivityFee_tb_warranty_activities" Association="ThienNgaDatabaseModel.FK_warrantyActivityFee_tb_warranty_activities">
+      <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
+      <End Role="warrantyActivityFee" EntitySet="warrantyActivityFees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_warrantyActivityFixingFee_tb_warranty_activities" Association="ThienNgaDatabaseModel.FK_warrantyActivityFixingFee_tb_warranty_activities">
+      <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
+      <End Role="warrantyActivityFixingFee" EntitySet="warrantyActivityFixingFees" />
+    </AssociationSet>
+    <FunctionImport Name="ThienNga_warrantyHistory2" EntitySet="tb_warranty_activities" ReturnType="Collection(ThienNgaDatabaseModel.tb_warranty_activities)">
+      <Parameter Name="warrantycode" Mode="In" Type="String" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="ThienNga_checkkho_Result">
@@ -587,4 +588,136 @@
     <Property Type="Double" Name="price" Nullable="false" />
     <Property Type="String" Name="description" Nullable="true" />
   </ComplexType>
+  <EntityType Name="warrantyActivityFee">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="productSKU" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="quantity" Type="Int32" Nullable="false" />
+    <Property Name="activityID" Type="Int32" Nullable="false" />
+    <Property Name="fixingfee" Type="Double" Nullable="false" />
+    <NavigationProperty Name="tb_warranty_activities" Relationship="ThienNgaDatabaseModel.FK_warrantyActivityFee_tb_warranty_activities" FromRole="warrantyActivityFee" ToRole="tb_warranty_activities" />
+  </EntityType>
+  <EntityType Name="warrantyActivityFixingFee">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FixDetail" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fee" Type="Double" Nullable="false" />
+    <Property Name="activityID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tb_warranty_activities" Relationship="ThienNgaDatabaseModel.FK_warrantyActivityFixingFee_tb_warranty_activities" FromRole="warrantyActivityFixingFee" ToRole="tb_warranty_activities" />
+  </EntityType>
+  <EntityType Name="employee">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="employeeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="tb_warranty_activities">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="startDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="employee" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="warrantyID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="status" Type="Int32" Nullable="false" />
+    <Property Name="realeaseDATE" Type="DateTime" Precision="0" />
+    <Property Name="itemID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="finishFixingDate" Type="DateTime" Precision="0" />
+    <Property Name="empFixer" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="CodeBaoHanh" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="AspNetUser" Relationship="ThienNgaDatabaseModel.FK_tb_warranty_activities_AspNetUsers" FromRole="tb_warranty_activities" ToRole="AspNetUser" />
+    <NavigationProperty Name="AspNetUser1" Relationship="ThienNgaDatabaseModel.FK_tb_warranty_activities_AspNetUsers1" FromRole="tb_warranty_activities" ToRole="AspNetUser" />
+    <NavigationProperty Name="tb_warrnaty_status" Relationship="ThienNgaDatabaseModel.FK_tb_warranty_activities_tb_warrnaty_status" FromRole="tb_warranty_activities" ToRole="tb_warrnaty_status" />
+    <NavigationProperty Name="warrantyActivityFees" Relationship="ThienNgaDatabaseModel.FK_warrantyActivityFee_tb_warranty_activities" FromRole="tb_warranty_activities" ToRole="warrantyActivityFee" />
+    <NavigationProperty Name="warrantyActivityFixingFees" Relationship="ThienNgaDatabaseModel.FK_warrantyActivityFixingFee_tb_warranty_activities" FromRole="tb_warranty_activities" ToRole="warrantyActivityFixingFee" />
+    <Property Name="TenKhach" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SDT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_tb_warranty_activities_AspNetUsers">
+    <End Type="ThienNgaDatabaseModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="ThienNgaDatabaseModel.tb_warranty_activities" Role="tb_warranty_activities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tb_warranty_activities">
+        <PropertyRef Name="employee" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_warranty_activities_AspNetUsers1">
+    <End Type="ThienNgaDatabaseModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+    <End Type="ThienNgaDatabaseModel.tb_warranty_activities" Role="tb_warranty_activities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tb_warranty_activities">
+        <PropertyRef Name="empFixer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_warranty_activities_tb_warrnaty_status">
+    <End Type="ThienNgaDatabaseModel.tb_warrnaty_status" Role="tb_warrnaty_status" Multiplicity="1" />
+    <End Type="ThienNgaDatabaseModel.tb_warranty_activities" Role="tb_warranty_activities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_warrnaty_status">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tb_warranty_activities">
+        <PropertyRef Name="status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_warrantyActivityFee_tb_warranty_activities">
+    <End Type="ThienNgaDatabaseModel.tb_warranty_activities" Role="tb_warranty_activities" Multiplicity="1" />
+    <End Type="ThienNgaDatabaseModel.warrantyActivityFee" Role="warrantyActivityFee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_warranty_activities">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="warrantyActivityFee">
+        <PropertyRef Name="activityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_warrantyActivityFixingFee_tb_warranty_activities">
+    <End Type="ThienNgaDatabaseModel.tb_warranty_activities" Role="tb_warranty_activities" Multiplicity="1" />
+    <End Type="ThienNgaDatabaseModel.warrantyActivityFixingFee" Role="warrantyActivityFixingFee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_warranty_activities">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="warrantyActivityFixingFee">
+        <PropertyRef Name="activityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

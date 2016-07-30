@@ -20,16 +20,32 @@ namespace ThienNga2.Controllers
             return View("NewProductItem",new NewItemViewModel());
       
         }
+        private List<String> allname = new List<String>();
 
+
+        public void getAllName()
+        {
+            allname = am.ThienNga_FindProductName2("").ToList();
+            foreach (String e in allname)
+            {
+                tb_product_detail t = am.ThienNga_FindProduct2(e).FirstOrDefault();
+                allname.Add(t.productStoreID);
+            }
+        }
         public ActionResult Autocomplete(string term)
         {
-            List<tb_product_detail> items = am.tb_product_detail.ToList();
-            List<String> result = new List<String>();
-            foreach (tb_product_detail t in items) {
-                if (t.productName.ToString().IndexOf(term, StringComparison.InvariantCultureIgnoreCase) >= 0) result.Add(t.productName.ToString());
-                if (t.productStoreID.ToString().IndexOf(term, StringComparison.InvariantCultureIgnoreCase) >= 0) result.Add(t.productStoreID.ToString());
-                if (t.producFactoryID.ToString().IndexOf(term, StringComparison.InvariantCultureIgnoreCase) >= 0) result.Add(t.producFactoryID.ToString());
+            allname = am.ThienNga_FindProductName2("").ToList();
+            System.Diagnostics.Debug.WriteLine("SIZE " + allname.Count());
+
+            List<String> result = new List<string>();
+            foreach (String e in allname)
+            {
+                if (e.IndexOf(term, StringComparison.InvariantCultureIgnoreCase) >= 0)
+                {
+                    result.Add(e);
+                }
             }
+            //  return Json(result);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         // GET: ProductItem/Details/5
@@ -42,51 +58,69 @@ namespace ThienNga2.Controllers
         [HttpPost]
         public ActionResult CreateWhenSale( NewItemViewModel tuple)
         {
-         
-            item newitem = tuple.item;
+            item temp = new item();
+            if (tuple.quantity == 0) tuple.quantity = 1;
+            if (ModelState.IsValid)
+            {
+                item newitem = tuple.item;
             var productdetailid = am.ThienNga_FindProductDetailID(  newitem.tb_product_detail.producFactoryID).FirstOrDefault();
-            tb_customer cus = am.ThienNga_TimSDT2(newitem.tb_customer.phonenumber).FirstOrDefault();
+            tb_customer cus = am.ThienNga_TimSDT2(tuple.phoneNumber).FirstOrDefault();
             while (cus == null) {
                 cus = new tb_customer();
-                cus.customerName = newitem.tb_customer.customerName;
-                cus.phonenumber = newitem.tb_customer.phonenumber;
-                cus.address = newitem.tb_customer.address;
+                cus.customerName = tuple.cusName;
+                cus.phonenumber = tuple.phoneNumber;
+                cus.address = tuple.Adress;
                 am.tb_customer.Add(cus);
                 am.SaveChanges();
-                cus = am.ThienNga_TimSDT2(newitem.tb_customer.phonenumber).FirstOrDefault();
+                cus = am.ThienNga_TimSDT2(tuple.phoneNumber).FirstOrDefault();
             }
-            Console.WriteLine("CUSID NE " + cus.id);
-            if (productdetailid != null)
-            {
-                newitem.tb_customer = null;
-                newitem.tb_product_detail = null;
-                
-                newitem.productDetailID = (int)productdetailid;
-                newitem.customerID =cus.id;
-                newitem.inventoryID = newitem.inventoryID;
-                
-                am.items.Add(newitem);
-                //foreach (tb_warranty war in warranties) {
-                //    am.tb_warranty.Add(war);
-                //}
-                am.SaveChanges();
-   
-                foreach(tb_warranty war in tuple.warranties) {
-                    if (war.warrantyID != null)
+                if (productdetailid != null)
+                {
+                    List<inventory> inv = am.ThienNga_checkkho2(newitem.tb_product_detail.producFactoryID).ToList();
+                    foreach (inventory invv in inv)
                     {
-                        if (war.warrantyID.Length > 2)
+                        if (invv.inventoryID == newitem.inventoryID)
                         {
-                            war.itemID = newitem.productID;
-                            war.startdate = newitem.DateOfSold;
-                            am.tb_warranty.Add(war);
+                            invv.quantity = invv.quantity - tuple.quantity;
+                            am.SaveChanges();
                         }
-                                                                       
                     }
+
+                    List<String> lst = new List<String>();
+                    List<String> lst2 = new List<String>();
+                    for (int i = 0; i < tuple.quantity; i++)
+                    {
+                        item newI = new item();
+
+  
+                        newitem.productID = DateTime.Today.Hour.ToString()+ DateTime.Today.Minute.ToString() +  DateTime.Today.Day.ToString()+ DateTime.Today.Month.ToString() + DateTime.Today.Year.ToString() + "-" + productdetailid + "-" + cus.phonenumber + "-" + i;
+                        newitem.productDetailID = (int)productdetailid;
+                        newitem.customerID = cus.id;
+                        newitem.inventoryID = newitem.inventoryID;
+                        newI.inventoryID = newitem.inventoryID;
+                        newI.customerID = cus.id;
+                        newI.productDetailID = newitem.productDetailID;
+                        newI.productID = newitem.productID;
+                        newI.DateOfSold = newitem.DateOfSold;
+                        am.items.Add(newI);
+                        lst.Add(newI.productID);
+                        lst2.Add(newI.id +"" );
+                        temp = newI;
+                       
+                    }
+                    //foreach (tb_warranty war in warranties) {
+                    //    am.tb_warranty.Add(war);
+                    //}
+                    am.SaveChanges();
+
+                    ViewData["tuple"] = tuple;
+                    ViewData["itemname"] = tuple.item.tb_product_detail.producFactoryID;
+                    ViewData["codes"] = lst;
+                    ViewData["ids"] = lst2;
+                    return View("ConfirmNewProductItem");
                 }
-                am.SaveChanges();
-                return View("NewProductItem");
             }
-            else return View("NewProductItem", tuple);
+            return View("NewProductItem", tuple);
             
         }
 

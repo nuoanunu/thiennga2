@@ -11,7 +11,6 @@
         <EntityTypeShape EntityType="ThienNgaDatabaseModel.AspNetUserClaim" Width="1.5" PointX="10.25" PointY="8.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ThienNgaDatabaseModel.AspNetUserLogin" Width="1.5" PointX="10.25" PointY="11.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ThienNgaDatabaseModel.AspNetUser" Width="1.5" PointX="8" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.employee" Width="1.5" PointX="8.75" PointY="3.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ThienNgaDatabaseModel.inventory" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ThienNgaDatabaseModel.item" Width="1.5" PointX="6" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="ThienNgaDatabaseModel.log" Width="1.5" PointX="5.25" PointY="14.375" IsExpanded="true" />
@@ -21,21 +20,28 @@
         <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_inventory_name" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
         <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_product_detail" Width="1.5" PointX="3.75" PointY="7.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_warranty" Width="1.5" PointX="2.75" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_warranty_activities" Width="1.5" PointX="11" PointY="2.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_warrnaty_status" Width="1.5" PointX="8.75" PointY="14.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ThienNgaDatabaseModel.database_firewall_rules" Width="1.5" PointX="12.75" PointY="7.25" IsExpanded="true" />
         <AssociationConnector Association="ThienNgaDatabaseModel.FK_account_role" ManuallyRouted="false" />
         <AssociationConnector Association="ThienNgaDatabaseModel.FK_log_account" ManuallyRouted="false" />
         <AssociationConnector Association="ThienNgaDatabaseModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="ThienNgaDatabaseModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.FK_tb_warranty_activities_employee" ManuallyRouted="false" />
         <AssociationConnector Association="ThienNgaDatabaseModel.FK_inventory_tb_inventory_name" ManuallyRouted="false" />
         <AssociationConnector Association="ThienNgaDatabaseModel.FK_item_tb_customer" ManuallyRouted="false" />
         <AssociationConnector Association="ThienNgaDatabaseModel.FK_item_tb_inventory_name" ManuallyRouted="false" />
         <AssociationConnector Association="ThienNgaDatabaseModel.FK_item_tb_product_detail" ManuallyRouted="false" />
         <AssociationConnector Association="ThienNgaDatabaseModel.FK_tb_product_detail_tb_cate" ManuallyRouted="false" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.FK_tb_warranty_activities_tb_warrnaty_status" ManuallyRouted="false" />
         <AssociationConnector Association="ThienNgaDatabaseModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.warrantyActivityFee" Width="1.5" PointX="13.25" PointY="3" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.warrantyActivityFixingFee" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.employee" Width="1.5" PointX="6.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.sysdiagram" Width="1.5" PointX="12.375" PointY="10.75" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_warranty_activities" Width="1.5" PointX="11" PointY="14.25" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_tb_warranty_activities_AspNetUsers" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_tb_warranty_activities_AspNetUsers1" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_tb_warranty_activities_tb_warrnaty_status" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_warrantyActivityFee_tb_warranty_activities" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_warrantyActivityFixingFee_tb_warranty_activities" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

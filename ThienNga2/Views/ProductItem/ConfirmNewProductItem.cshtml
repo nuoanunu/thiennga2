@@ -1,0 +1,96 @@
+﻿@using ThienNga2.Models.ViewModel
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Confrim hóa đơn </title>
+    <link rel="stylesheet" type="text/css" href="~/Content/SearchBar.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Table.css">
+    <script src="http://www.google.com/jsapi"></script>
+    <link rel="stylesheet" href="~/Content/jquery-ui.css" type="text/css">
+</head>
+<body>
+    @if (ViewData["tuple"] != null)
+    {
+        NewItemViewModel act = (NewItemViewModel)ViewData["tuple"];
+        String name = (String) ViewData["itemname"];
+
+        <div>
+            <h1> Xác nhận thông tin bán hàng  </h1>
+            <table class="responstable">
+                <tr>
+                    <td>
+                        SDT khách hàng
+                    </td>
+                    <td>
+                        @act.phoneNumber
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Tên
+                    </td>
+                    <td>
+                        @act.cusName
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Tên sản phẩm
+                    </td>
+                    <td>
+                       @name
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Số lượngn
+                    </td>
+                    <td>
+                        @act.quantity
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                       Giaá
+                    </td>
+                    <td>
+            
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Các code để nhập bảo hành (hãy lưu lại)
+                    </td>
+                    <td>
+                        @foreach (String t in (List<String>)ViewData["codes"]) {
+                            @t  <br />
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @using (Html.BeginForm("Delete", "CreateWarranty"))
+                        {
+                            <input type="hidden" value="@ViewData["ids"]" name="actid" />
+                            <button type="submit" name="Edit" value="Sửa" > Xóa </button>
+                        }
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("Confirrm", "CreateWarranty"))
+                        {
+
+                            <button type="submit" name="Edit" value="Hoàn tất" >Hoàn tất</button>
+                        }
+                    </td>
+
+                  
+                </tr>
+
+            </table>
+        </div>
+    }
+
+</body>
+</html>

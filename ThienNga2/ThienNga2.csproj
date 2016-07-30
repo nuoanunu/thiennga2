@@ -219,6 +219,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\CreateWarrantyController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Assets\AdminAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -268,6 +269,15 @@
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\role.cs">
+      <DependentUpon>ThienNgaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>ThienNgaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\sp_helpdiagrams_Result.cs">
+      <DependentUpon>ThienNgaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\sysdiagram.cs">
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\tb_cate.cs">
@@ -337,6 +347,12 @@
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\ThienNga_warrantyHistory_Result.cs">
+      <DependentUpon>ThienNgaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\warrantyActivityFee.cs">
+      <DependentUpon>ThienNgaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\warrantyActivityFixingFee.cs">
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
@@ -448,8 +464,10 @@
     <Content Include="Views\Warranty\WarrantyCheck.cshtml" />
     <Content Include="Views\ProductDetail\NewProduct.cshtml" />
     <Content Include="Views\ProductDetail\ConfirmNewProduct.cshtml" />
-    <Content Include="Views\Inventory\NhapKho.cshtml" />
-    <Content Include="Views\Inventory\XuatKho.cshtml" />
+    <Content Include="Views\CreateWarranty\CreateWarranty.cshtml" />
+    <Content Include="Views\CreateWarranty\ConfirmCreate.cshtml" />
+    <Content Include="Views\ProductItem\ConfirmNewProductItem.cshtml" />
+    <Content Include="Views\CreateWarranty\KichHoatBaoHanh.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

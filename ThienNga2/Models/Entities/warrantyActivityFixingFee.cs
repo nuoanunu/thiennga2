@@ -12,9 +12,13 @@ namespace ThienNga2.Models.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class employee
+    public partial class warrantyActivityFixingFee
     {
         public int id { get; set; }
-        public string employeeName { get; set; }
+        public string FixDetail { get; set; }
+        public double fee { get; set; }
+        public int activityID { get; set; }
+    
+        public virtual tb_warranty_activities tb_warranty_activities { get; set; }
     }
 }

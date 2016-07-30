@@ -83,6 +83,10 @@ namespace ThienNga2.Models
         public string ConfirmPassword { get; set; }
         [Display(Name = "Role")]
         public string Name { get; set; }
+        [Display(Name = "PhoneNumer")]
+        public string PhoneNumer { get; set; }
+        [Display(Name = "FullName")]
+        public string FullName { get; set; }
     }
 
     public class ResetPasswordViewModel

@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ThienNga2.Models.Entities;
-
+using System.ComponentModel.DataAnnotations;
 namespace ThienNga2.Models.ViewModel
 {
     public class NewItemViewModel
     {
+        [Required]
+        [Display(Name = "Tên khách hàng")]
+        public String cusName { get; set; }
+        [Required]
+        [Display(Name = "SDT khách hàng")]
+        public String phoneNumber { get; set; }
+        [Display(Name = "Adress")]
+        public String Adress { get; set; }
         public item item { get; set; }
         public List<tb_warranty> warranties { get; set; }
         public NewItemViewModel() {
@@ -19,6 +27,8 @@ namespace ThienNga2.Models.ViewModel
                 warranties.Add(war);
             }
         }
+        public int quantity { get; set; }
+ 
     }
     public class InvenotyChangeModel
     {

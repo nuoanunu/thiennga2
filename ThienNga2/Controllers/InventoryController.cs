@@ -15,13 +15,9 @@ namespace ThienNga2.Areas.Admin.Controllers
     {
         private ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();
         private List<String> allname = new List<String>();
-        // Implementation removed.
+       
 
-        public void getAllName()
-        {
-            allname = am.ThienNga_FindProductName2("").ToList();
-        }
-
+ 
         public ActionResult Autocomplete(string term)
         {
             allname = am.ThienNga_FindProductName2("").ToList();
@@ -42,11 +38,12 @@ namespace ThienNga2.Areas.Admin.Controllers
 
         public ActionResult Index()
         {
-            getAllName();
+
             System.Diagnostics.Debug.WriteLine("SIZE " + allname.Count());
             ViewData["allInvenName"] = am.tb_inventory_name.ToList();
             return View("Inventory");
         }
+ 
         // GET: Admin/Search
         public ActionResult Search(string code)
         {
