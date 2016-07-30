@@ -108,9 +108,8 @@ namespace ThienNga2.Controllers
         [HttpPost]
         public ActionResult Confirrm(String actid)
         {
-            tb_warranty_activities a = am.tb_warranty_activities.Find(int.Parse(actid));
-            ViewData["newwarranty"] = a;
-            return RedirectToAction("Search","Warranty", new { code = a.itemID , searchType = "warrantyActID" });
+           
+            return RedirectToAction("Search","Warranty", new { code = actid, searchType = "warrantyActID" });
         }
         // GET: CreateWarranty/Edit/5
         public ActionResult Edit(int id)
