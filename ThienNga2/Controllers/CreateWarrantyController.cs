@@ -102,6 +102,7 @@ namespace ThienNga2.Controllers
         {
             tb_warranty_activities a = am.tb_warranty_activities.Find(int.Parse(actid));
             ViewData["newwarranty"] = a;
+        
             return RedirectToAction("Confirm","CreateWarranty");
         }
         [HttpPost]
@@ -109,7 +110,7 @@ namespace ThienNga2.Controllers
         {
             tb_warranty_activities a = am.tb_warranty_activities.Find(int.Parse(actid));
             ViewData["newwarranty"] = a;
-            return RedirectToAction("Search","Warranty", new { code = a.itemID});
+            return RedirectToAction("Search","Warranty", new { code = a.itemID , searchType = "warrantyActID" });
         }
         // GET: CreateWarranty/Edit/5
         public ActionResult Edit(int id)
