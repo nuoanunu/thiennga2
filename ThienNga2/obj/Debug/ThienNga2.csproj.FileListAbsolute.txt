@@ -281,7 +281,6 @@ C:\Users\Nguyen Nhat\Documents\thiennga2\ThienNga2\bin\roslyn\System.Reflection.
 C:\Users\Nguyen Nhat\Documents\thiennga2\ThienNga2\bin\roslyn\vbc.exe
 C:\Users\Nguyen Nhat\Documents\thiennga2\ThienNga2\bin\roslyn\VBCSCompiler.exe
 C:\Users\Nguyen Nhat\Documents\thiennga2\ThienNga2\bin\roslyn\VBCSCompiler.exe.config
-C:\Users\Nguyen Nhat\Documents\thiennga2\ThienNga2\bin\Content\images\flying-drones.jpg
 C:\Users\Nguyen Nhat\Documents\thiennga2\ThienNga2\bin\ThienNga2.dll.config
 C:\Users\Nguyen Nhat\Documents\thiennga2\ThienNga2\bin\ThienNga2.dll
 C:\Users\Nguyen Nhat\Documents\thiennga2\ThienNga2\bin\ThienNga2.pdb

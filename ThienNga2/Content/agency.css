@@ -4,6 +4,10 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
 body {
+  background: url("images/flying-drones.jpg")  no-repeat center center fixed;
+  
+
+  background-size: cover;
   overflow-x: hidden;
   font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -226,7 +230,7 @@ fieldset[disabled] .btn-xl.active {
   }
 }
 header {
-  background-image: url('images/flying-drones.jpg');
+
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
