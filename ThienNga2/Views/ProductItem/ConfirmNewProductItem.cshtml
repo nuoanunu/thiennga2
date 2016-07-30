@@ -71,14 +71,14 @@
                 </tr>
                 <tr>
                     <td>
-                        @using (Html.BeginForm("Delete", "CreateWarranty"))
+                        @using (Html.BeginForm("Delete", "ProductItem"))
                         {
                             <input type="hidden" value="@ViewData["ids"]" name="actid" />
                             <button type="submit" name="Edit" value="Sửa" > Xóa </button>
                         }
                     </td>
                     <td>
-                        @using (Html.BeginForm("Confirrm", "CreateWarranty"))
+                        @using (Html.BeginForm("Confirrm", "ProductItem"))
                         {
 
                             <button type="submit" name="Edit" value="Hoàn tất" >Hoàn tất</button>

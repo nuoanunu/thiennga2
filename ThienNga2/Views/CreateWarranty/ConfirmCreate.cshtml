@@ -70,17 +70,17 @@
                     </tr>
                     <tr>
                         <td>
-                            @using (Html.BeginForm("EditAct", "ProductItem"))
+                            @using (Html.BeginForm("EditAct", "CreateWarranty"))
                             {
                                 <input type="hidden" value="@act.id" name="actid" />
-                                <button type="submit" name="Edit" value="Sửa" title="Sửa" />
+                                <button type="submit" name="Edit" value="Sửa" >Sửa</button>
                             }
                         </td>
                         <td>
-                            @using (Html.BeginForm("Confirrm", "ProductItem"))
+                            @using (Html.BeginForm("Confirrm", "CreateWarranty"))
                             {
                                 <input type="hidden" value="@act.id" name="actid" />
-                                <button type="submit" name="Edit" value="Hoàn tất" title="Hoàn tất" />
+                                <button type="submit" name="Edit" value="Hoàn tất" > Hoàn tất</button>
                             }
                         </td>
                     </tr>
