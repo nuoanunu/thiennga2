@@ -108,6 +108,7 @@ namespace ThienNga2.Controllers
                         newI.customerID = cus.id;
                         newI.productDetailID = newitem.productDetailID;
                         newI.productID = newitem.productID;
+                        if (newitem.DateOfSold.Equals("01/01/0001 00:00:00")) newitem.DateOfSold = DateTime.Today;
                         newI.DateOfSold = newitem.DateOfSold;
                         am.items.Add(newI);
                         lst.Add(newI.productID);

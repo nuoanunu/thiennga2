@@ -47,8 +47,8 @@
         {
 
             <div id="form" class="form-wrapper">
-                <table >
-                    <tr >
+                <table>
+                    <tr>
                         <td>
                             <input id="search" class="suggestionsinput" name="code" type="text" placeholder="Mã sản phẩm " required />
                         </td>
@@ -64,7 +64,7 @@
                                 <option value="date">Ngày tháng</option>
                                 <option value="sdt"> SDT khách</option>
                                 <option value="sku">SKU</option>
-       
+
 
                             </select>
                         </td>
@@ -86,93 +86,150 @@
             if (lst.Count == 1)
             {
                 item it = lst.ElementAt(0);
-               <table class="responstable">
-                   <tr>
-                       <th>
-                           Mã bảo hành
-                       </th>
-                       <th>
-                           Ngày kích hoạt
-                       </th>
-                       <th>
-                           Thời hạn
-                       </th>
-                       <th>
-                           Mô tả
-                       </th>
-                       <th>
-                          xóa
-                       </th>
-                   </tr>
-                   @if (ViewData["warList"] != null)
-                   {
-                       foreach (tb_warranty war in (List<tb_warranty>)ViewData["warList"])
-                       {   string url = "/KickHoatBaoHanh/Delete?warrantyCode=" + @war.warrantyID+"&itemID="+it.productID;
-                       <tr>
-                           <td>
-                               @war.warrantyID
-                           </td>
-                           <td>
-                               @war.startdate
-                           </td>
-                           <td>
-                               @war.duration
-                           </td>
-                           <td>
-                               @war.description
-                           </td>
-                           <td>
-                            @using (Html.BeginForm("Delete", "KickHoatBaoHanh", FormMethod.Post))
-                            {
-                                <input type="hidden" value="@war.id" name="warrantyID" />
-                                <input type="hidden" value="@it.productID" name="itemID" />
-                                <input type="submit" value="Xóa" />
-                            }
-                           </td>
-                       </tr>
-                   }
-                   }
-                
-                   @using (Html.BeginForm("newWarranty", "KickHoatBaoHanh", FormMethod.Post))
-                   {
-                      
-                      @model KichHoatBaoHanh
-                       @Html.AntiForgeryToken()
-
-
-                           @Html.HiddenFor(x => x.itemID, new { @Value = it.productID })
-                       for (var i = 0; i < Model.lst.Count; i++)
-                       {
-
-                           string id = "tr" + i;
-                           <tr id='@id'>
-                               <td>
-                                   @Html.HiddenFor(x => x.lst[i].itemID , new {  @Value = it.productID })
-                                   @Html.TextBoxFor(x => x.lst[i].warrantyID)
-                               </td>
-                               <td>
-                                    @Html.TextBoxFor(x => x.lst[i].startdate)
-                               </td>
-                               <td>
-                                   @Html.TextBoxFor(x => x.lst[i].duration)
-                               </td>
-                               <td>
-                                   @Html.TextBoxFor(x => x.lst[i].description)
-                               </td>
-                           </tr>
-                       }
+                <table class="responstable">
                     <tr>
-                        <td>
-                            <input type="submit" value="Cập nhật" />
-                        </td>
-                    
-                    </tr> 
-                    
-                   }
-               </table>
+                        <td>Tên sản phẩm : @it.tb_product_detail.productName</td>
+                    </tr>
+                    <tr>
+                        <td>Tên khách : @it.tb_customer.customerName</td>
+                    </tr>
+                    <tr>
+                        <td>SDT khách: @it.tb_customer.phonenumber</td>
+                    </tr>
+                    <tr>
+                        <td> Ngày mua: @it.DateOfSold </td>
+                    </tr>
+                </table>
+               
+                <table class="responstable">
+                    <tr>
+                        <th>
+                            Mã bảo hành
+                        </th>
+                        <th>
+                            Ngày kích hoạt
+                        </th>
+                        <th>
+                            Thời hạn
+                        </th>
+                        <th>
+                            Mô tả
+                        </th>
+                        <th>
+                            xóa
+                        </th>
+                    </tr>
+                    @if (ViewData["warList"] != null)
+                    {
+                        foreach (tb_warranty war in (List<tb_warranty>)ViewData["warList"])
+                        {
+                            string url = "/KickHoatBaoHanh/Delete?warrantyCode=" + @war.warrantyID + "&itemID=" + it.productID;
+                            <tr>
+                                <td>
+                                    @war.warrantyID
+                                </td>
+                                <td>
+                                    @war.startdate
+                                </td>
+                                <td>
+                                    @war.duration
+                                </td>
+                                <td>
+                                    @war.description
+                                </td>
+                                <td>
+                                    @using (Html.BeginForm("Delete", "KickHoatBaoHanh", FormMethod.Post))
+                            {
+                                        <input type="hidden" value="@war.id" name="warrantyID" />
+                                        <input type="hidden" value="@it.productID" name="itemID" />
+                                        <input type="submit" value="Xóa" />
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                    @using (Html.BeginForm("newWarranty", "KickHoatBaoHanh", FormMethod.Post))
+                    {
+
+                        @model KichHoatBaoHanh
+                        @Html.AntiForgeryToken()
+
+
+                        @Html.HiddenFor(x => x.itemID, new { @Value = it.productID })
+                        for (var i = 0; i < Model.lst.Count; i++)
+                        {
+
+                            string id = "tr" + i;
+                            <tr id='@id'>
+                                <td>
+                                    @Html.HiddenFor(x => x.lst[i].itemID, new { @Value = it.productID })
+                                    @Html.TextBoxFor(x => x.lst[i].warrantyID)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(x => x.lst[i].startdate)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(x => x.lst[i].duration)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(x => x.lst[i].description)
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td>
+                                <input type="submit" value="Cập nhật" />
+                            </td>
+
+                        </tr>
+
+                    }
+                </table>
+            }
+            else
+            {
+                <table class="responstable">
+                    <tr>
+                        <th> Tên sản phẩm </th>
+                        <th> Tên Khách </th>
+                        <th> SDT</th>
+                        <th> Ngày giờ mua</th>
+                        <th> Chi tiết</th>
+                    </tr>
+
+                    @foreach (item i in (List
+                    <item>
+                        )ViewData["dspsp"])
+                        {
+                        <tr>
+                            <td>
+                                @i.tb_product_detail.productName
+                            </td>
+                            <td>
+                                @i.tb_customer.customerName
+                            </td>
+                            <td>
+                                @i.tb_customer.phonenumber
+                            </td>
+                            <td>
+                                @i.DateOfSold
+                            </td>
+                            <td>
+                           @using (Html.BeginForm("Search", "KickHoatBaoHanh"))
+                           {
+                               <input type="hidden" name="code" value="@i.productID" />
+                               <input type="hidden" name="searchType" value="masp"/>
+                               <button type="submit" name=" Chi tiết">Chi tiết</button>
+                           }
+                            </td>
+                        </tr>
+                        }
+
+                </table>
             }
         }
-       
+
 
     </div>
 
