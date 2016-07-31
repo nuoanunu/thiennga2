@@ -498,7 +498,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <Parameter Name="productcode" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="ThienNga_FindProductDetailID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="productcode" Type="varchar" Mode="In" />
+          <Parameter Name="productcode" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="ThienNga_FindProductName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="productcode" Type="nvarchar" Mode="In" />

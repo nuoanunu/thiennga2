@@ -1,0 +1,182 @@
+﻿@using ThienNga2.Models.Entities;
+@using ThienNga2.Models.ViewModel;
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>index</title>
+    <meta name="viewport" content="width=device-width" />
+    <title>Inventory</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/SearchBar.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Table.css">
+    <script src="http://www.google.com/jsapi"></script>
+    <link rel="stylesheet" href="~/Content/jquery-ui.css" type="text/css">
+    <script>
+        $(document).ready(function () {
+            function checkHidden() {
+                for (i = 1 ; i<10 ; i ++) {
+                
+                    if ($('#tr' + (i - 1)).find('#warrantyID').val() == "") {
+
+                        $('#tr' + i).hide();
+                    }
+                    else {
+                   
+                        $('#tr' + i).show();
+                    }
+                }
+ 
+            };
+          
+            $('#test').click(function () {
+     
+                checkHidden();
+            });
+            setInterval(checkHidden, 100);
+        });
+        
+
+ 
+    </script>
+</head>
+<body>
+
+    <div>
+        @using (Html.BeginForm("Search", "KickHoatBaoHanh"))
+        {
+
+            <div id="form" class="form-wrapper">
+                <table >
+                    <tr >
+                        <td>
+                            <input id="search" class="suggestionsinput" name="code" type="text" placeholder="Mã sản phẩm " required />
+                        </td>
+                        <td>
+                            <button type="submit" value="Search" id="submit">Tìm  </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <br />Tìm theo
+                            <select name="searchType" class="service-small ">
+                                <option value="masp" class="txtsearch">Mã sản phẩm</option>
+                                <option value="date">Ngày tháng</option>
+                                <option value="sdt"> SDT khách</option>
+                                <option value="sku">SKU</option>
+       
+
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+
+
+            </div>
+
+
+
+
+        }
+
+        @if (ViewData["dspsp"] != null)
+        {
+
+            List<item> lst = (List<item>)ViewData["dspsp"];
+            if (lst.Count == 1)
+            {
+                item it = lst.ElementAt(0);
+               <table class="responstable">
+                   <tr>
+                       <th>
+                           Mã bảo hành
+                       </th>
+                       <th>
+                           Ngày kích hoạt
+                       </th>
+                       <th>
+                           Thời hạn
+                       </th>
+                       <th>
+                           Mô tả
+                       </th>
+                       <th>
+                          xóa
+                       </th>
+                   </tr>
+                   @if (ViewData["warList"] != null)
+                   {
+                       foreach (tb_warranty war in (List<tb_warranty>)ViewData["warList"])
+                       {   string url = "/KickHoatBaoHanh/Delete?warrantyCode=" + @war.warrantyID+"&itemID="+it.productID;
+                       <tr>
+                           <td>
+                               @war.warrantyID
+                           </td>
+                           <td>
+                               @war.startdate
+                           </td>
+                           <td>
+                               @war.duration
+                           </td>
+                           <td>
+                               @war.description
+                           </td>
+                           <td>
+                            @using (Html.BeginForm("Delete", "KickHoatBaoHanh", FormMethod.Post))
+                            {
+                                <input type="hidden" value="@war.id" name="warrantyID" />
+                                <input type="hidden" value="@it.productID" name="itemID" />
+                                <input type="submit" value="Xóa" />
+                            }
+                           </td>
+                       </tr>
+                   }
+                   }
+                
+                   @using (Html.BeginForm("newWarranty", "KickHoatBaoHanh", FormMethod.Post))
+                   {
+                      
+                      @model KichHoatBaoHanh
+                       @Html.AntiForgeryToken()
+
+
+                           @Html.HiddenFor(x => x.itemID, new { @Value = it.productID })
+                       for (var i = 0; i < Model.lst.Count; i++)
+                       {
+
+                           string id = "tr" + i;
+                           <tr id='@id'>
+                               <td>
+                                   @Html.HiddenFor(x => x.lst[i].itemID , new {  @Value = it.productID })
+                                   @Html.TextBoxFor(x => x.lst[i].warrantyID)
+                               </td>
+                               <td>
+                                    @Html.TextBoxFor(x => x.lst[i].startdate)
+                               </td>
+                               <td>
+                                   @Html.TextBoxFor(x => x.lst[i].duration)
+                               </td>
+                               <td>
+                                   @Html.TextBoxFor(x => x.lst[i].description)
+                               </td>
+                           </tr>
+                       }
+                    <tr>
+                        <td>
+                            <input type="submit" value="Cập nhật" />
+                        </td>
+                    
+                    </tr> 
+                    
+                   }
+               </table>
+            }
+        }
+       
+
+    </div>
+
+
+ 
+</body>
+</html>

@@ -53,7 +53,11 @@ namespace ThienNga2.Controllers
         {
             return View("NewProductItem");
         }
+        public ActionResult Confirm( )
+        {
+            return View("NewProductItem");
 
+        }
         // GET: ProductItem/Create
         [HttpPost]
         public ActionResult CreateWhenSale( NewItemViewModel tuple)
@@ -64,7 +68,9 @@ namespace ThienNga2.Controllers
             {
                 item newitem = tuple.item;
             var productdetailid = am.ThienNga_FindProductDetailID(  newitem.tb_product_detail.producFactoryID).FirstOrDefault();
-            tb_customer cus = am.ThienNga_TimSDT2(tuple.phoneNumber).FirstOrDefault();
+                String skuu = am.tb_product_detail.Find(productdetailid).productStoreID;
+                System.Diagnostics.Debug.WriteLine("HEREEEEEEEEEEEEE " + productdetailid);
+                tb_customer cus = am.ThienNga_TimSDT2(tuple.phoneNumber).FirstOrDefault();
             while (cus == null) {
                 cus = new tb_customer();
                 cus.customerName = tuple.cusName;
@@ -90,10 +96,11 @@ namespace ThienNga2.Controllers
                     List<String> lst2 = new List<String>();
                     for (int i = 0; i < tuple.quantity; i++)
                     {
+                        System.Diagnostics.Debug.WriteLine("HEREEEEEEEEEEEEE");
                         item newI = new item();
-
-  
-                        newitem.productID = DateTime.Today.Hour.ToString()+ DateTime.Today.Minute.ToString() +  DateTime.Today.Day.ToString()+ DateTime.Today.Month.ToString() + DateTime.Today.Year.ToString() + "-" + productdetailid + "-" + cus.phonenumber + "-" + i;
+                        String date = DateTime.Today.Day.ToString(); if (date.Length == 1) date = "0" + date;
+                        String month = DateTime.Today.Month.ToString(); if (month.Length == 1) month = "0" + month;
+                        newitem.productID = DateTime.Today.Hour.ToString()+ DateTime.Today.Minute.ToString() +  date+month + DateTime.Today.Year.ToString() + "-" + skuu + "-" + cus.phonenumber + "-" + i;
                         newitem.productDetailID = (int)productdetailid;
                         newitem.customerID = cus.id;
                         newitem.inventoryID = newitem.inventoryID;

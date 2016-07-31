@@ -224,6 +224,7 @@
     <Compile Include="Assets\AdminAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KickHoatBaoHanhController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ProductDetailController.cs" />
@@ -466,6 +467,7 @@
     <Content Include="Views\CreateWarranty\ConfirmCreate.cshtml" />
     <Content Include="Views\ProductItem\ConfirmNewProductItem.cshtml" />
     <Content Include="Views\CreateWarranty\KichHoatBaoHanh.cshtml" />
+    <Content Include="Views\KickHoatBaoHanh\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

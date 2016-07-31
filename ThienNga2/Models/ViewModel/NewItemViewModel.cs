@@ -62,4 +62,21 @@ namespace ThienNga2.Models.ViewModel
         }
 
     }
+    public class KichHoatBaoHanh
+    {
+        public String itemID { get; set; }
+        public List<tb_warranty> lst { get; set; }
+        public KichHoatBaoHanh()
+        {
+            itemID = "";
+            lst = new List<tb_warranty>();
+            for (int i = 0; i < 10; i++) {
+                tb_warranty a = new tb_warranty();
+                a.warrantyID = "";
+                lst.Add(a);
+            }
+        }
+     
+
+    }
 }
