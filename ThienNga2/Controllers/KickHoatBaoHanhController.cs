@@ -31,6 +31,7 @@ namespace ThienNga2.Controllers
         // GET: KickHoatBaoHanh/Search
         public ActionResult Search(String code, String searchType)
         {
+            code = code.Trim();
             if (searchType == null) searchType = "id";
             try
             {
