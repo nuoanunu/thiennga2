@@ -103,7 +103,7 @@ namespace ThienNga2.Controllers
             tb_warranty_activities a = am.tb_warranty_activities.Find(int.Parse(actid));
             ViewData["newwarranty"] = a;
         
-            return RedirectToAction("Confirm","CreateWarranty");
+            return RedirectToAction("CreateWarranty");
         }
         [HttpPost]
         public ActionResult Confirrm(String actid)
