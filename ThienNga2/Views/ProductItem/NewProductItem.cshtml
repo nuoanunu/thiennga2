@@ -36,19 +36,37 @@
 
     </script>
     <script>
+        function checkHidden() {
+            for (i = 1 ; i < 20; i++) {
+           
+                if ($('#items_' + (i-1) + '__tb_product_detail_producFactoryID').val() == "") {
+
+                    $('#divid' + i).hide();
+                }
+                else {
+
+                    $('#divid' + i).show();
+                }
+            }
+
+        };
+        setInterval(checkHidden, 100);
         $(document).ready(function () {
-            $('#item_tb_product_detail_producFactoryID').autocomplete({
-                source: '@Url.Action("Autocomplete")'
 
-            })
-                .data("ui-autocomplete")._renderItem = function (ul, item) {
-                    return $("<li>")
-                      .data("ui-autocomplete-item", item)
+            for (i = 0; i < 20 ; i++) {
+                $('#items_'+i+'__tb_product_detail_producFactoryID').autocomplete({
 
-                      .append('<a style="color:black">' + item.label +"</a>")
-                      .appendTo(ul);
-                };
+                    source: '@Url.Action("Autocomplete")'
 
+                })
+                    .data("ui-autocomplete")._renderItem = function (ul, item) {
+                        return $("<li>")
+                          .data("ui-autocomplete-item", item)
+
+                          .append('<a style="color:black">' + item.label + "</a>")
+                          .appendTo(ul);
+                    };
+            }
 
         });
     </script>
@@ -83,14 +101,18 @@
                 </div>
 
                 <div class="section"><span>2</span>Thông tin sản phẩm</div>
-                <div class="inner-wrap">
-                    <label>Tên/Mã nhà máy/Mã cửa hàng @Html.TextBoxFor(Model => Model.item.tb_product_detail.producFactoryID,new { @class = "form-control" })</label>
-                    <label>Lấy từ kho @Html.DropDownListFor(Model => Model.item.inventoryID, ls2)</label>
-                    <label>Số lượng @Html.TextBoxFor(Model => Model.quantity , new { @class = "form-control" , value = "1"})</label>
+                @for (var i = 0; i < Model.items.Count; i++)
+                {
+                    string idd = "divid" + i;
+                <div class="inner-wrap" id="@idd">
+                    <label>Tên/Mã nhà máy/Mã cửa hàng @Html.TextBoxFor(Model => Model.items[i].tb_product_detail.producFactoryID, new { @class = "form-control" })</label>
+                    <label>Lấy từ kho @Html.DropDownListFor(Model => Model.items[i].inventoryID, ls2)</label>
+                    <!-- This is cheating, I use customerID to temporaly store quantity -->
+                    <label>Số lượng @Html.TextBoxFor(Model => Model.items[i].customerID, new { @class = "form-control", value = "1" })</label>
                 </div>
+                }
 
-                
-         
+
                 <div class="button-section">
                     <input type="submit" name="Hoàn tất" />
                    

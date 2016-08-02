@@ -1,4 +1,4 @@
-﻿@using ThienNga2.Models.ViewModel
+﻿@using ThienNga2.Models.ViewModel;
 <!DOCTYPE html>
 
 <html>
@@ -14,7 +14,7 @@
     @if (ViewData["tuple"] != null)
     {
         NewItemViewModel act = (NewItemViewModel)ViewData["tuple"];
-        String name = (String) ViewData["itemname"];
+
 
         <div>
             <h1> Xác nhận thông tin bán hàng  </h1>
@@ -35,60 +35,76 @@
                         @act.cusName
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        Tên sản phẩm
-                    </td>
-                    <td>
-                       @name
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Số lượngn
-                    </td>
-                    <td>
-                        @act.quantity
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                       Giaá
-                    </td>
-                    <td>
-            
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Các code để nhập bảo hành (hãy lưu lại)
-                    </td>
-                    <td>
-                        @foreach (String t in (List<String>)ViewData["codes"]) {
-                            @t  <br />
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @using (Html.BeginForm("Delete", "ProductItem"))
-                        {
-                            <input type="hidden" value="@ViewData["ids"]" name="actid" />
-                            <button type="submit" name="Edit" value="Sửa" > Xóa </button>
-                        }
-                    </td>
-                    <td>
-                        @using (Html.BeginForm("Confirm", "ProductItem"))
-                        {
+                </table>
+               @if (ViewData["ConfirmItemViewList"] != null)
+               { List<ConfirmItemView> lst = (List<ConfirmItemView>)ViewData["ConfirmItemViewList"];
+                   foreach (ConfirmItemView viewitem in lst)
+                   { 
+                <table class="responstable">
+               
+                    
+                    <tr>
+                        <td>
+                            Tên sản phẩm
+                        </td>
+                        <td>
+                            @viewitem.itemName
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Số lượngn
+                        </td>
+                        <td>
+                            @viewitem.quantity
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Giaá
+                        </td>
+                        <td>
+                            @viewitem.price
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Các code để nhập bảo hành (hãy lưu lại)
+                        </td>
+                        <td>
+                            @foreach (String t in viewitem.lst )
+                            {
+                                @t  <br />
+                            }
+                        </td>
+                    </tr>
+                </table>
+                   }
+               }
+                <table class="responstable">
+                    <tr>
+                        <td>
+                            @using (Html.BeginForm("Delete", "ProductItem"))
+                            {
+                                String deleteID = (String) ViewData["todelete"];
 
-                            <button type="submit" name="Edit" value="Hoàn tất" >Hoàn tất</button>
-                        }
-                    </td>
 
-                  
-                </tr>
+                              <input type="hidden" value="@deleteID" name="todelete" />
+                                <button type="submit" name="Edit" value="Sửa"> Xóa </button>
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("Confirm", "ProductItem"))
+                            {
 
-            </table>
+                                <button type="submit" name="Edit" value="Hoàn tất">Hoàn tất</button>
+                            }
+                        </td>
+
+
+                    </tr>
+
+                </table>
         </div>
     }
 

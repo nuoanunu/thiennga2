@@ -34,8 +34,9 @@ namespace ThienNga2.Controllers
         }
         public ActionResult Autocomplete(string term)
         {
+
             allname = am.ThienNga_FindProductName2("").ToList();
-            System.Diagnostics.Debug.WriteLine("SIZE " + allname.Count());
+            System.Diagnostics.Debug.WriteLine("AAAAAAAAAAAA " + term);
 
             List<String> result = new List<string>();
             foreach (String e in allname)
@@ -55,7 +56,7 @@ namespace ThienNga2.Controllers
         }
         public ActionResult Confirm( )
         {
-            return View("NewProductItem");
+            return View("NewProductItem", new NewItemViewModel());
 
         }
         // GET: ProductItem/Create
@@ -64,14 +65,17 @@ namespace ThienNga2.Controllers
         {
             item temp = new item();
             if (tuple.quantity == 0) tuple.quantity = 1;
+            List<String> lst = new List<String>();
+            List<String> lst2 = new List<String>();
+            List<ConfirmItemView> ConfirmItemViewList = new List<ConfirmItemView>();
+            String todelete = "";
+
+
             if (ModelState.IsValid)
             {
-                item newitem = tuple.item;
-            var productdetailid = am.ThienNga_FindProductDetailID(  newitem.tb_product_detail.producFactoryID).FirstOrDefault();
-                String skuu = am.tb_product_detail.Find(productdetailid).productStoreID;
-                System.Diagnostics.Debug.WriteLine("HEREEEEEEEEEEEEE " + productdetailid);
+     
                 tb_customer cus = am.ThienNga_TimSDT2(tuple.phoneNumber).FirstOrDefault();
-            while (cus == null) {
+                while (cus == null) {
                 cus = new tb_customer();
                 cus.customerName = tuple.cusName;
                 cus.phonenumber = tuple.phoneNumber;
@@ -79,54 +83,76 @@ namespace ThienNga2.Controllers
                 am.tb_customer.Add(cus);
                 am.SaveChanges();
                 cus = am.ThienNga_TimSDT2(tuple.phoneNumber).FirstOrDefault();
-            }
-                if (productdetailid != null)
+                }
+                for (int j = 0; j < tuple.items.Count; j++)
                 {
-                    List<inventory> inv = am.ThienNga_checkkho2(newitem.tb_product_detail.producFactoryID).ToList();
-                    foreach (inventory invv in inv)
-                    {
-                        if (invv.inventoryID == newitem.inventoryID)
-                        {
-                            invv.quantity = invv.quantity - tuple.quantity;
-                            am.SaveChanges();
-                        }
-                    }
 
-                    List<String> lst = new List<String>();
-                    List<String> lst2 = new List<String>();
-                    for (int i = 0; i < tuple.quantity; i++)
+                    item newitem = tuple.items[j];
+                    if (newitem.tb_product_detail.producFactoryID != null ) { 
+                    var productdetailid = am.ThienNga_FindProductDetailID(newitem.tb_product_detail.producFactoryID).FirstOrDefault();
+                    tb_product_detail itt = am.ThienNga_FindProduct2(newitem.tb_product_detail.producFactoryID).FirstOrDefault();
+                    if (newitem.tb_product_detail.producFactoryID == null || newitem.tb_product_detail.producFactoryID.Equals("")) productdetailid = null;
+                    String skuu = am.tb_product_detail.Find(productdetailid).productStoreID;
+
+                    if (productdetailid != null)
                     {
-                        System.Diagnostics.Debug.WriteLine("HEREEEEEEEEEEEEE");
-                        item newI = new item();
-                        String date = DateTime.Today.Day.ToString(); if (date.Length == 1) date = "0" + date;
-                        String month = DateTime.Today.Month.ToString(); if (month.Length == 1) month = "0" + month;
-                        newitem.productID = DateTime.Today.Hour.ToString()+ DateTime.Today.Minute.ToString() +  date+month + DateTime.Today.Year.ToString() + "-" + skuu + "-" + cus.phonenumber + "-" + i;
-                        newitem.productDetailID = (int)productdetailid;
-                        newitem.customerID = cus.id;
-                        newitem.inventoryID = newitem.inventoryID;
-                        newI.inventoryID = newitem.inventoryID;
-                        newI.customerID = cus.id;
-                        newI.productDetailID = newitem.productDetailID;
-                        newI.productID = newitem.productID;
-                        if (newitem.DateOfSold.Equals("01/01/0001 00:00:00")) newitem.DateOfSold = DateTime.Today;
-                        newI.DateOfSold = newitem.DateOfSold;
-                        am.items.Add(newI);
-                        lst.Add(newI.productID);
-                        lst2.Add(newI.id +"" );
-                        temp = newI;
-                       
+                        ConfirmItemView templist = new ConfirmItemView();
+                        templist.lst = new List<String>();
+                        templist.quantity = (int)newitem.customerID;
+                        templist.price = itt.price * templist.quantity;
+                        List<inventory> inv = am.ThienNga_checkkho2(newitem.tb_product_detail.producFactoryID).ToList();
+                        foreach (inventory invv in inv)
+                        {
+                            if (invv.inventoryID == newitem.inventoryID)
+                            {
+                                invv.quantity = invv.quantity - (int)newitem.customerID;
+                                am.SaveChanges();
+                            }
+                        }
+
+
+                        for (int i = 0; i < templist.quantity; i++)
+                        {
+                            System.Diagnostics.Debug.WriteLine("HEREEEEEEEEEEEEE");
+                            item newI = new item();
+                            String date = DateTime.Today.Day.ToString(); if (date.Length == 1) date = "0" + date;
+                            String month = DateTime.Today.Month.ToString(); if (month.Length == 1) month = "0" + month;
+                            newitem.productID = DateTime.Today.Hour.ToString() + DateTime.Today.Minute.ToString() + date + month + DateTime.Today.Year.ToString() + "-" + skuu + "-" + cus.phonenumber + "-" + i;
+                            newitem.productDetailID = (int)productdetailid;
+                            newitem.customerID = cus.id;
+                            newitem.inventoryID = newitem.inventoryID;
+                            newI.inventoryID = newitem.inventoryID;
+                            newI.customerID = cus.id;
+                            newI.productDetailID = newitem.productDetailID;
+                            newI.productID = newitem.productID;
+                            if (newitem.DateOfSold.Equals("01/01/0001 00:00:00")) newitem.DateOfSold = DateTime.Today;
+                            newI.DateOfSold = newitem.DateOfSold;
+                            am.items.Add(newI);
+                            lst.Add(newI.productID);
+                            lst2.Add(newI.id + "");
+                            temp = newI;
+                            templist.lst.Add(newI.productID);
+                            am.SaveChanges();
+                                todelete = todelete + "," + newI.id;
+                            }
+                        ConfirmItemViewList.Add(templist);
                     }
+                }
+                }
                     //foreach (tb_warranty war in warranties) {
                     //    am.tb_warranty.Add(war);
                     //}
-                    am.SaveChanges();
+               
 
                     ViewData["tuple"] = tuple;
-                    ViewData["itemname"] = tuple.item.tb_product_detail.producFactoryID;
+                 
                     ViewData["codes"] = lst;
-                    ViewData["ids"] = lst2;
-                    return View("ConfirmNewProductItem");
-                }
+                ViewData["todelete"] = todelete;
+                ViewData["ConfirmItemViewList"] = ConfirmItemViewList;
+                ConfirmItemView te = new ConfirmItemView();
+ 
+                    return View("ConfirmNewProductItem") ;
+                
             }
             return View("NewProductItem", tuple);
             
@@ -169,27 +195,31 @@ namespace ThienNga2.Controllers
                 return View();
             }
         }
-
-        // GET: ProductItem/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
+        public ActionResult Delete(String todelete) {
+            String[] ids = todelete.Split(',');
+            for(int i=0; i<ids.Length; i++) {
+                if (ids[i] != null && ids[i].Length > 0)
+                {
+                    
+                    var dssp = am.items.SqlQuery("SELECT * FROM dbo.item WHERE id =" + ids[i]).ToList();
+                    if (dssp != null)
+                    {
+                        if (dssp.Count == 1)
+                        {
+                            item temp = dssp.ElementAt(0);
+                            am.items.Remove(temp);
+                            am.SaveChanges();
+                        }
+                    }
+                }
+            }
+            am.SaveChanges();
+            return View("NewProductItem", new NewItemViewModel());
         }
+
+  
 
         // POST: ProductItem/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+   
     }
 }

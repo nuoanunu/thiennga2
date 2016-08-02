@@ -17,14 +17,15 @@ namespace ThienNga2.Models.ViewModel
         [Display(Name = "Adress")]
         public String Adress { get; set; }
         public item item { get; set; }
-        public List<tb_warranty> warranties { get; set; }
+        public List<item> items { get; set; }
         public NewItemViewModel() {
-            warranties = new List<tb_warranty>();
+            items = new List<item>();
             item = new item();
             for (int i = 0; i < 20; i++) {
-                tb_warranty war = new tb_warranty();
-                war.itemID = "0";
-                warranties.Add(war);
+                item war = new item();
+                war.DateOfSold = DateTime.Today;
+                items.Add(war);
+                
             }
         }
         public int quantity { get; set; }
@@ -79,4 +80,15 @@ namespace ThienNga2.Models.ViewModel
      
 
     }
-}
+    public class ConfirmItemView
+    {
+        public String itemName;
+        public int quantity;
+        public double price;
+        public List<String> lst;
+        public ConfirmItemView (){
+            lst = new List<String>();
+        }
+
+    }
+    }
