@@ -14,7 +14,7 @@
     @if (ViewData["tuple"] != null)
     {
         NewItemViewModel act = (NewItemViewModel)ViewData["tuple"];
-
+        double pricetotal = 0;
 
         <div>
             <h1> Xác nhận thông tin bán hàng  </h1>
@@ -39,7 +39,8 @@
                @if (ViewData["ConfirmItemViewList"] != null)
                { List<ConfirmItemView> lst = (List<ConfirmItemView>)ViewData["ConfirmItemViewList"];
                    foreach (ConfirmItemView viewitem in lst)
-                   { 
+                   {
+                       pricetotal = viewitem.price + pricetotal;
                 <table class="responstable">
                
                     
@@ -64,6 +65,7 @@
                             Giaá
                         </td>
                         <td>
+                          
                             @viewitem.price
                         </td>
                     </tr>
