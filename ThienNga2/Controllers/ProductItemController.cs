@@ -36,7 +36,12 @@ namespace ThienNga2.Controllers
         {
 
             allname = am.ThienNga_FindProductName2("").ToList();
-            System.Diagnostics.Debug.WriteLine("AAAAAAAAAAAA " + term);
+   
+            foreach (tb_product_detail a in am.tb_product_detail.ToList()) {
+                if( !a.productStoreID.Contains("NULL"))
+                allname.Add(a.producFactoryID);
+                allname.Add(a.productStoreID);
+            }
 
             List<String> result = new List<string>();
             foreach (String e in allname)
