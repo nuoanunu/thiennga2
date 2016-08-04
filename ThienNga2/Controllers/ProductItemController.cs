@@ -105,6 +105,7 @@ namespace ThienNga2.Controllers
                         templist.lst = new List<String>();
                         templist.quantity = (int)newitem.customerID;
                         templist.price = itt.price * templist.quantity;
+                            templist.itemName = itt.productName;
                         List<inventory> inv = am.ThienNga_checkkho2(newitem.tb_product_detail.producFactoryID).ToList();
                         foreach (inventory invv in inv)
                         {
@@ -137,6 +138,7 @@ namespace ThienNga2.Controllers
                             lst2.Add(newI.id + "");
                             temp = newI;
                             templist.lst.Add(newI.productID);
+                   
                             am.SaveChanges();
                                 todelete = todelete + "," + newI.id;
                             }
