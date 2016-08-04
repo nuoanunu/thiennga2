@@ -196,7 +196,9 @@
             else
             {
                 <table class="responstable">
-                    <tr>
+                    <tr
+                         <th> SKU </th>
+                        <th> Mã bill </th>
                         <th> Tên sản phẩm </th>
                         <th> Tên Khách </th>
                         <th> SDT</th>
@@ -209,6 +211,15 @@
                         )ViewData["dspsp"])
                         {
                         <tr>
+                            <td>
+                                @i.tb_product_detail.productStoreID
+                            </td>
+                            <td>
+                                @i.productID
+                            </td>
+                            <td>
+                                @i.tb_customer.customerName
+                            </td>
                             <td>
                                 @i.tb_product_detail.productName
                             </td>
