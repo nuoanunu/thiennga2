@@ -35,7 +35,7 @@
 			$("#suggestions").hide();
 			$("#suggestions").fadeIn('slow');
 			$(".searchterm").text($(".suggestionsinput").val());
-		 $("#suggestions").load('http://localhost:53874/Product/getAll');
+		    $("#suggestions").load('http://localhost:53874/Product/getAll');
 
 		} else {
 			// hide suggestions
@@ -154,7 +154,7 @@
                     String color = "#FFffff";
 
                     if (i.quantity < 5) { color = "#ff8000"; }
-                    if (i.quantity == 0) { color = "FF0000"; }
+                    if (i.quantity <= 0) { color = "FF0000"; }
                     <tr >
                         <td> @i.productName </td>
                         <td> @i.price </td>
