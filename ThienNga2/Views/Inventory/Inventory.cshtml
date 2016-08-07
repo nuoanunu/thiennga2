@@ -151,11 +151,15 @@
             
                 </tr>
                 @foreach (ThienNga_getkho_Result2 i in (List<ThienNga_getkho_Result2>)ViewData["allInven"]) {
+                    String color = "#FFffff";
 
-                    <tr>
+                    if (i.quantity < 5) { color = "#ff8000"; }
+                    if (i.quantity == 0) { color = "FF0000"; }
+                    <tr bgcolor="@color">
                         <td> @i.productName </td>
                         <td> @i.price </td>
                         <td> @i.quantity </td>
+
                     </tr>
                 }
 
