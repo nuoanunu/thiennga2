@@ -24,14 +24,15 @@ namespace ThienNga2.Controllers
                 {
                     String SKU = element2.Element("SKU").Value;
                     if (SKU == null) SKU = "";
-                    String ManufacturerPartNumber = element2.Element("ManufacturerPartNumber").Value;
-                    if (ManufacturerPartNumber == null) ManufacturerPartNumber = "";
-                    String Price = element2.Element("Price").Value;
-                    float pricef = float.Parse(Price) / 10000;
-                    if (SKU != null && SKU.Length > 0)
+
+                    if (SKU.Length > 0)
                     {
-                        
-                       tb_product_detail a = new tb_product_detail();
+                        String ManufacturerPartNumber = element2.Element("ManufacturerPartNumber").Value;
+                        if (ManufacturerPartNumber == null) ManufacturerPartNumber = "";
+                        String Price = element2.Element("Price").Value;
+                        float pricef = float.Parse(Price) / 10000;
+
+                        tb_product_detail a = new tb_product_detail();
                         if (a.producFactoryID != null && a.producFactoryID.Length > 1)
                             a.producFactoryID = ManufacturerPartNumber;
                         else
@@ -40,10 +41,9 @@ namespace ThienNga2.Controllers
                         a.productName = Name;
                         a.price = pricef;
                         int temp;
-                        if (am.ThienNga_FindProductDetailID(a.productStoreID).FirstOrDefault().HasValue)
+                        tb_product_detail b = am.ThienNga_FindProduct2(a.productStoreID).FirstOrDefault();
+                        if (b!= null)
                         {
-                            temp = am.ThienNga_FindProductDetailID(a.productStoreID).FirstOrDefault().Value;
-                            tb_product_detail b = am.tb_product_detail.Find(temp);
                             if (a.producFactoryID != null && a.producFactoryID.Length > 1)
                                 b.producFactoryID = a.producFactoryID;
                             else
