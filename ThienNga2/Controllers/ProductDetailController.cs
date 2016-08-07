@@ -71,9 +71,8 @@ namespace ThienNga2.Areas.Admin.Controllers
             {
                 var document = new XmlDocument();
                 document.Load(file.InputStream);
-                XMLReader reader = new XMLReader();
-                reader.reader(document);
-                
+      
+                     XMLReader.reader(document);
                     ViewData["updateResult"] = "Cập nhật thành công";
                 }
             }

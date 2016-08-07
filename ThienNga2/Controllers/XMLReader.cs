@@ -8,10 +8,10 @@ using ThienNga2.Models.Entities;
 
 namespace ThienNga2.Controllers
 {
-    public class XMLReader
+    public class XMLReader 
     {
-        private ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();
-        public  void reader(XmlDocument doc) {
+        private static ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();
+        public static  void reader(XmlDocument doc) {
             XDocument xDoc = XDocument.Load(new XmlNodeReader(doc));
             XElement all = xDoc.Root;
 
@@ -51,11 +51,11 @@ namespace ThienNga2.Controllers
                             b.productName = Name;
                             b.price = a.price;
                             System.Diagnostics.Debug.WriteLine("UPDATED " + SKU);
-                            am.SaveChanges();
+                            am.SaveChangesAsync ();
                         }
                         else {
                             am.tb_product_detail.Add(a);
-                            am.SaveChanges();
+                            am.SaveChangesAsync();
                         }
                         
                       
