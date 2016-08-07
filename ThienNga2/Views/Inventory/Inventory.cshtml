@@ -155,10 +155,10 @@
 
                     if (i.quantity < 5) { color = "#ff8000"; }
                     if (i.quantity == 0) { color = "FF0000"; }
-                    <tr bgcolor="@color">
+                    <tr >
                         <td> @i.productName </td>
                         <td> @i.price </td>
-                        <td> @i.quantity </td>
+                        <td bgcolor="@color" > @i.quantity </td>
 
                     </tr>
                 }
