@@ -25,26 +25,7 @@
     <script src="~/Scripts/jquery.validate.unobtrusive.js">
     </script>
     <script>
-        function checkHidden() {
-            var flag = true;
-            for (i = 0; i < 20; i++) {
-                var value = $("#warrantyDiv" + i + " #war_warrantyID").val();
-               
-                if (flag) {
-                    if (value == null || value == "") {
-                        $("#warrantyDiv" + i).show();
-                        flag = false;
-                    }
-                }
-                else {
-                    $("#warrantyDiv" + i).hide();
-                }
-            }
-            $(".ui-helper-hidden-accessible").hide();
-        }
-
-    </script>
-    <script>
+        var temp = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
         function checkHidden() {
             for (i = 1 ; i < 20; i++) {
            
@@ -53,45 +34,55 @@
                     $('#divid' + i).hide();
                 }
                 else {
-                
-                    checkPrice($('#items_' + (i - 1) + '__SKU').val(), i);
-                    
+                    if ($('#items_' + (i - 1) + '__SKU').val() != temp[i - 1]) {
+                        temp[i - 1] = $('#items_' + (i - 1) + '__SKU').val();
+                        checkPrice($('#items_' + (i - 1) + '__SKU').val(), i);
+                    }
+                    updatePrice(i);
                     $('#divid' + i).show();
                 }
             }
 
         };
         setInterval(checkHidden, 100);
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        function updatePrice(index) {
+            var tempstr = $('#items_' + (index - 1) + '__DonGiaS').val();
+            while(tempstr.indexOf(',')!=-1)tempstr= tempstr.replace(',','');
+            var temp = parseFloat(tempstr);
+            var quantity = $('#items_' + (index - 1) + '__quantity').val();
+            var CKTT = $('#items_' + (index - 1) + '__chietKhauTrucTiep').val();
+            var CKPT = $('#items_' + (index - 1) + '__chietKhauPhanTram').val();
+            var temp3 = temp * quantity * (100 - CKPT)/100 - CKTT;
+            $('#items_' + (index - 1) + '__thanhTien').val(numberWithCommas(temp3));
+        }
+        function checkPrice(name, index) {
+            var flag = false;
         
-   
-        function checkPrice(name , index) {
-            $.getJSON("/ProductItem/getPrice?code=" + name, function (result) {
-                var flag = false;
-                if (!flag) {
-                    $('#items_' + (index - 1) + '__SKU').css("background-color", "red");
-                }
-                $.each(result, function (ii, field) {
-                    if (ii == "name") {
-                        if (field != "") {
-                            $('#items_' + (index - 1) + '__SKU').css("background-color", "green");
-
-                            flag = true;
+            $.getJSON("/ProductItem/getAllData?name="+name, function (result) {
+             
+                $.each(result, function (name, value) {
+                    if (name == "name") {
+                        flag = true;
+                        if(value != null) 
+                        $('#items_' + (index - 1) + '__SKU').css("background-color", "green");
+                    }
+                    if (name == "price") {
+                        if (flag && value!= null) {
+                   
+                            $('#items_' + (index - 1) + '__DonGiaS').val(numberWithCommas(value));
                         }
                     }
-                    if (ii == "price") {
-            
-                        var quantity =  $('#items_' + (index - 1) + '__quantity').val();
-                        var CKTT =  $('#items_' + (index - 1) + '__chietKhauTrucTiep').val();
-                        var CKPT =  $('#items_' + (index - 1) + '__chietKhauPhanTram').val();
-                        $('#items_' + (index - 1) + '__thanhTien').val(field * quantity *(100 - CKPT) - CKTT);
-                    }
-                });
-               
-
+                })
             });
+            if (!flag) {
+                $('#items_' + (index - 1) + '__SKU').css("background-color", "red");
+            }
         };
         $(document).ready(function () {
-
+           
             for (i = 0; i < 20 ; i++) {
                 $('#items_' + (i ) + '__SKU').autocomplete({
 
@@ -109,7 +100,6 @@
 
         });
     </script>
-
     
 </head>
 <body>
@@ -152,19 +142,23 @@
                                     <label>Tên/Mã nhà máy/Mã cửa hàng @Html.TextBoxFor(Model => Model.items[i].SKU, new { @class = "form-control" })</label>
                                 </td>
                                 <td>
-                                    <!-- This is cheating, I use customerID to temporaly store quantity -->
+
+                                    <label>Đợn giá @Html.TextBoxFor(Model => Model.items[i].DonGiaS, new { @class = "form-control", value = "0" })</label>
+                                </td>
+                                <td>
+                                 
                                     <label>Số lượng @Html.TextBoxFor(Model => Model.items[i].quantity, new { @class = "form-control", value = "1" })</label>
                                 </td>
                                 <td>
-                                    <!-- This is cheating, I use customerID to temporaly store total  -->
-                                    <label>Thành tiền @Html.TextBoxFor(Model => Model.items[i].thanhTien, new { @class = "form-control", value = "0", @type = "number" })</label>
+                        
+                                    <label>Thành tiền @Html.TextBoxFor(Model => Model.items[i].thanhTien, new { @class = "form-control", value = "0"})</label>
                                 </td>
                                 <td>
-                                    <!-- This is cheating, I use productName to temporaly store  chiết khẩu %  -->
+                                
                                     <label>Chiết khấu % @Html.TextBoxFor(Model => Model.items[i].chietKhauPhanTram, new { @class = "form-control", value = "0", @type = "number" })</label>
                                 </td>
                                 <td>
-                                    <!-- This is cheating, I use phonenumber to temporaly store  chiết khẩu trực tiếp  -->
+                              
                                     <label>Chiết khấu trực tiếp @Html.TextBoxFor(Model => Model.items[i].chietKhauTrucTiep, new { @class = "form-control", value = "0" , @type = "number" })</label>
                                 </td>
                                

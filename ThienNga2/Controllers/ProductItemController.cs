@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using System.Xml.Linq;
 using ThienNga2.Models.Entities;
 using ThienNga2.Models.ViewModel;
 
@@ -13,13 +15,37 @@ namespace ThienNga2.Controllers
     public class ProductItemController : Controller
     {
         private ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();
+        
         // GET: ProductItem
         public ActionResult Index()
         {
 
             ViewData["dsk"] = am.tb_inventory_name.ToList<tb_inventory_name>();
+
+        
             return View("NewProductItem", new NewItemViewModel());
 
+        }
+        public String getAllData(String name) {
+            if (name != null)
+                if(name.Trim().Length >=1)
+            {
+                List<tb_product_detail> lst = am.tb_product_detail.SqlQuery("SELECT * FROM dbo.tb_product_detail WHERE productStoreID='" + name +"'").ToList();
+                System.Diagnostics.Debug.WriteLine("da load xong het " + lst.Count());
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                string result = "";
+                productView vi = new productView();
+                if (lst.Count == 1)
+                {
+
+                    vi.name = lst.ElementAt(0).productStoreID;
+                    vi.price = lst.ElementAt(0).price + "";
+                }
+                result = serializer.Serialize(vi);
+                System.Diagnostics.Debug.WriteLine(result);
+                return result;
+            }
+            return "";
         }
         private List<String> allname = new List<String>();
 
@@ -30,6 +56,7 @@ namespace ThienNga2.Controllers
             foreach (String e in allname)
             {
                 tb_product_detail t = am.ThienNga_FindProduct2(e).FirstOrDefault();
+
                 allname.Add(t.productStoreID);
             }
         }
