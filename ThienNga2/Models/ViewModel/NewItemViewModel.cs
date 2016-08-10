@@ -101,6 +101,7 @@ namespace ThienNga2.Models.ViewModel
         public float chietKhauPhanTram { get; set; }
         public float chietKhauTrucTiep { get; set; }
         public float thanhTien { get; set; }
+        public float dongia { get; set; }
         public string productID { get; set; }
         public string productName { get; set; }
         public string thanhTienS { get; set; }
