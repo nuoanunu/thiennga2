@@ -82,6 +82,7 @@
     <EntitySetMapping Name="items">
       <EntityTypeMapping TypeName="ThienNgaDatabaseModel.item">
         <MappingFragment StoreEntitySet="item">
+          <ScalarProperty Name="orderID" ColumnName="orderID" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="productID" ColumnName="productID" />
           <ScalarProperty Name="productDetailID" ColumnName="productDetailID" />
@@ -415,5 +416,28 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="ThienNga_warrantyHistory2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_warrantyHistory" />
+    <EntitySetMapping Name="orders">
+      <EntityTypeMapping TypeName="ThienNgaDatabaseModel.order">
+        <MappingFragment StoreEntitySet="order">
+          <ScalarProperty Name="total" ColumnName="total" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="customerID" ColumnName="customerID" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="orderDetails">
+      <EntityTypeMapping TypeName="ThienNgaDatabaseModel.orderDetail">
+        <MappingFragment StoreEntitySet="orderDetail">
+          <ScalarProperty Name="orderID" ColumnName="orderID" />
+          <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+          <ScalarProperty Name="ChietKhauTrucTiep" ColumnName="ChietKhauTrucTiep" />
+          <ScalarProperty Name="ChietKhauPhanTram" ColumnName="ChietKhauPhanTram" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="productDetailID" ColumnName="productDetailID" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

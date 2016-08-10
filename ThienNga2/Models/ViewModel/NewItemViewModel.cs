@@ -16,20 +16,19 @@ namespace ThienNga2.Models.ViewModel
         public String phoneNumber { get; set; }
         [Display(Name = "Adress")]
         public String Adress { get; set; }
-        public item item { get; set; }
-        public List<item> items { get; set; }
+        public int inventoryID { get; set; }
+        public List<AnOrderDetail> items { get; set; }
+
         public NewItemViewModel() {
-            items = new List<item>();
-            item = new item();
+            items = new List<AnOrderDetail>();
             for (int i = 0; i < 20; i++) {
-                item war = new item();
-                war.DateOfSold = DateTime.Today;
+                AnOrderDetail war = new AnOrderDetail();
                 items.Add(war);
-                
+
             }
         }
         public int quantity { get; set; }
- 
+
     }
     public class InvenotyChangeModel
     {
@@ -77,7 +76,7 @@ namespace ThienNga2.Models.ViewModel
                 lst.Add(a);
             }
         }
-     
+
 
     }
     public class ConfirmItemView
@@ -86,9 +85,27 @@ namespace ThienNga2.Models.ViewModel
         public int quantity;
         public double price;
         public List<String> lst;
-        public ConfirmItemView (){
+        public ConfirmItemView() {
             lst = new List<String>();
         }
+
+    }
+    public class productView {
+        public String name { get; set; }
+        public String price { get; set; }
+
+    }
+    public class AnOrderDetail{
+        public String SKU { get; set; }
+        public int quantity { get; set; }
+        public float chietKhauPhanTram { get; set; }
+        public float chietKhauTrucTiep { get; set; }
+        public float thanhTien { get; set; }
+        public string productID { get; set; }
+        public string productName { get; set; }
+        public string thanhTienS { get; set; }
+        public string chietKhauTrucTiepS { get; set; }
+        public string DonGiaS { get; set; }
 
     }
     }

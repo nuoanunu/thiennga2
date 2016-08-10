@@ -11,6 +11,15 @@
     <link rel="stylesheet" type="text/css" href="~/Content/Table.css">
     <script src="http://www.google.com/jsapi"></script>
     <link rel="stylesheet" href="~/Content/jquery-ui.css" type="text/css">
+    <style>
+        .form-control { 
+             border: 2px solid #dadada;
+    border-radius: 7px;
+    outline: none;
+    border-color: #9ecaed;
+    box-shadow: 0 0 10px #9ecaed;
+}
+    </style>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.8.1/jquery.validate.js">
     </script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js">
@@ -39,22 +48,52 @@
         function checkHidden() {
             for (i = 1 ; i < 20; i++) {
            
-                if ($('#items_' + (i-1) + '__tb_product_detail_producFactoryID').val() == "") {
-
+                if ($('#items_' + (i - 1) + '__SKU').val() == "") {
+                    $('#items_' + (i - 1) + '__SKU').css("background-color", "white");
                     $('#divid' + i).hide();
                 }
                 else {
-
+                
+                    checkPrice($('#items_' + (i - 1) + '__SKU').val(), i);
+                    
                     $('#divid' + i).show();
                 }
             }
 
         };
         setInterval(checkHidden, 100);
+        
+   
+        function checkPrice(name , index) {
+            $.getJSON("/ProductItem/getPrice?code=" + name, function (result) {
+                var flag = false;
+                if (!flag) {
+                    $('#items_' + (index - 1) + '__SKU').css("background-color", "red");
+                }
+                $.each(result, function (ii, field) {
+                    if (ii == "name") {
+                        if (field != "") {
+                            $('#items_' + (index - 1) + '__SKU').css("background-color", "green");
+
+                            flag = true;
+                        }
+                    }
+                    if (ii == "price") {
+            
+                        var quantity =  $('#items_' + (index - 1) + '__quantity').val();
+                        var CKTT =  $('#items_' + (index - 1) + '__chietKhauTrucTiep').val();
+                        var CKPT =  $('#items_' + (index - 1) + '__chietKhauPhanTram').val();
+                        $('#items_' + (index - 1) + '__thanhTien').val(field * quantity *(100 - CKPT) - CKTT);
+                    }
+                });
+               
+
+            });
+        };
         $(document).ready(function () {
 
             for (i = 0; i < 20 ; i++) {
-                $('#items_'+i+'__tb_product_detail_producFactoryID').autocomplete({
+                $('#items_' + (i ) + '__SKU').autocomplete({
 
                     source: '@Url.Action("Autocomplete")'
 
@@ -92,7 +131,7 @@
             <h1>Tạo đơn hàng<span>Bán hàng</span></h1>
             @Html.ValidationSummary("", new { @class = "text-danger" })
             <form>
-                <label>Ngày/tháng/năm @Html.TextBoxFor(Model => Model.item.DateOfSold , new { @class = "form-control" }) </label>
+                @*<label>Ngày/tháng/năm @Html.TextBoxFor(Model => Model. , new { @class = "form-control" }) </label>*@
                 <div class="section"><span>1</span>Thông tin khách hàng</div>
                 <div class="inner-wrap">
                     <label>Tên khách hàng @Html.TextBoxFor(Model => Model.cusName, new { @class = "form-control" })</label>
@@ -101,18 +140,43 @@
                 </div>
 
                 <div class="section"><span>2</span>Thông tin sản phẩm</div>
-                @for (var i = 0; i < Model.items.Count; i++)
+                <table class="responstable">
+                    <label>Lấy từ kho @Html.DropDownListFor(Model => Model.inventoryID, ls2)</label>
+                    @for (var i = 0; i < Model.items.Count; i++)
                 {
                     string idd = "divid" + i;
-                <div class="inner-wrap" id="@idd">
-                    <label>Tên/Mã nhà máy/Mã cửa hàng @Html.TextBoxFor(Model => Model.items[i].tb_product_detail.producFactoryID, new { @class = "form-control" })</label>
-                    <label>Lấy từ kho @Html.DropDownListFor(Model => Model.items[i].inventoryID, ls2)</label>
-                    <!-- This is cheating, I use customerID to temporaly store quantity -->
-                    <label>Số lượng @Html.TextBoxFor(Model => Model.items[i].customerID, new { @class = "form-control", value = "1" })</label>
-                </div>
-                }
+                    string thanhtienID = "thanhtien" + idd;
+                        @*<div class="inner-wrap" id="@idd">*@
+                            <tr id="@idd">
+                                <td >
+                                    <label>Tên/Mã nhà máy/Mã cửa hàng @Html.TextBoxFor(Model => Model.items[i].SKU, new { @class = "form-control" })</label>
+                                </td>
+                                <td>
+                                    <!-- This is cheating, I use customerID to temporaly store quantity -->
+                                    <label>Số lượng @Html.TextBoxFor(Model => Model.items[i].quantity, new { @class = "form-control", value = "1" })</label>
+                                </td>
+                                <td>
+                                    <!-- This is cheating, I use customerID to temporaly store total  -->
+                                    <label>Thành tiền @Html.TextBoxFor(Model => Model.items[i].thanhTien, new { @class = "form-control", value = "0", @type = "number" })</label>
+                                </td>
+                                <td>
+                                    <!-- This is cheating, I use productName to temporaly store  chiết khẩu %  -->
+                                    <label>Chiết khấu % @Html.TextBoxFor(Model => Model.items[i].chietKhauPhanTram, new { @class = "form-control", value = "0", @type = "number" })</label>
+                                </td>
+                                <td>
+                                    <!-- This is cheating, I use phonenumber to temporaly store  chiết khẩu trực tiếp  -->
+                                    <label>Chiết khấu trực tiếp @Html.TextBoxFor(Model => Model.items[i].chietKhauTrucTiep, new { @class = "form-control", value = "0" , @type = "number" })</label>
+                                </td>
+                               
+                            
+                               
+                            </tr>
 
 
+                        @*</div>*@
+                    }
+
+                </table>
                 <div class="button-section">
                     <input type="submit" name="Hoàn tất" />
                    

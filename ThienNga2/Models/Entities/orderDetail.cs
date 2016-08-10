@@ -12,19 +12,16 @@ namespace ThienNga2.Models.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class item
+    public partial class orderDetail
     {
         public int id { get; set; }
-        public string productID { get; set; }
-        public int productDetailID { get; set; }
-        public int inventoryID { get; set; }
-        public Nullable<int> customerID { get; set; }
-        public System.DateTime DateOfSold { get; set; }
+        public string productDetailID { get; set; }
+        public string Quantity { get; set; }
+        public string ChietKhauPhanTram { get; set; }
+        public string ChietKhauTrucTiep { get; set; }
+        public string SoLuong { get; set; }
         public int orderID { get; set; }
     
-        public virtual tb_customer tb_customer { get; set; }
-        public virtual tb_inventory_name tb_inventory_name { get; set; }
-        public virtual tb_product_detail tb_product_detail { get; set; }
         public virtual order order { get; set; }
     }
 }

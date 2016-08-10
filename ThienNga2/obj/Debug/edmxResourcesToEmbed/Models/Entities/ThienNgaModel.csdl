@@ -98,6 +98,8 @@
     <NavigationProperty Name="tb_customer" Relationship="Self.FK_item_tb_customer" FromRole="item" ToRole="tb_customer" />
     <NavigationProperty Name="tb_inventory_name" Relationship="Self.FK_item_tb_inventory_name" FromRole="item" ToRole="tb_inventory_name" />
     <NavigationProperty Name="tb_product_detail" Relationship="Self.FK_item_tb_product_detail" FromRole="item" ToRole="tb_product_detail" />
+    <Property Name="orderID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="order" Relationship="ThienNgaDatabaseModel.FK_item_order" FromRole="item" ToRole="order" />
   </EntityType>
   <EntityType Name="log">
     <Key>
@@ -489,6 +491,16 @@
     <FunctionImport Name="ThienNga_warrantyHistory2" EntitySet="tb_warranty_activities" ReturnType="Collection(ThienNgaDatabaseModel.tb_warranty_activities)">
       <Parameter Name="warrantycode" Mode="In" Type="String" />
     </FunctionImport>
+    <EntitySet Name="orders" EntityType="ThienNgaDatabaseModel.order" />
+    <EntitySet Name="orderDetails" EntityType="ThienNgaDatabaseModel.orderDetail" />
+    <AssociationSet Name="FK_item_order" Association="ThienNgaDatabaseModel.FK_item_order">
+      <End Role="order" EntitySet="orders" />
+      <End Role="item" EntitySet="items" />
+    </AssociationSet>
+    <AssociationSet Name="FK_orderDetail_order" Association="ThienNgaDatabaseModel.FK_orderDetail_order">
+      <End Role="order" EntitySet="orders" />
+      <End Role="orderDetail" EntitySet="orderDetails" />
+    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="ThienNga_checkkho_Result">
     <Property Type="Int32" Name="id" Nullable="false" />
@@ -717,6 +729,54 @@
       </Principal>
       <Dependent Role="warrantyActivityFixingFee">
         <PropertyRef Name="activityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="order">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="customerID" Type="Int32" />
+    <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="total" Type="Double" Nullable="false" />
+    <NavigationProperty Name="items" Relationship="ThienNgaDatabaseModel.FK_item_order" FromRole="order" ToRole="item" />
+    <NavigationProperty Name="orderDetails" Relationship="ThienNgaDatabaseModel.FK_orderDetail_order" FromRole="order" ToRole="orderDetail" />
+  </EntityType>
+  <EntityType Name="orderDetail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="productDetailID" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Quantity" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="ChietKhauPhanTram" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="ChietKhauTrucTiep" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="SoLuong" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="orderID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="order" Relationship="ThienNgaDatabaseModel.FK_orderDetail_order" FromRole="orderDetail" ToRole="order" />
+  </EntityType>
+  <Association Name="FK_item_order">
+    <End Type="ThienNgaDatabaseModel.order" Role="order" Multiplicity="1" />
+    <End Type="ThienNgaDatabaseModel.item" Role="item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="order">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="item">
+        <PropertyRef Name="orderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_orderDetail_order">
+    <End Type="ThienNgaDatabaseModel.order" Role="order" Multiplicity="1" />
+    <End Type="ThienNgaDatabaseModel.orderDetail" Role="orderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="order">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="orderDetail">
+        <PropertyRef Name="orderID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

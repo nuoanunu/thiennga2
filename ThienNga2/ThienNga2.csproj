@@ -269,6 +269,12 @@
     <Compile Include="Models\Entities\log.cs">
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\order.cs">
+      <DependentUpon>ThienNgaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\orderDetail.cs">
+      <DependentUpon>ThienNgaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entities\role.cs">
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
     </Compile>
