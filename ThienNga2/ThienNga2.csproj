@@ -220,6 +220,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\CreateWarrantyController.cs" />
+    <Compile Include="Controllers\EntitiesAM.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Assets\AdminAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />

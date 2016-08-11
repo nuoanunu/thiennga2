@@ -4173,7 +4173,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar {
   position: relative;
   min-height: 50px;
-  max-height: 100px;
+  max-height: 1000px;
   margin-bottom: 20px;
   border: 1px solid transparent;
   white-space: nowrap;
@@ -4225,12 +4225,12 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-fixed-top .navbar-collapse,
 .navbar-fixed-bottom .navbar-collapse {
-  max-height: 50px;
+  max-height: 1650px;
 }
 @media (max-device-width: 480px) and (orientation: landscape) {
   .navbar-fixed-top .navbar-collapse,
   .navbar-fixed-bottom .navbar-collapse {
-    max-height: 50px;
+    max-height: 1650px;
   }
 }
 .container > .navbar-header,

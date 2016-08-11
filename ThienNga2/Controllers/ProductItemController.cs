@@ -14,8 +14,8 @@ namespace ThienNga2.Controllers
     [Authorize(Roles = "admin")]
     public class ProductItemController : Controller
     {
-        private ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();
-        
+        ThienNgaDatabaseEntities am = EntitiesAM.am;
+
         // GET: ProductItem
         public ActionResult Index()
         {
@@ -30,7 +30,7 @@ namespace ThienNga2.Controllers
             if (name != null)
                 if(name.Trim().Length >=1)
             {
-                List<tb_product_detail> lst = am.tb_product_detail.SqlQuery("SELECT * FROM dbo.tb_product_detail WHERE productStoreID='" + name +"'").ToList();
+                List<tb_product_detail> lst = EntitiesAM.am.tb_product_detail.SqlQuery("SELECT * FROM dbo.tb_product_detail WHERE productStoreID='" + name +"'").ToList();
                 System.Diagnostics.Debug.WriteLine("da load xong het " + lst.Count());
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 string result = "";

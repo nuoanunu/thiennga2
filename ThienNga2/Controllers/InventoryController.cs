@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ThienNga2.Controllers;
 using ThienNga2.Models;
 using ThienNga2.Models.Entities;
 using ThienNga2.Models.ViewModel;
@@ -13,7 +14,7 @@ namespace ThienNga2.Areas.Admin.Controllers
     [Authorize(Roles ="admin, InventoryManager")]
     public class InventoryController : Controller
     {
-        private ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();
+        private ThienNgaDatabaseEntities am = EntitiesAM.am;
         private List<String> allname = new List<String>();
        
 

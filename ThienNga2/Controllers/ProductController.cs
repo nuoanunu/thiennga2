@@ -11,7 +11,7 @@ namespace ThienNga2.Controllers
     public class ProductController : Controller
     {
         
-        private ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();
+        private ThienNgaDatabaseEntities am = EntitiesAM.am;
         // GET: Product
         public ActionResult Index()
         {

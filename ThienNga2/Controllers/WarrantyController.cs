@@ -11,7 +11,7 @@ namespace ThienNga2.Controllers
 
     public class WarrantyController : Controller
     {
-        private ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();
+        private ThienNgaDatabaseEntities am = EntitiesAM.am;
         // GET: Warranty
         public ActionResult Index()
         {

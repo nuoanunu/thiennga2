@@ -13,7 +13,7 @@ namespace ThienNga2.Areas.Admin.Controllers
     public class ProductDetailController : Controller
     {
         
-        private ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();
+        private ThienNgaDatabaseEntities am = EntitiesAM.am;
         // GET: ProductDetail
         public ActionResult Index()
         {

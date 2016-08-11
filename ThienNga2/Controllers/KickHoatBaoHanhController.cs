@@ -9,7 +9,7 @@ namespace ThienNga2.Controllers
 {
     public class KickHoatBaoHanhController : Controller
     {
-        private ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();
+        private ThienNgaDatabaseEntities am = EntitiesAM.am;
         // GET: KickHoatBaoHanh
         public ActionResult Index()
         {

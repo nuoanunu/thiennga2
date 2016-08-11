@@ -10,7 +10,7 @@ namespace ThienNga2.Controllers
 {
     public class XMLReader 
     {
-        private static ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();
+        private static ThienNgaDatabaseEntities am = EntitiesAM.am;
         public static  void reader(XmlDocument doc) {
             XDocument xDoc = XDocument.Load(new XmlNodeReader(doc));
             XElement all = xDoc.Root;
