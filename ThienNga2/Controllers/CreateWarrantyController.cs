@@ -7,9 +7,9 @@ using ThienNga2.Models.Entities;
 
 namespace ThienNga2.Controllers
 {
-    public class CreateWarrantyController : Controller
+    public class CreateWarrantyController : EntitiesAM
     {
-        private ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();
+    
         private List<String> allname = new List<String>();
         public void getAllName()
         {

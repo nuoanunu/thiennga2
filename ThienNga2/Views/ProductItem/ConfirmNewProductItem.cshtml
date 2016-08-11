@@ -18,7 +18,7 @@
 
 
    
-    <table class="responstable">
+    <table class="responstable" id="myTable">
 
 
         <tr> <td> Tên Khách </td><td>  @a.cusName </td></tr>
@@ -66,29 +66,23 @@
                 <td> @ao.quantity</td>
                 <td> @ao.DonGiaS </td>
                 <td> @(ao.chietKhauPhanTram + "")</td>
-                <td> <font size="2"> @ao.chietKhauTrucTiepS</font></td>
-                <td> <font size="2"> @ao.thanhTienS</font></td>
+                <td>  @ao.chietKhauTrucTiepS</td>
+                <td>  @ao.thanhTienS</td>
             </tr>
             }
         }
+        <tr>
+            <td colspan="6">Tổng cộng</td>
+            <td> @TempData["total"]  </td>
+        </tr>
         </table>
         <table class="responstable">
             <tr>
                 <td>
-                    @using (Html.BeginForm("Delete", "ProductItem"))
+                    @using (Html.BeginForm("Confirm", "ProductItem/GenerateInvoicePDF") )
                     {
-                        String deleteID = (String)ViewData["todelete"];
-
-
-                        <input type="hidden" value="@deleteID" name="todelete" />
-                        <button type="submit" name="Edit" value="Sửa"> Xóa </button>
-                    }
-                </td>
-                <td>
-                    @using (Html.BeginForm("Confirm", "ProductItem"))
-                    {
-
-                        <button type="submit" name="Edit" value="Hoàn tất">Hoàn tất</button>
+                        <input type="hidden" id="dataString" name="dataString"  value=""/>
+                        <button type="submit" name="Edit" value="Hoàn tất">Xuất ra PDF</button>
                     }
                 </td>
 
@@ -96,8 +90,37 @@
             </tr>
 
         </table>
-  
+        
         }
+    <script>
+        var all = "";
+    //gets table
+    var oTable = document.getElementById('myTable');
 
+    //gets rows of table
+    var rowLength = oTable.rows.length;
+
+    //loops through rows
+    for (i = 0; i < rowLength; i++){
+
+      //gets cells of current row
+       var oCells = oTable.rows.item(i).cells;
+
+       //gets amount of cells of current row
+       var cellLength = oCells.length;
+       var temp = "";
+       //loops through each cell in current row
+       for(var j = 0; j < cellLength; j++){
+
+              // get your cell info here
+
+              var cellVal = oCells.item(j).innerHTML;
+              temp = temp + ":split" + cellVal.trim();
+       }
+       all = all + ":eachrow" + temp.trim();
+    }
+    $("#dataString").val(all);
+    </script>
+      
 </body>
 </html>

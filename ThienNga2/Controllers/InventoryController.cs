@@ -12,9 +12,9 @@ using Twilio;
 namespace ThienNga2.Areas.Admin.Controllers
 {
     [Authorize(Roles ="admin, InventoryManager")]
-    public class InventoryController : Controller
+    public class InventoryController : EntitiesAM
     {
-        private ThienNgaDatabaseEntities am = EntitiesAM.am;
+
         private List<String> allname = new List<String>();
        
 

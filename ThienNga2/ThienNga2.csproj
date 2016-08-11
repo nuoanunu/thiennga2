@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp">
+      <HintPath>..\..\..\Downloads\Compressed\Generate_Invoice_PDF\Bin\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -233,6 +236,7 @@
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\WarrantyController.cs" />
     <Compile Include="Controllers\XMLReader.cs" />
+    <Compile Include="Controllers\XMLWorker.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -413,6 +417,7 @@
     <Content Include="Models\Entities\ThienNgaModel.edmx.diagram">
       <DependentUpon>ThienNgaModel.edmx</DependentUpon>
     </Content>
+    <Content Include="fonts\arial-unicode-ms.ttf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

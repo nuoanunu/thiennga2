@@ -10,10 +10,10 @@ using ThienNga2.Models.Entities;
 namespace ThienNga2.Areas.Admin.Controllers
 {
     [Authorize(Roles = "admin, InventoryManager")]
-    public class ProductDetailController : Controller
+    public class ProductDetailController : EntitiesAM
     {
         
-        private ThienNgaDatabaseEntities am = EntitiesAM.am;
+
         // GET: ProductDetail
         public ActionResult Index()
         {

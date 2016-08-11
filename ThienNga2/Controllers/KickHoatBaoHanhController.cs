@@ -7,9 +7,9 @@ using ThienNga2.Models.Entities;
 using ThienNga2.Models.ViewModel;
 namespace ThienNga2.Controllers
 {
-    public class KickHoatBaoHanhController : Controller
+    public class KickHoatBaoHanhController : EntitiesAM
     {
-        private ThienNgaDatabaseEntities am = EntitiesAM.am;
+
         // GET: KickHoatBaoHanh
         public ActionResult Index()
         {

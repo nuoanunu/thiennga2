@@ -2,18 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using ThienNga2.Models.Entities;
 
 namespace ThienNga2.Controllers
 {
-    public class EntitiesAM
+    public abstract class EntitiesAM : Controller
     {
-        public static ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();
-        public static ThienNgaDatabaseEntities getAM() {
-            if (am == null) {
-                am = new ThienNgaDatabaseEntities();
-            }
-            return am;
+        public EntitiesAM()
+        {
+            am = new ThienNgaDatabaseEntities();
+        }
+
+        protected ThienNgaDatabaseEntities am { get; set; }
+
+        protected override void Dispose(bool disposing)
+        {
+            am.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

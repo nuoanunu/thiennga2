@@ -8,13 +8,20 @@ using System.Web.Script.Serialization;
 using System.Xml.Linq;
 using ThienNga2.Models.Entities;
 using ThienNga2.Models.ViewModel;
+using System.IO;
+using System.Text;
+using System.Data;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.text.html.simpleparser;
+using System.Web.UI;
+using iTextSharp.text.html;
 
 namespace ThienNga2.Controllers
 {
     [Authorize(Roles = "admin")]
-    public class ProductItemController : Controller
+    public class ProductItemController : EntitiesAM
     {
-        ThienNgaDatabaseEntities am = EntitiesAM.am;
 
         // GET: ProductItem
         public ActionResult Index()
@@ -30,7 +37,7 @@ namespace ThienNga2.Controllers
             if (name != null)
                 if(name.Trim().Length >=1)
             {
-                List<tb_product_detail> lst = EntitiesAM.am.tb_product_detail.SqlQuery("SELECT * FROM dbo.tb_product_detail WHERE productStoreID='" + name +"'").ToList();
+                List<tb_product_detail> lst = am.tb_product_detail.SqlQuery("SELECT * FROM dbo.tb_product_detail WHERE productStoreID='" + name +"'").ToList();
                 System.Diagnostics.Debug.WriteLine("da load xong het " + lst.Count());
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 string result = "";
@@ -131,14 +138,14 @@ namespace ThienNga2.Controllers
             List<int> lstOrderDetaiLID = new List<int>();
             List<int> lstItemID = new List<int>();
             List<ConfirmItemView> ConfirmItemViewList = new List<ConfirmItemView>();
-            String todelete = "";
+            float total = 0;
             int inventoryID = tuple.inventoryID;
             order ord = new order();
             if (ModelState.IsValid)
             {
 
                 tb_customer cus = am.ThienNga_TimSDT2(tuple.phoneNumber).FirstOrDefault();
-                while (cus == null)
+                if (cus == null)
                 {
                     cus = new tb_customer();
                     cus.customerName = tuple.cusName;
@@ -146,14 +153,13 @@ namespace ThienNga2.Controllers
                     cus.address = tuple.Adress;
                     am.tb_customer.Add(cus);
                     am.SaveChanges();
-                    cus = am.ThienNga_TimSDT2(tuple.phoneNumber).FirstOrDefault();
-                    ord.date = DateTime.Today;
-                    
                   
-         
-
+             
                 }
-                float total = 0;
+                ord.date = DateTime.Today;
+
+
+           
                 foreach (AnOrderDetail ao in tuple.items)
                 {
                     total = total + ao.thanhTien;
@@ -207,6 +213,7 @@ namespace ThienNga2.Controllers
                             ao.thanhTienS  = Convert.ToDecimal(ao.thanhTien).ToString("#,##0.00");
                             ao.DonGiaS = Convert.ToDecimal( (ao.thanhTien/ao.quantity)).ToString("#,##0.00");
                             ao.chietKhauTrucTiepS = Convert.ToDecimal(ao.chietKhauTrucTiep).ToString("#,##0.00");
+                            
                         }
                     }
                 }
@@ -216,12 +223,14 @@ namespace ThienNga2.Controllers
 
 
                 TempData["tuple"] = tuple;
-
+                TempData["total"] = total;
                 Session["oderID"] = lstOrderID;
                 Session["orderDetailID"] = lstOrderDetaiLID;
                 Session["itemID"] = lstItemID;
-
+             
+                
                 return RedirectToAction("confirmNewItem");
+
 
             }
             return View("NewProductItem", tuple);
@@ -297,6 +306,130 @@ namespace ThienNga2.Controllers
 
 
         // POST: ProductItem/Delete/5
+        public void GenerateInvoicePDF(String dataString)
+        {
+            String[] rex1= new string[] { ":eachrow" };
+            String[] rex2 = new string[] { ":split" };
+            String[] rows = dataString.Split(rex1, StringSplitOptions.None);
+            float totalprice = 0;
+            //Dummy data for Invoice (Bill).
+            string companyName = "Ten cong ty ne";
+            int orderNo = 2303;
+            DataTable dt = new DataTable();
+             
+            dt.Columns.AddRange(new DataColumn[7] {
+                            new DataColumn("Mã", typeof(string)),
+                            new DataColumn("Tên sản phẩm", typeof(string)),
+                            new DataColumn(" Số lượng", typeof(string)),
+                            new DataColumn(" Đơn giá", typeof(string)),
+                            new DataColumn("Chiết Khấu phần trăm", typeof(string)),
+                            new DataColumn("    Chiết Khấu trực tiếp  ", typeof(string)),
+                            new DataColumn("  Thành tiền", typeof(string))});
+            
+            for (int i = 4; i < rows.Length; i++)
+            {
+                String[] temp2;
+                System.Diagnostics.Debug.WriteLine(rows[i]);
+                try {
+                    temp2 = rows[i].Split(rex2, StringSplitOptions.None);
+                    for (int eee = 0; eee < temp2.Length; eee++) {
+                       
+                    }
+                    if (temp2.Length > 5) {
+                        if( temp2[4].Trim().Length > 0 && temp2[2].Trim().Length > 0 && temp2[3].Trim().Length > 0)
+                            dt.Rows.Add(temp2[1], temp2[2], temp2[3], temp2[4], temp2[5], temp2[6], temp2[7]);
+                        String price = temp2[7];
+                       
+                        while (price.IndexOf(",") > 1) {
+                           price =price.Replace(",", "");
+                        }
+                   
+                        totalprice = float.Parse(price) +totalprice;
+                    }
+                } catch (Exception e) { }
+                
+
+                
+            }
+
+
+            using (StringWriter sw = new StringWriter())
+            {
+                using (HtmlTextWriter hw = new HtmlTextWriter(sw))
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    //Generate Invoice (Bill) Header.
+                    sb.Append("<table width='100%' cellspacing='0' cellpadding='2'>");
+                    sb.Append("<tr><td align='center' style='background-color: #18B5F0' colspan = '2'><b>Order Sheet</b></td></tr>");
+                    sb.Append("<tr><td colspan = '2'></td></tr>");
+                    sb.Append("<tr><td><b>Order No: </b>");
+                    sb.Append(orderNo);
+                    sb.Append("</td><td align = 'right'><b>Date: </b>");
+                    sb.Append(DateTime.Now);
+                    sb.Append(" </td></tr>");
+                    sb.Append("<tr><td colspan = '2'><b>Company Name: </b>");
+                    sb.Append(companyName);
+                    sb.Append("</td></tr>");
+                    sb.Append("</table>");
+                    sb.Append("<br />");
+
+                    //Generate Invoice (Bill) Items Grid.
+                    sb.Append("<table border = '1'>");
+                    sb.Append("<tr>");
+                    foreach (DataColumn column in dt.Columns)
+                    {
+                        sb.Append("<th style = 'background-color: #D20B0C;color:#ffffff'>");
+                        sb.Append(column.ColumnName);
+                        sb.Append("</th>");
+                    }
+                    sb.Append("</tr>");
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        sb.Append("<tr>");
+                        foreach (DataColumn column in dt.Columns)
+                        {
+                            sb.Append("<td>");
+                            sb.Append(row[column]);
+                            sb.Append("</td>");
+                        }
+                        sb.Append("</tr>");
+                    }
+                    sb.Append("<tr><td align = 'right' colspan = '");
+                    sb.Append(dt.Columns.Count - 1);
+                    sb.Append("'>Total</td>");
+                    sb.Append("<td>");
+                    sb.Append(totalprice+"");
+                    sb.Append("</td>");
+                    sb.Append("</tr></table>");
+
+                    //Export HTML String as PDF.
+                    Encoding encoding = Encoding.Unicode;
+                    var bytes = encoding.GetBytes(sb.ToString());
+                    string str = System.Text.Encoding.Unicode.GetString(bytes);
+                    StringReader sr = new StringReader(str);
+                    Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 10f, 0f);
+                    HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+                    PdfWriter writer = PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+                    pdfDoc.Open();
+                    FontFactory.Register(Server.MapPath("~/fonts/arial-unicode-ms.ttf"), "Arial Unicode MS");
+                    StyleSheet style = new StyleSheet();
+                    style.LoadTagStyle("body", "face", "Arial Unicode MS");
+                    style.LoadTagStyle("body", "encoding", BaseFont.IDENTITY_H);
+                    htmlparser.Style = style;
+                    htmlparser.StartDocument();
+                    htmlparser.Parse(sr);
+                    pdfDoc.Close();
+                    Response.ContentEncoding = Encoding.Unicode;
+                    Response.ContentType = "application/pdf";
+                    Response.AddHeader("content-disposition", "attachment;filename=Invoice_" + orderNo + ".pdf");
+                    Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                    Response.Write(pdfDoc);
+                    Response.End();
+                }
+            }
+        }
 
     }
+
 }

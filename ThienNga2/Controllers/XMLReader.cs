@@ -10,11 +10,11 @@ namespace ThienNga2.Controllers
 {
     public class XMLReader 
     {
-        private static ThienNgaDatabaseEntities am = EntitiesAM.am;
+       
         public static  void reader(XmlDocument doc) {
             XDocument xDoc = XDocument.Load(new XmlNodeReader(doc));
             XElement all = xDoc.Root;
-
+            ThienNgaDatabaseEntities am = new ThienNgaDatabaseEntities();
             foreach (XElement element in all.Descendants("Product"))
             {
                 String Name = element.Element("Name").Value;

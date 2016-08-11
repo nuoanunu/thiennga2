@@ -9,9 +9,9 @@ namespace ThienNga2.Controllers
 {
     [Authorize(Roles = "admin")]
 
-    public class WarrantyController : Controller
+    public class WarrantyController : EntitiesAM
     {
-        private ThienNgaDatabaseEntities am = EntitiesAM.am;
+
         // GET: Warranty
         public ActionResult Index()
         {
