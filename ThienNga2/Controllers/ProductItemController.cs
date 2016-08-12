@@ -19,7 +19,7 @@ using iTextSharp.text.html;
 
 namespace ThienNga2.Controllers
 {
-   // [Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin")]
     public class ProductItemController : EntitiesAM
     {
 
@@ -180,6 +180,10 @@ namespace ThienNga2.Controllers
                        
                     if (pd != null)
                     {
+                        inventory ivenQuantity
+                             = am.inventories.SqlQuery("SELECT * FROM inventory WHERE productStoreCode='" + pd.productStoreID + "' and inventoryID="+ inventoryID).FirstOrDefault();
+                        ivenQuantity.quantity = ivenQuantity.quantity - ao.quantity;
+                        am.SaveChanges();
                         orderDetail detail = new orderDetail();
                         detail.ChietKhauPhanTram = ao.chietKhauPhanTram + "";
                         detail.ChietKhauTrucTiep = ao.chietKhauTrucTiep + "";
