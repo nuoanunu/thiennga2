@@ -318,7 +318,7 @@ namespace ThienNga2.Controllers
             float totalprice = 0;
             //Dummy data for Invoice (Bill).
             string companyName = "Ten cong ty ne";
-            int orderNo = 2303;
+            int orderNo = am.orders.Count() + 1;
             DataTable dt = new DataTable();
              
             dt.Columns.AddRange(new DataColumn[7] {
