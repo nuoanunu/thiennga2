@@ -415,7 +415,8 @@ namespace ThienNga2.Controllers
                     var bytes = encoding.GetBytes(sb.ToString());
                     string str = System.Text.Encoding.Unicode.GetString(bytes);
                     StringReader sr = new StringReader(str);
-                    Document pdfDoc = new Document(PageSize.A5, 10f, 10f, 10f, 0f);
+                    Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 10f, 0f);
+                   
                     HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
                     PdfWriter writer = PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
                     pdfDoc.Open();

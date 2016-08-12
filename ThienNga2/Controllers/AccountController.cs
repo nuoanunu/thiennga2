@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ThienNga2.Models;
+using System.Web.Security;
 
 namespace ThienNga2.Controllers
 {
@@ -159,14 +160,55 @@ namespace ThienNga2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            String[] rolesArray = null;
+        
+            try {
+                RolePrincipal r = (RolePrincipal)User;
+                rolesArray = r.GetRoles();
+              
+            }
+           
+            catch (Exception e) {
+            }
+
+            bool flag = false;
+            if (model.Name.Equals("Nhân Viên")) {
+                flag = true;
+       
+            }
+            else
             {
+                if (model.Name.Equals("Admin") || model.Name.Equals("Bán Hàng") || model.Name.Equals("Quản lý kho"))
+                {
+                    if (rolesArray == null)
+                    {
+                        ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
+                        return View(model);
+                    }
+                    else
+                        foreach (string role in rolesArray)
+                        {
+
+                            if (role.Equals("Admin")) flag = true;
+                        }
+                }
+            }
+            if (!flag) {
+                ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
+                return View(model);
+            }
+
+            if (ModelState.IsValid )
+
+            {
+
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email , PhoneNumber=model.PhoneNumer, PhoneNumberConfirmed=true , FullName= model.FullName };
                 
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     //Gán Role cho user  
+
                     await this.UserManager.AddToRoleAsync(user.Id, model.Name);
                     //Ends Here
 
