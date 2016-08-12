@@ -139,11 +139,14 @@ namespace ThienNga2.Controllers
             List<int> lstItemID = new List<int>();
             List<ConfirmItemView> ConfirmItemViewList = new List<ConfirmItemView>();
             float total = 0;
+            
             int inventoryID = tuple.inventoryID;
             order ord = new order();
             if (ModelState.IsValid)
             {
-
+                if (tuple.phoneNumber == null) tuple.phoneNumber = "ko co";
+                if (tuple.Adress == null) tuple.Adress = "ko co";
+                if (tuple.cusName == null) tuple.cusName = "ko co";
                 tb_customer cus = am.ThienNga_TimSDT2(tuple.phoneNumber).FirstOrDefault();
                 if (cus == null)
                 {
@@ -208,7 +211,7 @@ namespace ThienNga2.Controllers
                             String minute = DateTime.Now.Minute + ""; if (minute.Length == 1) minute = "0" + minute;
                             String second = DateTime.Now.Second + ""; if (second.Length == 1) second = "0" + second;
                             it.productID =second+minute+ hour + day + month + year + "-"+pd.productStoreID+"-" + cus.phonenumber+"-"+i;
-                            it.DateOfSold = DateTime.Today;
+                            it.DateOfSold = tuple.soldDay;
                             am.items.Add(it);
                             am.SaveChanges();
                             lstItemID.Add(it.id);

@@ -8,15 +8,16 @@ namespace ThienNga2.Models.ViewModel
 {
     public class NewItemViewModel
     {
-        [Required]
+    
         [Display(Name = "Tên khách hàng")]
         public String cusName { get; set; }
-        [Required]
+
         [Display(Name = "SDT khách hàng")]
         public String phoneNumber { get; set; }
-        [Display(Name = "Adress")]
+
         public String Adress { get; set; }
         public int inventoryID { get; set; }
+        public DateTime soldDay { get; set; }
         public List<AnOrderDetail> items { get; set; }
 
         public NewItemViewModel() {
