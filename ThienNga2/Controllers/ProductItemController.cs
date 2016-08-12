@@ -19,7 +19,7 @@ using iTextSharp.text.html;
 
 namespace ThienNga2.Controllers
 {
-    [Authorize(Roles = "admin")]
+   // [Authorize(Roles = "admin")]
     public class ProductItemController : EntitiesAM
     {
 
@@ -351,7 +351,7 @@ namespace ThienNga2.Controllers
 
                 
             }
-
+            String total =Convert.ToDecimal(totalprice).ToString("#,##0.00");
 
             using (StringWriter sw = new StringWriter())
             {
@@ -361,14 +361,14 @@ namespace ThienNga2.Controllers
 
                     //Generate Invoice (Bill) Header.
                     sb.Append("<table width='100%' cellspacing='0' cellpadding='2'>");
-                    sb.Append("<tr><td align='center' style='background-color: #18B5F0' colspan = '2'><b>Order Sheet</b></td></tr>");
+                    sb.Append("<tr><td align='center' style='background-color: #18B5F0' colspan = '2'><b>Phiếu báo giá</b></td></tr>");
                     sb.Append("<tr><td colspan = '2'></td></tr>");
-                    sb.Append("<tr><td><b>Order No: </b>");
+                    sb.Append("<tr><td><b>Mã số: </b>");
                     sb.Append(orderNo);
-                    sb.Append("</td><td align = 'right'><b>Date: </b>");
+                    sb.Append("</td><td align = 'right'><b>Ngày: </b>");
                     sb.Append(DateTime.Now);
                     sb.Append(" </td></tr>");
-                    sb.Append("<tr><td colspan = '2'><b>Company Name: </b>");
+                    sb.Append("<tr><td colspan = '2'><b>Cửa hàng: </b>");
                     sb.Append(companyName);
                     sb.Append("</td></tr>");
                     sb.Append("</table>");
@@ -399,7 +399,7 @@ namespace ThienNga2.Controllers
                     sb.Append(dt.Columns.Count - 1);
                     sb.Append("'>Total</td>");
                     sb.Append("<td>");
-                    sb.Append(totalprice+"");
+                    sb.Append(total + "");
                     sb.Append("</td>");
                     sb.Append("</tr></table>");
 
@@ -408,7 +408,7 @@ namespace ThienNga2.Controllers
                     var bytes = encoding.GetBytes(sb.ToString());
                     string str = System.Text.Encoding.Unicode.GetString(bytes);
                     StringReader sr = new StringReader(str);
-                    Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 10f, 0f);
+                    Document pdfDoc = new Document(PageSize.A5, 10f, 10f, 10f, 0f);
                     HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
                     PdfWriter writer = PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
                     pdfDoc.Open();
@@ -422,7 +422,7 @@ namespace ThienNga2.Controllers
                     pdfDoc.Close();
                     Response.ContentEncoding = Encoding.Unicode;
                     Response.ContentType = "application/pdf";
-                    Response.AddHeader("content-disposition", "attachment;filename=Invoice_" + orderNo + ".pdf");
+                    Response.AddHeader("content-disposition", "attachment;filename=PhieuBaoGia_" + orderNo + ".pdf");
                     Response.Cache.SetCacheability(HttpCacheability.NoCache);
                     Response.Write(pdfDoc);
                     Response.End();
