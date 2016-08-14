@@ -13,7 +13,7 @@ using System.Web.Security;
 
 namespace ThienNga2.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "Admin")]
 
     public class AccountController : Controller
     {
