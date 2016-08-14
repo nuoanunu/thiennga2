@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -115,6 +116,7 @@ namespace ThienNga2.Controllers
                 int i = 1;
                 foreach (tb_warranty war in kick.lst)
                 {
+                    
                     System.Diagnostics.Debug.WriteLine("dahel " + i + " "+ war.itemID + "   " + war.warrantyID + "  " + war.startdate);
                     i = i +1;
                     if (war.itemID != null && war.startdate != null && war.warrantyID != null && war.duration > 0)
