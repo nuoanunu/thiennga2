@@ -19,7 +19,7 @@ using iTextSharp.text.html;
 
 namespace ThienNga2.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "Admin")]
     public class ProductItemController : EntitiesAM
     {
 
