@@ -173,7 +173,8 @@
                                     @Html.TextBoxFor(x => x.lst[i].warrantyID)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(x => x.lst[i].startdate)
+                                    @Html.TextBoxFor(x => x.lst[i].startdate, "{0:dd/MM/yyyy}", new { @class = "datefield form-control", @placeholder = "Ngày kích hoạt" })
+                                  
                                 </td>
                                 <td>
                                     @Html.TextBoxFor(x => x.lst[i].duration)
