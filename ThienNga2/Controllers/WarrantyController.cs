@@ -190,7 +190,9 @@ namespace ThienNga2.Controllers
         }
         public ActionResult Search(string code ,string searchType)
         {
-            System.Diagnostics.Debug.WriteLine("searchType " + searchType);
+            try
+            {
+                System.Diagnostics.Debug.WriteLine("searchType " + searchType);
             if (searchType ==null ) searchType = "warrantyActID";
             if (searchType.Equals("item")) {
                 item thatitem = (item)am.ThienNga_findbyIMEI2(code).FirstOrDefault();
@@ -239,13 +241,15 @@ namespace ThienNga2.Controllers
             }
             if (searchType.Equals("warrantyActID"))
             {
+            
+                
                 var activity = am.tb_warranty_activities.SqlQuery("SELECT * FROM dbo.tb_warranty_activities WHERE id = " + code ).ToList();
                 ViewData["lsbh"] = activity;
                 ViewData["warrantydetail"] = (List<tb_warranty>)am.ThienNga_findwarranty2(activity.First().warrantyID).ToList();
             }
+            }
 
-
-
+            catch (Exception e) { }
 
             //  ViewData["dsspdt"] = am.inventories.ToList();
             return View("WarrantyCheck");

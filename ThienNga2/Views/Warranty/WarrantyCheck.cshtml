@@ -71,7 +71,14 @@
                 skupicked = val1;
                 quanitypicked = val2;
                 $.get('@(Url.Action("loadPrice", "Warranty",null, Request.Url.Scheme))?code=' + encodeURIComponent(val1) + '&quantity=' + encodeURIComponent(quanitypicked), function (result) {
-                    $('#skuprice').val(result);
+                    if (result != 0) {
+                        $('#skuprice').val(result);
+                        $("#searchID").css("background-color", "green");
+                    }
+                    else {
+                        $("#searchID").css("background-color", "red");
+                    }
+
                 });
             }
 
@@ -79,7 +86,130 @@
         setInterval(checkHidden, 100);
         setInterval(loadprice, 100);
     </script>
+    <style>
+        @@import url(http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
+div.table-title {
+   display: block;
+  margin: auto;
+  max-width: 600px;
+  padding:5px;
+  width: 100%;
+}
 
+.table-title h3,h6 {
+   color: #fafafa;
+   font-size: 30px;
+   font-weight: 400;
+   font-style:normal;
+   font-family: "Roboto", helvetica, arial, sans-serif;
+   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+   text-transform:uppercase;
+}
+
+
+/*** Table Styles **/
+
+.table-fill {
+  background: white;
+  border-radius:3px;
+  border-collapse: collapse;
+  height: 320px;
+  margin: 0;
+ padding-top: 100px;
+  width: 100%;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  animation: float 5s infinite;
+}
+ 
+th {
+  color:#D5DDE5;;
+  background:#1b1e24;
+  border-bottom:4px solid #9ea7af;
+  border-right: 1px solid #343a45;
+  font-size:23px;
+  font-weight: 100;
+  padding:24px;
+  text-align:left;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  vertical-align:middle;
+}
+
+th:first-child {
+  border-top-left-radius:3px;
+}
+ 
+th:last-child {
+  border-top-right-radius:3px;
+  border-right:none;
+}
+  
+tr {
+  border-top: 1px solid #C1C3D1;
+  border-bottom-: 1px solid #C1C3D1;
+  color:#666B85;
+  font-size:16px;
+  font-weight:normal;
+  text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+}
+ 
+
+ 
+tr:first-child {
+  border-top:none;
+}
+
+tr:last-child {
+  border-bottom:none;
+}
+ 
+
+tr:last-child td:first-child {
+  border-bottom-left-radius:3px;
+}
+ 
+tr:last-child td:last-child {
+  border-bottom-right-radius:3px;
+}
+ 
+td {
+  background:#FFFFFF;
+  padding:20px;
+  text-align:left;
+  vertical-align:middle;
+  font-weight:300;
+  font-size:18px;
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+  border-right: 1px solid #C1C3D1;
+}
+
+td:last-child {
+  border-right: 0px;
+}
+
+th.text-left {
+  text-align: left;
+}
+
+th.text-center {
+  text-align: center;
+}
+
+th.text-right {
+  text-align: right;
+}
+
+td.text-left {
+  text-align: left;
+}
+
+td.text-center {
+  text-align: center;
+}
+
+td.text-right {
+  text-align: right;
+}
+    </style>
 </head>
 <body>
 
@@ -98,10 +228,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>
-                            <br />Tìm theo
-                            <input type="radio" name="searchType" value="warrantyCODE"> Mã hóa đơn bảo hành
-                            <input type="radio" name="searchType" value="item">Mã sản phẩm<br>
+                        <td colspan="2">
+                            Tìm theo
+
+                            <input type="radio" name="searchType" checked="checked" value="warrantyCODE"> Mã hóa đơn bảo hành
+                            <input type="radio" name="searchType" value="item">Mã sản phẩm <br />
                             <input type="radio" name="searchType" value="warrantyIMEI">  Mã IMEI
                             <input type="radio" name="searchType" value="warrantyCODEDate"> Ngày tháng
                             <input type="radio" name="searchType" value="warrantyCODEPhone">Số điện thoại
@@ -129,7 +260,7 @@
 
             foreach (tb_warranty t in (List<tb_warranty>)ViewData["warrantyDetail"])
             {
-                <table class="responstable">
+                <table class="table-fill">
 
                     <td>
                         <p>Mã bảo hành: @t.warrantyID </p>
@@ -167,7 +298,7 @@
 
   };
 
-                    <H1> Quản lý quy trình bảo hành của mã bảo hành : @item.CodeBaoHanh</H1>
+                    
                     using (Html.BeginForm("Update", "Warranty"))
                     {
 
@@ -175,7 +306,12 @@
                         <div style="display:none;"></div>
                         <div style="display:none;"></div>
                         <div style="display:none;"></div>
-                        <table class="responstable">
+                        <table class="table-fill">
+                            <tr>
+                                <th colspan="2">
+                                    <h6>Quản lý quy trình bảo hành của mã bảo hành : @item.CodeBaoHanh </h6>
+                                </th>
+                            </tr>
                             <tr>
                                 <td>Ngày tiếp nhận : </td>
                                 <td>@item.startDate </td>
@@ -223,45 +359,52 @@
 
 
                     }
-                    <h3> Linh kiện thay mới</h3>
-                    <table id="fee" class="responstable">
-                        <th> Tên Linh Kiện </th>
-                        <th> Số lượng</th>
-                        <th> Phí thay thế</th>
-                        <th> Thêm / SSửa</th>
-                        <th> Xóa</th>
-
-                        @foreach (warrantyActivityFee fee in item.warrantyActivityFees)
+                   <br /><br /><br />
+                    <table id="fee" class="table-fill">
+                        <tr>
+                            <th colspan="5">
+                                <h6>Linh kiện thay mới</h6>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th> Tên Linh Kiện </th>
+                            <th> Số lượng</th>
+                            <th> Phí thay thế</th>
+                            <th> Thêm / Sửa</th>
+                            <th> Xóa</th>
+                        </tr>
+                        <tbody  class="table-hover">
+                            @foreach (warrantyActivityFee fee in item.warrantyActivityFees)
                         {
-                            <tr>
-                                <td>
-                                    @fee.productSKU
-                                </td>
-                                <td>
-                                    @fee.quantity
-                                </td>
-                                <td>
-                                    @fee.fixingfee
-                                </td>
-                                <td></td>
-                                <td>
-                                    @using (Html.BeginForm("XoaFee", "Warranty"))
+                                <tr>
+                                    <td class="text-left">
+                                        @fee.productSKU
+                                    </td>
+                                    <td class="text-left">
+                                        @fee.quantity
+                                    </td>
+                                    <td class="text-left">
+                                        @fee.fixingfee
+                                    </td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left">
+                                        @using (Html.BeginForm("XoaFee", "Warranty"))
                             {
-                                        <input type="hidden" name="feeID" value="@fee.id" />
-                                        <input type="hidden" name="activitiesID" value="@item.itemID" />
-                                        <input type="submit" name="Xóa" value="Xóa" />
-                                    }
-                                </td>
+                                            <input type="hidden" name="feeID" value="@fee.id" />
+                                            <input type="hidden" name="activitiesID" value="@item.itemID" />
+                                            <input type="submit" name="Xóa" value="Xóa" />
+                                        }
+                                    </td>
 
 
 
-                            </tr>
-                        }
-
+                                </tr>
+                            }
+                        </tbody>
                         @using (Html.BeginForm("AddFee", "Warranty"))
                         {
                             <tr>
-                                <td>
+                                <td >
                                     <input type="hidden" name="activitiesID" value="@item.id" />
                                     <input id="searchID" type="text" name="ksu" />
                                 </td>
@@ -279,12 +422,19 @@
 
                     </table>
 
-                    <h3>Sửa chữa khác</h3>
-                    <table class="responstable">
-                        <th> Mô tả </th>
-                        <th>  Tiền công</th>
-                        <th> Thêm </th>
-                        <th> Xóa</th>
+                    <br /><br /><br />
+                    <table class="table-fill">
+                        <tr>
+                            <th colspan="4">
+                                <h6> Sửa chữa khác </h6>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th> Mô tả </th>
+                            <th>  Tiền công</th>
+                            <th> Thêm </th>
+                            <th> Xóa</th>
+                        </tr>
                         @foreach (warrantyActivityFixingFee fee in item.warrantyActivityFixingFees)
                         {
                             <tr>
@@ -348,7 +498,7 @@
                                                 @Html.TextBoxFor(item => t2.itemID, new { @Value = t.itemID })
 
                                             </div>
-                                            <table class="responstable">
+                                            <table class="table-fill">
                                                 <tr>
                                                     <td>
                                                         Ngày nhận:
@@ -387,10 +537,14 @@
 
 
         @if (ViewData["lsbh"] != null && ((List<tb_warranty_activities>)ViewData["lsbh"]).Count() > 0
-                    )
+                        )
         {
-            <h1> Lịch Sử Bảo Hành </h1>
-                                        <table class="responstable">
+            <br /><br /><br />
+            
+                                        <table class="table-fill">
+                                            <tr>
+                                                <th colspan="8"> <h6> Lịch Sử Bảo Hành </h6></th>
+                                            </tr>
                                             <tr><th>Mã bill bảo hành   </th>
                                                 <th>Ngày nhận  </th>
                                                 <th>Nhân viên nhận </th>
@@ -435,7 +589,7 @@
                         )
         {
             <h1> Lịch Sử Bảo Hành của sản phẩm </h1>
-                                        <table class="responstable">
+                                        <table class="table-fill">
                                             <tr>
                                                 <th>Mã bảo hành  </th>
                                                 <th>Ngày nhận  </th>

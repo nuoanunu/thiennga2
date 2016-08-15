@@ -4,12 +4,10 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
 body {
-  background: url("")  no-repeat center center fixed;
-  
-
-  background-size: cover;
-  overflow-x: hidden;
-  font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: url('images/flying-drones.jpg') no-repeat center center fixed;
+    background-size: cover;
+    overflow-x: hidden;
+    font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .text-muted {
   color: #777777;
