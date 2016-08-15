@@ -7,17 +7,15 @@ using System.ComponentModel.DataAnnotations;
 namespace ThienNga2.Models.ViewModel
 {
     public class NewItemViewModel
-    {
-    
-        [Display(Name = "Tên khách hàng")]
+    {   
         public String cusName { get; set; }
-
-        [Display(Name = "SDT khách hàng")]
         public String phoneNumber { get; set; }
 
         public String Adress { get; set; }
         public int inventoryID { get; set; }
-        public DateTime soldDay { get; set; }
+        public String date { get; set; }
+        public String month { get; set; }
+        public String year { get; set; }
         public List<AnOrderDetail> items { get; set; }
 
         public NewItemViewModel() {

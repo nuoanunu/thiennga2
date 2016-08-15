@@ -211,7 +211,7 @@ namespace ThienNga2.Controllers
                             String minute = DateTime.Now.Minute + ""; if (minute.Length == 1) minute = "0" + minute;
                             String second = DateTime.Now.Second + ""; if (second.Length == 1) second = "0" + second;
                             it.productID =second+minute+ hour + day + month + year + "-"+pd.productStoreID+"-" + cus.phonenumber+"-"+i;
-                            it.DateOfSold = tuple.soldDay;
+                            it.DateOfSold = DateTime.Now;
                             am.items.Add(it);
                             am.SaveChanges();
                             lstItemID.Add(it.id);

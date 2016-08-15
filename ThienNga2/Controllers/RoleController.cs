@@ -8,7 +8,7 @@ using ThienNga2.Models;
 
 namespace ThienNga2.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "Admin")]
 
     public class RoleController : Controller
     {

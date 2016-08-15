@@ -110,7 +110,7 @@
     @using (Html.BeginForm("CreateWhenSale", "ProductItem"))
     {
         List<SelectListItem> ls2 = new List<SelectListItem>();
-
+        String date= (DateTime.Now.ToString("M'/'dd'/'yyyy"));
         ls2.Add(new SelectListItem { Text ="Kho sài gòn", Value = "1" });
         ls2.Add(new SelectListItem { Text = "Kho Hà nội", Value = "2" });
         ls2.Add(new SelectListItem { Text = "Kho Tổng", Value = "3" });
@@ -122,7 +122,7 @@
             <h1>Tạo đơn hàng<span>Bán hàng</span></h1>
             @Html.ValidationSummary("", new { @class = "text-danger" })
             <form>
-                <label>Ngày/tháng/năm @Html.TextBoxFor(Model => Model.soldDay , new { @class = "form-control",@Value=DateTime.Now }) </label>
+                <label>Ngày <input name="date" id="date" value=""/> Tháng <input name="date" id ="month" value="" /> Năm <input name="year" id="year" value="" /> </label>
                 <div class="section"><span>1</span>Thông tin khách hàng</div>
                 <div class="inner-wrap">
                     <label>Tên khách hàng @Html.TextBoxFor(Model => Model.cusName, new { @class = "form-control" })</label>

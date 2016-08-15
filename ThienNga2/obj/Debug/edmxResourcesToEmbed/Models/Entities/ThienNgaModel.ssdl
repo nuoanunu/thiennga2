@@ -196,6 +196,7 @@
     <Property Name="startdate" Type="date" />
     <Property Name="duration" Type="int" Nullable="false" />
     <Property Name="description" Type="varchar(max)" Nullable="false" />
+    <Property Name="MaChinh" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="tb_warranty_activities">
     <Key>

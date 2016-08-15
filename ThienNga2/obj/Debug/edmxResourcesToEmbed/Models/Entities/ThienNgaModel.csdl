@@ -173,6 +173,7 @@
     <Property Name="startdate" Type="DateTime" Precision="0" />
     <Property Name="duration" Type="Int32" Nullable="false" />
     <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="MaChinh" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="tb_warrnaty_status">
     <Key>

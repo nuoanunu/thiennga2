@@ -201,6 +201,7 @@
           <Property Name="startdate" Type="date" />
           <Property Name="duration" Type="int" Nullable="false" />
           <Property Name="description" Type="varchar(max)" Nullable="false" />
+          <Property Name="MaChinh" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tb_warranty_activities">
           <Key>
@@ -853,6 +854,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <Property Name="startdate" Type="DateTime" Precision="0" />
           <Property Name="duration" Type="Int32" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MaChinh" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="tb_warrnaty_status">
           <Key>
@@ -1620,6 +1622,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <EntitySetMapping Name="tb_warranty">
             <EntityTypeMapping TypeName="ThienNgaDatabaseModel.tb_warranty">
               <MappingFragment StoreEntitySet="tb_warranty">
+                <ScalarProperty Name="MaChinh" ColumnName="MaChinh" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="warrantyID" ColumnName="warrantyID" />
                 <ScalarProperty Name="itemID" ColumnName="itemID" />

@@ -16,14 +16,14 @@
         $(document).ready(function () {
             function checkHidden() {
                 for (i = 1 ; i<10 ; i ++) {
-                
-                    if ($('#tr' + (i - 1)).find('#warrantyID').val() == "") {
+                    0
+                    if ($('#lst_' + (i - 1) + '__warrantyID').val() == "") {
 
-                        $('#tr' + i).hide();
+                        $('#tr' + (i)).hide();
                     }
                     else {
                    
-                        $('#tr' + i).show();
+                        $('#tr' + (i) ).show();
                     }
                 }
  
@@ -122,6 +122,9 @@
                             Mô tả
                         </th>
                         <th>
+                            Mã chính
+                        </th>
+                        <th>
                             xóa
                         </th>
                     </tr>
@@ -130,7 +133,7 @@
                         foreach (tb_warranty war in (List<tb_warranty>)ViewData["warList"])
                         {
                             string url = "/KickHoatBaoHanh/Delete?warrantyCode=" + @war.warrantyID + "&itemID=" + it.productID;
-                            <tr>
+                            <tr >
                                 <td>
                                     @war.warrantyID
                                 </td>
@@ -142,6 +145,15 @@
                                 </td>
                                 <td>
                                     @war.description
+                                </td>
+                                <td>
+                                    @if (war.MaChinh)
+                                    {
+                                        <h3>Đây là mã chính</h3>
+                                    }
+                                    else {
+                                           <p>Đây là mã phụ</p>
+                                    }
                                 </td>
                                 <td>
                                     @using (Html.BeginForm("Delete", "KickHoatBaoHanh", FormMethod.Post))
@@ -169,18 +181,22 @@
                             string id = "tr" + i;
                             <tr id='@id'>
                                 <td>
-                                    @Html.HiddenFor(x => x.lst[i].itemID, new { @Value = it.productID })
-                                    @Html.TextBoxFor(x => x.lst[i].warrantyID)
+                                    @Html.HiddenFor(x => x.lst[i].itemID, new { @class = "datefield form-control",@Value = it.productID })
+                                    @Html.TextBoxFor(x => x.lst[i].warrantyID, new { @class = "datefield form-control" })
                                 </td>
                                 <td>
                                     @Html.TextBoxFor(x => x.lst[i].startdate, "{0:dd/MM/yyyy}", new { @class = "datefield form-control", @placeholder = "Ngày kích hoạt" })
                                   
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(x => x.lst[i].duration)
+                                    @Html.TextBoxFor(x => x.lst[i].duration, new { @class = "datefield form-control" })
+                                </td>
+                           
+                                <td>
+                                    @Html.TextBoxFor(x => x.lst[i].description, new { @class = "datefield form-control" })
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(x => x.lst[i].description)
+                                    @Html.CheckBoxFor(x => x.lst[i].MaChinh, new { @class = "datefield form-control" })
                                 </td>
                             </tr>
                         }

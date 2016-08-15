@@ -69,14 +69,14 @@ namespace ThienNga2.Controllers
 
             }
             else
-                     act = new tb_warranty_activities();
-            
-               
+                act = new tb_warranty_activities();
                 phoneNumber = phoneNumber.Trim();
                 var emplo1 = am.AspNetUsers.SqlQuery("SELECT * FROM dbo.AspNetUsers WHERE Email='" + Emp1 + "'").ToList().First();
                 var emplo2 = am.AspNetUsers.SqlQuery("SELECT * FROM dbo.AspNetUsers WHERE Email='" + Emp2 + "'").ToList().First();
                 act.employee = (string)emplo1.Id;
+                act.AspNetUser = emplo1;
                 act.empFixer = (string)emplo2.Id;
+                act.AspNetUser1 = emplo2;
                 act.TenKhach = cusname;
                 act.SDT = phoneNumber;
                 act.status = 1;
@@ -91,11 +91,20 @@ namespace ThienNga2.Controllers
                     am.tb_warranty_activities.Add(act);
                 am.SaveChanges();
                 int id = act.id;
-
+            System.Diagnostics.Debug.WriteLine("ID NAY " + id); 
+            
             act.id = id;
-            ViewData["newwarranty"] = act;
-                return View("ConfirmCreate");
+            act = am.tb_warranty_activities.Find(id);
+            return RedirectToAction("ConfirmCreate", "CreateWarranty", new { acid = id });
        
+       
+        }
+      
+        public ActionResult ConfirmCreate(int acid) {
+  
+            tb_warranty_activities newact = am.tb_warranty_activities.Find(acid);
+            ViewData["newwarranty"] = newact;
+            return View("ConfirmCreate");
         }
         [HttpPost]
         public ActionResult EditAct(String actid)

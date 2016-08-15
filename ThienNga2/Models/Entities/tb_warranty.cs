@@ -11,15 +11,15 @@ namespace ThienNga2.Models.Entities
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
+    
     public partial class tb_warranty
     {
         public int id { get; set; }
         public string warrantyID { get; set; }
         public string itemID { get; set; }
-        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> startdate { get; set; }
         public int duration { get; set; }
         public string description { get; set; }
+        public bool MaChinh { get; set; }
     }
 }

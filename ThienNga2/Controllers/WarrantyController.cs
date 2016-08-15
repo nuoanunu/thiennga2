@@ -7,7 +7,7 @@ using ThienNga2.Models.Entities;
 
 namespace ThienNga2.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "Admin")]
 
     public class WarrantyController : EntitiesAM
     {
@@ -195,7 +195,7 @@ namespace ThienNga2.Controllers
             if (searchType.Equals("item")) {
                 item thatitem = (item)am.ThienNga_findbyIMEI2(code).FirstOrDefault();
                 if (thatitem != null) {
-                    ViewData["warrantydetail"] = (List<tb_warranty>)am.ThienNga_findwarrantyByIMEI2(code).ToList();
+                    ViewData["warrantydetail"] = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE warrantyID='" + code + "'").FirstOrDefault();
                     List<tb_warranty> temp1 = (List<tb_warranty>)am.ThienNga_findwarrantyByIMEI2(code).ToList();
                     List<tb_warranty_activities> temp2 = new List<tb_warranty_activities>();
                     foreach (tb_warranty a in temp1)

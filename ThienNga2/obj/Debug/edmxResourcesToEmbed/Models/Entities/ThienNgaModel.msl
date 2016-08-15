@@ -155,6 +155,7 @@
     <EntitySetMapping Name="tb_warranty">
       <EntityTypeMapping TypeName="ThienNgaDatabaseModel.tb_warranty">
         <MappingFragment StoreEntitySet="tb_warranty">
+          <ScalarProperty Name="MaChinh" ColumnName="MaChinh" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="warrantyID" ColumnName="warrantyID" />
           <ScalarProperty Name="itemID" ColumnName="itemID" />
