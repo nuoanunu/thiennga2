@@ -35,6 +35,44 @@
 
 
         });
+        var currentIMEI = "";
+        function checkWarrantyCode() {
+            if (currentIMEI != $("#IMEI").val()) {
+                currentIMEI = $("#IMEI").val();
+                var flag = false;
+                var warCode = $("#IMEI").val();
+                $.getJSON("/CreateWarranty/getCorrectData?name=" + warCode, function (result) {
+                    $.each(result, function (name, value) {
+                        if (name == "productName") {
+                            flag = true;
+                            if (value != null) {
+                                $('#IMEI').css("background-color", "green");
+                                $("#divName").text("Tên sản phẩm: "+ value);
+                            }
+
+                        }
+                        if (name == "remainingTime") {
+                            flag = true;
+                            if (value != null) {
+                                $("#divDate").text("Ngày hết hạn: " +value);
+                            }
+
+                        }
+                        if (name == "mieuTa") {
+                            if (flag && value != null) {
+                                $("#divDescription").text("Miêu tả: " + value);
+
+                            }
+                        }
+                    })
+                });
+                if (!flag) {
+                    $('#IMEI').css("background-color", "red");
+                    $("#divDate").text("Ko tìm thấy IMEI sản phẩm, vui lòng kiểm tra lại");
+                }
+            }
+        };
+        setInterval(checkWarrantyCode, 100);
         </script>
 </head>
 <body>
@@ -50,7 +88,7 @@
                     <input type="hidden" id="actid" name="actid" value="" />
                     <label>SDT khách hàng <input type="text" id="phoneNumber" name="phoneNumber" value="" /></label>
                     <label>Tên khách hàng <input type="text" id="cusname" name="cusname" value="" /></label>
-                    <label>IMEI sản phẩm <input type="text" id="IMEI"  name="IMEI" value="" /></label>
+                    <label>IMEI sản phẩm <input type="text" id="IMEI"  name="IMEI" value="" /> <div id="divDate"></div> <div id="divName"></div> <div id="divDescription"></div> </label>
                     <label>Tình trạng lúc nhận <input type="text" id="Descrip"  name="Descrip" value="" /></label>
                     <label>Nhân viên tiếp nhận <input type="text" id="Emp1"  name="Emp1" value="" /></label>
                     <label>Nhân viên sửa chữa <input type="text" id="Emp2"  name="Emp2" value="" /></label>

@@ -108,4 +108,9 @@ namespace ThienNga2.Models.ViewModel
         public string DonGiaS { get; set; }
 
     }
+    public class HoaDonBaoHanhCheck {
+        public String productName { get; set; }
+        public String remainingTime { get; set; }
+        public String mieuTa { get; set; }
+    }
     }

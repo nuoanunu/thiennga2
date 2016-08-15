@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using ThienNga2.Models.Entities;
+using ThienNga2.Models.ViewModel;
 
 namespace ThienNga2.Controllers
 {
@@ -45,7 +47,38 @@ namespace ThienNga2.Controllers
         {
             return View();
         }
+        public String getCorrectData(String name)
+        {
+            if (name != null)
+                if (name.Trim().Length >= 1)
+                {
+                    List<tb_warranty> lst = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE warrantyID='" + name + "'").ToList();
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    string result = "";
+                    HoaDonBaoHanhCheck vi = new HoaDonBaoHanhCheck();
+                    if (lst.Count == 1)
+                    {
+                        tb_warranty war = lst.ElementAt(0);
+                       
+                        item detail = am.items.SqlQuery("SELECT * FROM dbo.item WHERE productID='" + war.itemID + "'").FirstOrDefault();
+                        if (detail != null) {
+                            vi.mieuTa = war.description;
+                            vi.productName = detail.tb_product_detail.productName;
+                            DateTime date = (DateTime)war.startdate;
+                            date=date.AddMonths(war.duration);
+                            vi.remainingTime = date.Day + "/" + date.Month + "/" + date.Year;
+                            result = serializer.Serialize(vi);
+                            System.Diagnostics.Debug.WriteLine(result);
+                            return result;
 
+                        }
+                    
+
+                    }
+                 
+                }
+            return "";
+        }
         // GET: CreateWarranty/Create
         public ActionResult Create()
         {
