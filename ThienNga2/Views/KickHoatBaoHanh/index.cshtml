@@ -59,14 +59,11 @@
                     <tr>
                         <td>
                             <br />Tìm theo
-                            <select name="searchType" class="service-small ">
-                                <option value="masp" class="txtsearch">Mã sản phẩm</option>
-                                <option value="date">Ngày tháng</option>
-                                <option value="sdt"> SDT khách</option>
-                                <option value="sku">SKU</option>
-
-
-                            </select>
+                            <input type="radio" name="searchType" value="masp"> Mã sản pẩm
+                            <input type="radio" name="searchType" value="date"> Ngày 
+                            <input type="radio" name="searchType" value="sdt"> SĐT
+                            <input type="radio" name="searchType" value="sku"> SKU
+                        
                         </td>
                     </tr>
                 </table>
@@ -91,7 +88,7 @@
                         <td>SKU: @it.tb_product_detail.productStoreID</td>
                     </tr>
                     <tr>
-                        <td> Mã BH từ bill : @it.productID</td>
+                        <td> Mã unit: @it.productID</td>
                     </tr>
                     <tr>
                         <td>Tên sản phẩm : @it.tb_product_detail.productName</td>

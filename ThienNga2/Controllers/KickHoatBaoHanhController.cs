@@ -32,10 +32,9 @@ namespace ThienNga2.Controllers
         // GET: KickHoatBaoHanh/Search
         public ActionResult Search(String code, String searchType)
         {
+            try {  
             code = code.Trim();
-            if (searchType == null) searchType = "id";
-            try
-            {
+            if (searchType == null) searchType = "id";          
                 if (code.Trim().Length > 0) {
                     if (searchType.Equals("masp")) {
                         var dssp = am.items.SqlQuery("SELECT * FROM dbo.item WHERE productID LIKE '%" + code + "%'").ToList();

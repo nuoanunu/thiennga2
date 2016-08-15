@@ -114,7 +114,12 @@
         ls2.Add(new SelectListItem { Text ="Kho sài gòn", Value = "1" });
         ls2.Add(new SelectListItem { Text = "Kho Hà nội", Value = "2" });
         ls2.Add(new SelectListItem { Text = "Kho Tổng", Value = "3" });
+        List<SelectListItem> ls3 = new List<SelectListItem>();
 
+        ls3.Add(new SelectListItem { Text = "Thường", Value = "1" });
+        ls3.Add(new SelectListItem { Text = "Gold", Value = "2" });
+        ls3.Add(new SelectListItem { Text = "Diamond", Value = "3" });
+        ls3.Add(new SelectListItem { Text = "Plantinum", Value = "4" });
 
 
 
@@ -125,6 +130,7 @@
                 <label>Ngày <input name="date" id="date" value=""/> Tháng <input name="date" id ="month" value="" /> Năm <input name="year" id="year" value="" /> </label>
                 <div class="section"><span>1</span>Thông tin khách hàng</div>
                 <div class="inner-wrap">
+                    <label>Nhóm khách hàng @Html.DropDownListFor(Model => Model.custype, ls3)</label>
                     <label>Tên khách hàng @Html.TextBoxFor(Model => Model.cusName, new { @class = "form-control" })</label>
                     <label>SDT @Html.TextBoxFor(Model => Model.phoneNumber, new { @class = "form-control" })</label>
                     <label>Địa chỉ @Html.TextBoxFor(Model => Model.Adress, new { @class = "form-control" })</label>

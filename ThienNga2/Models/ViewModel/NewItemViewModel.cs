@@ -10,7 +10,7 @@ namespace ThienNga2.Models.ViewModel
     {   
         public String cusName { get; set; }
         public String phoneNumber { get; set; }
-
+        public int custype { get; set; }
         public String Adress { get; set; }
         public int inventoryID { get; set; }
         public String date { get; set; }

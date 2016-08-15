@@ -100,14 +100,12 @@
                     <tr>
                         <td>
                             <br />Tìm theo
-                            <select name="searchType" class="service-small ">
-                                <option value="warrantyCODE" class="txtsearch"> Mã hóa đơn bảo hành</option>
-                                <option value="item">Mã sản phẩm</option>
-                                <option value="warrantyIMEI"> Mã bảo hành</option>
-                                <option value="warrantyCODEDate">Ngày tháng</option>
-                                <option value="warrantyCODEPhone">Số điện thoại</option>
-
-                            </select>
+                            <input type="radio" name="searchType" value="warrantyCODE"> Mã hóa đơn bảo hành
+                            <input type="radio" name="searchType" value="item">Mã sản phẩm<br>
+                            <input type="radio" name="searchType" value="warrantyIMEI">  Mã IMEI
+                            <input type="radio" name="searchType" value="warrantyCODEDate"> Ngày tháng
+                            <input type="radio" name="searchType" value="warrantyCODEPhone">Số điện thoại
+                   
                         </td>
                     </tr>
                 </table>

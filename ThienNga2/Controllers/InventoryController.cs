@@ -48,19 +48,25 @@ namespace ThienNga2.Areas.Admin.Controllers
         // GET: Admin/Search
         public ActionResult Search(string code)
         {
-            if (code.Trim().Length > 0)
+            try
             {
-                ViewData["allInvenName"] = am.tb_inventory_name.ToList();
-                if (code == null || code.Equals("")) return View("Inventory");
-                if (code.IndexOf("StoreSKU") > 0)
+                if (code.Trim().Length > 0)
                 {
-                    code = code.Substring(code.IndexOf("StoreSKU") + 10, code.Length - code.IndexOf("StoreSKU") - 10);
+                    ViewData["allInvenName"] = am.tb_inventory_name.ToList();
+                    if (code == null || code.Equals("")) return View("Inventory");
+                    if (code.IndexOf("StoreSKU") > 0)
+                    {
+                        code = code.Substring(code.IndexOf("StoreSKU") + 10, code.Length - code.IndexOf("StoreSKU") - 10);
+                    }
+                    tb_product_detail t = am.ThienNga_FindProduct2(code).FirstOrDefault();
+                    if (t == null) return View("Inventory");
+                    ViewData["productdetail"] = am.ThienNga_FindProduct2(code).FirstOrDefault();
+                    ViewData["dsspdt"] = am.ThienNga_checkkho2(t.productStoreID).ToList();
                 }
-                tb_product_detail t = am.ThienNga_FindProduct2(code).FirstOrDefault();
-                if (t == null) return View("Inventory");
-                ViewData["productdetail"] = am.ThienNga_FindProduct2(code).FirstOrDefault();
-                ViewData["dsspdt"] = am.ThienNga_checkkho2(t.productStoreID).ToList();
             }
+            catch (Exception e) {
+            }
+            
           //  ViewData["dsspdt"] = am.inventories.ToList();
             return View("Inventory");
         }
