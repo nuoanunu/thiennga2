@@ -91,7 +91,6 @@
 div.table-title {
    display: block;
   margin: auto;
-  max-width: 600px;
   padding:5px;
   width: 100%;
 }
@@ -261,15 +260,30 @@ td.text-right {
             foreach (tb_warranty t in (List<tb_warranty>)ViewData["warrantyDetail"])
             {
                 <table class="table-fill">
+                    <tr>
+                        <td>
+                            <p>IMEI sản phẩm: @t.warrantyID </p>
 
-                    <td>
-                        <p>Mã bảo hành: @t.warrantyID </p>
-                        <p>IMEI sản phẩm: @t.itemID </p>
-                        <p>Ngày Kích Hoạt: @t.startdate</p>
-                        <p>Thời gian còn lại: @t.duration</p>
-                        <p>IMEI Sản phẩm: @t.itemID</p>
-                    </td>
+                            <p>Ngày Kích Hoạt: @t.startdate</p>
+                            <p>Ngày hết hạn: @(((DateTime)t.startdate).AddMonths(t.duration))</p>
 
+                        </td>
+                        <td align="center">
+                            @if (((DateTime)t.startdate).AddMonths(t.duration) < DateTime.Now)
+                            {
+                                <img  width="auto" height="auto" src = "/Content/images/red.png" />
+                            }
+                            else {
+                                if (t.Special == 1)
+                                {
+                                    <img  src = "/Content/images/special.png" width="300" height="300" />
+                                }
+                                else {
+                                    <img width="300" height="300"src = "/Content/images/green.png" />
+                                }
+                            }
+                        </td>
+                    </tr>
 
                 </table>
             }
@@ -350,8 +364,8 @@ td.text-right {
                             </tr>
 
                             <tr>
-                                <td>
-                                    <button type="submit">Cập nhật trạng thái bảo hành</button>
+                                <td colspan="2" align="center">
+                                    <button  type="submit">Cập nhật trạng thái bảo hành</button>
                                 </td>
                             </tr>
 

@@ -70,6 +70,8 @@
     <EntitySetMapping Name="inventories">
       <EntityTypeMapping TypeName="IsTypeOf(ThienNgaDatabaseModel.inventory)">
         <MappingFragment StoreEntitySet="inventory">
+          <ScalarProperty Name="DateOrdered" ColumnName="DateOrdered" />
+          <ScalarProperty Name="Incoming" ColumnName="Incoming" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="quantity" ColumnName="quantity" />
           <ScalarProperty Name="inventoryID" ColumnName="inventoryID" />
@@ -155,6 +157,7 @@
     <EntitySetMapping Name="tb_warranty">
       <EntityTypeMapping TypeName="ThienNgaDatabaseModel.tb_warranty">
         <MappingFragment StoreEntitySet="tb_warranty">
+          <ScalarProperty Name="Special" ColumnName="Special" />
           <ScalarProperty Name="MaChinh" ColumnName="MaChinh" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="warrantyID" ColumnName="warrantyID" />
@@ -400,6 +403,7 @@
     <EntitySetMapping Name="tb_warranty_activities">
       <EntityTypeMapping TypeName="ThienNgaDatabaseModel.tb_warranty_activities">
         <MappingFragment StoreEntitySet="tb_warranty_activities">
+          <ScalarProperty Name="productDetailID" ColumnName="productDetailID" />
           <ScalarProperty Name="SDT" ColumnName="SDT" />
           <ScalarProperty Name="TenKhach" ColumnName="TenKhach" />
           <ScalarProperty Name="CodeBaoHanh" ColumnName="CodeBaoHanh" />

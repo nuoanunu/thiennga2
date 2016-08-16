@@ -168,6 +168,11 @@ namespace ThienNga2.Controllers
             }
             return RedirectToAction("Search", "Warranty", new { code = activitiesID , searchType= "warrantyActID" });
         }
+
+        public ActionResult AllWarranty() {
+            ViewData["allact"] = am.tb_warranty_activities.ToList();
+            return View("WarrantyList");
+        }
         public ActionResult AddFixingFee(String fixDetail, String price, String activitiesID)
         {
             tb_warranty_activities act = am.tb_warranty_activities.Find(int.Parse(activitiesID));

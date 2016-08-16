@@ -6775,7 +6775,7 @@ button.close {
 }
 .navbar-default .badge {
   background-color: #fff;
-  color: #2fa4e7;
+  color: #000;
 }
 .navbar-inverse {
   background-image: -webkit-linear-gradient(#04519b, #044687 60%, #033769);

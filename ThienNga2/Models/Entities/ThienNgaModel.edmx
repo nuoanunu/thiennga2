@@ -93,6 +93,8 @@
           <Property Name="dateAdded" Type="datetime" Nullable="false" />
           <Property Name="inventoryID" Type="int" Nullable="false" />
           <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="Incoming" Type="int" />
+          <Property Name="DateOrdered" Type="datetime" />
         </EntityType>
         <EntityType Name="item">
           <Key>
@@ -202,6 +204,7 @@
           <Property Name="duration" Type="int" Nullable="false" />
           <Property Name="description" Type="varchar(max)" Nullable="false" />
           <Property Name="MaChinh" Type="bit" Nullable="false" />
+          <Property Name="Special" Type="int" />
         </EntityType>
         <EntityType Name="tb_warranty_activities">
           <Key>
@@ -211,7 +214,7 @@
           <Property Name="startDate" Type="date" Nullable="false" />
           <Property Name="employee" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="warrantyID" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="status" Type="int" Nullable="false" />
           <Property Name="realeaseDATE" Type="date" />
           <Property Name="itemID" Type="varchar" MaxLength="50" />
@@ -220,6 +223,7 @@
           <Property Name="CodeBaoHanh" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="TenKhach" Type="nvarchar" MaxLength="50" />
           <Property Name="SDT" Type="nvarchar" MaxLength="50" />
+          <Property Name="productDetailID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="tb_warrnaty_status">
           <Key>
@@ -411,6 +415,18 @@ warning 6035: The relationship 'FK_inventory_tb_product_detail1' has columns tha
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_order_tb_customer">
+          <End Role="tb_customer" Type="Self.tb_customer" Multiplicity="0..1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_customer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="customerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_orderDetail_order">
           <End Role="order" Type="Self.order" Multiplicity="1" />
           <End Role="orderDetail" Type="Self.orderDetail" Multiplicity="*" />
@@ -435,42 +451,15 @@ warning 6035: The relationship 'FK_inventory_tb_product_detail1' has columns tha
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tb_warranty_activities_AspNetUsers">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+        <Association Name="FK_tb_warranty_activities_tb_product_detail">
+          <End Role="tb_product_detail" Type="Self.tb_product_detail" Multiplicity="1" />
           <End Role="tb_warranty_activities" Type="Self.tb_warranty_activities" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="tb_warranty_activities">
-              <PropertyRef Name="employee" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_warranty_activities_AspNetUsers1">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
-          <End Role="tb_warranty_activities" Type="Self.tb_warranty_activities" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="tb_warranty_activities">
-              <PropertyRef Name="empFixer" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_tb_warranty_activities_tb_warranty1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-        <Association Name="FK_tb_warranty_activities_tb_warranty1" />-->
-        <Association Name="FK_tb_warranty_activities_tb_warrnaty_status">
-          <End Role="tb_warrnaty_status" Type="Self.tb_warrnaty_status" Multiplicity="1" />
-          <End Role="tb_warranty_activities" Type="Self.tb_warranty_activities" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_warrnaty_status">
+            <Principal Role="tb_product_detail">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="tb_warranty_activities">
-              <PropertyRef Name="status" />
+              <PropertyRef Name="productDetailID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -648,6 +637,10 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
             <End Role="account" EntitySet="account" />
             <End Role="log" EntitySet="log" />
           </AssociationSet>
+          <AssociationSet Name="FK_order_tb_customer" Association="Self.FK_order_tb_customer">
+            <End Role="tb_customer" EntitySet="tb_customer" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
           <AssociationSet Name="FK_orderDetail_order" Association="Self.FK_orderDetail_order">
             <End Role="order" EntitySet="order" />
             <End Role="orderDetail" EntitySet="orderDetail" />
@@ -656,16 +649,8 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
             <End Role="tb_cate" EntitySet="tb_cate" />
             <End Role="tb_product_detail" EntitySet="tb_product_detail" />
           </AssociationSet>
-          <AssociationSet Name="FK_tb_warranty_activities_AspNetUsers" Association="Self.FK_tb_warranty_activities_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_warranty_activities_AspNetUsers1" Association="Self.FK_tb_warranty_activities_AspNetUsers1">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_warranty_activities_tb_warrnaty_status" Association="Self.FK_tb_warranty_activities_tb_warrnaty_status">
-            <End Role="tb_warrnaty_status" EntitySet="tb_warrnaty_status" />
+          <AssociationSet Name="FK_tb_warranty_activities_tb_product_detail" Association="Self.FK_tb_warranty_activities_tb_product_detail">
+            <End Role="tb_product_detail" EntitySet="tb_product_detail" />
             <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
           </AssociationSet>
           <AssociationSet Name="FK_warrantyActivityFee_tb_warranty_activities" Association="Self.FK_warrantyActivityFee_tb_warranty_activities">
@@ -765,6 +750,8 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <Property Name="inventoryID" Type="Int32" Nullable="false" />
           <Property Name="quantity" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tb_inventory_name" Relationship="Self.FK_inventory_tb_inventory_name" FromRole="inventory" ToRole="tb_inventory_name" />
+          <Property Name="Incoming" Type="Int32" />
+          <Property Name="DateOrdered" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="item">
           <Key>
@@ -820,6 +807,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="items" Relationship="Self.FK_item_tb_customer" FromRole="tb_customer" ToRole="item" />
           <Property Name="Type" Type="Int32" />
+          <NavigationProperty Name="orders" Relationship="ThienNgaDatabaseModel.FK_order_tb_customer" FromRole="tb_customer" ToRole="order" />
         </EntityType>
         <EntityType Name="tb_inventory_name">
           <Key>
@@ -843,6 +831,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="items" Relationship="Self.FK_item_tb_product_detail" FromRole="tb_product_detail" ToRole="item" />
           <NavigationProperty Name="tb_cate" Relationship="Self.FK_tb_product_detail_tb_cate" FromRole="tb_product_detail" ToRole="tb_cate" />
+          <NavigationProperty Name="tb_warranty_activities" Relationship="ThienNgaDatabaseModel.FK_tb_warranty_activities_tb_product_detail" FromRole="tb_product_detail" ToRole="tb_warranty_activities" />
         </EntityType>
         <EntityType Name="tb_warranty">
           <Key>
@@ -855,6 +844,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <Property Name="duration" Type="Int32" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="MaChinh" Type="Boolean" Nullable="false" />
+          <Property Name="Special" Type="Int32" />
         </EntityType>
         <EntityType Name="tb_warrnaty_status">
           <Key>
@@ -1183,6 +1173,14 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
             <End Role="order" EntitySet="orders" />
             <End Role="orderDetail" EntitySet="orderDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_tb_warranty_activities_tb_product_detail" Association="ThienNgaDatabaseModel.FK_tb_warranty_activities_tb_product_detail">
+            <End Role="tb_product_detail" EntitySet="tb_product_detail" />
+            <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_tb_customer" Association="ThienNgaDatabaseModel.FK_order_tb_customer">
+            <End Role="tb_customer" EntitySet="tb_customer" />
+            <End Role="order" EntitySet="orders" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="ThienNga_checkkho_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
@@ -1339,7 +1337,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <Property Name="startDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="employee" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="warrantyID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="status" Type="Int32" Nullable="false" />
           <Property Name="realeaseDATE" Type="DateTime" Precision="0" />
           <Property Name="itemID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -1353,6 +1351,8 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <NavigationProperty Name="warrantyActivityFixingFees" Relationship="ThienNgaDatabaseModel.FK_warrantyActivityFixingFee_tb_warranty_activities" FromRole="tb_warranty_activities" ToRole="warrantyActivityFixingFee" />
           <Property Name="TenKhach" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SDT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="productDetailID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tb_product_detail" Relationship="ThienNgaDatabaseModel.FK_tb_warranty_activities_tb_product_detail" FromRole="tb_warranty_activities" ToRole="tb_product_detail" />
         </EntityType>
         <Association Name="FK_tb_warranty_activities_AspNetUsers">
           <End Type="ThienNgaDatabaseModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -1424,6 +1424,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <Property Name="total" Type="Double" Nullable="false" />
           <NavigationProperty Name="items" Relationship="ThienNgaDatabaseModel.FK_item_order" FromRole="order" ToRole="item" />
           <NavigationProperty Name="orderDetails" Relationship="ThienNgaDatabaseModel.FK_orderDetail_order" FromRole="order" ToRole="orderDetail" />
+          <NavigationProperty Name="tb_customer" Relationship="ThienNgaDatabaseModel.FK_order_tb_customer" FromRole="order" ToRole="tb_customer" />
         </EntityType>
         <EntityType Name="orderDetail">
           <Key>
@@ -1459,6 +1460,30 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
             </Principal>
             <Dependent Role="orderDetail">
               <PropertyRef Name="orderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_warranty_activities_tb_product_detail">
+          <End Type="ThienNgaDatabaseModel.tb_product_detail" Role="tb_product_detail" Multiplicity="1" />
+          <End Type="ThienNgaDatabaseModel.tb_warranty_activities" Role="tb_warranty_activities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_product_detail">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tb_warranty_activities">
+              <PropertyRef Name="productDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_tb_customer">
+          <End Type="ThienNgaDatabaseModel.tb_customer" Role="tb_customer" Multiplicity="0..1" />
+          <End Type="ThienNgaDatabaseModel.order" Role="order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_customer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="customerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1537,6 +1562,8 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <EntitySetMapping Name="inventories">
             <EntityTypeMapping TypeName="IsTypeOf(ThienNgaDatabaseModel.inventory)">
               <MappingFragment StoreEntitySet="inventory">
+                <ScalarProperty Name="DateOrdered" ColumnName="DateOrdered" />
+                <ScalarProperty Name="Incoming" ColumnName="Incoming" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
                 <ScalarProperty Name="inventoryID" ColumnName="inventoryID" />
@@ -1622,6 +1649,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <EntitySetMapping Name="tb_warranty">
             <EntityTypeMapping TypeName="ThienNgaDatabaseModel.tb_warranty">
               <MappingFragment StoreEntitySet="tb_warranty">
+                <ScalarProperty Name="Special" ColumnName="Special" />
                 <ScalarProperty Name="MaChinh" ColumnName="MaChinh" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="warrantyID" ColumnName="warrantyID" />
@@ -1867,6 +1895,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <EntitySetMapping Name="tb_warranty_activities">
             <EntityTypeMapping TypeName="ThienNgaDatabaseModel.tb_warranty_activities">
               <MappingFragment StoreEntitySet="tb_warranty_activities">
+                <ScalarProperty Name="productDetailID" ColumnName="productDetailID" />
                 <ScalarProperty Name="SDT" ColumnName="SDT" />
                 <ScalarProperty Name="TenKhach" ColumnName="TenKhach" />
                 <ScalarProperty Name="CodeBaoHanh" ColumnName="CodeBaoHanh" />

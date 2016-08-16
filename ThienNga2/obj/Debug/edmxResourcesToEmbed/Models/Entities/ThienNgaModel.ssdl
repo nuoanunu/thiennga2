@@ -88,6 +88,8 @@
     <Property Name="dateAdded" Type="datetime" Nullable="false" />
     <Property Name="inventoryID" Type="int" Nullable="false" />
     <Property Name="quantity" Type="int" Nullable="false" />
+    <Property Name="Incoming" Type="int" />
+    <Property Name="DateOrdered" Type="datetime" />
   </EntityType>
   <EntityType Name="item">
     <Key>
@@ -197,6 +199,7 @@
     <Property Name="duration" Type="int" Nullable="false" />
     <Property Name="description" Type="varchar(max)" Nullable="false" />
     <Property Name="MaChinh" Type="bit" Nullable="false" />
+    <Property Name="Special" Type="int" />
   </EntityType>
   <EntityType Name="tb_warranty_activities">
     <Key>
@@ -206,7 +209,7 @@
     <Property Name="startDate" Type="date" Nullable="false" />
     <Property Name="employee" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="warrantyID" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="Description" Type="varchar(max)" />
+    <Property Name="Description" Type="nvarchar(max)" />
     <Property Name="status" Type="int" Nullable="false" />
     <Property Name="realeaseDATE" Type="date" />
     <Property Name="itemID" Type="varchar" MaxLength="50" />
@@ -215,6 +218,7 @@
     <Property Name="CodeBaoHanh" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="TenKhach" Type="nvarchar" MaxLength="50" />
     <Property Name="SDT" Type="nvarchar" MaxLength="50" />
+    <Property Name="productDetailID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="tb_warrnaty_status">
     <Key>
@@ -406,6 +410,18 @@ warning 6035: The relationship 'FK_inventory_tb_product_detail1' has columns tha
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_order_tb_customer">
+    <End Role="tb_customer" Type="Self.tb_customer" Multiplicity="0..1" />
+    <End Role="order" Type="Self.order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_customer">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="order">
+        <PropertyRef Name="customerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_orderDetail_order">
     <End Role="order" Type="Self.order" Multiplicity="1" />
     <End Role="orderDetail" Type="Self.orderDetail" Multiplicity="*" />
@@ -430,42 +446,15 @@ warning 6035: The relationship 'FK_inventory_tb_product_detail1' has columns tha
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_warranty_activities_AspNetUsers">
-    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+  <Association Name="FK_tb_warranty_activities_tb_product_detail">
+    <End Role="tb_product_detail" Type="Self.tb_product_detail" Multiplicity="1" />
     <End Role="tb_warranty_activities" Type="Self.tb_warranty_activities" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="AspNetUsers">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="tb_warranty_activities">
-        <PropertyRef Name="employee" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_warranty_activities_AspNetUsers1">
-    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
-    <End Role="tb_warranty_activities" Type="Self.tb_warranty_activities" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUsers">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="tb_warranty_activities">
-        <PropertyRef Name="empFixer" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_tb_warranty_activities_tb_warranty1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-        <Association Name="FK_tb_warranty_activities_tb_warranty1" />-->
-  <Association Name="FK_tb_warranty_activities_tb_warrnaty_status">
-    <End Role="tb_warrnaty_status" Type="Self.tb_warrnaty_status" Multiplicity="1" />
-    <End Role="tb_warranty_activities" Type="Self.tb_warranty_activities" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_warrnaty_status">
+      <Principal Role="tb_product_detail">
         <PropertyRef Name="id" />
       </Principal>
       <Dependent Role="tb_warranty_activities">
-        <PropertyRef Name="status" />
+        <PropertyRef Name="productDetailID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -643,6 +632,10 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
       <End Role="account" EntitySet="account" />
       <End Role="log" EntitySet="log" />
     </AssociationSet>
+    <AssociationSet Name="FK_order_tb_customer" Association="Self.FK_order_tb_customer">
+      <End Role="tb_customer" EntitySet="tb_customer" />
+      <End Role="order" EntitySet="order" />
+    </AssociationSet>
     <AssociationSet Name="FK_orderDetail_order" Association="Self.FK_orderDetail_order">
       <End Role="order" EntitySet="order" />
       <End Role="orderDetail" EntitySet="orderDetail" />
@@ -651,16 +644,8 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
       <End Role="tb_cate" EntitySet="tb_cate" />
       <End Role="tb_product_detail" EntitySet="tb_product_detail" />
     </AssociationSet>
-    <AssociationSet Name="FK_tb_warranty_activities_AspNetUsers" Association="Self.FK_tb_warranty_activities_AspNetUsers">
-      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-      <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_warranty_activities_AspNetUsers1" Association="Self.FK_tb_warranty_activities_AspNetUsers1">
-      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-      <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_warranty_activities_tb_warrnaty_status" Association="Self.FK_tb_warranty_activities_tb_warrnaty_status">
-      <End Role="tb_warrnaty_status" EntitySet="tb_warrnaty_status" />
+    <AssociationSet Name="FK_tb_warranty_activities_tb_product_detail" Association="Self.FK_tb_warranty_activities_tb_product_detail">
+      <End Role="tb_product_detail" EntitySet="tb_product_detail" />
       <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
     </AssociationSet>
     <AssociationSet Name="FK_warrantyActivityFee_tb_warranty_activities" Association="Self.FK_warrantyActivityFee_tb_warranty_activities">

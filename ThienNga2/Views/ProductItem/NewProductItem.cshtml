@@ -127,7 +127,7 @@
             <h1>Tạo đơn hàng<span>Bán hàng</span></h1>
             @Html.ValidationSummary("", new { @class = "text-danger" })
             <form>
-                <label>Ngày <input name="date" id="date" value=""/> Tháng <input name="date" id ="month" value="" /> Năm <input name="year" id="year" value="" /> </label>
+                <label>Ngày <input name="date" id="date" value=""/> Tháng <input name="month" id ="month" value="" /> Năm <input name="year" id="year" value="" /> </label>
                 <div class="section"><span>1</span>Thông tin khách hàng</div>
                 <div class="inner-wrap">
                     <label>Nhóm khách hàng @Html.DropDownListFor(Model => Model.custype, ls3)</label>

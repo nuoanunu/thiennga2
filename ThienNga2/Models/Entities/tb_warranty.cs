@@ -21,5 +21,6 @@ namespace ThienNga2.Models.Entities
         public int duration { get; set; }
         public string description { get; set; }
         public bool MaChinh { get; set; }
+        public Nullable<int> Special { get; set; }
     }
 }

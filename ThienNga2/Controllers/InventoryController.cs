@@ -36,7 +36,10 @@ namespace ThienNga2.Areas.Admin.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         // GET: Admin/Invenotry
-
+        public ActionResult AllInven() {
+            ViewData["InvenLisst"] = am.inventories.ToList();
+            return View("AllKho");
+        }
         public ActionResult Index()
         {
 
@@ -162,7 +165,22 @@ namespace ThienNga2.Areas.Admin.Controllers
             return RedirectToAction("Search", "Inventory", new { code = t.productStoreCode+"" });
           
         }
+        public ActionResult orderKho(InvenotyChangeModel fixkho)
+        {
+            inventory t = am.inventories.Find(fixkho.inven.id);
+            if (fixkho.newadd <= 0) { }
+            else
+            {
+                t.Incoming = t.Incoming + fixkho.newadd;
+                DateTime date = new DateTime(fixkho.year , fixkho.month , fixkho.day);
+                t.DateOrdered = date;
+                am.SaveChanges();
+            }
+            ViewData["productdetail"] = am.ThienNga_FindProduct2(fixkho.inven.productFactoryCode).FirstOrDefault();
+            ViewData["inventoryDetail"] = am.ThienNga_checkkho2(fixkho.inven.productFactoryCode).ToList();
+            return RedirectToAction("Search", "Inventory", new { code = t.productStoreCode + "" });
 
+        }
         public ActionResult trukho()
         {
 

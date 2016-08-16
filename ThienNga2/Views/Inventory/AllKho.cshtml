@@ -1,0 +1,69 @@
+﻿
+@using ThienNga2.Models.Entities;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>WarrantyList</title>
+    <script src="//code.jquery.com/jquery-1.12.3.js"> </script>
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"> </script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"> </script>
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+
+
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
+    <style>
+        body {
+            background: url('') no-repeat center center fixed;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Tên Kho</th>
+                    <th>SKU</th>
+                    <th>Hiện có</th>
+                    <th>Số lượng hàng đang về</th>
+                    <th>Dự kiến ngày về</th>
+                    <th>Chi tiết</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (inventory wact in (List<inventory>)ViewData["InvenLisst"])
+                {
+                    String linkEdit = "Search?code=" + wact.productStoreCode;
+                    <tr>
+                        <td>
+                            @wact.tb_inventory_name.InventoryName
+                        </td>
+                        <td>
+                            @wact.productStoreCode
+                        </td>
+                        <td>
+                            @wact.quantity
+                        </td>
+                        <td>
+                            @wact.Incoming
+                        </td>
+                        <td>
+                            @wact.DateOrdered
+                        </td>
+                        <td>
+                            <a href="@linkEdit">Chi tiết</a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -20,6 +20,8 @@ namespace ThienNga2.Models.Entities
         public System.DateTime dateAdded { get; set; }
         public int inventoryID { get; set; }
         public int quantity { get; set; }
+        public Nullable<int> Incoming { get; set; }
+        public Nullable<System.DateTime> DateOrdered { get; set; }
     
         public virtual tb_inventory_name tb_inventory_name { get; set; }
     }

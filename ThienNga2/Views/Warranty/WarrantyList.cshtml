@@ -1,0 +1,98 @@
+﻿
+@using ThienNga2.Models.Entities;
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>WarrantyList</title>
+    <script src="//code.jquery.com/jquery-1.12.3.js"> </script>
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"> </script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"> </script>
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+
+
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
+    <style>
+        body {
+              background: url('') no-repeat center center fixed;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Ngày</th>
+                    <th>Code bảo hành</th>
+                    <th>Mã IMEI</th>
+                    <th>Mã sản phẩm</th>
+                    <th>Người nhận</th>
+                    <th>Người sửa</th>
+                    <th>Mô tả</th>
+                    <th>Trạng Thái</th>
+                    <th>Ngày trả </th>
+                    <th>Chi tiết</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (tb_warranty_activities wact in (List<tb_warranty_activities>)ViewData["allact"])
+                {
+                    String linkEdit = "Search?code=" + wact.id + "&searchType=warrantyActID";
+
+                    <tr>
+                        <td>
+                            @wact.startDate
+                        </td>
+                        <td>
+                            @wact.CodeBaoHanh
+                        </td>
+                        
+                        <td>
+                            @wact.warrantyID
+                        </td>
+                        <td>
+                            @wact.tb_product_detail.productStoreID
+                        </td>
+                        <td>
+                            @wact.AspNetUser.FullName
+                        </td>
+                        <td>
+                            @wact.AspNetUser1.FullName
+                        </td>
+                        
+                        <td>
+                            @wact.Description
+                        </td>
+                        <td>
+                            @wact.tb_warrnaty_status.statusName
+                        </td>
+                        <td>
+                           @if (wact.realeaseDATE == null)
+                           {
+                            
+                               <div>  Chưa bàn giao</div>
+
+                           }
+                           else
+                           {
+                            <div>  @wact.realeaseDATE</div>
+                           }
+                        </td>
+                        <td>
+                            <a href="@linkEdit" > Chi tiết</a>
+                        </td>
+                    </tr>
+                }
+              
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

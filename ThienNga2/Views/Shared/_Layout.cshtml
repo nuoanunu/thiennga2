@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -11,7 +12,54 @@
     @Scripts.Render("~/bundles/modernizr")
     <style>
         .liact act {
-        background-color:#022F5A;
+            background-color: #022F5A;
+        }
+
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+            .sidenav li {
+                padding: 8px 8px 8px 32px;
+                text-decoration: none;
+                font-size: 25px;
+                color: #818181;
+                display: block;
+                transition: 0.3s;
+            }
+
+                .sidenav li:hover, .offcanvas li:focus {
+                    color: #f1f1f1;
+                }
+
+            .sidenav .closebtn {
+                position: absolute;
+                top: 0;
+                right: 25px;
+                font-size: 36px;
+                margin-left: 50px;
+            }
+
+        #main {
+            transition: margin-left .5s;
+            padding: 16px;
+        }
+
+        .navbar-collapse {
+            background: #000000;
+        }
+
+        .navbar {
+            background: #000000;
         }
     </style>
     <link href="~/Content/agency.css" rel="stylesheet">
@@ -19,8 +67,10 @@
 </head>
 <body>
 
-    <div id="navbar-darkblue" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+
         <div class="container">
+
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
@@ -29,24 +79,25 @@
                 </button>
                 @Html.ActionLink("FLYCAM", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div  class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @if (Request.RawUrl.Contains("ProductDetail")) { 
-                        <li style="background-color:#022F5A"> @Html.ActionLink("Nhập Sản Phẩm", "", "ProductDetail")</li>
+                    @if (Request.RawUrl.Contains("ProductDetail"))
+                    {
+                        <li style="background-color:#555555"> @Html.ActionLink("Nhập Sản Phẩm", "", "ProductDetail")</li>
                     }
                     else
                     {
-                    <li > @Html.ActionLink("Nhập Sản Phẩm", "", "ProductDetail")</li> }
+                        <li> @Html.ActionLink("Nhập Sản Phẩm", "", "ProductDetail")</li> }
                     @if (Request.RawUrl.Contains("ProductItem"))
                     {
-                    <li style="background-color:#022F5A"> @Html.ActionLink("Bán", "", "ProductItem")</li>
+                        <li style="background-color:#555555"> @Html.ActionLink("Bán", "", "ProductItem")</li>
                     }
                     else
                     {
-                        <li > @Html.ActionLink("Bán", "", "ProductItem")</li> }
+                        <li> @Html.ActionLink("Bán", "", "ProductItem")</li> }
                     @if (Request.RawUrl.Contains("KickHoatBaoHanh"))
                     {
-                        <li style="background-color:#022F5A"> @Html.ActionLink("Kích hoạt bảo hành", "", "KickHoatBaoHanh")</li>
+                        <li style="background-color:#555555"> @Html.ActionLink("Kích hoạt bảo hành", "", "KickHoatBaoHanh")</li>
                     }
                     else
                     {
@@ -54,44 +105,97 @@
                     }
                     @if (Request.RawUrl.Contains("CreateWarranty"))
                     {
-                        <li style="background-color:#022F5A"> @Html.ActionLink("Tạo hóa đơn bảo hành", "", "CreateWarranty")</li>
+                        <li style="background-color:#555555"> @Html.ActionLink("Tạo hóa đơn bảo hành", "", "CreateWarranty")</li>
                     }
                     else
                     {
                         <li>@Html.ActionLink("Tạo hóa đơn bảo hành", "", "CreateWarranty")</li>
                     }
-                     @if (Request.RawUrl.Contains("Warranty") && !Request.RawUrl.Contains("CreateWarranty"))
-                     {
-                       <li style="background-color:#022F5A"> @Html.ActionLink("Kiểm Tra Bảo Hành", "", "Warranty")</li>
+                    @if (Request.RawUrl.Contains("Warranty") && !Request.RawUrl.Contains("CreateWarranty"))
+                    {
+                        <li style="background-color:#555555"> @Html.ActionLink("Kiểm Tra Bảo Hành", "", "Warranty")</li>
                     }
                     else
                     {
-                        <li >@Html.ActionLink("Kiểm Tra Bảo Hành", "", "Warranty")</li> 
+                        <li>@Html.ActionLink("Kiểm Tra Bảo Hành", "", "Warranty")</li>
                     }
                     @if (Request.RawUrl.Contains("Inventory") && !Request.RawUrl.Contains("themkho") && !Request.RawUrl.Contains("trukho"))
                     {
-                    <li style="background-color:#022F5A"> @Html.ActionLink("Kiểm hàng tồn kho", "", "Inventory")</li>}
+                        <li style="background-color:#555555"> @Html.ActionLink("Kiểm hàng tồn kho", "", "Inventory")</li>}
                     else
                     {
-                        <li > @Html.ActionLink("Kiểm kho", "", "Inventory")</li> }
+                        <li> @Html.ActionLink("Kiểm kho", "", "Inventory")</li> }
                     @*@if (Request.RawUrl.Contains("themkho") )
-                    {
-                        <li style="background-color:#022F5A"> @Html.ActionLink("Nhập kho", "", "Inventory/themkho")</li>}
-                    else
-                    {
-                        <li> @Html.ActionLink("Nhập kho", "", "Inventory/themkho")</li> }
-                    @if (Request.RawUrl.Contains("trukho"))
-                    {
-                        <li style="background-color:#022F5A"> @Html.ActionLink("Xuất kho", "", "Inventory/trukho")</li>}
-                    else
-                    {
-                        <li> @Html.ActionLink("Xuất Kho", "", "Inventory/trukho")</li> }*@
-                   
+                        {
+                            <li style="background-color:#022F5A"> @Html.ActionLink("Nhập kho", "", "Inventory/themkho")</li>}
+                        else
+                        {
+                            <li> @Html.ActionLink("Nhập kho", "", "Inventory/themkho")</li> }
+                        @if (Request.RawUrl.Contains("trukho"))
+                        {
+                            <li style="background-color:#022F5A"> @Html.ActionLink("Xuất kho", "", "Inventory/trukho")</li>}
+                        else
+                        {
+                            <li> @Html.ActionLink("Xuất Kho", "", "Inventory/trukho")</li> }*@
+
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
+
+
+    @try
+    {
+        if (Request.IsAuthenticated)
+        {
+
+            if (User.Identity.GetUserName().Equals("15lythaito@gmail.com") || User.Identity.GetUserName().Equals("dwarpro@gmail.com"))
+            {
+                <div id="main">
+                    <span style="font-size:30px;cursor:pointer" id="toogleBtn" onclick="toogleNav()">&#9776; Mở menu</span>
+                </div>
+
+                <script>
+                    var current = true;
+                    function toogleNav() {
+                        if (current) { openNav(); }
+                        else { closeNav(); }
+                        current = !current;
+                    }
+                    function openNav() {
+                        document.getElementById("mySidenav").style.width = "250px";
+                        document.getElementById("main").style.marginLeft = "250px";
+                        document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+                        $("#toogleBtn").text("Đóng menu  ");
+                    }
+
+                    function closeNav() {
+                        document.getElementById("mySidenav").style.width = "0";
+                        document.getElementById("main").style.marginLeft = "0";
+                        document.body.style.backgroundColor = "white";
+                        $("#toogleBtn").text(" Mở menu  ");
+
+                    }
+                </script>
+                <div id="mySidenav" class="sidenav">
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                    @*<li > @Html.ActionLink("Quản lý khách hàng", "", "Customer")</li>*@
+                    <li> @Html.ActionLink("Quản lý báo giá", "", "BaoGia")</li>
+                    <li> @Html.ActionLink("Quản lý sữa chữa", "", "Warranty/AllWarranty")</li>
+                    @*<li> @Html.ActionLink("Quản lý IMEI", "", "Warranty/IMEI")</li>*@
+                    <li> @Html.ActionLink("Quản lý Kho", "", "Inventory/AllInven")</li>
+                </div>
+            }
+        }
+    }
+    catch (Exception e)
+    {
+        System.Diagnostics.Debug.WriteLine("DAFUG ");
+    }
+
+
+
     <div class="container body-content">
         @RenderBody()
         <hr />

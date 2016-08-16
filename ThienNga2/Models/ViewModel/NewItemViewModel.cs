@@ -13,9 +13,9 @@ namespace ThienNga2.Models.ViewModel
         public int custype { get; set; }
         public String Adress { get; set; }
         public int inventoryID { get; set; }
-        public String date { get; set; }
-        public String month { get; set; }
-        public String year { get; set; }
+        public int date { get; set; }
+        public int month { get; set; }
+        public int year { get; set; }
         public List<AnOrderDetail> items { get; set; }
 
         public NewItemViewModel() {
@@ -32,6 +32,9 @@ namespace ThienNga2.Models.ViewModel
     public class InvenotyChangeModel
     {
         public int newadd { get; set; }
+        public int day { get; set; }
+        public int month { get; set; }
+        public int year { get; set; }
         public inventory inven { get; set; }
         public InvenotyChangeModel()
         {

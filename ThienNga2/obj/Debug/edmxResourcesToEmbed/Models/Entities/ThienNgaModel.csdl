@@ -84,6 +84,8 @@
     <Property Name="inventoryID" Type="Int32" Nullable="false" />
     <Property Name="quantity" Type="Int32" Nullable="false" />
     <NavigationProperty Name="tb_inventory_name" Relationship="Self.FK_inventory_tb_inventory_name" FromRole="inventory" ToRole="tb_inventory_name" />
+    <Property Name="Incoming" Type="Int32" />
+    <Property Name="DateOrdered" Type="DateTime" Precision="3" />
   </EntityType>
   <EntityType Name="item">
     <Key>
@@ -139,6 +141,7 @@
     <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="items" Relationship="Self.FK_item_tb_customer" FromRole="tb_customer" ToRole="item" />
     <Property Name="Type" Type="Int32" />
+    <NavigationProperty Name="orders" Relationship="ThienNgaDatabaseModel.FK_order_tb_customer" FromRole="tb_customer" ToRole="order" />
   </EntityType>
   <EntityType Name="tb_inventory_name">
     <Key>
@@ -162,6 +165,7 @@
     <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="items" Relationship="Self.FK_item_tb_product_detail" FromRole="tb_product_detail" ToRole="item" />
     <NavigationProperty Name="tb_cate" Relationship="Self.FK_tb_product_detail_tb_cate" FromRole="tb_product_detail" ToRole="tb_cate" />
+    <NavigationProperty Name="tb_warranty_activities" Relationship="ThienNgaDatabaseModel.FK_tb_warranty_activities_tb_product_detail" FromRole="tb_product_detail" ToRole="tb_warranty_activities" />
   </EntityType>
   <EntityType Name="tb_warranty">
     <Key>
@@ -174,6 +178,7 @@
     <Property Name="duration" Type="Int32" Nullable="false" />
     <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="MaChinh" Type="Boolean" Nullable="false" />
+    <Property Name="Special" Type="Int32" />
   </EntityType>
   <EntityType Name="tb_warrnaty_status">
     <Key>
@@ -502,6 +507,14 @@
       <End Role="order" EntitySet="orders" />
       <End Role="orderDetail" EntitySet="orderDetails" />
     </AssociationSet>
+    <AssociationSet Name="FK_tb_warranty_activities_tb_product_detail" Association="ThienNgaDatabaseModel.FK_tb_warranty_activities_tb_product_detail">
+      <End Role="tb_product_detail" EntitySet="tb_product_detail" />
+      <End Role="tb_warranty_activities" EntitySet="tb_warranty_activities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_order_tb_customer" Association="ThienNgaDatabaseModel.FK_order_tb_customer">
+      <End Role="tb_customer" EntitySet="tb_customer" />
+      <End Role="order" EntitySet="orders" />
+    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="ThienNga_checkkho_Result">
     <Property Type="Int32" Name="id" Nullable="false" />
@@ -658,7 +671,7 @@
     <Property Name="startDate" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="employee" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
     <Property Name="warrantyID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="status" Type="Int32" Nullable="false" />
     <Property Name="realeaseDATE" Type="DateTime" Precision="0" />
     <Property Name="itemID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -672,6 +685,8 @@
     <NavigationProperty Name="warrantyActivityFixingFees" Relationship="ThienNgaDatabaseModel.FK_warrantyActivityFixingFee_tb_warranty_activities" FromRole="tb_warranty_activities" ToRole="warrantyActivityFixingFee" />
     <Property Name="TenKhach" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="SDT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="productDetailID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tb_product_detail" Relationship="ThienNgaDatabaseModel.FK_tb_warranty_activities_tb_product_detail" FromRole="tb_warranty_activities" ToRole="tb_product_detail" />
   </EntityType>
   <Association Name="FK_tb_warranty_activities_AspNetUsers">
     <End Type="ThienNgaDatabaseModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -743,6 +758,7 @@
     <Property Name="total" Type="Double" Nullable="false" />
     <NavigationProperty Name="items" Relationship="ThienNgaDatabaseModel.FK_item_order" FromRole="order" ToRole="item" />
     <NavigationProperty Name="orderDetails" Relationship="ThienNgaDatabaseModel.FK_orderDetail_order" FromRole="order" ToRole="orderDetail" />
+    <NavigationProperty Name="tb_customer" Relationship="ThienNgaDatabaseModel.FK_order_tb_customer" FromRole="order" ToRole="tb_customer" />
   </EntityType>
   <EntityType Name="orderDetail">
     <Key>
@@ -778,6 +794,30 @@
       </Principal>
       <Dependent Role="orderDetail">
         <PropertyRef Name="orderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_warranty_activities_tb_product_detail">
+    <End Type="ThienNgaDatabaseModel.tb_product_detail" Role="tb_product_detail" Multiplicity="1" />
+    <End Type="ThienNgaDatabaseModel.tb_warranty_activities" Role="tb_warranty_activities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_product_detail">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tb_warranty_activities">
+        <PropertyRef Name="productDetailID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_order_tb_customer">
+    <End Type="ThienNgaDatabaseModel.tb_customer" Role="tb_customer" Multiplicity="0..1" />
+    <End Type="ThienNgaDatabaseModel.order" Role="order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_customer">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="order">
+        <PropertyRef Name="customerID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

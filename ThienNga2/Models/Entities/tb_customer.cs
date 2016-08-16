@@ -18,6 +18,7 @@ namespace ThienNga2.Models.Entities
         public tb_customer()
         {
             this.items = new HashSet<item>();
+            this.orders = new HashSet<order>();
         }
     
         public int id { get; set; }
@@ -28,5 +29,7 @@ namespace ThienNga2.Models.Entities
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<item> items { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<order> orders { get; set; }
     }
 }

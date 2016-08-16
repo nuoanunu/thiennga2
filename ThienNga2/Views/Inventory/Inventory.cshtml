@@ -81,14 +81,18 @@
              temp = $("img").attr("src");
           
           var elem = document.createElement("img");
-elem.src = temp;
-document.getElementById("content").appendChild(elem);
+          elem.src = temp;
+            document.getElementById("content").appendChild(elem);
 
         });
    </script>
    
 
     <style>
+            img {
+            width : 100%;
+            height : 100%;
+}
          .ui-autocomplete {
              max-height: 100px;
              overflow-y: auto;
@@ -104,6 +108,31 @@ document.getElementById("content").appendChild(elem);
          tr.border_bottom td {
         border-bottom:0.5pt solid gray;
 }
+         .blue {
+  background-color: #55acee;
+  box-shadow: 0px 5px 0px 0px #3C93D5;
+
+  width : 100%;
+}
+        .green {
+            background-color: #2ecc71;
+            box-shadow: 0px 5px 0px 0px #15B358;
+      
+  width : 100%;
+        }
+        .yellow {
+            background-color: #f1c40f;
+            box-shadow: 0px 5px 0px 0px #D8AB00;
+
+  width : 100%;
+        }
+ .red {
+ background-color: #e74c3c;
+  box-shadow: 0px 5px 0px 0px #CE3323;
+
+  width : 100%;
+}
+       
     </style>
 </head>
 <body>
@@ -130,19 +159,37 @@ document.getElementById("content").appendChild(elem);
                 <tr>
 
 
-                    @foreach (tb_inventory_name name in (List<tb_inventory_name>)ViewData["allInvenName"])
-                    {
 
                         <td>
                             @using (Html.BeginForm("SearchGetAll", "Inventory"))
                             {
-                                <div style="display:none"> <input name="idd" value="@name.id" /> </div>
-                                <button type="submit" value="Search" id="submit2">Duyệt @name.InventoryName  </button>
+                                <div style="display:none"> <input name="idd" value="1" /> </div>
+                                <button type="submit" value="Search" id="submit2">Duyệt Kho Sài Gòn  </button>
                             }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("SearchGetAll", "Inventory"))
+                        {
+                            <div style="display:none"> <input name="idd" value="2" /> </div>
+                                <button type="submit" value="Search" id="submit2">Duyệt Kho Hà Nội  </button>
+                        }
+                        </td>
+                    
+
+
+                        <td>
+                        @using (Html.BeginForm("SearchGetAll", "Inventory"))
+                        {
+                            <div style="display:none"> <input name="idd" value="3" /> </div>
+                                <button type="submit" value="Search" id="submit2">Duyệt Kho Tổng  </button>
+                        }
                         </td>
 
 
-                    }
+
+
+
+                    
 
 
 
@@ -189,7 +236,7 @@ document.getElementById("content").appendChild(elem);
             tb_product_detail t = (tb_product_detail)ViewData["productdetail"];
             //String srcImage = t.description.Substring(t.description.IndexOf("<img>") + 4, t.description.IndexOf("</img>"));
 
-            <table align="center">
+            <table align="center" class="responstable">
                 <tr class="border_bottom">
 
 
@@ -197,9 +244,7 @@ document.getElementById("content").appendChild(elem);
                         <h6> @t.productName</h6>
                         
                     </td>
-                    <td rowspan="1">
-                       
-                    </td>
+           
                     <td rowspan="5">
                         <div id="content">
                           
@@ -217,9 +262,7 @@ document.getElementById("content").appendChild(elem);
                       
           
                     </td>
-                    <td>
-
-                    </td>
+               
                 </tr>
                 <tr class="border_bottom">
                     <td align="left">
@@ -230,7 +273,7 @@ document.getElementById("content").appendChild(elem);
                     <td align="right">
                         @t.productStoreID
                     </td>
-                    <td></td>
+       
                 </tr>
                 <tr class="border_bottom">
                     <td align="left">
@@ -240,7 +283,7 @@ document.getElementById("content").appendChild(elem);
                     <td align="right">
                         @t.price VND
                     </td>
-                    <td></td>
+             
                 </tr>
                 <tr class="border_bottom">
                     <td align="left">
@@ -251,7 +294,7 @@ document.getElementById("content").appendChild(elem);
                         <div>Số hàng đang về 20</div> <br>
                         <div>Dự kiến 20/8/2016</div> <br>
                     </td>
-                    <td></td>
+                  
                 </tr>
             </table>
 
@@ -276,7 +319,8 @@ document.getElementById("content").appendChild(elem);
             <table class="responstable" border="1">
                 <tr>
                     <th> Tên Kho </th>
-                    <th>  Số Lượng </th>
+                    <th>  Số lượng hiện có </th>
+                    <th>  Hàng đang về</th>
                     <th>  Chỉnh sửa </th>
                 </tr>
 
@@ -295,9 +339,14 @@ document.getElementById("content").appendChild(elem);
                                @item.quantity
                                 </td>
                             <td>
-                                <button type="button" class="btn btn-info btn-lg" data-toggle='modal' data-target="#@(item.id + "model")">Nhập kho</button>
-                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#@(item.id + "modelR")">Xuất kho</button>
-                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#@(item.id + "modelM")">Chuyển kho</button>
+                                <div> Số lượng hàng đang về @item.Incoming </div>
+                                <div> Dự kiến @item.DateOrdered</div>
+                            </td>
+                            <td>
+                                <button type="button" class="btn green" data-toggle='modal' data-target="#@(item.id + "model")">Nhập kho</button>
+                                <button type="button" class="btn red" data-toggle="modal" data-target="#@(item.id + "modelR")">Xuất kho</button>
+                                <button type="button" class="btn yellow" data-toggle="modal" data-target="#@(item.id + "modelM")">Chuyển kho</button>
+                                <button type="button" class="btn blue" data-toggle="modal" data-target="#@(item.id + "modelO")">Đặt hàng</button>
                             </td>
                             <div class="modal fade" id='@(item.id + "model")' role="dialog">
                                 <div class="modal-dialog">
@@ -429,7 +478,66 @@ document.getElementById("content").appendChild(elem);
 
                                 </div>
                             </div>     
-                        
+                            <div class="modal fade" id='@(item.id + "modelO")' role="dialog">
+                                <div class="modal-dialog">
+
+
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Đặt hàng</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            @using (Html.BeginForm("orderKho", "Inventory"))
+                                            {
+                                                inventory t = item;
+
+                                                <div class="form-style-10">
+                                                    <form>
+                                                         @Html.HiddenFor(Model => @Model.inven.id, new { @Value = t.id })
+                                                       @Html.HiddenFor(Model => @Model.inven.productFactoryCode, new { @Value = t.productFactoryCode })
+
+                                                        <div class="inner-wrap">
+                                                        
+                                                        
+                                                            <label>Số lượng đặt : @Html.TextBoxFor(Model => @Model.newadd)</label>
+                                                          
+                                                                <label> Thời gian dự kiến giao </label>
+                                                            <div class="col-xs-2">
+                                                                 <input type="text" name="day" hidden="day"  placeholder="Ngày"/>
+                                                            </div>
+                                                            <div class="col-xs-2">
+                                                                <input type="text" name="month" hidden="month" placeholder="Tháng"/>
+                                                            </div>
+                                                            <div class="col-xs-2">
+                                                                 <input type="text" name="year" hidden="year" placeholder="Năm" />
+                                                            </div>
+                                                                
+
+                                                                
+
+                                                            
+
+
+
+                                                            </div>
+                                                        <div class="button-section">
+                                                            <input type="submit" name="Đặt hàng" />
+
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            }
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            
                         </tr>
 
                     // }

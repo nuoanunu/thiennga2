@@ -46,6 +46,8 @@
         <EntityTypeShape EntityType="ThienNgaDatabaseModel.orderDetail" Width="1.5" PointX="15.625" PointY="14" />
         <AssociationConnector Association="ThienNgaDatabaseModel.FK_item_order" />
         <AssociationConnector Association="ThienNgaDatabaseModel.FK_orderDetail_order" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_tb_warranty_activities_tb_product_detail" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_order_tb_customer" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

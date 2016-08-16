@@ -222,6 +222,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\BaoGiaController.cs" />
     <Compile Include="Controllers\CreateWarrantyController.cs" />
     <Compile Include="Controllers\EntitiesAM.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
@@ -379,6 +380,9 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\formTemplate.css" />
     <Content Include="Content\images\flying-drones.jpg" />
+    <Content Include="Content\images\green.png" />
+    <Content Include="Content\images\red.png" />
+    <Content Include="Content\images\special.png" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\navigation.css" />
     <Content Include="Content\SearchBar.css" />
@@ -480,6 +484,10 @@
     <Content Include="Views\ProductItem\ConfirmNewProductItem.cshtml" />
     <Content Include="Views\CreateWarranty\KichHoatBaoHanh.cshtml" />
     <Content Include="Views\KickHoatBaoHanh\index.cshtml" />
+    <Content Include="Views\Warranty\WarrantyList.cshtml" />
+    <Content Include="Views\BaoGia\BaoGiaList.cshtml" />
+    <Content Include="Views\BaoGia\BaoGiaChiTiet.cshtml" />
+    <Content Include="Views\Inventory\AllKho.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

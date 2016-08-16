@@ -139,7 +139,10 @@ namespace ThienNga2.Controllers
             List<int> lstItemID = new List<int>();
             List<ConfirmItemView> ConfirmItemViewList = new List<ConfirmItemView>();
             float total = 0;
-            
+
+            DateTime soldDate = DateTime.Now;
+            try { soldDate = new DateTime(tuple.year, tuple.month, tuple.date); }
+            catch (Exception e) { }
             int inventoryID = tuple.inventoryID;
             order ord = new order();
             if (ModelState.IsValid)
@@ -159,7 +162,7 @@ namespace ThienNga2.Controllers
                   
              
                 }
-                ord.date = DateTime.Today;
+                ord.date = soldDate;
 
 
            
@@ -168,6 +171,7 @@ namespace ThienNga2.Controllers
                     total = total + ao.thanhTien;
                 }
                 ord.total = total;
+                String tt =Convert.ToDecimal(total).ToString("#,##0.00");
                 ord.customerID = cus.id;
                 am.orders.Add(ord);
                 am.SaveChanges();
@@ -211,7 +215,7 @@ namespace ThienNga2.Controllers
                             String minute = DateTime.Now.Minute + ""; if (minute.Length == 1) minute = "0" + minute;
                             String second = DateTime.Now.Second + ""; if (second.Length == 1) second = "0" + second;
                             it.productID =second+minute+ hour + day + month + year + "-"+pd.productStoreID+"-" + cus.phonenumber+"-"+i;
-                            it.DateOfSold = DateTime.Now;
+                            it.DateOfSold = soldDate;
                             am.items.Add(it);
                             am.SaveChanges();
                             lstItemID.Add(it.id);
@@ -230,7 +234,7 @@ namespace ThienNga2.Controllers
 
 
                 TempData["tuple"] = tuple;
-                TempData["total"] = total;
+                TempData["total"] = tt;
                 Session["oderID"] = lstOrderID;
                 Session["orderDetailID"] = lstOrderDetaiLID;
                 Session["itemID"] = lstItemID;
