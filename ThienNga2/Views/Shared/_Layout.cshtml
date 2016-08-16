@@ -121,7 +121,7 @@
                     }
                     @if (Request.RawUrl.Contains("Inventory") && !Request.RawUrl.Contains("themkho") && !Request.RawUrl.Contains("trukho"))
                     {
-                        <li style="background-color:#555555"> @Html.ActionLink("Kiểm hàng tồn kho", "", "Inventory")</li>}
+                        <li style="background-color:#555555"> @Html.ActionLink("Kiểm kho", "", "Inventory")</li>}
                     else
                     {
                         <li> @Html.ActionLink("Kiểm kho", "", "Inventory")</li> }
