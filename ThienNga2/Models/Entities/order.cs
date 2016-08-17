@@ -25,6 +25,7 @@ namespace ThienNga2.Models.Entities
         public Nullable<int> customerID { get; set; }
         public System.DateTime date { get; set; }
         public double total { get; set; }
+        public string MaBill { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<item> items { get; set; }

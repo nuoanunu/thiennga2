@@ -26,6 +26,7 @@ namespace ThienNga2.Models.Entities
         public string phonenumber { get; set; }
         public string address { get; set; }
         public Nullable<int> Type { get; set; }
+        public string address2 { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<item> items { get; set; }

@@ -12,6 +12,7 @@ namespace ThienNga2.Models.ViewModel
         public String phoneNumber { get; set; }
         public int custype { get; set; }
         public String Adress { get; set; }
+        public String Adress2 { get; set; }
         public int inventoryID { get; set; }
         public int date { get; set; }
         public int month { get; set; }
@@ -90,6 +91,15 @@ namespace ThienNga2.Models.ViewModel
         public ConfirmItemView() {
             lst = new List<String>();
         }
+
+    }
+    public class cusInfo
+    {
+        public String cusname { get; set; }
+        public String cussdt { get; set; }
+        public String cusadd { get; set; }
+        public String  cusadd2 { get; set; }
+
 
     }
     public class productView {

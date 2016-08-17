@@ -59,6 +59,24 @@
             $('#items_' + (index - 1) + '__thanhTienS').val(numberWithCommas(temp3));
             $('#items_' + (index - 1) + '__thanhTien').val(temp3);
         }
+        var currentsdt = "";
+        function checkCus() {
+            
+            var sdt = $("#phoneNumber").val();
+            if (currentsdt != sdt) {
+                currentsdt = sdt;
+                $.getJSON("/ProductItem/getdataKhachHang?sdt=" + sdt, function (result) {
+                    $.each(result, function (name, value) {
+                        if (name == "cusname") { $("#cusName").val(value); }
+
+                        if (name == "cusadd") { $("#Adress").val(value); }
+                        if (name == "cusadd2") { $("#Adress2").val(value); }
+                    });
+
+                });
+            }
+        }
+        setInterval(checkCus, 100);
         function checkPrice(name, index) {
             var flag = false;
         
@@ -142,6 +160,7 @@
                     <label>Tên khách hàng @Html.TextBoxFor(Model => Model.cusName, new { @class = "form-control" })</label>
                     <label>SDT @Html.TextBoxFor(Model => Model.phoneNumber, new { @class = "form-control" })</label>
                     <label>Địa chỉ @Html.TextBoxFor(Model => Model.Adress, new { @class = "form-control" })</label>
+                    <label>Địa chỉ giao hàng @Html.TextBoxFor(Model => Model.Adress2, new { @class = "form-control" })</label>
                 </div>
 
                 <div class="section"><span>2</span>Thông tin sản phẩm</div>

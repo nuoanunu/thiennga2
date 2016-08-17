@@ -125,6 +125,7 @@
     <EntitySetMapping Name="tb_customer">
       <EntityTypeMapping TypeName="ThienNgaDatabaseModel.tb_customer">
         <MappingFragment StoreEntitySet="tb_customer">
+          <ScalarProperty Name="address2" ColumnName="address2" />
           <ScalarProperty Name="Type" ColumnName="Type" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="customerName" ColumnName="customerName" />
@@ -424,6 +425,7 @@
     <EntitySetMapping Name="orders">
       <EntityTypeMapping TypeName="ThienNgaDatabaseModel.order">
         <MappingFragment StoreEntitySet="order">
+          <ScalarProperty Name="MaBill" ColumnName="MaBill" />
           <ScalarProperty Name="total" ColumnName="total" />
           <ScalarProperty Name="date" ColumnName="date" />
           <ScalarProperty Name="customerID" ColumnName="customerID" />

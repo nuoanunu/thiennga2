@@ -23,6 +23,7 @@
 
         <tr> <td> Tên Khách </td><td>  @a.cusName </td></tr>
         <tr> <td>Sdt</td><td> @a.phoneNumber </td></tr>
+        <tr> <td>Địa chỉa</td><td> @a.Adress </td></tr>
         <tr>
             <th>
                 Mã unit
@@ -85,6 +86,21 @@
                         <button type="submit" name="Edit" value="Hoàn tất">Xuất ra PDF</button>
                     }
                 </td>
+                <td>
+                    @using (Html.BeginForm("Confirm", "ProductItem/GenerateInvoicePDF2"))
+                    {
+                        <input type="hidden" id="dataString2" name="dataString" value="" />
+                        <button type="submit" name="Edit" value="Hoàn tất">Xuất ra PDF (VAT)</button>
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("Confirm", "ProductItem/GenerateInvoicePDF"))
+                    {
+                        <input type="hidden" id="dataString3" name="dataString" value="" />
+                        <button type="submit" name="Edit" value="Hoàn tất">Xuất Bill</button>
+                    }
+                </td>
+
 
 
             </tr>
@@ -120,6 +136,7 @@
        all = all + ":eachrow" + temp.trim();
     }
     $("#dataString").val(all);
+    $("#dataString2").val(all);
     </script>
       
 </body>

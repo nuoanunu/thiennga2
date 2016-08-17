@@ -126,6 +126,7 @@
           <Property Name="customerID" Type="int" />
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="total" Type="float" Nullable="false" />
+          <Property Name="MaBill" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="orderDetail">
           <Key>
@@ -169,10 +170,11 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="customerName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="customerName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="phonenumber" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="address" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="address" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Type" Type="int" />
+          <Property Name="address2" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tb_inventory_name">
           <Key>
@@ -802,12 +804,13 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="customerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="customerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="phonenumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="items" Relationship="Self.FK_item_tb_customer" FromRole="tb_customer" ToRole="item" />
           <Property Name="Type" Type="Int32" />
           <NavigationProperty Name="orders" Relationship="ThienNgaDatabaseModel.FK_order_tb_customer" FromRole="tb_customer" ToRole="order" />
+          <Property Name="address2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="tb_inventory_name">
           <Key>
@@ -1425,6 +1428,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <NavigationProperty Name="items" Relationship="ThienNgaDatabaseModel.FK_item_order" FromRole="order" ToRole="item" />
           <NavigationProperty Name="orderDetails" Relationship="ThienNgaDatabaseModel.FK_orderDetail_order" FromRole="order" ToRole="orderDetail" />
           <NavigationProperty Name="tb_customer" Relationship="ThienNgaDatabaseModel.FK_order_tb_customer" FromRole="order" ToRole="tb_customer" />
+          <Property Name="MaBill" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="orderDetail">
           <Key>
@@ -1617,6 +1621,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <EntitySetMapping Name="tb_customer">
             <EntityTypeMapping TypeName="ThienNgaDatabaseModel.tb_customer">
               <MappingFragment StoreEntitySet="tb_customer">
+                <ScalarProperty Name="address2" ColumnName="address2" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="customerName" ColumnName="customerName" />
@@ -1916,6 +1921,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <EntitySetMapping Name="orders">
             <EntityTypeMapping TypeName="ThienNgaDatabaseModel.order">
               <MappingFragment StoreEntitySet="order">
+                <ScalarProperty Name="MaBill" ColumnName="MaBill" />
                 <ScalarProperty Name="total" ColumnName="total" />
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="customerID" ColumnName="customerID" />

@@ -136,12 +136,13 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="customerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="customerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="phonenumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="items" Relationship="Self.FK_item_tb_customer" FromRole="tb_customer" ToRole="item" />
     <Property Name="Type" Type="Int32" />
     <NavigationProperty Name="orders" Relationship="ThienNgaDatabaseModel.FK_order_tb_customer" FromRole="tb_customer" ToRole="order" />
+    <Property Name="address2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="tb_inventory_name">
     <Key>
@@ -759,6 +760,7 @@
     <NavigationProperty Name="items" Relationship="ThienNgaDatabaseModel.FK_item_order" FromRole="order" ToRole="item" />
     <NavigationProperty Name="orderDetails" Relationship="ThienNgaDatabaseModel.FK_orderDetail_order" FromRole="order" ToRole="orderDetail" />
     <NavigationProperty Name="tb_customer" Relationship="ThienNgaDatabaseModel.FK_order_tb_customer" FromRole="order" ToRole="tb_customer" />
+    <Property Name="MaBill" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="orderDetail">
     <Key>

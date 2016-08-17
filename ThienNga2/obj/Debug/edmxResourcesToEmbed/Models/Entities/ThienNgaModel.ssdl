@@ -121,6 +121,7 @@
     <Property Name="customerID" Type="int" />
     <Property Name="date" Type="date" Nullable="false" />
     <Property Name="total" Type="float" Nullable="false" />
+    <Property Name="MaBill" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="orderDetail">
     <Key>
@@ -164,10 +165,11 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="customerName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="customerName" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="phonenumber" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="address" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="address" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Type" Type="int" />
+    <Property Name="address2" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="tb_inventory_name">
     <Key>
