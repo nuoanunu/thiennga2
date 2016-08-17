@@ -34,24 +34,31 @@ namespace ThienNga2.Controllers
 
         }
         public String getAllData(String name) {
-            if (name != null)
-                if(name.Trim().Length >=1)
-            {
-                List<tb_product_detail> lst = am.tb_product_detail.SqlQuery("SELECT * FROM dbo.tb_product_detail WHERE productStoreID='" + name +"'").ToList();
-                System.Diagnostics.Debug.WriteLine("da load xong het " + lst.Count());
-                JavaScriptSerializer serializer = new JavaScriptSerializer();
-                string result = "";
-                productView vi = new productView();
-                if (lst.Count == 1)
-                {
+            try {
+                if (name != null)
+                    if (name.Trim().Length >= 1)
+                    {
+                        List<tb_product_detail> lst = am.tb_product_detail.SqlQuery("SELECT * FROM dbo.tb_product_detail WHERE productStoreID='" + name + "'").ToList();
+                        System.Diagnostics.Debug.WriteLine("da load xong het " + lst.Count());
+                        JavaScriptSerializer serializer = new JavaScriptSerializer();
+                        string result = "";
+                        productView vi = new productView();
+                        if (lst.Count == 1)
+                        {
+                            if (lst.ElementAt(0).productName.Length >= 17)
+                            vi.name = lst.ElementAt(0).productName.Substring(0, 16);
 
-                    vi.name = lst.ElementAt(0).productStoreID;
-                    vi.price = lst.ElementAt(0).price + "";
-                }
-                result = serializer.Serialize(vi);
-                System.Diagnostics.Debug.WriteLine(result);
-                return result;
+                            vi.price = lst.ElementAt(0).price + "";
+                        }
+                        result = serializer.Serialize(vi);
+                        System.Diagnostics.Debug.WriteLine(result);
+                        return result;
+                    }
             }
+            catch (Exception e) {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+            }
+            
             return "";
         }
         private List<String> allname = new List<String>();
@@ -77,9 +84,12 @@ namespace ThienNga2.Controllers
                     if (detail != null)
                     {
                         productView vi = new productView();
-                        vi.price = detail.price + "";
-                        vi.name = detail.productName;
+                        double temp = Math.Floor(detail.price);
+                        String pri = Convert.ToDecimal(temp).ToString("#,##0");
 
+                        vi.price = pri;
+                        vi.name = detail.productName.Trim();
+                        
                         JavaScriptSerializer serializer = new JavaScriptSerializer();
 
                         return serializer.Serialize(vi);

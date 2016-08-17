@@ -67,6 +67,9 @@ namespace ThienNga2.Controllers
                             DateTime date = (DateTime)war.startdate;
                             date=date.AddMonths(war.duration);
                             vi.remainingTime = date.Day + "/" + date.Month + "/" + date.Year;
+                            if (war.Special == 1) {
+                                vi.sepcial = 1;
+                            }
                             result = serializer.Serialize(vi);
                             System.Diagnostics.Debug.WriteLine(result);
                             return result;

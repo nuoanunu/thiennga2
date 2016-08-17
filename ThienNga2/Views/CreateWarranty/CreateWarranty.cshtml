@@ -64,6 +64,15 @@
 
                             }
                         }
+                        if (name == "special") {
+                            if (flag && value != null) {
+                                if (value == 1) {
+                                    $("#divDescription").text("Hàng đơn lẻ ");
+                                    $('#IMEI').css("background-color", "pink");
+                                }
+
+                            }
+                        }
                     })
                 });
                 if (!flag) {

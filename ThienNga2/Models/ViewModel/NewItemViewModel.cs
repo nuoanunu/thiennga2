@@ -115,5 +115,6 @@ namespace ThienNga2.Models.ViewModel
         public String productName { get; set; }
         public String remainingTime { get; set; }
         public String mieuTa { get; set; }
+        public int sepcial { get; set; }
     }
     }
