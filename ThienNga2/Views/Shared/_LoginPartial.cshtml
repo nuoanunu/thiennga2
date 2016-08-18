@@ -9,7 +9,8 @@
         <li>
     
             
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() +"!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            <a id="empname"></a>
+            <input type="hidden" value="@User.Identity.GetUserName()" id="username" />
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
     </ul>
@@ -22,3 +23,11 @@ else
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
 }
+<script>
+    $.getJSON("/Warranty/getTen?email=" + "@User.Identity.GetUserName()", function (result) {
+        $.each(result, function (name, value) {
+            if (name == "fullname") { $("#empname").text("Xin chào "+value); }        
+        });
+
+    });
+</script>
