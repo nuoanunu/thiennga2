@@ -49,8 +49,8 @@ namespace ThienNga2.Controllers
             {
                 tb_warranty_activities act = am.tb_warranty_activities.SqlQuery("SELECT * from tb_warranty_activities where CodeBaoHanh= '" + idwar + "'").First();
                 AspNetUser user = am.AspNetUsers.SqlQuery("SELECT * FROM AspNetUsers where Email='" + iduser + "'").First();
-                System.Diagnostics.Debug.WriteLine("act " + idwar + " iduser " + iduser);
-                if (act != null && user != null)
+                
+                if (act != null && user != null && User.Identity.GetUserName().Equals(iduser))
                 {
                     act.empFixer = user.Id;
                     act.AspNetUser1 = user;
