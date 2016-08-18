@@ -12,38 +12,87 @@
     <link rel="stylesheet" type="text/css" href="~/Content/Table.css">
     <script src="http://www.google.com/jsapi"></script>
     <link rel="stylesheet" href="~/Content/jquery-ui.css" type="text/css">
+
     <script>
         $(document).ready(function () {
-           
+
             function checkHidden() {
-                for (i = 1 ; i<10 ; i ++) {
+                for (i = 1 ; i < 10 ; i++) {
                     0
                     if ($('#lst_' + (i - 1) + '__warrantyID').val() == "") {
 
                         $('#tr' + (i)).hide();
                     }
                     else {
-                   
-                        $('#tr' + (i) ).show();
+
+                        $('#tr' + (i)).show();
                     }
                 }
- 
+
             };
-          
+
             $('#test').click(function () {
-     
+
                 checkHidden();
             });
             setInterval(checkHidden, 100);
         });
-        
 
- 
+
+
+    </script>
+    <script>
+        function checkPrice(name, index) {
+            var flag = false;
+
+            $.getJSON("/KickHoatBaoHanh/checking?IMEI=" + name, function (result) {
+               
+                $.each(result, function (name, value) {
+                    if (name == "name") {
+                        
+                        
+                        if (value != null) {
+                            $('#lst_' + (index - 1) + '__warrantyID').css("background-color", "red");
+                            flag = true;
+                            $('#lst_' + (index - 1) + '__warrantyID').css("color", "white");
+
+                        }
+
+
+                    }
+
+                })
+            });
+            if (!flag) {
+                $('#lst_' + (index - 1) + '__warrantyID').css("background-color", "green");
+
+                $('#lst_' + (index - 1) + '__warrantyID').css("color", "white");
+            }
+        };
+        var temp = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
+        function checkHidden2() {
+            for (i = 1 ; i < 20; i++) {
+                // lst_0__warrantyID
+                if ($('#lst_' + (i - 1) + '__warrantyID').val() == "") {
+
+                }
+                else {
+                    if ($('#lst_' + (i - 1) + '__warrantyID').val() != temp[i - 1]) {
+                        temp[i - 1] = $('#lst_' + (i - 1) + '__warrantyID').val();
+                        checkPrice($('#lst_' + (i - 1) + '__warrantyID').val(), i);
+                    }
+                
+                }
+            }
+
+        };
+        setInterval(checkHidden2, 100);
+
     </script>
     <style>
         .singleTextBox {
-        width: 50px;
-             }
+            width: 50px;
+        }
     </style>
 </head>
 <body>
@@ -65,11 +114,11 @@
                     <tr>
                         <td>
                             <br />Tìm theo
-                            <input type="radio" name="searchType" checked="checked"  value="masp"> Mã sản pẩm
-                            <input type="radio" name="searchType" value="date"> Ngày 
+                            <input type="radio" name="searchType" checked="checked" value="masp"> Mã sản pẩm
+                            <input type="radio" name="searchType" value="date"> Ngày
                             <input type="radio" name="searchType" value="sdt"> SĐT
                             <input type="radio" name="searchType" value="sku"> SKU
-                        
+
                         </td>
                     </tr>
                 </table>
@@ -93,10 +142,11 @@
                     <tr>
                         <td>SKU: @it.tb_product_detail.productStoreID</td>
                     </tr>
-                    @if(it.CustomerType1 != null ) {
-                    <tr>
-                        <td bgcolor="@it.CustomerType1.Color">Nhóm khách: @it.CustomerType1.GroupName</td>
-                    </tr>
+                    @if (it.CustomerType1 != null)
+                    {
+                        <tr>
+                            <td bgcolor="@it.CustomerType1.Color">Nhóm khách: @it.CustomerType1.GroupName</td>
+                        </tr>
                     }
                     <tr>
                         <td> Mã unit: @it.productID</td>
@@ -114,7 +164,7 @@
                         <td> Ngày mua: @it.DateOfSold </td>
                     </tr>
                 </table>
-               
+
                 <table class="responstable">
                     <tr>
                         <th>
@@ -141,7 +191,7 @@
                         foreach (tb_warranty war in (List<tb_warranty>)ViewData["warList"])
                         {
                             string url = "/KickHoatBaoHanh/Delete?warrantyCode=" + @war.warrantyID + "&itemID=" + it.productID;
-                            <tr >
+                            <tr>
                                 <td>
                                     @war.warrantyID
                                 </td>
@@ -159,8 +209,9 @@
                                     {
                                         <h3>Đây là mã chính</h3>
                                     }
-                                    else {
-                                           <p>Đây là mã phụ</p>
+                                    else
+                                    {
+                                        <p>Đây là mã phụ</p>
                                     }
                                 </td>
                                 <td>
@@ -190,7 +241,7 @@
 
                             <tr id='@id'>
                                 <td>
-                                    @Html.HiddenFor(x => x.lst[i].itemID, new { @class = "datefield form-control",@Value = it.productID })
+                                    @Html.HiddenFor(x => x.lst[i].itemID, new { @class = "datefield form-control", @Value = it.productID })
                                     @Html.TextBoxFor(x => x.lst[i].warrantyID, new { @class = "datefield form-control" })
                                 </td>
                                 <td>
@@ -201,7 +252,7 @@
                                 <td>
                                     @Html.TextBoxFor(x => x.lst[i].duration, new { @class = "datefield form-control" })
                                 </td>
-                           
+
                                 <td>
                                     @Html.TextBoxFor(x => x.lst[i].description, new { @class = "datefield form-control" })
                                 </td>
@@ -224,7 +275,7 @@
             {
                 <table class="responstable">
                     <tr>
-                         <th> SKU </th>
+                        <th> SKU </th>
                         <th> Mã báo giá </th>
                         <th> Tên sản phẩm </th>
                         <th> Tên Khách </th>
@@ -236,7 +287,7 @@
                     @foreach (item i in (List
                     <item>
                         )ViewData["dspsp"])
-                        {
+                    {
                         <tr>
                             <td>
                                 @i.tb_product_detail.productStoreID
@@ -244,7 +295,7 @@
                             <td>
                                 @i.productID
                             </td>
-                         
+
                             <td>
                                 @i.tb_product_detail.productName
                             </td>
@@ -258,15 +309,15 @@
                                 @i.DateOfSold
                             </td>
                             <td>
-                           @using (Html.BeginForm("Search", "KickHoatBaoHanh"))
-                           {
-                               <input type="hidden" name="code" value="@i.productID" />
-                               <input type="hidden" name="searchType" value="masp"/>
-                               <button type="submit" name=" Chi tiết">Chi tiết</button>
-                           }
+                                @using (Html.BeginForm("Search", "KickHoatBaoHanh"))
+                                {
+                                    <input type="hidden" name="code" value="@i.productID" />
+                                    <input type="hidden" name="searchType" value="masp" />
+                                    <button type="submit" name=" Chi tiết">Chi tiết</button>
+                                }
                             </td>
                         </tr>
-                        }
+                    }
 
                 </table>
             }
@@ -277,17 +328,17 @@
 
     <script>
         $(document).ready(function () {
-                $('input').on("keypress", function (e) {
-                    /* ENTER PRESSED*/
-                    var t = e.keyCode;
-                 
-                    if (t == 13) {
-                        
-                        return false;
-                    }
-                });
+            $('input').on("keypress", function (e) {
+                /* ENTER PRESSED*/
+                var t = e.keyCode;
+
+                if (t == 13) {
+
+                    return false;
+                }
+            });
         });
     </script>
- 
+
 </body>
 </html>

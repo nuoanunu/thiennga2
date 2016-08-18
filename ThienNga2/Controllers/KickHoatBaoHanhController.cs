@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using ThienNga2.Models.Entities;
 using ThienNga2.Models.ViewModel;
 namespace ThienNga2.Controllers
@@ -107,6 +108,27 @@ namespace ThienNga2.Controllers
             am.tb_warranty.Remove(a);
             am.SaveChanges();
             return RedirectToAction("Search", "KickHoatBaoHanh", new { code = itemID, searchType = "masp" });
+        }
+        public String checking(String IMEI) {
+            try
+            {
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                List<tb_warranty> war = am.tb_warranty.SqlQuery("SELECT * FROM tb_warranty WHERE warrantyID='" + IMEI + "'").ToList();
+                if (war != null)
+                {
+                    if (war.Count > 0)
+                    {
+                        checkwarModel wwww = new checkwarModel();
+                        wwww.name = "co";
+                        return serializer.Serialize(wwww);
+                    }
+                        
+                }
+            }
+            catch (Exception e) {
+
+            }
+            return "";
         }
         public ActionResult newWarranty( KichHoatBaoHanh kick) {
            

@@ -6,6 +6,9 @@ using ThienNga2.Models.Entities;
 using System.ComponentModel.DataAnnotations;
 namespace ThienNga2.Models.ViewModel
 {
+    public class checkwarModel {
+        public String name { get; set; }
+    }
     public class NewItemViewModel
     {
         public Boolean VAT { get; set; }
