@@ -409,10 +409,10 @@ namespace ThienNga2.Controllers
             String[] rows = dataString.Split(rex1, StringSplitOptions.None);
             float totalprice = 0;
             //Dummy data for Invoice (Bill).
-            string companyName = "Ten cong ty ne";
-            int orderNo = am.orders.Count() - 1;
-            order or = am.orders.Find(orderNo);
-            String MaBill = or.MaBill;
+          
+            String MaBill = "";
+
+
             DataTable dt = new DataTable();
             String cusname = "";
                     String add = "";
@@ -449,7 +449,7 @@ namespace ThienNga2.Controllers
                         if( temp2[4].Trim().Length > 0 && temp2[2].Trim().Length > 0 && temp2[3].Trim().Length > 0)
                             dt.Rows.Add(temp2[1], temp2[2], temp2[3], temp2[4], temp2[5], temp2[6], temp2[7]);
                         String price = temp2[7];
-                       
+                         MaBill= temp2[1].Substring(0, temp2[1].IndexOf("."));
                         while (price.IndexOf(",") > 1) {
                            price =price.Replace(",", "");
                         }
@@ -539,7 +539,7 @@ namespace ThienNga2.Controllers
                     pdfDoc.Close();
                     Response.ContentEncoding = Encoding.Unicode;
                     Response.ContentType = "application/pdf";
-                    Response.AddHeader("content-disposition", "attachment;filename=PhieuBaoGia_" + orderNo + ".pdf");
+                    Response.AddHeader("content-disposition", "attachment;filename=PhieuBaoGia_" + MaBill + ".pdf");
                     Response.Cache.SetCacheability(HttpCacheability.NoCache);
                     Response.Write(pdfDoc);
                     Response.End();
@@ -552,13 +552,8 @@ namespace ThienNga2.Controllers
             String[] rex2 = new string[] { ":split" };
             String[] rows = dataString.Split(rex1, StringSplitOptions.None);
             float totalprice = 0;
-            float vat = 0;
-            float totalpricevat = 0;
-            //Dummy data for Invoice (Bill).
-            string companyName = "Ten cong ty ne";
-            int orderNo = am.orders.Count() - 1;
-            order or = am.orders.Find(orderNo);
-            String MaBill = or.MaBill;
+       
+            String MaBill = "";
             DataTable dt = new DataTable();
 
             dt.Columns.AddRange(new DataColumn[7] {
@@ -599,7 +594,7 @@ namespace ThienNga2.Controllers
                         if (temp2[4].Trim().Length > 0 && temp2[2].Trim().Length > 0 && temp2[3].Trim().Length > 0)
                             dt.Rows.Add(temp2[1], temp2[2], temp2[3], temp2[4], temp2[5], temp2[6], temp2[7]);
                         String price = temp2[7];
-
+                        MaBill = temp2[1].Substring(0, temp2[1].IndexOf("."));
                         while (price.IndexOf(",") > 1)
                         {
                             price = price.Replace(",", "");
@@ -708,7 +703,7 @@ namespace ThienNga2.Controllers
                     pdfDoc.Close();
                     Response.ContentEncoding = Encoding.Unicode;
                     Response.ContentType = "application/pdf";
-                    Response.AddHeader("content-disposition", "attachment;filename=PhieuBaoGia_" + orderNo + ".pdf");
+                    Response.AddHeader("content-disposition", "attachment;filename=PhieuBaoGia_" + MaBill + ".pdf");
                     Response.Cache.SetCacheability(HttpCacheability.NoCache);
                     Response.Write(pdfDoc);
                     Response.End();
@@ -721,13 +716,8 @@ namespace ThienNga2.Controllers
             String[] rex2 = new string[] { ":split" };
             String[] rows = dataString.Split(rex1, StringSplitOptions.None);
             float totalprice = 0;
-            float vat = 0;
-            float totalpricevat = 0;
-            //Dummy data for Invoice (Bill).
-            string companyName = "Ten cong ty ne";
-            int orderNo = am.orders.Count() - 1;
-            order or = am.orders.Find(orderNo);
-            String MaBill = or.MaBill;
+     
+            String MaBill = "";
             DataTable dt = new DataTable();
 
             dt.Columns.AddRange(new DataColumn[7] {
@@ -768,7 +758,7 @@ namespace ThienNga2.Controllers
                         if (temp2[4].Trim().Length > 0 && temp2[2].Trim().Length > 0 && temp2[3].Trim().Length > 0)
                             dt.Rows.Add(temp2[1], temp2[2], temp2[3], temp2[4], temp2[5], temp2[6], temp2[7]);
                         String price = temp2[7];
-
+                        MaBill = temp2[1].Substring(0, temp2[1].IndexOf("."));
                         while (price.IndexOf(",") > 1)
                         {
                             price = price.Replace(",", "");
@@ -877,7 +867,7 @@ namespace ThienNga2.Controllers
                     pdfDoc.Close();
                     Response.ContentEncoding = Encoding.Unicode;
                     Response.ContentType = "application/pdf";
-                    Response.AddHeader("content-disposition", "attachment;filename=PhieuBaoGia_" + orderNo + ".pdf");
+                    Response.AddHeader("content-disposition", "attachment;filename=PhieuBaoGia_" + MaBill + ".pdf");
                     Response.Cache.SetCacheability(HttpCacheability.NoCache);
                     Response.Write(pdfDoc);
                     Response.End();
@@ -890,13 +880,8 @@ namespace ThienNga2.Controllers
             String[] rex2 = new string[] { ":split" };
             String[] rows = dataString.Split(rex1, StringSplitOptions.None);
             float totalprice = 0;
-            float vat = 0;
-            float totalpricevat = 0;
-            //Dummy data for Invoice (Bill).
-            string companyName = "Ten cong ty ne";
-            int orderNo = am.orders.Count() - 1;
-            order or = am.orders.Find(orderNo);
-            String MaBill = or.MaBill;
+          
+            String MaBill ="";
             DataTable dt = new DataTable();
 
             dt.Columns.AddRange(new DataColumn[7] {
@@ -937,7 +922,7 @@ namespace ThienNga2.Controllers
                         if (temp2[4].Trim().Length > 0 && temp2[2].Trim().Length > 0 && temp2[3].Trim().Length > 0)
                             dt.Rows.Add(temp2[1], temp2[2], temp2[3], temp2[4], temp2[5], temp2[6], temp2[7]);
                         String price = temp2[7];
-
+                        MaBill = temp2[1].Substring(0, temp2[1].IndexOf("."));
                         while (price.IndexOf(",") > 1)
                         {
                             price = price.Replace(",", "");
@@ -1033,7 +1018,7 @@ namespace ThienNga2.Controllers
                     pdfDoc.Close();
                     Response.ContentEncoding = Encoding.Unicode;
                     Response.ContentType = "application/pdf";
-                    Response.AddHeader("content-disposition", "attachment;filename=PhieuBaoGia_" + orderNo + ".pdf");
+                    Response.AddHeader("content-disposition", "attachment;filename=PhieuBaoGia_" + MaBill + ".pdf");
                     Response.Cache.SetCacheability(HttpCacheability.NoCache);
                     Response.Write(pdfDoc);
                     Response.End();
