@@ -55,6 +55,7 @@ namespace ThienNga2.Controllers
                     act.empFixer = user.Id;
                     act.AspNetUser1 = user;
                     am.SaveChanges();
+                  
                     return RedirectToAction("Search", "Warranty", new { code = act.id+ "", searchType = "warrantyActID" });
                 }
             }
@@ -354,9 +355,9 @@ namespace ThienNga2.Controllers
                 {
 
 
-                    var activity = am.tb_warranty_activities.SqlQuery("SELECT * FROM dbo.tb_warranty_activities WHERE id = " + code).First();
+                    var activity = am.tb_warranty_activities.SqlQuery("SELECT * FROM dbo.tb_warranty_activities WHERE id = " + code).ToList();
                     ViewData["lsbh"] = activity;
-                    ViewData["warrantydetail"] = am.ThienNga_findwarranty2(activity.warrantyID).FirstOrDefault();
+                    ViewData["warrantydetail"] = am.ThienNga_findwarranty2(activity.First().warrantyID).FirstOrDefault();
                 }
             }
 
