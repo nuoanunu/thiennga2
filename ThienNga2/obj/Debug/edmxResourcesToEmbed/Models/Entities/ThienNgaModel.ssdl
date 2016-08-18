@@ -209,7 +209,7 @@
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="warrantyID" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="itemID" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="startdate" Type="date" />
+    <Property Name="startdate" Type="date" Nullable="false" />
     <Property Name="duration" Type="int" Nullable="false" />
     <Property Name="description" Type="varchar(max)" Nullable="false" />
     <Property Name="MaChinh" Type="bit" Nullable="false" />

@@ -109,17 +109,20 @@ namespace ThienNga2.Controllers
             return RedirectToAction("Search", "KickHoatBaoHanh", new { code = itemID, searchType = "masp" });
         }
         public ActionResult newWarranty( KichHoatBaoHanh kick) {
-            System.Diagnostics.Debug.WriteLine("dahel1 " + kick.itemID);
+           
             try
             {
                 int i = 1;
                 foreach (tb_warranty war in kick.lst)
                 {
+                   
                     
                     System.Diagnostics.Debug.WriteLine("dahel " + i + " "+ war.itemID + "   " + war.warrantyID + "  " + war.startdate);
                     i = i +1;
                     if (war.itemID != null && war.startdate != null && war.warrantyID != null && war.duration > 0)
                     {
+                        System.Diagnostics.Debug.WriteLine("dahel1 " + war.startdate.Day + " month " +war.startdate.Month);
+                        DateTime date = new DateTime(war.startdate.Year , war.startdate.Month , war.startdate.Day);
                         am.tb_warranty.Add(war);
                     }
                     

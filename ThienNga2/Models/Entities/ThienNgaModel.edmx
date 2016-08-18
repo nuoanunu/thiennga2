@@ -214,7 +214,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="warrantyID" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="itemID" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="startdate" Type="date" />
+          <Property Name="startdate" Type="date" Nullable="false" />
           <Property Name="duration" Type="int" Nullable="false" />
           <Property Name="description" Type="varchar(max)" Nullable="false" />
           <Property Name="MaChinh" Type="bit" Nullable="false" />
@@ -894,7 +894,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="warrantyID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="itemID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="startdate" Type="DateTime" Precision="0" />
+          <Property Name="startdate" Type="DateTime" Precision="0" Nullable="false" />
           <Property Name="duration" Type="Int32" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="MaChinh" Type="Boolean" Nullable="false" />

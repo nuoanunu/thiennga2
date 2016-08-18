@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="~/Content/jquery-ui.css" type="text/css">
     <script>
         $(document).ready(function () {
+           
             function checkHidden() {
                 for (i = 1 ; i<10 ; i ++) {
                     0
@@ -39,6 +40,11 @@
 
  
     </script>
+    <style>
+        .singleTextBox {
+        width: 50px;
+             }
+    </style>
 </head>
 <body>
 
@@ -181,14 +187,15 @@
                         {
 
                             string id = "tr" + i;
+
                             <tr id='@id'>
                                 <td>
                                     @Html.HiddenFor(x => x.lst[i].itemID, new { @class = "datefield form-control",@Value = it.productID })
                                     @Html.TextBoxFor(x => x.lst[i].warrantyID, new { @class = "datefield form-control" })
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(x => x.lst[i].startdate, "{0:dd/MM/yyyy}", new { @class = "datefield form-control", @placeholder = "Ngày kích hoạt" })
-                                  
+                                    
+                                   @Html.TextBoxFor(x => x.lst[i].startdate, new { @class = "datefield form-control", @Value = DateTime.Now.ToString("dd.MM.yyyy") })
                                 </td>
                                 <td>
                                     @Html.TextBoxFor(x => x.lst[i].duration, new { @class = "datefield form-control" })
@@ -267,7 +274,19 @@
 
     </div>
 
-
+    <script>
+        $(document).ready(function () {
+                $('input').on("keypress", function (e) {
+                    /* ENTER PRESSED*/
+                    var t = e.keyCode;
+                 
+                    if (t == 13) {
+                        
+                        return false;
+                    }
+                });
+        });
+    </script>
  
 </body>
 </html>

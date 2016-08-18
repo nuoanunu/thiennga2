@@ -17,7 +17,7 @@ namespace ThienNga2.Models.Entities
         public int id { get; set; }
         public string warrantyID { get; set; }
         public string itemID { get; set; }
-        public Nullable<System.DateTime> startdate { get; set; }
+        public System.DateTime startdate { get; set; }
         public int duration { get; set; }
         public string description { get; set; }
         public bool MaChinh { get; set; }
