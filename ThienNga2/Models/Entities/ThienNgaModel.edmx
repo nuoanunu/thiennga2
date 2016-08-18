@@ -255,6 +255,7 @@
           <Property Name="quantity" Type="int" Nullable="false" />
           <Property Name="activityID" Type="int" Nullable="false" />
           <Property Name="fixingfee" Type="float" Nullable="false" />
+          <Property Name="active" Type="bit" />
         </EntityType>
         <EntityType Name="warrantyActivityFixingFee">
           <Key>
@@ -264,6 +265,7 @@
           <Property Name="FixDetail" Type="nvarchar(max)" Nullable="false" />
           <Property Name="fee" Type="float" Nullable="false" />
           <Property Name="activityID" Type="int" Nullable="false" />
+          <Property Name="active" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ThienNgaDatabase.sys.database_firewall_rules' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1351,6 +1353,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <Property Name="activityID" Type="Int32" Nullable="false" />
           <Property Name="fixingfee" Type="Double" Nullable="false" />
           <NavigationProperty Name="tb_warranty_activities" Relationship="ThienNgaDatabaseModel.FK_warrantyActivityFee_tb_warranty_activities" FromRole="warrantyActivityFee" ToRole="tb_warranty_activities" />
+          <Property Name="active" Type="Boolean" />
         </EntityType>
         <EntityType Name="warrantyActivityFixingFee">
           <Key>
@@ -1361,6 +1364,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <Property Name="fee" Type="Double" Nullable="false" />
           <Property Name="activityID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tb_warranty_activities" Relationship="ThienNgaDatabaseModel.FK_warrantyActivityFixingFee_tb_warranty_activities" FromRole="warrantyActivityFixingFee" ToRole="tb_warranty_activities" />
+          <Property Name="active" Type="Boolean" />
         </EntityType>
         <EntityType Name="employee">
           <Key>
@@ -1932,6 +1936,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <EntitySetMapping Name="warrantyActivityFees">
             <EntityTypeMapping TypeName="ThienNgaDatabaseModel.warrantyActivityFee">
               <MappingFragment StoreEntitySet="warrantyActivityFee">
+                <ScalarProperty Name="active" ColumnName="active" />
                 <ScalarProperty Name="fixingfee" ColumnName="fixingfee" />
                 <ScalarProperty Name="activityID" ColumnName="activityID" />
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
@@ -1943,6 +1948,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <EntitySetMapping Name="warrantyActivityFixingFees">
             <EntityTypeMapping TypeName="ThienNgaDatabaseModel.warrantyActivityFixingFee">
               <MappingFragment StoreEntitySet="warrantyActivityFixingFee">
+                <ScalarProperty Name="active" ColumnName="active" />
                 <ScalarProperty Name="activityID" ColumnName="activityID" />
                 <ScalarProperty Name="fee" ColumnName="fee" />
                 <ScalarProperty Name="FixDetail" ColumnName="FixDetail" />

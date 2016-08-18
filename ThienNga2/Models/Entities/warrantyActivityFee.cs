@@ -19,6 +19,7 @@ namespace ThienNga2.Models.Entities
         public int quantity { get; set; }
         public int activityID { get; set; }
         public double fixingfee { get; set; }
+        public Nullable<bool> active { get; set; }
     
         public virtual tb_warranty_activities tb_warranty_activities { get; set; }
     }

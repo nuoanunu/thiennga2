@@ -638,6 +638,7 @@
     <Property Name="activityID" Type="Int32" Nullable="false" />
     <Property Name="fixingfee" Type="Double" Nullable="false" />
     <NavigationProperty Name="tb_warranty_activities" Relationship="ThienNgaDatabaseModel.FK_warrantyActivityFee_tb_warranty_activities" FromRole="warrantyActivityFee" ToRole="tb_warranty_activities" />
+    <Property Name="active" Type="Boolean" />
   </EntityType>
   <EntityType Name="warrantyActivityFixingFee">
     <Key>
@@ -648,6 +649,7 @@
     <Property Name="fee" Type="Double" Nullable="false" />
     <Property Name="activityID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="tb_warranty_activities" Relationship="ThienNgaDatabaseModel.FK_warrantyActivityFixingFee_tb_warranty_activities" FromRole="warrantyActivityFixingFee" ToRole="tb_warranty_activities" />
+    <Property Name="active" Type="Boolean" />
   </EntityType>
   <EntityType Name="employee">
     <Key>

@@ -18,6 +18,7 @@ namespace ThienNga2.Models.Entities
         public string FixDetail { get; set; }
         public double fee { get; set; }
         public int activityID { get; set; }
+        public Nullable<bool> active { get; set; }
     
         public virtual tb_warranty_activities tb_warranty_activities { get; set; }
     }

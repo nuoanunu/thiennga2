@@ -88,9 +88,11 @@
                         $('#skuprice').val(numberWithCommas(result));
                         $('#skuprice').prop('readonly', true);
                         $("#searchID").css("background-color", "green");
+                        $("#searchID").css("color", "white");
                     }
                     else {
                         $("#searchID").css("background-color", "red");
+                        $("#searchID").css("color", "white");
                     }
 
                 });
@@ -100,129 +102,12 @@
         setInterval(checkHidden, 100);
         setInterval(loadprice, 100);
     </script>
-    <style>
-        @@import url(http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
-div.table-title {
-   display: block;
-  margin: auto;
-  padding:5px;
-  width: 100%;
-}
-
-.table-title h3,h6 {
-   color: #fafafa;
-   font-size: 30px;
-   font-weight: 400;
-   font-style:normal;
-   font-family: "Roboto", helvetica, arial, sans-serif;
-   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
-   text-transform:uppercase;
-}
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"> </script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"> </script>
 
 
-/*** Table Styles **/
-
-.table-fill {
-  background: white;
-  border-radius:3px;
-  border-collapse: collapse;
-  height: 320px;
-  margin: 0;
- padding-top: 100px;
-  width: 100%;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  animation: float 5s infinite;
-}
- 
-th {
-  color:#D5DDE5;;
-  background:#1b1e24;
-  border-bottom:4px solid #9ea7af;
-  border-right: 1px solid #343a45;
-  font-size:23px;
-  font-weight: 100;
-  padding:24px;
-  text-align:left;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  vertical-align:middle;
-}
-
-th:first-child {
-  border-top-left-radius:3px;
-}
- 
-th:last-child {
-  border-top-right-radius:3px;
-  border-right:none;
-}
-  
-tr {
-  border-top: 1px solid #C1C3D1;
-  border-bottom-: 1px solid #C1C3D1;
-  color:#666B85;
-  font-size:16px;
-  font-weight:normal;
-  text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
-}
- 
-
- 
-tr:first-child {
-  border-top:none;
-}
-
-tr:last-child {
-  border-bottom:none;
-}
- 
-
-tr:last-child td:first-child {
-  border-bottom-left-radius:3px;
-}
- 
-tr:last-child td:last-child {
-  border-bottom-right-radius:3px;
-}
- 
-td {
-  background:#FFFFFF;
-  padding:20px;
-  text-align:left;
-  vertical-align:middle;
-  font-weight:300;
-  font-size:18px;
-  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
-  border-right: 1px solid #C1C3D1;
-}
-
-td:last-child {
-  border-right: 0px;
-}
-
-th.text-left {
-  text-align: left;
-}
-
-th.text-center {
-  text-align: center;
-}
-
-th.text-right {
-  text-align: right;
-}
-
-td.text-left {
-  text-align: left;
-}
-
-td.text-center {
-  text-align: center;
-}
-
-td.text-right {
-  text-align: right;
-}
-    </style>
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
 </head>
 <body>
 
@@ -231,7 +116,7 @@ td.text-right {
                 {
    
             <div id="form" class="form-wrapper">
-                <table>
+                <table class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <tr>
                         <td>
                             <input id="search" class="suggestionsinput" name="code" type="text" placeholder="Nhập mã hóa đơn/mã sản phẩm " required />
@@ -274,7 +159,7 @@ td.text-right {
 
 
             {
-                <table class="table-fill">
+                <table class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <tr>
                         <td>
                             <p>IMEI sản phẩm: @t.warrantyID </p>
@@ -338,7 +223,7 @@ td.text-right {
                     {
 
                         <input type="hidden" name="actid" value="@item.id"/>
-                        <table class="table-fill">
+                        <table class="table table-striped table-bordered" cellspacing="0" width="100%">
                             <tr>
                                 <th colspan="2">   
                                     <h6>Quản lý quy trình bảo hành của mã bảo hành : @item.CodeBaoHanh </h6>
@@ -399,7 +284,7 @@ td.text-right {
 
                     }
                    <br /><br /><br />
-                    <table id="fee" class="table-fill">
+                    <table id="fee" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <tr>
                             <th colspan="5">
                                 <h6>Linh kiện thay mới</h6>
@@ -409,32 +294,60 @@ td.text-right {
                             <th> Tên Linh Kiện </th>
                             <th> Số lượng</th>
                             <th> Phí thay thế</th>
-                            <th> Thêm / Sửa</th>
+                            <th> Thêm</th>
                             <th> Xóa</th>
                         </tr>
-                        <tbody  class="table-hover">
+                        <tbody  class="table table-striped table-bordered" cellspacing="0" width="100%">
                             @foreach (warrantyActivityFee fee in item.warrantyActivityFees)
-                        {
-                                <tr>
-                                    <td class="text-left">
+
+                            {
+                                String color = "#ffffff";
+                                if (fee.active != null) {
+                                    if (!(Boolean)fee.active) { color = "#c0c0c0"; }
+                                }
+
+                                <tr bgcolor= "@color">
+                                    <td bgcolor= "@color" align="left">
                                         @fee.productSKU
                                     </td>
-                                    <td class="text-left">
+                                    <td bgcolor= "@color" align="left">
                                         @fee.quantity
                                     </td>
-                                    <td class="text-left">
+                                    <td bgcolor= "@color" align="left">
                                         @Convert.ToDecimal( Math.Floor( fee.fixingfee)).ToString("#,##0")
                                         
                                     </td>
-                                    <td class="text-left"></td>
-                                    <td class="text-left">
-                                        @using (Html.BeginForm("XoaFee", "Warranty"))
-                            {
-                                            <input type="hidden" name="feeID" value="@fee.id" />
-                                            <input type="hidden" name="activitiesID" value="@item.itemID" />
-                                            <input type="submit" name="Xóa" value="Xóa" />
+                                    <td bgcolor= "@color" align="left"></td>
+                                    @if (fee.active != null)
+                                    {
+                                        if ((Boolean)fee.active)
+                                        {
+
+                                        <td align="left">
+                                            @using (Html.BeginForm("XoaFee", "Warranty"))
+                                            {
+                                                <input type="hidden" name="feeID" value="@fee.id" />
+                                                <input type="hidden" name="activitiesID" value="@item.itemID" />
+                                                <input type="submit" name="Xóa" value="Xóa" />
+                                            }
+                                        </td>
                                         }
-                                    </td>
+                                        else {
+                                            <td bgcolor= "@color"> Đã xóa</td>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <td class="text-left">
+                                            @using (Html.BeginForm("XoaFee", "Warranty"))
+                                            {
+                                                <input type="hidden" name="feeID" value="@fee.id" />
+                                                <input type="hidden" name="activitiesID" value="@item.itemID" />
+                                                <input type="submit" name="Xóa" value="Xóa" />
+                                            }
+                                        </td>
+                                    }
 
 
 
@@ -463,7 +376,7 @@ td.text-right {
                     </table>
 
                     <br /><br /><br />
-                    <table class="table-fill">
+                    <table class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <tr>
                             <th colspan="4">
                                 <h6> Sửa chữa khác </h6>
@@ -539,7 +452,7 @@ td.text-right {
                                                 @Html.TextBoxFor(item => t2.itemID, new { @Value = t.itemID })
 
                                             </div>
-                                            <table class="table-fill">
+                                            <table class="table table-striped table-bordered" cellspacing="0" width="100%">
                                                 <tr>
                                                     <td>
                                                         Ngày nhận:
@@ -582,7 +495,7 @@ td.text-right {
         {
             <br /><br /><br />
             
-                                        <table class="table-fill">
+                                        <table class="table table-striped table-bordered" cellspacing="0" width="100%">
                                             <tr>
                                                 <th colspan="8"> <h6> Lịch Sử Bảo Hành </h6></th>
                                             </tr>
@@ -634,7 +547,7 @@ td.text-right {
                         )
         {
             <h1> Lịch Sử Bảo Hành của sản phẩm </h1>
-                                        <table class="table-fill">
+                                        <table class="table table-striped table-bordered" cellspacing="0" width="100%">
                                             <tr>
                                                 <th>Mã bảo hành  </th>
                                                 <th>Ngày nhận  </th>

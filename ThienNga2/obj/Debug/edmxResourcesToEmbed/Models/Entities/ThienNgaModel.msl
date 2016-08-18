@@ -342,6 +342,7 @@
     <EntitySetMapping Name="warrantyActivityFees">
       <EntityTypeMapping TypeName="ThienNgaDatabaseModel.warrantyActivityFee">
         <MappingFragment StoreEntitySet="warrantyActivityFee">
+          <ScalarProperty Name="active" ColumnName="active" />
           <ScalarProperty Name="fixingfee" ColumnName="fixingfee" />
           <ScalarProperty Name="activityID" ColumnName="activityID" />
           <ScalarProperty Name="quantity" ColumnName="quantity" />
@@ -353,6 +354,7 @@
     <EntitySetMapping Name="warrantyActivityFixingFees">
       <EntityTypeMapping TypeName="ThienNgaDatabaseModel.warrantyActivityFixingFee">
         <MappingFragment StoreEntitySet="warrantyActivityFixingFee">
+          <ScalarProperty Name="active" ColumnName="active" />
           <ScalarProperty Name="activityID" ColumnName="activityID" />
           <ScalarProperty Name="fee" ColumnName="fee" />
           <ScalarProperty Name="FixDetail" ColumnName="FixDetail" />

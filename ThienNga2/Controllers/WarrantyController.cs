@@ -220,7 +220,8 @@ namespace ThienNga2.Controllers
             warrantyActivityFee item = am.warrantyActivityFees.Find(int.Parse(feeID));
             if (User.Identity.GetUserName().Equals(item.tb_warranty_activities.AspNetUser1.Email))
             {
-                am.warrantyActivityFees.Remove(am.warrantyActivityFees.Find(int.Parse(feeID)));
+                warrantyActivityFee editor = am.warrantyActivityFees.Find(int.Parse(feeID));
+                editor.active = false;
                 am.SaveChanges();
             }
             return RedirectToAction("Search", "Warranty", new { code = activitiesID, searchType = "warrantyActID" });
@@ -231,7 +232,8 @@ namespace ThienNga2.Controllers
             warrantyActivityFixingFee item = am.warrantyActivityFixingFees.Find(int.Parse(feeID));
             if (User.Identity.GetUserName().Equals(item.tb_warranty_activities.AspNetUser1.Email))
             {
-                am.warrantyActivityFixingFees.Remove(am.warrantyActivityFixingFees.Find(int.Parse(feeID)));
+                warrantyActivityFixingFee editor = am.warrantyActivityFixingFees.Find(int.Parse(feeID));
+                editor.active = false;
                 am.SaveChanges();
             }
             return RedirectToAction("Search", "Warranty", new { code = activitiesID, searchType = "warrantyActID" });
