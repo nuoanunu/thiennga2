@@ -162,11 +162,12 @@
         ls2.Add(new SelectListItem { Text = "Kho Hà nội", Value = "2" });
         ls2.Add(new SelectListItem { Text = "Kho Tổng", Value = "3" });
         List<SelectListItem> ls3 = new List<SelectListItem>();
-
-        ls3.Add(new SelectListItem { Text = "Thường", Value = "1" });
-        ls3.Add(new SelectListItem { Text = "Gold", Value = "2" });
-        ls3.Add(new SelectListItem { Text = "Diamond", Value = "3" });
-        ls3.Add(new SelectListItem { Text = "Plantinum", Value = "4" });
+        if (ViewData["sdct"] != null) {
+            List<CustomerType> llst = (List<CustomerType>)ViewData["sdct"];
+            foreach (CustomerType ls in llst) {
+                ls3.Add(new SelectListItem { Text = ls.GroupName, Value = ls.id + ""});
+            }
+        }
 
 
 

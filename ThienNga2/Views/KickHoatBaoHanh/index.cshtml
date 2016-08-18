@@ -87,6 +87,11 @@
                     <tr>
                         <td>SKU: @it.tb_product_detail.productStoreID</td>
                     </tr>
+                    @if(it.CustomerType1 != null ) {
+                    <tr>
+                        <td bgcolor="@it.CustomerType1.Color">Nhóm khách: @it.CustomerType1.GroupName</td>
+                    </tr>
+                    }
                     <tr>
                         <td> Mã unit: @it.productID</td>
                     </tr>

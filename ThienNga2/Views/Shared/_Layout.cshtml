@@ -150,7 +150,7 @@
         if (Request.IsAuthenticated)
         {
 
-            if (User.Identity.GetUserName().Equals("15lythaito@gmail.com") || User.Identity.GetUserName().Equals("dwarpro@gmail.com"))
+            if (User.Identity.GetUserName().Equals("zenni@gmail.com") || User.Identity.GetUserName().Equals("dwarpro@gmail.com"))
             {
                 <div id="main">
                     <span style="font-size:30px;cursor:pointer" id="toogleBtn" onclick="toogleNav()">&#9776; Mở menu</span>
@@ -185,6 +185,7 @@
                     <li> @Html.ActionLink("Quản lý sữa chữa", "", "Warranty/AllWarranty")</li>
                     @*<li> @Html.ActionLink("Quản lý IMEI", "", "Warranty/IMEI")</li>*@
                     <li> @Html.ActionLink("Quản lý Kho", "", "Inventory/AllInven")</li>
+                    <li> @Html.ActionLink("Quản lý nhóm khách", "", "Customer")</li>
                 </div>
             }
         }

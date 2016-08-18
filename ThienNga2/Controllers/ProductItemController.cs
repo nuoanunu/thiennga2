@@ -28,9 +28,9 @@ namespace ThienNga2.Controllers
         public ActionResult Index()
         {
 
-            ViewData["dsk"] = am.tb_inventory_name.ToList<tb_inventory_name>();
+            ViewData["dsk"] = am.tb_inventory_name.ToList();
 
-        
+            ViewData["sdct"] = am.CustomerTypes.ToList();
             return View("NewProductItem", new NewItemViewModel());
 
         }
@@ -150,10 +150,12 @@ namespace ThienNga2.Controllers
         // GET: ProductItem/Details/5
         public ActionResult Details(int id)
         {
+            ViewData["sdct"] = am.CustomerTypes.ToList();
             return View("NewProductItem");
         }
         public ActionResult Confirm()
         {
+            ViewData["sdct"] = am.CustomerTypes.ToList();
             return View("NewProductItem", new NewItemViewModel());
 
         }
@@ -277,6 +279,12 @@ namespace ThienNga2.Controllers
                             if (cus.phonenumber.Length > 6) subphone= cus.phonenumber.Substring(cus.phonenumber.Length - 6);
                             it.productID = ord.MaBill+ "."+pd.productStoreID+"." + subphone + "."+i;
                             it.DateOfSold = soldDate;
+                            if (am.CustomerTypes.Find(tuple.custype) != null) {
+                                    it.CustomerType = tuple.custype;
+                                    it.CustomerType1 = am.CustomerTypes.Find(tuple.custype);
+                                }
+                            
+                          
                             am.items.Add(it);
                             am.SaveChanges();
                             lstItemID.Add(it.id);
@@ -305,6 +313,7 @@ namespace ThienNga2.Controllers
 
 
             }
+            ViewData["sdct"] = am.CustomerTypes.ToList();
             return View("NewProductItem", tuple);
 
         }
@@ -372,6 +381,7 @@ namespace ThienNga2.Controllers
                 }
             }
             am.SaveChanges();
+            ViewData["sdct"] = am.CustomerTypes.ToList();
             return View("NewProductItem", new NewItemViewModel());
         }
 
