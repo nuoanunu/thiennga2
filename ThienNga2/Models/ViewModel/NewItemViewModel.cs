@@ -8,6 +8,7 @@ namespace ThienNga2.Models.ViewModel
 {
     public class NewItemViewModel
     {   
+        public Boolean VAT { get; set; }
         public String cusName { get; set; }
         public String phoneNumber { get; set; }
         public int custype { get; set; }

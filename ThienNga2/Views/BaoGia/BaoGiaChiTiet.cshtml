@@ -1,180 +1,175 @@
-﻿@using ThienNga2.Models.Entities;
+﻿@using ThienNga2.Models.ViewModel;
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>BaoGiaChiTiet</title>
-    <style>
-        @@import url(http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
-
-        div.table-title {
-            display: block;
-            margin: auto;
-            padding: 5px;
-            width: 100%;
-        }
-
-        .table-title h3, h6 {
-            color: #fafafa;
-            font-size: 30px;
-            font-weight: 400;
-            font-style: normal;
-            font-family: "Roboto", helvetica, arial, sans-serif;
-            text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
-            text-transform: uppercase;
-        }
-
-
-        /*** Table Styles **/
-
-        .table-fill {
-            background: white;
-            border-radius: 3px;
-            border-collapse: collapse;
-            height: 320px;
-            margin: 0;
-            padding-top: 100px;
-            width: 100%;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-            animation: float 5s infinite;
-        }
-
-        th {
-            color: #D5DDE5;
-            ;
-            background: #1b1e24;
-            border-bottom: 4px solid #9ea7af;
-            border-right: 1px solid #343a45;
-            font-size: 23px;
-            font-weight: 100;
-            padding: 24px;
-            text-align: left;
-            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-            vertical-align: middle;
-        }
-
-            th:first-child {
-                border-top-left-radius: 3px;
-            }
-
-            th:last-child {
-                border-top-right-radius: 3px;
-                border-right: none;
-            }
-
-        tr {
-            border-top: 1px solid #C1C3D1;
-            border-bottom-: 1px solid #C1C3D1;
-            color: #666B85;
-            font-size: 16px;
-            font-weight: normal;
-            text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
-        }
-
-
-
-            tr:first-child {
-                border-top: none;
-            }
-
-            tr:last-child {
-                border-bottom: none;
-            }
-
-
-                tr:last-child td:first-child {
-                    border-bottom-left-radius: 3px;
-                }
-
-                tr:last-child td:last-child {
-                    border-bottom-right-radius: 3px;
-                }
-
-        td {
-            background: #FFFFFF;
-            padding: 20px;
-            text-align: left;
-            vertical-align: middle;
-            font-weight: 300;
-            font-size: 18px;
-            text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
-            border-right: 1px solid #C1C3D1;
-        }
-
-            td:last-child {
-                border-right: 0px;
-            }
-
-        th.text-left {
-            text-align: left;
-        }
-
-        th.text-center {
-            text-align: center;
-        }
-
-        th.text-right {
-            text-align: right;
-        }
-
-        td.text-left {
-            text-align: left;
-        }
-
-        td.text-center {
-            text-align: center;
-        }
-
-        td.text-right {
-            text-align: right;
-        }
-    </style>
+    <title>Confrim hóa đơn </title>
+    <link rel="stylesheet" type="text/css" href="~/Content/SearchBar.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Table.css">
+    <script src="http://www.google.com/jsapi"></script>
+    <link rel="stylesheet" href="~/Content/jquery-ui.css" type="text/css">
 </head>
 <body>
+    <h1>Phiếu báo giá</h1>
+    @if ((NewItemViewModel)TempData["tuple"] != null)
+    {
+        NewItemViewModel a = (NewItemViewModel)TempData["tuple"];
 
-    <div>
-        <table class="table-title">
-            <thead>
-                <tr>
-                    <th>
-                        Mã sản phẩm
-                    </th>
-                    <th>
-                        Số lượng
-                    </th>
-                    <th>
-                        Chiết khẩu phần trăm
-                    </th>
-                    <th>
-                        Chiết khẩu trực tiếp
-                    </th>              
-                </tr>
-            </thead>
-            <tbody>
-                @if (ViewData["oderdetails"] != null)
+
+
+        <table class="responstable" id="myTable">
+
+
+            <tr> <td> Tên Khách </td><td>  @a.cusName </td></tr>
+            <tr> <td>Sdt</td><td> @a.phoneNumber </td></tr>
+            <tr> <td>Địa chỉa</td><td> @a.Adress </td></tr>
+            <tr>
+                <th>
+                    Mã unit
+                </th>
+                <th>
+                    Tên sản phẩm
+                </th>
+                <th>
+                    Số lượng
+                </th>
+                <th>
+                    Đơn giá trên 1 sản phẩm
+                </th>
+
+                <th>
+                    Chiết Khấu phần trăm
+                </th>
+                <th>
+                    Chiết Khấu trực tiếp
+                </th>
+                <th>
+                    Thành tiền
+                </th>
+            </tr>
+            @for (int i = 0; i < a.items.Count; i++)
+            {
+                AnOrderDetail ao = a.items[i];
+                if (ao.quantity > 0)
                 {
-                    foreach (orderDetail od in (List<orderDetail>)ViewData["oderdetails"])
-                    {
+
+                    float thanhtien = (ao.thanhTien);
+                    Convert.ToDecimal(thanhtien).ToString("#,##0.00");
+                    float dongia = (ao.thanhTien / ao.quantity);
+                    Convert.ToDecimal(dongia).ToString("#,##0.00");
+                    float chietkhautt = ((ao.chietKhauTrucTiep));
+                    Convert.ToDecimal(chietkhautt).ToString("#,##0.00");
+
                     <tr>
-                        <td>
-                            @od.productDetailID
-                        </td>
-                        <td>
-                            @od.Quantity
-                        </td>
-                        <td>
-                            @od.ChietKhauPhanTram
-                        </td>
-                        <td>
-                            @od.ChietKhauTrucTiep
-                        </td>
-                       
+                        <td> @ao.productID</td>
+                        <td> @ao.productName</td>
+                        <td> @ao.quantity</td>
+                        <td> @ao.DonGiaS </td>
+                        <td> @(ao.chietKhauPhanTram + "")</td>
+                        <td>  @ao.chietKhauTrucTiepS</td>
+                        <td>  @ao.thanhTienS</td>
                     </tr>
-                    }
                 }
-            </tbody>
+            }
+            <tr>
+                <td colspan="6">Tổng cộng</td>
+                <td> @TempData["total"]  </td>
+            </tr>
+            @if (TempData["VAT"].Equals("true"))
+            {
+                <tr>
+                    <td colspan="6">VAT</td>
+                    <td> @TempData["totalVAT"]  </td>
+                </tr>
+                <tr>
+                    <td colspan="6">Thành tiền</td>
+                    <td> @TempData["TotalAfterVAT"]  </td>
+                </tr>
+            }
+
         </table>
-    </div>
+        <table class="responstable">
+            <tr>
+                @if (TempData["VAT"].Equals("true"))
+                {
+                    <td>
+                        @using (Html.BeginForm("Confirm", "ProductItem/GenerateInvoicePDF2"))
+                        {
+                            <input type="hidden" id="dataString" name="dataString" value="" />
+                            <button type="submit" name="Edit" value="Hoàn tất">Xuất ra PDF</button>
+                        }
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @using (Html.BeginForm("Confirm", "ProductItem/GenerateInvoicePDF"))
+                        {
+                            <input type="hidden" id="dataString" name="dataString" value="" />
+                            <button type="submit" name="Edit" value="Hoàn tất">Xuất ra PDF</button>
+                        }
+                    </td>
+                }
+
+                @if (TempData["VAT"].Equals("true"))
+                {
+                    <td>
+                        @using (Html.BeginForm("Confirm", "ProductItem/GenerateInvoiceBill2"))
+                    {
+                            <input type="hidden" id="dataString3" name="dataString" value="" />
+                            <button type="submit" name="Edit" value="Hoàn tất">Xuất Bill</button>
+                        }
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @using (Html.BeginForm("Confirm", "ProductItem/GenerateInvoiceBill"))
+                    {
+                            <input type="hidden" id="dataString3" name="dataString" value="" />
+                            <button type="submit" name="Edit" value="Hoàn tất">Xuất Bill</button>
+                        }
+                    </td>
+                }
+
+
+
+            </tr>
+
+        </table>
+
+    }
+    <script>
+        var all = "";
+    //gets table
+    var oTable = document.getElementById('myTable');
+
+    //gets rows of table
+    var rowLength = oTable.rows.length;
+
+    //loops through rows
+    for (i = 0; i < rowLength; i++){
+
+      //gets cells of current row
+       var oCells = oTable.rows.item(i).cells;
+
+       //gets amount of cells of current row
+       var cellLength = oCells.length;
+       var temp = "";
+       //loops through each cell in current row
+       for(var j = 0; j < cellLength; j++){
+
+              // get your cell info here
+
+              var cellVal = oCells.item(j).innerHTML;
+              temp = temp + ":split" + cellVal.trim();
+       }
+       all = all + ":eachrow" + temp.trim();
+    }
+    $("#dataString").val(all);
+    $("#dataString3").val(all);
+    </script>
+
 </body>
 </html>

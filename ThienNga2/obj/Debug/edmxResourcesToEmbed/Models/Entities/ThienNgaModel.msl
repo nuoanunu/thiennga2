@@ -426,6 +426,8 @@
     <EntitySetMapping Name="orders">
       <EntityTypeMapping TypeName="ThienNgaDatabaseModel.order">
         <MappingFragment StoreEntitySet="order">
+          <ScalarProperty Name="aftervat" ColumnName="aftervat" />
+          <ScalarProperty Name="vat" ColumnName="vat" />
           <ScalarProperty Name="MaBill" ColumnName="MaBill" />
           <ScalarProperty Name="total" ColumnName="total" />
           <ScalarProperty Name="date" ColumnName="date" />

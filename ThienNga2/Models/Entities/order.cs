@@ -26,6 +26,8 @@ namespace ThienNga2.Models.Entities
         public System.DateTime date { get; set; }
         public double total { get; set; }
         public string MaBill { get; set; }
+        public Nullable<bool> vat { get; set; }
+        public Nullable<double> aftervat { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<item> items { get; set; }

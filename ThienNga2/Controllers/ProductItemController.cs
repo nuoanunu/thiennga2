@@ -232,7 +232,10 @@ namespace ThienNga2.Controllers
                     total = total + ao.thanhTien;
                 }
                 ord.total = total;
-                String tt =Convert.ToDecimal(total).ToString("#,##0.00");
+
+                String tt =Convert.ToDecimal(total).ToString("#,##0");
+                String vat10 = Convert.ToDecimal(total * 0.1).ToString("#,##0");
+                String tt11 = Convert.ToDecimal(total * 1.1).ToString("#,##0");
                 ord.customerID = cus.id;
                 am.orders.Add(ord);
                 am.SaveChanges();
@@ -288,7 +291,7 @@ namespace ThienNga2.Controllers
                             am.items.Add(it);
                             am.SaveChanges();
                             lstItemID.Add(it.id);
-                            ao.productID = it.productID;
+                            ao.productID = ord.MaBill + "." + pd.productStoreID + "." + subphone + ".(" + i + ")"; 
                             ao.productName = pd.productName;
                             ao.thanhTienS  = Convert.ToDecimal(ao.thanhTien).ToString("#,##0.00");
                             ao.DonGiaS = Convert.ToDecimal( (ao.thanhTien/ao.quantity)).ToString("#,##0.00");
@@ -303,7 +306,13 @@ namespace ThienNga2.Controllers
 
 
                 TempData["tuple"] = tuple;
+                TempData["totalVAT"] = vat10;
+                TempData["TotalAfterVAT"] = tt11;
                 TempData["total"] = tt;
+                if (tuple.VAT) {
+                    TempData["VAT"] = "true";
+                }
+                else TempData["VAT"] = "false";
                 Session["oderID"] = lstOrderID;
                 Session["orderDetailID"] = lstOrderDetaiLID;
                 Session["itemID"] = lstItemID;
@@ -400,7 +409,19 @@ namespace ThienNga2.Controllers
             order or = am.orders.Find(orderNo);
             String MaBill = or.MaBill;
             DataTable dt = new DataTable();
-             
+            String cusname = "";
+                    String add = "";
+            String sdt = "";
+            try {
+                 cusname = rows[1].Split(rex2, StringSplitOptions.None)[2];
+                 add = rows[3].Split(rex2, StringSplitOptions.None)[2];
+                 sdt = rows[2].Split(rex2, StringSplitOptions.None)[2];
+            }
+            catch (Exception e) {
+
+            }
+    
+
             dt.Columns.AddRange(new DataColumn[7] {
                             new DataColumn("Mã", typeof(string)),
                             new DataColumn("Tên sản phẩm", typeof(string)),
@@ -410,7 +431,7 @@ namespace ThienNga2.Controllers
                             new DataColumn("    Chiết Khấu trực tiếp  ", typeof(string)),
                             new DataColumn("  Thành tiền", typeof(string))});
             
-            for (int i = 4; i < rows.Length; i++)
+            for (int i = 5; i < rows.Length; i++)
             {
                 String[] temp2;
                 System.Diagnostics.Debug.WriteLine(rows[i]);
@@ -452,8 +473,14 @@ namespace ThienNga2.Controllers
                     sb.Append("</td><td align = 'right'><b>Ngày: </b>");
                     sb.Append(DateTime.Now);
                     sb.Append(" </td></tr>");
-                    sb.Append("<tr><td colspan = '2'><b>Cửa hàng: </b>");
-                    sb.Append(companyName);
+                    sb.Append("<tr><td colspan = '2'><b>Tên khách </b>");
+                    sb.Append(cusname);
+                    sb.Append("</td></tr>");
+                    sb.Append("<tr><td colspan = '2'><b>SDT </b>");
+                    sb.Append(sdt);
+                    sb.Append("</td></tr>");
+                    sb.Append("<tr><td colspan = '2'><b>Dia chi giao hang </b>");
+                    sb.Append(add);
                     sb.Append("</td></tr>");
                     sb.Append("</table>");
                     sb.Append("<br />");
@@ -463,7 +490,7 @@ namespace ThienNga2.Controllers
                     sb.Append("<tr>");
                     foreach (DataColumn column in dt.Columns)
                     {
-                        sb.Append("<th style = 'background-color: #D20B0C;color:#ffffff'>");
+                        sb.Append("<th style = 'background-color: #000;color:#ffffff'>");
                         sb.Append(column.ColumnName);
                         sb.Append("</th>");
                     }
@@ -537,6 +564,19 @@ namespace ThienNga2.Controllers
                             new DataColumn("Chiết Khấu %", typeof(string)),
                             new DataColumn("    Chiết Khấu tt ", typeof(string)),
                             new DataColumn("  Thành tiền", typeof(string))});
+            String cusname = "";
+            String add = "";
+            String sdt = "";
+            try
+            {
+                cusname = rows[1].Split(rex2, StringSplitOptions.None)[2];
+                add = rows[3].Split(rex2, StringSplitOptions.None)[2];
+                sdt = rows[2].Split(rex2, StringSplitOptions.None)[2];
+            }
+            catch (Exception e)
+            {
+
+            }
 
             for (int i = 5; i < rows.Length; i++)
             {
@@ -587,8 +627,14 @@ namespace ThienNga2.Controllers
                     sb.Append("</td><td align = 'right'><b>Ngày: </b>");
                     sb.Append(DateTime.Now);
                     sb.Append(" </td></tr>");
-                    sb.Append("<tr><td colspan = '2'><b>Cửa hàng: </b>");
-                    sb.Append(companyName);
+                    sb.Append("<tr><td colspan = '2'><b>Tên khách </b>");
+                    sb.Append(cusname);
+                    sb.Append("</td></tr>");
+                    sb.Append("<tr><td colspan = '2'><b>SDT </b>");
+                    sb.Append(sdt);
+                    sb.Append("</td></tr>");
+                    sb.Append("<tr><td colspan = '2'><b>Dia chi giao hang </b>");
+                    sb.Append(add);
                     sb.Append("</td></tr>");
                     sb.Append("</table>");
                     sb.Append("<br />");
@@ -598,7 +644,7 @@ namespace ThienNga2.Controllers
                     sb.Append("<tr>");
                     foreach (DataColumn column in dt.Columns)
                     {
-                        sb.Append("<th style = 'background-color: #D20B0C;color:#ffffff'>");
+                        sb.Append("<th style = 'background-color: #000;color:#ffffff'>");
                         sb.Append(column.ColumnName);
                         sb.Append("</th>");
                     }
@@ -642,7 +688,332 @@ namespace ThienNga2.Controllers
                     var bytes = encoding.GetBytes(sb.ToString());
                     string str = System.Text.Encoding.Unicode.GetString(bytes);
                     StringReader sr = new StringReader(str);
-                    Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 10f, 0f);
+                    Document pdfDoc = new Document(PageSize.A4, 0, 0, 0, 0);
+
+                    HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+                    PdfWriter writer = PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+                    pdfDoc.Open();
+                    FontFactory.Register(Server.MapPath("~/fonts/arial-unicode-ms.ttf"), "Arial Unicode MS");
+                    StyleSheet style = new StyleSheet();
+                    style.LoadTagStyle("body", "face", "Arial Unicode MS");
+                    style.LoadTagStyle("body", "encoding", BaseFont.IDENTITY_H);
+                    htmlparser.Style = style;
+                    htmlparser.StartDocument();
+                    htmlparser.Parse(sr);
+                    pdfDoc.Close();
+                    Response.ContentEncoding = Encoding.Unicode;
+                    Response.ContentType = "application/pdf";
+                    Response.AddHeader("content-disposition", "attachment;filename=PhieuBaoGia_" + orderNo + ".pdf");
+                    Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                    Response.Write(pdfDoc);
+                    Response.End();
+                }
+            }
+        }
+        public void GenerateInvoiceBill2(String dataString)
+        {
+            String[] rex1 = new string[] { ":eachrow" };
+            String[] rex2 = new string[] { ":split" };
+            String[] rows = dataString.Split(rex1, StringSplitOptions.None);
+            float totalprice = 0;
+            float vat = 0;
+            float totalpricevat = 0;
+            //Dummy data for Invoice (Bill).
+            string companyName = "Ten cong ty ne";
+            int orderNo = am.orders.Count() - 1;
+            order or = am.orders.Find(orderNo);
+            String MaBill = or.MaBill;
+            DataTable dt = new DataTable();
+
+            dt.Columns.AddRange(new DataColumn[7] {
+                            new DataColumn("Mã xuất kho", typeof(string)),
+                            new DataColumn("Tên sản phẩm", typeof(string)),
+                            new DataColumn(" Số lượng", typeof(string)),
+                            new DataColumn(" Đơn giá", typeof(string)),
+                            new DataColumn("Chiết Khấu %", typeof(string)),
+                            new DataColumn("    Chiết Khấu tt ", typeof(string)),
+                            new DataColumn("  Thành tiền", typeof(string))});
+            String cusname = "";
+            String add = "";
+            String sdt = "";
+            try
+            {
+                cusname = rows[1].Split(rex2, StringSplitOptions.None)[2];
+                add = rows[3].Split(rex2, StringSplitOptions.None)[2];
+                sdt = rows[2].Split(rex2, StringSplitOptions.None)[2];
+            }
+            catch (Exception e)
+            {
+
+            }
+
+            for (int i = 5; i < rows.Length; i++)
+            {
+                String[] temp2;
+                System.Diagnostics.Debug.WriteLine(rows[i]);
+                try
+                {
+                    temp2 = rows[i].Split(rex2, StringSplitOptions.None);
+                    for (int eee = 0; eee < temp2.Length; eee++)
+                    {
+
+                    }
+                    if (temp2.Length > 5)
+                    {
+                        if (temp2[4].Trim().Length > 0 && temp2[2].Trim().Length > 0 && temp2[3].Trim().Length > 0)
+                            dt.Rows.Add(temp2[1], temp2[2], temp2[3], temp2[4], temp2[5], temp2[6], temp2[7]);
+                        String price = temp2[7];
+
+                        while (price.IndexOf(",") > 1)
+                        {
+                            price = price.Replace(",", "");
+                        }
+
+                        totalprice = float.Parse(price) + totalprice;
+
+                    }
+                }
+                catch (Exception e) { }
+
+
+
+            }
+            String total = Convert.ToDecimal(totalprice).ToString("#,##0.00");
+            String vatt = Convert.ToDecimal(totalprice * 0.1).ToString("#,##0.00");
+            String vattt = Convert.ToDecimal(totalprice * 1.1).ToString("#,##0.00");
+            using (StringWriter sw = new StringWriter())
+            {
+                using (HtmlTextWriter hw = new HtmlTextWriter(sw))
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    //Generate Invoice (Bill) Header.
+                    sb.Append("<table width='100%' cellspacing='0' cellpadding='2'>");
+                    sb.Append("<tr><td align='center' style='background-color: #18B5F0' colspan = '2'><b>Phiếu báo giá</b></td></tr>");
+                    sb.Append("<tr><td colspan = '2'></td></tr>");
+                    sb.Append("<tr><td><b>Mã số: </b>");
+                    sb.Append(MaBill);
+                    sb.Append("</td><td align = 'right'><b>Ngày: </b>");
+                    sb.Append(DateTime.Now);
+                    sb.Append(" </td></tr>");
+                    sb.Append("<tr><td colspan = '2'><b>Tên khách </b>");
+                    sb.Append(cusname);
+                    sb.Append("</td></tr>");
+                    sb.Append("<tr><td colspan = '2'><b>SDT </b>");
+                    sb.Append(sdt);
+                    sb.Append("</td></tr>");
+                    sb.Append("<tr><td colspan = '2'><b>Dia chi giao hang </b>");
+                    sb.Append(add);
+                    sb.Append("</td></tr>");
+                    sb.Append("</table>");
+                    sb.Append("<br />");
+
+                    //Generate Invoice (Bill) Items Grid.
+                    sb.Append("<table border = '1'>");
+                    sb.Append("<tr>");
+                    foreach (DataColumn column in dt.Columns)
+                    {
+                        sb.Append("<th style = 'background-color: #000;color:#ffffff'>");
+                        sb.Append(column.ColumnName);
+                        sb.Append("</th>");
+                    }
+                    sb.Append("</tr>");
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        sb.Append("<tr>");
+                        foreach (DataColumn column in dt.Columns)
+                        {
+                            sb.Append("<td>");
+                            sb.Append(row[column]);
+                            sb.Append("</td>");
+                        }
+                        sb.Append("</tr>");
+                    }
+                    sb.Append("<tr><td align = 'right' colspan = '");
+                    sb.Append(dt.Columns.Count - 4);
+                    sb.Append("'>Tong</td>");
+                    sb.Append("<td colspan = '4'>");
+                    sb.Append(total + "");
+                    sb.Append("</td>");
+                    sb.Append("</tr>");
+                    sb.Append("<tr><td align = 'right' colspan = '");
+                    sb.Append(dt.Columns.Count - 4);
+                    sb.Append("'>VAT 10%</td>");
+                    sb.Append("<td colspan = '4'>");
+                    sb.Append(vatt + "");
+                    sb.Append("</td>");
+                    sb.Append("</tr>");
+                    sb.Append("<tr><td align = 'right' colspan = '");
+                    sb.Append(dt.Columns.Count - 4);
+                    sb.Append("'>Thanh toan</td>");
+                    sb.Append("<td colspan = '4'>");
+                    sb.Append(vattt + "");
+                    sb.Append("</td>");
+                    sb.Append("</tr>");
+                    sb.Append(" </table>");
+
+                    //Export HTML String as PDF.
+                    Encoding encoding = Encoding.Unicode;
+                    var bytes = encoding.GetBytes(sb.ToString());
+                    string str = System.Text.Encoding.Unicode.GetString(bytes);
+                    StringReader sr = new StringReader(str);
+                    Document pdfDoc = new Document(PageSize.A7, 0, 0, 0, 0);
+
+                    HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+                    PdfWriter writer = PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+                    pdfDoc.Open();
+                    FontFactory.Register(Server.MapPath("~/fonts/arial-unicode-ms.ttf"), "Arial Unicode MS");
+                    StyleSheet style = new StyleSheet();
+                    style.LoadTagStyle("body", "face", "Arial Unicode MS");
+                    style.LoadTagStyle("body", "encoding", BaseFont.IDENTITY_H);
+                    htmlparser.Style = style;
+                    htmlparser.StartDocument();
+                    htmlparser.Parse(sr);
+                    pdfDoc.Close();
+                    Response.ContentEncoding = Encoding.Unicode;
+                    Response.ContentType = "application/pdf";
+                    Response.AddHeader("content-disposition", "attachment;filename=PhieuBaoGia_" + orderNo + ".pdf");
+                    Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                    Response.Write(pdfDoc);
+                    Response.End();
+                }
+            }
+        }
+        public void GenerateInvoiceBill(String dataString)
+        {
+            String[] rex1 = new string[] { ":eachrow" };
+            String[] rex2 = new string[] { ":split" };
+            String[] rows = dataString.Split(rex1, StringSplitOptions.None);
+            float totalprice = 0;
+            float vat = 0;
+            float totalpricevat = 0;
+            //Dummy data for Invoice (Bill).
+            string companyName = "Ten cong ty ne";
+            int orderNo = am.orders.Count() - 1;
+            order or = am.orders.Find(orderNo);
+            String MaBill = or.MaBill;
+            DataTable dt = new DataTable();
+
+            dt.Columns.AddRange(new DataColumn[7] {
+                            new DataColumn("Mã xuất kho", typeof(string)),
+                            new DataColumn("Tên sản phẩm", typeof(string)),
+                            new DataColumn(" Số lượng", typeof(string)),
+                            new DataColumn(" Đơn giá", typeof(string)),
+                            new DataColumn("Chiết Khấu %", typeof(string)),
+                            new DataColumn("    Chiết Khấu tt ", typeof(string)),
+                            new DataColumn("  Thành tiền", typeof(string))});
+            String cusname = "";
+            String add = "";
+            String sdt = "";
+            try
+            {
+                cusname = rows[1].Split(rex2, StringSplitOptions.None)[2];
+                add = rows[3].Split(rex2, StringSplitOptions.None)[2];
+                sdt = rows[2].Split(rex2, StringSplitOptions.None)[2];
+            }
+            catch (Exception e)
+            {
+
+            }
+
+            for (int i = 5; i < rows.Length; i++)
+            {
+                String[] temp2;
+                System.Diagnostics.Debug.WriteLine(rows[i]);
+                try
+                {
+                    temp2 = rows[i].Split(rex2, StringSplitOptions.None);
+                    for (int eee = 0; eee < temp2.Length; eee++)
+                    {
+
+                    }
+                    if (temp2.Length > 5)
+                    {
+                        if (temp2[4].Trim().Length > 0 && temp2[2].Trim().Length > 0 && temp2[3].Trim().Length > 0)
+                            dt.Rows.Add(temp2[1], temp2[2], temp2[3], temp2[4], temp2[5], temp2[6], temp2[7]);
+                        String price = temp2[7];
+
+                        while (price.IndexOf(",") > 1)
+                        {
+                            price = price.Replace(",", "");
+                        }
+
+                        totalprice = float.Parse(price) + totalprice;
+
+                    }
+                }
+                catch (Exception e) { }
+
+
+
+            }
+            String total = Convert.ToDecimal(totalprice).ToString("#,##0.00");
+            String vatt = Convert.ToDecimal(totalprice * 0.1).ToString("#,##0.00");
+            String vattt = Convert.ToDecimal(totalprice * 1.1).ToString("#,##0.00");
+            using (StringWriter sw = new StringWriter())
+            {
+                using (HtmlTextWriter hw = new HtmlTextWriter(sw))
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    //Generate Invoice (Bill) Header.
+                    sb.Append("<table width='100%' cellspacing='0' cellpadding='2'>");
+                    sb.Append("<tr><td align='center' style='background-color: #18B5F0' colspan = '2'><b>Phiếu báo giá</b></td></tr>");
+                    sb.Append("<tr><td colspan = '2'></td></tr>");
+                    sb.Append("<tr><td><b>Mã số: </b>");
+                    sb.Append(MaBill);
+                    sb.Append("</td><td align = 'right'><b>Ngày: </b>");
+                    sb.Append(DateTime.Now);
+                    sb.Append(" </td></tr>");
+                    sb.Append("<tr><td colspan = '2'><b>Tên khách </b>");
+                    sb.Append(cusname);
+                    sb.Append("</td></tr>");
+                    sb.Append("<tr><td colspan = '2'><b>SDT </b>");
+                    sb.Append(sdt);
+                    sb.Append("</td></tr>");
+                    sb.Append("<tr><td colspan = '2'><b>Dia chi giao hang </b>");
+                    sb.Append(add);
+                    sb.Append("</td></tr>");
+                    sb.Append("</table>");
+                    sb.Append("<br />");
+
+                    //Generate Invoice (Bill) Items Grid.
+                    sb.Append("<table border = '1'>");
+                    sb.Append("<tr>");
+                    foreach (DataColumn column in dt.Columns)
+                    {
+                        sb.Append("<th style = 'background-color: #000;color:#ffffff'>");
+                        sb.Append(column.ColumnName);
+                        sb.Append("</th>");
+                    }
+                    sb.Append("</tr>");
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        sb.Append("<tr>");
+                        foreach (DataColumn column in dt.Columns)
+                        {
+                            sb.Append("<td>");
+                            sb.Append(row[column]);
+                            sb.Append("</td>");
+                        }
+                        sb.Append("</tr>");
+                    }
+                    sb.Append("<tr><td align = 'right' colspan = '");
+                    sb.Append(dt.Columns.Count - 4);
+                    sb.Append("'>Tong</td>");
+                    sb.Append("<td colspan = '4'>");
+                    sb.Append(total + "");
+                    sb.Append("</td>");
+                    sb.Append("</tr>");
+                    
+                    sb.Append(" </table>");
+
+                    //Export HTML String as PDF.
+                    Encoding encoding = Encoding.Unicode;
+                    var bytes = encoding.GetBytes(sb.ToString());
+                    string str = System.Text.Encoding.Unicode.GetString(bytes);
+                    StringReader sr = new StringReader(str);
+                    Document pdfDoc = new Document(PageSize.A7, 0, 0, 0, 0);
 
                     HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
                     PdfWriter writer = PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
@@ -665,5 +1036,7 @@ namespace ThienNga2.Controllers
             }
         }
     }
+
+
 
 }

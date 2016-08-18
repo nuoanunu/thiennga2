@@ -76,30 +76,62 @@
             <td colspan="6">Tổng cộng</td>
             <td> @TempData["total"]  </td>
         </tr>
+       @if (TempData["VAT"].Equals("true"))
+       {
+        <tr>
+            <td colspan="6">VAT</td>
+            <td> @TempData["totalVAT"]  </td>
+        </tr>
+        <tr>
+            <td colspan="6">Thành tiền</td>
+            <td> @TempData["TotalAfterVAT"]  </td>
+        </tr>
+       }
+   
         </table>
         <table class="responstable">
             <tr>
+                @if (TempData["VAT"].Equals("true"))
+                {
+                    <td>
+                        @using (Html.BeginForm("Confirm", "ProductItem/GenerateInvoicePDF2"))
+                        {
+                            <input type="hidden" id="dataString" name="dataString" value="" />
+                            <button type="submit" name="Edit" value="Hoàn tất">Xuất ra PDF</button>
+                        }
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @using (Html.BeginForm("Confirm", "ProductItem/GenerateInvoicePDF"))
+                        {
+                            <input type="hidden" id="dataString" name="dataString" value="" />
+                            <button type="submit" name="Edit" value="Hoàn tất">Xuất ra PDF</button>
+                        }
+                    </td>
+                }
+             
+                @if (TempData["VAT"].Equals("true"))
+                {
                 <td>
-                    @using (Html.BeginForm("Confirm", "ProductItem/GenerateInvoicePDF") )
-                    {
-                        <input type="hidden" id="dataString" name="dataString"  value=""/>
-                        <button type="submit" name="Edit" value="Hoàn tất">Xuất ra PDF</button>
-                    }
-                </td>
-                <td>
-                    @using (Html.BeginForm("Confirm", "ProductItem/GenerateInvoicePDF2"))
-                    {
-                        <input type="hidden" id="dataString2" name="dataString" value="" />
-                        <button type="submit" name="Edit" value="Hoàn tất">Xuất ra PDF (VAT)</button>
-                    }
-                </td>
-                <td>
-                    @using (Html.BeginForm("Confirm", "ProductItem/GenerateInvoicePDF"))
+                    @using (Html.BeginForm("Confirm", "ProductItem/GenerateInvoiceBill2"))
                     {
                         <input type="hidden" id="dataString3" name="dataString" value="" />
                         <button type="submit" name="Edit" value="Hoàn tất">Xuất Bill</button>
                     }
                 </td>
+                }
+                else
+                {
+                    <td>
+                        @using (Html.BeginForm("Confirm", "ProductItem/GenerateInvoiceBill"))
+                    {
+                            <input type="hidden" id="dataString3" name="dataString" value="" />
+                            <button type="submit" name="Edit" value="Hoàn tất">Xuất Bill</button>
+                        }
+                    </td>
+                }
 
 
 
@@ -136,7 +168,7 @@
        all = all + ":eachrow" + temp.trim();
     }
     $("#dataString").val(all);
-    $("#dataString2").val(all);
+    $("#dataString3").val(all);
     </script>
       
 </body>

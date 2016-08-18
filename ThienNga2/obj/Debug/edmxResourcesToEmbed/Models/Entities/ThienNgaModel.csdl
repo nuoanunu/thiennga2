@@ -773,6 +773,8 @@
     <NavigationProperty Name="orderDetails" Relationship="ThienNgaDatabaseModel.FK_orderDetail_order" FromRole="order" ToRole="orderDetail" />
     <NavigationProperty Name="tb_customer" Relationship="ThienNgaDatabaseModel.FK_order_tb_customer" FromRole="order" ToRole="tb_customer" />
     <Property Name="MaBill" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="vat" Type="Boolean" />
+    <Property Name="aftervat" Type="Double" />
   </EntityType>
   <EntityType Name="orderDetail">
     <Key>

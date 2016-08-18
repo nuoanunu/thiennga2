@@ -131,6 +131,8 @@
     <Property Name="date" Type="date" Nullable="false" />
     <Property Name="total" Type="float" Nullable="false" />
     <Property Name="MaBill" Type="varchar" MaxLength="50" />
+    <Property Name="vat" Type="bit" />
+    <Property Name="aftervat" Type="float" />
   </EntityType>
   <EntityType Name="orderDetail">
     <Key>
