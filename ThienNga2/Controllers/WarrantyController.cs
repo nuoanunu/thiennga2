@@ -341,13 +341,13 @@ namespace ThienNga2.Controllers
                 }
                 if (searchType.Equals("warrantyCODEDate"))
                 {
-                    var activity = am.tb_warranty_activities.SqlQuery("SELECT * FROM dbo.tb_warranty_activities WHERE CodeBaoHanh LIKE '%" + code + "-%'").ToList();
+                    var activity = am.tb_warranty_activities.SqlQuery("SELECT * FROM dbo.tb_warranty_activities WHERE CodeBaoHanh LIKE '%" + code + "%'").ToList();
                     ViewData["lsbh"] = activity;
 
                 }
                 if (searchType.Equals("warrantyCODEPhone"))
                 {
-                    var activity = am.tb_warranty_activities.SqlQuery("SELECT * FROM dbo.tb_warranty_activities WHERE CodeBaoHanh Like '%-" + code + "%'").ToList();
+                    var activity = am.tb_warranty_activities.SqlQuery("SELECT * FROM dbo.tb_warranty_activities WHERE CodeBaoHanh Like '%" + code + "%'").ToList();
                     ViewData["lsbh"] = activity;
 
                 }
