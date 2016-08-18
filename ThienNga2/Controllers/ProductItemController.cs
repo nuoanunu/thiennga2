@@ -192,7 +192,12 @@ namespace ThienNga2.Controllers
             if (no.Length == 1) no = "00" + no;
             if (no.Length == 2) no = "0" + no;
             ord.MaBill = dayy + monthh + yearr + ivname ;
-            order oldOrder = am.orders.SqlQuery("SELECT * FROM [order] where MaBill like '%" + ord.MaBill + "%'").Last();
+            order oldOrder = null;
+            try {
+                oldOrder = am.orders.SqlQuery("SELECT * FROM [order] where MaBill like '%" + ord.MaBill + "%'").Last();
+            }
+            catch (Exception e) { }
+            
             String temp2 = "";
             if (oldOrder == null) ord.MaBill = ord.MaBill + "001";
 
