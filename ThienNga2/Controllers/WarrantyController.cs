@@ -52,10 +52,10 @@ namespace ThienNga2.Controllers
                 System.Diagnostics.Debug.WriteLine("act " + idwar + " iduser " + iduser);
                 if (act != null && user != null)
                 {
-                    act.empFixer = user.Email;
+                    act.empFixer = user.Id;
                     act.AspNetUser1 = user;
                     am.SaveChanges();
-                    return RedirectToAction("Search", "Warranty", new { code = act.id, searchType = "warrantyActID" });
+                    return RedirectToAction("Search", "Warranty", new { code = act.id+ "", searchType = "warrantyActID" });
                 }
             }
             catch (Exception e)
@@ -305,7 +305,7 @@ namespace ThienNga2.Controllers
                     item thatitem = (item)am.ThienNga_findbyIMEI2(code).FirstOrDefault();
                     if (thatitem != null)
                     {
-                        ViewData["warrantydetail"] = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE warrantyID='" + code + "'").FirstOrDefault();
+                        ViewData["warrantydetail"] = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE warrantyID like '%" + code + "%'").FirstOrDefault();
                         List<tb_warranty> temp1 = (List<tb_warranty>)am.ThienNga_findwarrantyByIMEI2(code).ToList();
                         List<tb_warranty_activities> temp2 = new List<tb_warranty_activities>();
                         foreach (tb_warranty a in temp1)
@@ -354,9 +354,9 @@ namespace ThienNga2.Controllers
                 {
 
 
-                    var activity = am.tb_warranty_activities.SqlQuery("SELECT * FROM dbo.tb_warranty_activities WHERE id = " + code).ToList();
+                    var activity = am.tb_warranty_activities.SqlQuery("SELECT * FROM dbo.tb_warranty_activities WHERE id = " + code).First();
                     ViewData["lsbh"] = activity;
-                    ViewData["warrantydetail"] = am.ThienNga_findwarranty2(activity.First().warrantyID).FirstOrDefault();
+                    ViewData["warrantydetail"] = am.ThienNga_findwarranty2(activity.warrantyID).FirstOrDefault();
                 }
             }
 
