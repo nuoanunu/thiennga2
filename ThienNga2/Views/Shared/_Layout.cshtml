@@ -81,50 +81,75 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @if (Request.RawUrl.Contains("ProductDetail"))
+                    @if (User.IsInRole("Admin"))
                     {
-                        <li style="background-color:#555555"> @Html.ActionLink("Nhập Sản Phẩm", "", "ProductDetail")</li>
+                        if (Request.RawUrl.Contains("ProductDetail"))
+                        {
+                            <li style="background-color:#555555"> @Html.ActionLink("Nhập Sản Phẩm", "", "ProductDetail")</li>
+                        }
+                        else
+                        {
+                            <li> @Html.ActionLink("Nhập Sản Phẩm", "", "ProductDetail")</li> }
                     }
-                    else
+                    @if (User.IsInRole("Admin") || User.IsInRole("Bán hàng") || User.IsInRole("Admin Hà Nội"))
                     {
-                        <li> @Html.ActionLink("Nhập Sản Phẩm", "", "ProductDetail")</li> }
-                    @if (Request.RawUrl.Contains("ProductItem"))
-                    {
-                        <li style="background-color:#555555"> @Html.ActionLink("Bán", "", "ProductItem")</li>
+                        if (Request.RawUrl.Contains("ProductItem"))
+                        {
+                            <li style="background-color:#555555"> @Html.ActionLink("Bán", "", "ProductItem")</li>
+                        }
+                        else
+                        {
+                            <li> @Html.ActionLink("Bán", "", "ProductItem")</li> }
                     }
-                    else
+
+                    @if (User.IsInRole("Admin") || User.IsInRole("Bán hàng") || User.IsInRole("Admin Hà Nội"))
                     {
-                        <li> @Html.ActionLink("Bán", "", "ProductItem")</li> }
-                    @if (Request.RawUrl.Contains("KickHoatBaoHanh"))
-                    {
-                        <li style="background-color:#555555"> @Html.ActionLink("Kích hoạt bảo hành", "", "KickHoatBaoHanh")</li>
+                        if (Request.RawUrl.Contains("KickHoatBaoHanh"))
+                        {
+                            <li style="background-color:#555555"> @Html.ActionLink("Kích hoạt bảo hành", "", "KickHoatBaoHanh")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Kích hoạt bảo hành", "", "KickHoatBaoHanh")</li>
+                        }
+
                     }
-                    else
+                    @if (User.IsInRole("Admin") || User.IsInRole("Nhân Viên kỹ thuật") || User.IsInRole("Admin Hà Nội"))
                     {
-                        <li>@Html.ActionLink("Kích hoạt bảo hành", "", "KickHoatBaoHanh")</li>
+
+                        if (Request.RawUrl.Contains("CreateWarranty"))
+                        {
+                            <li style="background-color:#555555"> @Html.ActionLink("Tạo hóa đơn bảo hành", "", "CreateWarranty")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Tạo hóa đơn bảo hành", "", "CreateWarranty")</li>
+                        }
                     }
-                    @if (Request.RawUrl.Contains("CreateWarranty"))
+
+                    @if (User.IsInRole("Admin") || User.IsInRole("Nhân Viên kỹ thuật") || User.IsInRole("Admin Hà Nội"))
                     {
-                        <li style="background-color:#555555"> @Html.ActionLink("Tạo hóa đơn bảo hành", "", "CreateWarranty")</li>
+
+                        if (Request.RawUrl.Contains("Warranty") && !Request.RawUrl.Contains("CreateWarranty"))
+                        {
+                            <li style="background-color:#555555"> @Html.ActionLink("Kiểm Tra Bảo Hành", "", "Warranty")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Kiểm Tra Bảo Hành", "", "Warranty")</li>
+                        }
+
                     }
-                    else
+
+                    @if (User.IsInRole("Admin") || User.IsInRole("Quản lý kho") || User.IsInRole("Admin Hà Nội"))
                     {
-                        <li>@Html.ActionLink("Tạo hóa đơn bảo hành", "", "CreateWarranty")</li>
+                        if (Request.RawUrl.Contains("Inventory") && !Request.RawUrl.Contains("themkho") && !Request.RawUrl.Contains("trukho"))
+                        {
+                            <li style="background-color:#555555"> @Html.ActionLink("Kiểm kho", "", "Inventory")</li>}
+                        else
+                        {
+                            <li> @Html.ActionLink("Kiểm kho", "", "Inventory")</li> }
                     }
-                    @if (Request.RawUrl.Contains("Warranty") && !Request.RawUrl.Contains("CreateWarranty"))
-                    {
-                        <li style="background-color:#555555"> @Html.ActionLink("Kiểm Tra Bảo Hành", "", "Warranty")</li>
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("Kiểm Tra Bảo Hành", "", "Warranty")</li>
-                    }
-                    @if (Request.RawUrl.Contains("Inventory") && !Request.RawUrl.Contains("themkho") && !Request.RawUrl.Contains("trukho"))
-                    {
-                        <li style="background-color:#555555"> @Html.ActionLink("Kiểm kho", "", "Inventory")</li>}
-                    else
-                    {
-                        <li> @Html.ActionLink("Kiểm kho", "", "Inventory")</li> }
                     @*@if (Request.RawUrl.Contains("themkho") )
                         {
                             <li style="background-color:#022F5A"> @Html.ActionLink("Nhập kho", "", "Inventory/themkho")</li>}
@@ -150,7 +175,7 @@
         if (Request.IsAuthenticated)
         {
 
-            if (User.Identity.GetUserName().Equals("zenni@gmail.com") || User.Identity.GetUserName().Equals("dwarpro@gmail.com"))
+            if ( User.IsInRole("Admin"))
             {
                 <div id="main">
                     <span style="font-size:30px;cursor:pointer" id="toogleBtn" onclick="toogleNav()">&#9776; Mở menu</span>
