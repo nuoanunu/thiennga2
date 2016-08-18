@@ -70,16 +70,26 @@ namespace ThienNga2.Models.ViewModel
     {
         public String itemID { get; set; }
         public List<tb_warranty> lst { get; set; }
+        public List<int> lstDay { get; set; }
+        public List<int> lstMonth { get; set; }
+        public List<int> lstYear { get; set; }
         public KichHoatBaoHanh()
         {
             itemID = "";
             lst = new List<tb_warranty>();
+            lstDay = new List<int>();
+            lstMonth = new List<int>();
+            lstYear = new List<int>();
             for (int i = 0; i < 10; i++) {
                 tb_warranty a = new tb_warranty();
                 a.warrantyID = "";
                 lst.Add(a);
+                lstDay.Add(DateTime.Now.Day);
+                lstMonth.Add(DateTime.Now.Month);
+                lstYear.Add(DateTime.Now.Year);
             }
         }
+
 
 
     }

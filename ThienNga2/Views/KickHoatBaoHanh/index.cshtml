@@ -194,8 +194,9 @@
                                     @Html.TextBoxFor(x => x.lst[i].warrantyID, new { @class = "datefield form-control" })
                                 </td>
                                 <td>
-                                    
-                                   @Html.TextBoxFor(x => x.lst[i].startdate, new { @class = "datefield form-control", @Value = DateTime.Now.ToString("dd.MM.yyyy") })
+                                    @Html.TextBoxFor(x => x.lstDay[i], new { @class = "singleTextBox", @Value = DateTime.Now.Day })
+                                    @Html.TextBoxFor(x => x.lstMonth[i], new { @class = "singleTextBox", @Value = DateTime.Now.Month })
+                                    @Html.TextBoxFor(x => x.lstYear[i], new { @class = "singleTextBox", @Value = DateTime.Now.Year })
                                 </td>
                                 <td>
                                     @Html.TextBoxFor(x => x.lst[i].duration, new { @class = "datefield form-control" })

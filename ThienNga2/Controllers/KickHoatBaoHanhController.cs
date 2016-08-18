@@ -112,20 +112,31 @@ namespace ThienNga2.Controllers
            
             try
             {
-                int i = 1;
+                int i = 0;
                 foreach (tb_warranty war in kick.lst)
                 {
                    
                     
                     System.Diagnostics.Debug.WriteLine("dahel " + i + " "+ war.itemID + "   " + war.warrantyID + "  " + war.startdate);
-                    i = i +1;
-                    if (war.itemID != null && war.startdate != null && war.warrantyID != null && war.duration > 0)
+                    try
                     {
-                        System.Diagnostics.Debug.WriteLine("dahel1 " + war.startdate.Day + " month " +war.startdate.Month);
-                        DateTime date = new DateTime(war.startdate.Year , war.startdate.Month , war.startdate.Day);
-                        am.tb_warranty.Add(war);
+                        DateTime date = new DateTime(kick.lstYear[i], kick.lstMonth[i], kick.lstDay[i]);
+                        if (date != null)
+                        {
+                            if (date.Year > 2000 && date.Month > 0 && date.Day > 0)
+                                if (war.itemID != null && war.warrantyID != null && war.duration > 0)
+                                {
+
+
+                                    war.startdate = date;
+                                    am.tb_warranty.Add(war);
+                                }
+                        }
                     }
-                    
+                    catch (Exception e) {
+
+                    }
+                    i = i + 1;
                 }
                 am.SaveChanges();
             }
