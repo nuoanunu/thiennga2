@@ -200,6 +200,7 @@
     <Property Name="price" Type="float" Nullable="false" />
     <Property Name="cateID" Type="int" />
     <Property Name="description" Type="nvarchar(max)" />
+    <Property Name="minThresHold" Type="int" />
   </EntityType>
   <EntityType Name="tb_warranty">
     <Key>

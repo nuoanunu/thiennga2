@@ -28,6 +28,7 @@ namespace ThienNga2.Models.Entities
         public double price { get; set; }
         public Nullable<int> cateID { get; set; }
         public string description { get; set; }
+        public Nullable<int> minThresHold { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<item> items { get; set; }

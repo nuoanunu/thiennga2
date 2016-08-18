@@ -146,6 +146,7 @@
     <EntitySetMapping Name="tb_product_detail">
       <EntityTypeMapping TypeName="ThienNgaDatabaseModel.tb_product_detail">
         <MappingFragment StoreEntitySet="tb_product_detail">
+          <ScalarProperty Name="minThresHold" ColumnName="minThresHold" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="producFactoryID" ColumnName="producFactoryID" />
           <ScalarProperty Name="productStoreID" ColumnName="productStoreID" />

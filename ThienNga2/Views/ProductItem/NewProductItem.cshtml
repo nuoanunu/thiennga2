@@ -89,6 +89,7 @@
                 
                         if (value != null) {
                             $('#items_' + (index - 1) + '__SKU').css("background-color", "green");
+                            $('input[type="submit"]').prop('disabled', false);
                             $('#items_' + (index - 1) + '__SKU').css("color", "white");
                                 $("#lid" + (index - 1)).empty();
                                 $("#lid" + (index - 1)).append(value);
@@ -106,11 +107,12 @@
             });
             if (!flag) {
                 $('#items_' + (index - 1) + '__SKU').css("background-color", "orange");
+                $('input[type="submit"]').prop('disabled', true);
                 $('#items_' + (index - 1) + '__SKU').css("color", "white");
             }
         };
         $(document).ready(function () {
-           
+            $('input[type="submit"]').prop('disabled', true);
             for (i = 0; i < 20 ; i++) {
                 $('#items_' + (i ) + '__SKU').autocomplete({
 

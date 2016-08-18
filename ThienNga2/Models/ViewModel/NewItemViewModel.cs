@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ThienNga2.Models.ViewModel
 {
     public class NewItemViewModel
-    {   
+    {
         public Boolean VAT { get; set; }
         public String cusName { get; set; }
         public String phoneNumber { get; set; }
@@ -82,6 +82,13 @@ namespace ThienNga2.Models.ViewModel
         }
 
 
+    }
+    public class productDetailView {
+        public String productName { get; set; }
+        public String SKU { get; set; }
+        public String factCoe { get; set; }
+        public String minThreashold { get; set; }
+        public String price { get; set; }
     }
     public class ConfirmItemView
     {

@@ -6,6 +6,25 @@
     <meta name="viewport" content="width=device-width" />
     <title>NewProduct</title>
     <link rel="stylesheet" type="text/css" href="~/Content/formTemplate.css">
+    <script>
+        var sku = "";
+        function checkPD() {
+             
+            if ($("#productStoreID").val() != sku) {
+                sku = $("#productStoreID").val();
+                $.getJSON("/ProductDetail/getAllData?sku=" + sku, function (result) {
+                    $.each(result, function (name, value) {
+                        if (name == "productName") { $("#productName").val(value); }
+                        if (name == "minThresHold") { $("#minThresHold").val(value); }
+                        if (name == "factCoe") { $("#producFactoryID").val(value); }
+                        if (name == "price") { $("#price").val(value); }
+                    });
+
+                });
+            }
+        }
+        setInterval(checkPD, 100);
+    </script>
 </head>
 <body>
     @using (Html.BeginForm("Create", "ProductDetail"))
@@ -20,7 +39,8 @@
                     <label>Mã nhà máy @Html.TextBoxFor(Model => Model.producFactoryID)</label>
                     <label>Mã cửa hàng @Html.TextBoxFor(Model => Model.productStoreID)</label>
                     <label>Giá @Html.TextBoxFor(Model => Model.price)</label>
-                
+                    <label>Số luọng giới hạn @Html.TextBoxFor(Model => Model.minThresHold)</label>
+
                 </div>
                 <div class="button-section">
                     <input type="submit" name="Tạo" />

@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="~/Content/Table.css">
     <script>
         $(document).ready(function () {
-
+            $('input[type="submit"]').prop('disabled', true);
         
             $("#Emp1").val($('input#username').val());
             $('#Emp1').autocomplete({
@@ -49,7 +49,9 @@
                         if (name == "productName") {
                             flag = true;
                             if (value != null) {
+                                $('input[type="submit"]').prop('disabled', false);
                                 $('#IMEI').css("background-color", "green");
+                                $('#IMEI').css("color", "white");
                                 $("#divName").text("Tên sản phẩm: "+ value);
                             }
 
@@ -79,7 +81,9 @@
                     })
                 });
                 if (!flag) {
+                    $('input[type="submit"]').prop('disabled', true);
                     $('#IMEI').css("background-color", "red");
+                    $('#IMEI').css("color", "white");
                     $("#divDate").text("Ko tìm thấy IMEI sản phẩm, vui lòng kiểm tra lại");
                 }
             }

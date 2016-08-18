@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using System.Xml;
 using ThienNga2.Controllers;
 using ThienNga2.Models.Entities;
+using ThienNga2.Models.ViewModel;
 
 namespace ThienNga2.Areas.Admin.Controllers
 {
@@ -25,6 +27,27 @@ namespace ThienNga2.Areas.Admin.Controllers
         public ActionResult Details(int id)
         {
             return View();
+        }
+        public String getAllData(String sku) {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            try {
+                tb_product_detail dt = am.ThienNga_FindProduct2(sku).First();
+                if (dt != null) {
+                    productDetailView pdv = new productDetailView();
+                    if (dt.minThresHold != 0)
+                        pdv.minThreashold = dt.minThresHold.ToString();
+                    else pdv.minThreashold = "5";
+                    pdv.SKU = dt.productStoreID;
+                    pdv.productName = dt.productName;
+                    pdv.factCoe = dt.producFactoryID;
+                    pdv.price = dt.price.ToString();
+                    return serializer.Serialize(pdv);
+                }
+            }
+            catch (Exception e) {
+
+            }
+            return "";
         }
         [HttpPost]
         // POST: ProductDetail/Create
@@ -54,7 +77,9 @@ namespace ThienNga2.Areas.Admin.Controllers
                     edit.price = Model.price;
                     edit.producFactoryID = Model.producFactoryID;
                     edit.productStoreID = Model.productStoreID;
-
+                    
+                    edit.minThresHold = Model.minThresHold;
+                    System.Diagnostics.Debug.WriteLine("CCCCCCC " + edit.minThresHold);
                     edit.productName = Model.productName;
                     am.SaveChanges();
                 }
