@@ -51,7 +51,7 @@ namespace ThienNga2.Controllers
                         }
                     }
                     else if (searchType.Equals("date")) {
-                        var dssp = am.items.SqlQuery("SELECT * FROM dbo.item WHERE productID LIKE '%" + code + "-%'").ToList();
+                        var dssp = am.items.SqlQuery("SELECT * FROM dbo.item WHERE productID LIKE '%" + code + "%'").ToList();
                         if (dssp != null)
                         {
                             ViewData["dspsp"] = dssp;
@@ -64,7 +64,7 @@ namespace ThienNga2.Controllers
                         }
                     }
                     else if (searchType.Equals("sdt")) {
-                        var dssp = am.items.SqlQuery("SELECT * FROM dbo.item WHERE productID LIKE '%-" + code + "-%'").ToList();
+                        var dssp = am.items.SqlQuery("SELECT * FROM dbo.item WHERE productID LIKE '%" + code + "%'").ToList();
                         if (dssp != null)
                         {
                             ViewData["dspsp"] = dssp;
@@ -77,7 +77,7 @@ namespace ThienNga2.Controllers
                         }
                     }
                     else if (searchType.Equals("sku")) {
-                        var dssp = am.items.SqlQuery("SELECT * FROM dbo.item WHERE productID LIKE '%-" + code + "-%'").ToList();
+                        var dssp = am.items.SqlQuery("SELECT * FROM dbo.item WHERE productID LIKE '%" + code + "%'").ToList();
                         if (dssp != null)
                         {
                             ViewData["dspsp"] = dssp;
