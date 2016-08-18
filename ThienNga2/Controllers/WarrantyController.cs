@@ -9,7 +9,7 @@ using ThienNga2.Models.ViewModel;
 using Microsoft.AspNet.Identity;
 namespace ThienNga2.Controllers
 {
-    [Authorize(Roles = "Admin, Nhân viên kỹ thuật, Bán hàng,Admin Hà Nội")]
+    [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
 
     public class WarrantyController : EntitiesAM
     {

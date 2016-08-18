@@ -20,7 +20,7 @@ using iTextSharp.text.html;
 namespace ThienNga2.Controllers
 {
    
-    [Authorize(Roles = "Admin,Bán hàng, Admin Hà Nội")]
+    [Authorize(Roles = "Admin,Bán hàng,Admin Hà Nội")]
     public class ProductItemController : EntitiesAM
     {
         private int number =1;
