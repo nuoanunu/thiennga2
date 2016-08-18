@@ -12,26 +12,22 @@ namespace ThienNga2.Models.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_customer
+    public partial class CustomerType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tb_customer()
+        public CustomerType()
         {
             this.items = new HashSet<item>();
-            this.orders = new HashSet<order>();
+            this.tb_customer = new HashSet<tb_customer>();
         }
     
         public int id { get; set; }
-        public string customerName { get; set; }
-        public string phonenumber { get; set; }
-        public string address { get; set; }
-        public Nullable<int> Type { get; set; }
-        public string address2 { get; set; }
+        public string GroupName { get; set; }
+        public string Color { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<item> items { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<order> orders { get; set; }
-        public virtual CustomerType CustomerType { get; set; }
+        public virtual ICollection<tb_customer> tb_customer { get; set; }
     }
 }

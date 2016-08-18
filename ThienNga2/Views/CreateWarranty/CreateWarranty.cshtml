@@ -10,6 +10,9 @@
     <link rel="stylesheet" type="text/css" href="~/Content/Table.css">
     <script>
         $(document).ready(function () {
+
+        
+            $("#Emp1").val($('input#username').val());
             $('#Emp1').autocomplete({
                 source: '@Url.Action("Autocomplete")'
 
@@ -82,6 +85,7 @@
             }
         };
         setInterval(checkWarrantyCode, 100);
+        
         </script>
 </head>
 <body>
@@ -99,7 +103,7 @@
                     <label>Tên khách hàng <input type="text" id="cusname" name="cusname" value="" /></label>
                     <label>IMEI sản phẩm <input type="text" id="IMEI"  name="IMEI" value="" /> <div id="divDate"></div> <div id="divName"></div> <div id="divDescription"></div> </label>
                     <label>Tình trạng lúc nhận <input type="text" id="Descrip"  name="Descrip" value="" /></label>
-                    <label>Nhân viên tiếp nhận <input type="text" id="Emp1"  name="Emp1" value="" /></label>
+                    <label>Nhân viên tiếp nhận <input type="text" readonly id="Emp1"  name="Emp1" value="" /></label>
                     <label>Nhân viên sửa chữa <input type="text" id="Emp2"  name="Emp2" value="" /></label>
                 </div>
                 <div class="button-section">

@@ -102,6 +102,8 @@
     <NavigationProperty Name="tb_product_detail" Relationship="Self.FK_item_tb_product_detail" FromRole="item" ToRole="tb_product_detail" />
     <Property Name="orderID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="order" Relationship="ThienNgaDatabaseModel.FK_item_order" FromRole="item" ToRole="order" />
+    <Property Name="CustomerType" Type="Int32" />
+    <NavigationProperty Name="CustomerType1" Relationship="ThienNgaDatabaseModel.FK_item_CustomerType" FromRole="item" ToRole="CustomerType" />
   </EntityType>
   <EntityType Name="log">
     <Key>
@@ -143,6 +145,7 @@
     <Property Name="Type" Type="Int32" />
     <NavigationProperty Name="orders" Relationship="ThienNgaDatabaseModel.FK_order_tb_customer" FromRole="tb_customer" ToRole="order" />
     <Property Name="address2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="CustomerType" Relationship="ThienNgaDatabaseModel.FK_tb_customer_CustomerType" FromRole="tb_customer" ToRole="CustomerType" />
   </EntityType>
   <EntityType Name="tb_inventory_name">
     <Key>
@@ -186,7 +189,7 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="Int32" Nullable="false" />
-    <Property Name="statusName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="statusName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="tb_warranty_activities" Relationship="ThienNgaDatabaseModel.FK_tb_warranty_activities_tb_warrnaty_status" FromRole="tb_warrnaty_status" ToRole="tb_warranty_activities" />
   </EntityType>
   <EntityType Name="database_firewall_rules">
@@ -516,6 +519,15 @@
       <End Role="tb_customer" EntitySet="tb_customer" />
       <End Role="order" EntitySet="orders" />
     </AssociationSet>
+    <EntitySet Name="CustomerTypes" EntityType="ThienNgaDatabaseModel.CustomerType" />
+    <AssociationSet Name="FK_item_CustomerType" Association="ThienNgaDatabaseModel.FK_item_CustomerType">
+      <End Role="CustomerType" EntitySet="CustomerTypes" />
+      <End Role="item" EntitySet="items" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_customer_CustomerType" Association="ThienNgaDatabaseModel.FK_tb_customer_CustomerType">
+      <End Role="CustomerType" EntitySet="CustomerTypes" />
+      <End Role="tb_customer" EntitySet="tb_customer" />
+    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="ThienNga_checkkho_Result">
     <Property Type="Int32" Name="id" Nullable="false" />
@@ -820,6 +832,40 @@
       </Principal>
       <Dependent Role="order">
         <PropertyRef Name="customerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="CustomerType">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="GroupName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Color" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="items" Relationship="ThienNgaDatabaseModel.FK_item_CustomerType" FromRole="CustomerType" ToRole="item" />
+    <NavigationProperty Name="tb_customer" Relationship="ThienNgaDatabaseModel.FK_tb_customer_CustomerType" FromRole="CustomerType" ToRole="tb_customer" />
+  </EntityType>
+  <Association Name="FK_item_CustomerType">
+    <End Type="ThienNgaDatabaseModel.CustomerType" Role="CustomerType" Multiplicity="0..1" />
+    <End Type="ThienNgaDatabaseModel.item" Role="item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustomerType">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="item">
+        <PropertyRef Name="CustomerType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_customer_CustomerType">
+    <End Type="ThienNgaDatabaseModel.CustomerType" Role="CustomerType" Multiplicity="0..1" />
+    <End Type="ThienNgaDatabaseModel.tb_customer" Role="tb_customer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustomerType">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tb_customer">
+        <PropertyRef Name="Type" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

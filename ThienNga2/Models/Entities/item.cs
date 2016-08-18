@@ -21,10 +21,12 @@ namespace ThienNga2.Models.Entities
         public Nullable<int> customerID { get; set; }
         public System.DateTime DateOfSold { get; set; }
         public int orderID { get; set; }
+        public Nullable<int> CustomerType { get; set; }
     
         public virtual tb_customer tb_customer { get; set; }
         public virtual tb_inventory_name tb_inventory_name { get; set; }
         public virtual tb_product_detail tb_product_detail { get; set; }
         public virtual order order { get; set; }
+        public virtual CustomerType CustomerType1 { get; set; }
     }
 }

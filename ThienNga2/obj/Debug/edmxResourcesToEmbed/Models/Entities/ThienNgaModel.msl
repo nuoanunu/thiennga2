@@ -84,6 +84,7 @@
     <EntitySetMapping Name="items">
       <EntityTypeMapping TypeName="ThienNgaDatabaseModel.item">
         <MappingFragment StoreEntitySet="item">
+          <ScalarProperty Name="CustomerType" ColumnName="CustomerType" />
           <ScalarProperty Name="orderID" ColumnName="orderID" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="productID" ColumnName="productID" />
@@ -442,6 +443,15 @@
           <ScalarProperty Name="ChietKhauPhanTram" ColumnName="ChietKhauPhanTram" />
           <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="productDetailID" ColumnName="productDetailID" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustomerTypes">
+      <EntityTypeMapping TypeName="ThienNgaDatabaseModel.CustomerType">
+        <MappingFragment StoreEntitySet="CustomerType">
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="GroupName" ColumnName="GroupName" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>

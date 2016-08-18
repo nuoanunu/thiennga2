@@ -113,11 +113,20 @@ namespace ThienNga2.Controllers
                 act = new tb_warranty_activities();
             phoneNumber = phoneNumber.Trim();
             var emplo1 = am.AspNetUsers.SqlQuery("SELECT * FROM dbo.AspNetUsers WHERE Email='" + Emp1 + "'").ToList().First();
-            var emplo2 = am.AspNetUsers.SqlQuery("SELECT * FROM dbo.AspNetUsers WHERE Email='" + Emp2 + "'").ToList().First();
+            AspNetUser emplo2 =null;
+            if (Emp2 != null)
+                try {
+                    emplo2 = am.AspNetUsers.SqlQuery("SELECT * FROM dbo.AspNetUsers WHERE Email='" + Emp2 + "'").ToList().First();
+                }
+                catch (Exception e) { emplo2 = null; }
+                
             act.employee = (string)emplo1.Id;
             act.AspNetUser = emplo1;
-            act.empFixer = (string)emplo2.Id;
-            act.AspNetUser1 = emplo2;
+            if (emplo2 != null)
+            {
+                act.empFixer = (string)emplo2.Id;
+                act.AspNetUser1 = emplo2;
+            }
             act.TenKhach = cusname;
             act.SDT = phoneNumber;
             act.status = 1;
@@ -128,7 +137,7 @@ namespace ThienNga2.Controllers
             if (date.Length == 1) date = "0" + date;
             String month = act.startDate.Month.ToString();
             if (month.Length == 1) month = "0" + month;
-            act.CodeBaoHanh = date + month + "-" + phoneNumber.Substring(phoneNumber.Length - 5);
+            act.CodeBaoHanh = date + month + "-" + phoneNumber.Substring(phoneNumber.Length - 6);
             tb_warranty lst = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE warrantyID='" + IMEI + "'").FirstOrDefault();
             item detail = am.items.SqlQuery("SELECT * FROM dbo.item WHERE productID='" + lst.itemID + "'").FirstOrDefault();
             act.productDetailID = detail.productDetailID;

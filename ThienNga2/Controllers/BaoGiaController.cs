@@ -10,7 +10,7 @@ namespace ThienNga2.Controllers
     public class BaoGiaController : EntitiesAM
     {
 
-
+        [Authorize(Roles = "Admin")]
         // GET: BaoGia
         public ActionResult Index()
         {

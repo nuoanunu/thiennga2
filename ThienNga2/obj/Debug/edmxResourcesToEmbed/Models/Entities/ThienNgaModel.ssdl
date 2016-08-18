@@ -71,6 +71,14 @@
     <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
     <Property Name="FullName" Type="nvarchar" MaxLength="256" />
   </EntityType>
+  <EntityType Name="CustomerType">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GroupName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Color" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
   <EntityType Name="employee">
     <Key>
       <PropertyRef Name="id" />
@@ -102,6 +110,7 @@
     <Property Name="customerID" Type="int" />
     <Property Name="DateOfSold" Type="date" Nullable="false" />
     <Property Name="orderID" Type="int" Nullable="false" />
+    <Property Name="CustomerType" Type="int" />
   </EntityType>
   <EntityType Name="log">
     <Key>
@@ -227,7 +236,7 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" Nullable="false" />
-    <Property Name="statusName" Type="varchar(max)" Nullable="false" />
+    <Property Name="statusName" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="warrantyActivityFee">
     <Key>
@@ -352,6 +361,18 @@ warning 6035: The relationship 'FK_inventory_tb_product_detail' has columns that
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_inventory_tb_product_detail1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="FK_inventory_tb_product_detail1" />-->
+  <Association Name="FK_item_CustomerType">
+    <End Role="CustomerType" Type="Self.CustomerType" Multiplicity="0..1" />
+    <End Role="item" Type="Self.item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustomerType">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="item">
+        <PropertyRef Name="CustomerType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_item_order">
     <End Role="order" Type="Self.order" Multiplicity="1" />
     <End Role="item" Type="Self.item" Multiplicity="*" />
@@ -433,6 +454,18 @@ warning 6035: The relationship 'FK_inventory_tb_product_detail1' has columns tha
       </Principal>
       <Dependent Role="orderDetail">
         <PropertyRef Name="orderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_customer_CustomerType">
+    <End Role="CustomerType" Type="Self.CustomerType" Multiplicity="0..1" />
+    <End Role="tb_customer" Type="Self.tb_customer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustomerType">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tb_customer">
+        <PropertyRef Name="Type" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -563,6 +596,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
     <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CustomerType" EntityType="Self.CustomerType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="employee" EntityType="Self.employee" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="inventory" EntityType="Self.inventory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="item" EntityType="Self.item" Schema="dbo" store:Type="Tables" />
@@ -614,6 +648,10 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
       <End Role="tb_inventory_name" EntitySet="tb_inventory_name" />
       <End Role="inventory" EntitySet="inventory" />
     </AssociationSet>
+    <AssociationSet Name="FK_item_CustomerType" Association="Self.FK_item_CustomerType">
+      <End Role="CustomerType" EntitySet="CustomerType" />
+      <End Role="item" EntitySet="item" />
+    </AssociationSet>
     <AssociationSet Name="FK_item_order" Association="Self.FK_item_order">
       <End Role="order" EntitySet="order" />
       <End Role="item" EntitySet="item" />
@@ -641,6 +679,10 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
     <AssociationSet Name="FK_orderDetail_order" Association="Self.FK_orderDetail_order">
       <End Role="order" EntitySet="order" />
       <End Role="orderDetail" EntitySet="orderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_customer_CustomerType" Association="Self.FK_tb_customer_CustomerType">
+      <End Role="CustomerType" EntitySet="CustomerType" />
+      <End Role="tb_customer" EntitySet="tb_customer" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_product_detail_tb_cate" Association="Self.FK_tb_product_detail_tb_cate">
       <End Role="tb_cate" EntitySet="tb_cate" />

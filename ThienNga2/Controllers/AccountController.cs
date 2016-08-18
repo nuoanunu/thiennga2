@@ -183,7 +183,7 @@ namespace ThienNga2.Controllers
                     if (rolesArray == null)
                     {
                         ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
-                        return View(model);
+                      //  return View(model);
                     }
                     else
                         foreach (string role in rolesArray)
@@ -195,7 +195,7 @@ namespace ThienNga2.Controllers
             }
             if (!flag) {
                 ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
-                return View(model);
+              //  return View(model);
             }
 
             if (ModelState.IsValid )
@@ -208,7 +208,7 @@ namespace ThienNga2.Controllers
                 if (result.Succeeded)
                 {
                     //Gán Role cho user  
-
+                   
                     await this.UserManager.AddToRoleAsync(user.Id, model.Name);
                     //Ends Here
 

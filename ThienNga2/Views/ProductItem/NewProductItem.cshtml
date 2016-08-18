@@ -24,6 +24,7 @@
     </script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js">
     </script>
+    
     <script>
         var temp = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
         function checkHidden() {
@@ -126,6 +127,26 @@
             }
 
         });
+        function preventEnterSubmit(e) {
+            if (e.which == 13) {
+                var $targ = $(e.target);
+
+                if (!$targ.is("textarea") && !$targ.is(":button,:submit")) {
+                    var focusNext = false;
+                    $(this).find(":input:visible:not([disabled],[readonly]), a").each(function () {
+                        if (this === e.target) {
+                            focusNext = true;
+                        }
+                        else if (focusNext) {
+                            $(this).focus();
+                            return false;
+                        }
+                    });
+
+                    return false;
+                }
+            }
+        }
     </script>
     
 </head>
@@ -153,7 +174,7 @@
             <h1>Tạo đơn hàng<span>Bán hàng</span></h1>
             @Html.ValidationSummary("", new { @class = "text-danger" })
             <form>
-                <label>Ngày <input name="date" id="date" value=""/> Tháng <input name="month" id ="month" value="" /> Năm <input name="year" id="year" value="" /> </label>
+                <label>Ngày <input name="date" id="date" value="@DateTime.Today.Day"/> Tháng <input name="month" id ="month" value="@DateTime.Today.Month" /> Năm <input name="year" id="year" value="@DateTime.Today.Year" /> </label>
                 <div class="section"><span>1</span>Thông tin khách hàng</div>
                 <div class="inner-wrap">
                     <label>Nhóm khách hàng @Html.DropDownListFor(Model => Model.custype, ls3)</label>
@@ -223,7 +244,35 @@
     }
 
 
+    <script>
+        $(document).ready(function () {
+            $('input').on("keypress", function (e) {
+                /* ENTER PRESSED*/
+                var t = e.keyCode;
+                if (t == 13) {
+                    /* FOCUS ELEMENT */
+                    var inputs = $(this).parents("form").eq(0).find(":input");
+                    var idx = inputs.index(this);
 
+                    if (idx == inputs.length - 1) {
+                        inputs[0].select()
+                    } else {
+                        alert(idx + 1);
+                        if ((idx + 1 - 10) % 7 == 0 || (idx + 1 - 15) % 7 ==0) {
+                            inputs[idx + 2].focus();
+                        }
+                        else
+                        inputs[idx + 1].focus();
+                      
+
+                    }
+                    return false;
+                }
+            });
+
+        })
+        
+    </script>
 
 </body>
 </html>

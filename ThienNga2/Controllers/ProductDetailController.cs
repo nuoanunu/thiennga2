@@ -9,7 +9,7 @@ using ThienNga2.Models.Entities;
 
 namespace ThienNga2.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin, Quản lý")]
+    [Authorize(Roles = "Admin")]
     public class ProductDetailController : EntitiesAM
     {
         

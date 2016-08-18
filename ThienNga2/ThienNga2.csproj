@@ -224,6 +224,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\BaoGiaController.cs" />
     <Compile Include="Controllers\CreateWarrantyController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\EntitiesAM.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Assets\AdminAreaRegistration.cs" />
@@ -255,6 +256,9 @@
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\AspNetUserLogin.cs">
+      <DependentUpon>ThienNgaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\CustomerType.cs">
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\C__MigrationHistory.cs">
@@ -488,6 +492,7 @@
     <Content Include="Views\BaoGia\BaoGiaList.cshtml" />
     <Content Include="Views\BaoGia\BaoGiaChiTiet.cshtml" />
     <Content Include="Views\Inventory\AllKho.cshtml" />
+    <Content Include="Views\Customer\NhomKhachHang.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

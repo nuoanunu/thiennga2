@@ -127,4 +127,9 @@ namespace ThienNga2.Models.ViewModel
         public String mieuTa { get; set; }
         public int sepcial { get; set; }
     }
+    public class emp {
+        public String sdt { get; set; }
+        public String email { get; set; }
+        public String fullname { get; set; }
+    }
     }

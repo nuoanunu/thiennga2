@@ -1,4 +1,4 @@
-﻿@using ThienNga2.Models;
+﻿
 @using ThienNga2.Models.Entities;
 
 <!DOCTYPE html>
@@ -16,6 +16,7 @@
     <script>
 
         $(document).ready(function () {
+            $("#XacNhanSua").val($("#username").val());
             $('#CodeText').autocomplete({
                 source: '@Url.Action("Autocomplete")'
 
@@ -42,6 +43,15 @@
     </script>
     <script>
         $(document).ready(function () {
+            $("#XacNhanSua").val($('input#username').val());
+            var t = $("#empname").text();
+            t = t.substr(9, t.length-1);
+       
+            $("#XacNhanSua").text(t + " xin xác nhận chịu trách nhiệm sữa chữa thiết bị này");
+            $("#iduser").val($('input#username').val());
+    
+            $("#idwar").val($("#codebaohanh").val());
+
             $('#searchID').autocomplete({
                 source: '@Url.Action("Autocomplete")'
 
@@ -65,6 +75,9 @@
         setInterval(function () { loadprice($('#searchID').val(), $('#quantitySKU').val()); }, 100);
         var skupicked = $('#searchID').val();
         var quanitypicked = $('#quantitySKU').val();
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
         function loadprice(val1, val2) {
 
             if (val1 != '' && val2 != '' && (val1 != skupicked || val2 != quanitypicked) && val2) {
@@ -72,7 +85,8 @@
                 quanitypicked = val2;
                 $.get('@(Url.Action("loadPrice", "Warranty",null, Request.Url.Scheme))?code=' + encodeURIComponent(val1) + '&quantity=' + encodeURIComponent(quanitypicked), function (result) {
                     if (result != 0) {
-                        $('#skuprice').val(result);
+                        $('#skuprice').val(numberWithCommas(result));
+                        $('#skuprice').prop('readonly', true);
                         $("#searchID").css("background-color", "green");
                     }
                     else {
@@ -253,11 +267,12 @@ td.text-right {
     </div>
     <div>
 
-        @if ((List<tb_warranty>)ViewData["warrantyDetail"] != null
-                                )
+        @if (ViewData["warrantyDetail"] != null
+                                                        )
         {
+            tb_warranty t =(tb_warranty) ViewData["warrantyDetail"];
 
-            foreach (tb_warranty t in (List<tb_warranty>)ViewData["warrantyDetail"])
+
             {
                 <table class="table-fill">
                     <tr>
@@ -266,7 +281,13 @@ td.text-right {
 
                             <p>Ngày Kích Hoạt: @t.startdate</p>
                             <p>Ngày hết hạn: @(((DateTime)t.startdate).AddMonths(t.duration))</p>
-
+                            @using (Html.BeginForm("ConfirmBaoHanh", "Warranty"))
+                            {
+                                <input type="hidden" id="idwar"  name ="idwar" value=""/>
+                                <input type="hidden" id="iduser" value=""  name="iduser"/>
+                                <button id="XacNhanSua" value="">xác nhận chịu trách nhiệm sữa chữa thiết bị này</button>
+                            }
+                           
                         </td>
                         <td align="center">
                             @if (((DateTime)t.startdate).AddMonths(t.duration) < DateTime.Now)
@@ -316,13 +337,10 @@ td.text-right {
                     using (Html.BeginForm("Update", "Warranty"))
                     {
 
-                        <div style="display:none;">@Html.TextBoxFor(Model => item.id) </div>
-                        <div style="display:none;"></div>
-                        <div style="display:none;"></div>
-                        <div style="display:none;"></div>
+                        <input type="hidden" name="actid" value="@item.id"/>
                         <table class="table-fill">
                             <tr>
-                                <th colspan="2">
+                                <th colspan="2">   
                                     <h6>Quản lý quy trình bảo hành của mã bảo hành : @item.CodeBaoHanh </h6>
                                 </th>
                             </tr>
@@ -336,7 +354,9 @@ td.text-right {
                             </tr>
                             <tr>
                                 <td>Nhân viên đang sửa:</td>
-                                <td> @item.AspNetUser1.FullName </td>
+                                <td> @if (item.AspNetUser1 != null) {
+                                        @item.AspNetUser1.FullName
+                                } </td>
                             </tr>
                             <tr>
                                 <td>Tình trạng lúc nhận:</td>
@@ -344,23 +364,28 @@ td.text-right {
                             </tr>
 
 
+                            <tr>
+                                <td>Trạng thái hiện tại </td>
+                                <td> @item.tb_warrnaty_status.statusName </td>
+
+                            </tr>
 
                             <tr>
-                                <td>Trạng Thái:  </td>
-                                <td id="statusWar">@Html.DropDownListFor(Model => item.status, ls)</td>
+                                <td>Chuyển trạng thái thành  </td>
+                                <td id="statusWar">@Html.DropDownListFor(Model => item.status, ls, new { Name= "itemstatus" , Value=item.status})</td>
 
                             </tr>
 
                             <tr id="dateBanGiao" style="display: none;">
                                 <td>Ngày bàn giao  </td>
-                                <td> @Html.TextBoxFor(Model => item.realeaseDATE) </td>
+                                <td> Ngày <input type="text" name="day1" />Tháng  <input type="text" name="month1" />Năm<input type="text" name="year1" /></td>
                             </tr>
 
                             <tr></tr>
 
                             <tr id="dateFinish" style="display: none;">
                                 <td>Ngày sửa xong  </td>
-                                <td> @Html.TextBoxFor(Model => item.finishFixingDate) </td>
+                                <td> Ngày <input type="text" name="day2" />Tháng  <input type="text" name="month2" />Năm<input type="text" name="year2" /></td>
                             </tr>
 
                             <tr>
@@ -398,7 +423,8 @@ td.text-right {
                                         @fee.quantity
                                     </td>
                                     <td class="text-left">
-                                        @fee.fixingfee
+                                        @Convert.ToDecimal( Math.Floor( fee.fixingfee)).ToString("#,##0")
+                                        
                                     </td>
                                     <td class="text-left"></td>
                                     <td class="text-left">
@@ -456,7 +482,8 @@ td.text-right {
                                     @fee.FixDetail
                                 </td>
                                 <td>
-                                    @fee.fee
+                                    @Convert.ToDecimal(Math.Floor(fee.fee)).ToString("#,##0")
+                           
                                 </td>
                                 <td></td>
                                 <td>
@@ -576,7 +603,11 @@ td.text-right {
                                                     <td>@item.CodeBaoHanh </td>
                                                     <td>@item.startDate </td>
                                                     <td>@item.AspNetUser.FullName </td>
-                                                    <td>@item.AspNetUser1.FullName </td>
+                                                    <td>@if (item.AspNetUser1 != null)
+                                                    {
+                                                         @item.AspNetUser1.FullName
+
+                                                    } </td>
                                                     <td>@item.tb_warrnaty_status.statusName </td>
                                                     <td>@item.finishFixingDate</td>
                                                     <td>@item.realeaseDATE </td>

@@ -20,7 +20,7 @@ using iTextSharp.text.html;
 namespace ThienNga2.Controllers
 {
    
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Bán hàng, Admin Hà Nội")]
     public class ProductItemController : EntitiesAM
     {
         private int number =1;
@@ -189,8 +189,21 @@ namespace ThienNga2.Controllers
             String no = number.ToString();
             if (no.Length == 1) no = "00" + no;
             if (no.Length == 2) no = "0" + no;
-            ord.MaBill = dayy + monthh + yearr + ivname + no;
-            number = number + 1;
+            ord.MaBill = dayy + monthh + yearr + ivname ;
+            order oldOrder = am.orders.SqlQuery("SELECT * FROM [order] where MaBill like '%" + ord.MaBill + "%'").Last();
+            String temp2 = "";
+            if (oldOrder == null) ord.MaBill = ord.MaBill + "001";
+
+            else {
+                 temp2 = oldOrder.MaBill;
+                temp2 = temp2.Substring(oldOrder.MaBill.Length - 3);
+                int a = int.Parse(temp2);
+                a = a + 1;
+                temp2 = a.ToString();
+                if (temp2.Length == 1) temp2 = "00" + temp2;
+                if (temp2.Length == 2) temp2 = "0" + temp2;
+            }
+            ord.MaBill = ord.MaBill + temp2;
             if (ModelState.IsValid)
             {
                 if (tuple.phoneNumber == null) tuple.phoneNumber = "ko co";
@@ -260,7 +273,9 @@ namespace ThienNga2.Controllers
                             String hour = DateTime.Now.Hour + ""; if (hour.Length == 1) hour = "0" + hour;
                             String minute = DateTime.Now.Minute + ""; if (minute.Length == 1) minute = "0" + minute;
                             String second = DateTime.Now.Second + ""; if (second.Length == 1) second = "0" + second;
-                            it.productID = dayy + monthh + yearr + ivname + no + "-"+pd.productStoreID+"-" + cus.phonenumber.Substring(cus.phonenumber.Length -7)+"-"+i;
+                            String subphone = "000000";
+                            if (cus.phonenumber.Length > 6) subphone= cus.phonenumber.Substring(cus.phonenumber.Length - 6);
+                            it.productID = ord.MaBill+ "."+pd.productStoreID+"." + subphone + "."+i;
                             it.DateOfSold = soldDate;
                             am.items.Add(it);
                             am.SaveChanges();

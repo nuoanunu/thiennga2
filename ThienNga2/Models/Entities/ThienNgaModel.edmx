@@ -76,6 +76,14 @@
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="FullName" Type="nvarchar" MaxLength="256" />
         </EntityType>
+        <EntityType Name="CustomerType">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Color" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="employee">
           <Key>
             <PropertyRef Name="id" />
@@ -107,6 +115,7 @@
           <Property Name="customerID" Type="int" />
           <Property Name="DateOfSold" Type="date" Nullable="false" />
           <Property Name="orderID" Type="int" Nullable="false" />
+          <Property Name="CustomerType" Type="int" />
         </EntityType>
         <EntityType Name="log">
           <Key>
@@ -232,7 +241,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" Nullable="false" />
-          <Property Name="statusName" Type="varchar(max)" Nullable="false" />
+          <Property Name="statusName" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="warrantyActivityFee">
           <Key>
@@ -357,6 +366,18 @@ warning 6035: The relationship 'FK_inventory_tb_product_detail' has columns that
         <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_inventory_tb_product_detail1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="FK_inventory_tb_product_detail1" />-->
+        <Association Name="FK_item_CustomerType">
+          <End Role="CustomerType" Type="Self.CustomerType" Multiplicity="0..1" />
+          <End Role="item" Type="Self.item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerType">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="item">
+              <PropertyRef Name="CustomerType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_item_order">
           <End Role="order" Type="Self.order" Multiplicity="1" />
           <End Role="item" Type="Self.item" Multiplicity="*" />
@@ -438,6 +459,18 @@ warning 6035: The relationship 'FK_inventory_tb_product_detail1' has columns tha
             </Principal>
             <Dependent Role="orderDetail">
               <PropertyRef Name="orderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_customer_CustomerType">
+          <End Role="CustomerType" Type="Self.CustomerType" Multiplicity="0..1" />
+          <End Role="tb_customer" Type="Self.tb_customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerType">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tb_customer">
+              <PropertyRef Name="Type" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -568,6 +601,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerType" EntityType="Self.CustomerType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="employee" EntityType="Self.employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="inventory" EntityType="Self.inventory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="item" EntityType="Self.item" Schema="dbo" store:Type="Tables" />
@@ -619,6 +653,10 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
             <End Role="tb_inventory_name" EntitySet="tb_inventory_name" />
             <End Role="inventory" EntitySet="inventory" />
           </AssociationSet>
+          <AssociationSet Name="FK_item_CustomerType" Association="Self.FK_item_CustomerType">
+            <End Role="CustomerType" EntitySet="CustomerType" />
+            <End Role="item" EntitySet="item" />
+          </AssociationSet>
           <AssociationSet Name="FK_item_order" Association="Self.FK_item_order">
             <End Role="order" EntitySet="order" />
             <End Role="item" EntitySet="item" />
@@ -646,6 +684,10 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <AssociationSet Name="FK_orderDetail_order" Association="Self.FK_orderDetail_order">
             <End Role="order" EntitySet="order" />
             <End Role="orderDetail" EntitySet="orderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_customer_CustomerType" Association="Self.FK_tb_customer_CustomerType">
+            <End Role="CustomerType" EntitySet="CustomerType" />
+            <End Role="tb_customer" EntitySet="tb_customer" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_product_detail_tb_cate" Association="Self.FK_tb_product_detail_tb_cate">
             <End Role="tb_cate" EntitySet="tb_cate" />
@@ -770,6 +812,8 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <NavigationProperty Name="tb_product_detail" Relationship="Self.FK_item_tb_product_detail" FromRole="item" ToRole="tb_product_detail" />
           <Property Name="orderID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="order" Relationship="ThienNgaDatabaseModel.FK_item_order" FromRole="item" ToRole="order" />
+          <Property Name="CustomerType" Type="Int32" />
+          <NavigationProperty Name="CustomerType1" Relationship="ThienNgaDatabaseModel.FK_item_CustomerType" FromRole="item" ToRole="CustomerType" />
         </EntityType>
         <EntityType Name="log">
           <Key>
@@ -811,6 +855,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <Property Name="Type" Type="Int32" />
           <NavigationProperty Name="orders" Relationship="ThienNgaDatabaseModel.FK_order_tb_customer" FromRole="tb_customer" ToRole="order" />
           <Property Name="address2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CustomerType" Relationship="ThienNgaDatabaseModel.FK_tb_customer_CustomerType" FromRole="tb_customer" ToRole="CustomerType" />
         </EntityType>
         <EntityType Name="tb_inventory_name">
           <Key>
@@ -854,7 +899,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="statusName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="statusName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="tb_warranty_activities" Relationship="ThienNgaDatabaseModel.FK_tb_warranty_activities_tb_warrnaty_status" FromRole="tb_warrnaty_status" ToRole="tb_warranty_activities" />
         </EntityType>
         <EntityType Name="database_firewall_rules">
@@ -1184,6 +1229,15 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
             <End Role="tb_customer" EntitySet="tb_customer" />
             <End Role="order" EntitySet="orders" />
           </AssociationSet>
+          <EntitySet Name="CustomerTypes" EntityType="ThienNgaDatabaseModel.CustomerType" />
+          <AssociationSet Name="FK_item_CustomerType" Association="ThienNgaDatabaseModel.FK_item_CustomerType">
+            <End Role="CustomerType" EntitySet="CustomerTypes" />
+            <End Role="item" EntitySet="items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_customer_CustomerType" Association="ThienNgaDatabaseModel.FK_tb_customer_CustomerType">
+            <End Role="CustomerType" EntitySet="CustomerTypes" />
+            <End Role="tb_customer" EntitySet="tb_customer" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="ThienNga_checkkho_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
@@ -1491,6 +1545,40 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CustomerType">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Color" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="items" Relationship="ThienNgaDatabaseModel.FK_item_CustomerType" FromRole="CustomerType" ToRole="item" />
+          <NavigationProperty Name="tb_customer" Relationship="ThienNgaDatabaseModel.FK_tb_customer_CustomerType" FromRole="CustomerType" ToRole="tb_customer" />
+        </EntityType>
+        <Association Name="FK_item_CustomerType">
+          <End Type="ThienNgaDatabaseModel.CustomerType" Role="CustomerType" Multiplicity="0..1" />
+          <End Type="ThienNgaDatabaseModel.item" Role="item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerType">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="item">
+              <PropertyRef Name="CustomerType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_customer_CustomerType">
+          <End Type="ThienNgaDatabaseModel.CustomerType" Role="CustomerType" Multiplicity="0..1" />
+          <End Type="ThienNgaDatabaseModel.tb_customer" Role="tb_customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerType">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tb_customer">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1580,6 +1668,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <EntitySetMapping Name="items">
             <EntityTypeMapping TypeName="ThienNgaDatabaseModel.item">
               <MappingFragment StoreEntitySet="item">
+                <ScalarProperty Name="CustomerType" ColumnName="CustomerType" />
                 <ScalarProperty Name="orderID" ColumnName="orderID" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="productID" ColumnName="productID" />
@@ -1938,6 +2027,15 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
                 <ScalarProperty Name="ChietKhauPhanTram" ColumnName="ChietKhauPhanTram" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="productDetailID" ColumnName="productDetailID" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerTypes">
+            <EntityTypeMapping TypeName="ThienNgaDatabaseModel.CustomerType">
+              <MappingFragment StoreEntitySet="CustomerType">
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
