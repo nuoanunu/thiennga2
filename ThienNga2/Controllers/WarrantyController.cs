@@ -119,20 +119,27 @@ namespace ThienNga2.Controllers
                         {
                             if (day1.Trim().Length > 0 && month1.Trim().Length > 0 && year1.Trim().Length > 0)
                             {
-                                int day = int.Parse(year1);
+
+                                int day = int.Parse(day1);
                                 int month = int.Parse(month1);
-                                int year = int.Parse(day1);
+                                int year = int.Parse(year1);
+                                System.Diagnostics.Debug.WriteLine("HERE " + year + " " + month + " " + day);
                                 DateTime date = new DateTime(year, month, day);
+                        
+                                System.Diagnostics.Debug.WriteLine("HERE " + date.ToString());
                                 act.realeaseDATE = date;
                             }
                             if (day2 != null && month2 != null && year2 != null)
                             {
                                 if (day2.Trim().Length > 0 && month2.Trim().Length > 0 && year2.Trim().Length > 0)
                                 {
-                                    int day = int.Parse(year2);
+                                    int day = int.Parse(day2);
                                     int month = int.Parse(month2);
-                                    int year = int.Parse(day2);
+                                    int year = int.Parse(year2);
+                                    System.Diagnostics.Debug.WriteLine("HERE " + year + " " + month + " " + day);
                                     DateTime date = new DateTime(year, month, day);
+                                 
+                                    System.Diagnostics.Debug.WriteLine("HERE " + date.ToString());
                                     act.realeaseDATE = date;
                                 }
 

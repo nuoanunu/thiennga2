@@ -432,14 +432,12 @@
 
 
             }
-            if (!flag && (List
-            <tb_warranty>
-                )ViewData["warrantyDetail"] != null && ((List<tb_warranty>
-                    )ViewData["warrantyDetail"]).Count() == 1)
+            if (!flag && (tb_warranty
+                )ViewData["warrantyDetail"] != null )
             {
 
-                tb_warranty t = ((List<tb_warranty>
-                    )ViewData["warrantyDetail"]).ElementAt(0);
+                tb_warranty t = (tb_warranty
+                    )ViewData["warrantyDetail"];
 
                 <button id="startWarranty"> Bắt đầu quy trình bảo hành</button>
                                     <div id="newWarrantyForm" style="display:none">
@@ -513,8 +511,10 @@
 
                                             @foreach (var item in (List <tb_warranty_activities>)ViewData["lsbh"])
                                             {
+                                                String color = "";
+                                                if (item.status == 4) { color = "#7e7e7e"; }
 
-                                                <tr>
+                                                <tr bgcolor="@color">
                                                     <td>@item.CodeBaoHanh </td>
                                                     <td>@item.startDate </td>
                                                     <td>@item.AspNetUser.FullName </td>
