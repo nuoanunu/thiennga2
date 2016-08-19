@@ -130,7 +130,7 @@
                             Tìm theo
 
                             <input type="radio" name="searchType" checked="checked" value="warrantyCODE"> Mã hóa đơn bảo hành
-                            <input type="radio" name="searchType" value="item">Mã sản phẩm <br />
+                            <input type="radio" name="searchType" value="item">SKU <br />
                             <input type="radio" name="searchType" value="warrantyIMEI">  Mã IMEI
                             <input type="radio" name="searchType" value="warrantyCODEDate"> Ngày tháng
                             <input type="radio" name="searchType" value="warrantyCODEPhone">Số điện thoại
@@ -219,8 +219,8 @@
         if (ViewData["thisAct"] != null)
         {
             <ul class="nav nav-pills">
-                <li class="active"><a data-toggle="pill" href="#home">Tổng quan</a></li>
-                <li><a data-toggle="pill" href="#menu1">Điều chỉnh trạng thái</a></li>
+                <li class="active"><a data-toggle="pill" href="#home">Tổng quan về sản phẩm</a></li>
+                <li><a data-toggle="pill" href="#menu1">Trạng thái bảo hành</a></li>
                 <li><a data-toggle="pill" href="#menu2">Chí phí bảo hành</a></li>
                 <li><a data-toggle="pill" href="#menu3">Lịch sử bảo hành</a></li>
             </ul>
@@ -239,12 +239,15 @@
             @if (ViewData["warrantyDetail"] != null)
             {
                 tb_warranty t = (tb_warranty)ViewData["warrantyDetail"];
-
+                item it = (item)ViewData["itemDetail"];
 
                 {
                     <table class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <tr>
                             <td>
+                                <p>Tên sản phẩm: @it.tb_product_detail.productName </p>
+                                <p>SKU: @it.tb_product_detail.productStoreID</p>
+                           
                                 <p>IMEI sản phẩm: @t.warrantyID </p>
 
                                 <p>Ngày Kích Hoạt: @t.startdate</p>
@@ -295,7 +298,9 @@
             List<SelectListItem> ls = new List<SelectListItem> {
                 new SelectListItem { Text = "Đang kiểm tra", Value = "1"},
                 new SelectListItem { Text = "Đang sửa chữa", Value = "2"},
+                new SelectListItem { Text = "Đang đợi khách hàng đồng ý thay linh kiện", Value = "6"},
                 new SelectListItem { Text = "Hoàn tất sửa chữa", Value = "3"},
+                new SelectListItem { Text = "Đã giao, Không sữa được", Value = "5"},
                 new SelectListItem { Text  = "Đã bàn giao",Value="4"}
 
             };

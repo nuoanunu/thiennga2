@@ -330,6 +330,10 @@ namespace ThienNga2.Controllers
                 if (searchType.Equals("warrantyIMEI"))
                 {
                     ViewData["warrantydetail"] = am.ThienNga_findwarranty2(code).FirstOrDefault();
+                    tb_warranty tempwar = (tb_warranty)ViewData["warrantydetail"];
+                    item tempitem = am.items.SqlQuery("SELECT * FROM item where productID='" + tempwar.itemID + "'").First();
+                    ViewData["itemDetail"] = tempitem;
+                  
                     ViewData["lsbh"] = (List<tb_warranty_activities>)am.ThienNga_warrantyHistory2(code).ToList();
                     if (am.ThienNga_warrantyHistory2(code).ToList().Count() == 1 )
                     {
@@ -349,6 +353,9 @@ namespace ThienNga2.Controllers
                         ViewData["thisAct"] = act;
                         ViewData["FlagShowKq"] = "false";
                         ViewData["warrantydetail"] = am.ThienNga_findwarranty2(act.warrantyID).FirstOrDefault();
+                        tb_warranty tempwar = (tb_warranty)ViewData["warrantydetail"];
+                        item tempitem = am.items.SqlQuery("SELECT * FROM item where productID='" + tempwar.itemID + "'").First();
+                        ViewData["itemDetail"] = tempitem;
                     }
                     else
                     {
@@ -359,6 +366,9 @@ namespace ThienNga2.Controllers
                         }
                         if (flag) {
                             ViewData["warrantydetail"] = am.tb_warranty.SqlQuery("SELECT * FROM tb_warranty where warrantyID='" + warrantyID + "'").FirstOrDefault();
+                            tb_warranty tempwar = (tb_warranty)ViewData["warrantydetail"];
+                            item tempitem = am.items.SqlQuery("SELECT * FROM item where productID='" + tempwar.itemID + "'").First();
+                            ViewData["itemDetail"] = tempitem;
                         }
                         ViewData["lsbh"] = activity;
                     }
@@ -386,6 +396,9 @@ namespace ThienNga2.Controllers
                     ViewData["thisAct"] = activity;
                     ViewData["FlagShowKq"] = "false";
                     ViewData["warrantydetail"] = am.ThienNga_findwarranty2(activity.warrantyID).FirstOrDefault();
+                    tb_warranty tempwar = (tb_warranty)ViewData["warrantydetail"];
+                    item tempitem = am.items.SqlQuery("SELECT * FROM item where productID='" + tempwar.itemID + "'").First();
+                    ViewData["itemDetail"] = tempitem;
                 }
             }
 
