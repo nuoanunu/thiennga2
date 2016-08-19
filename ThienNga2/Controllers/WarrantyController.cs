@@ -347,6 +347,7 @@ namespace ThienNga2.Controllers
                         tb_warranty_activities act = activity.ElementAt(0);
                         ViewData["lsbh"] = activityList;
                         ViewData["thisAct"] = act;
+                        ViewData["FlagShowKq"] = "false";
                         ViewData["warrantydetail"] = am.ThienNga_findwarranty2(act.warrantyID).FirstOrDefault();
                     }
                     else

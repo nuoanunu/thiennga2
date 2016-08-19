@@ -253,7 +253,11 @@
                                 {
                                     <input type="hidden" id="idwar" name="idwar" value="" />
                                     <input type="hidden" id="iduser" value="" name="iduser" />
-                                    <button id="XacNhanSua" value="">xác nhận chịu trách nhiệm sữa chữa thiết bị này</button>
+                                    if (ViewData["thisAct"] != null)
+                                    {
+                                        <button id="XacNhanSua" value="">xác nhận chịu trách nhiệm sữa chữa thiết bị này</button>
+                                    }
+
                                 }
 
                             </td>
