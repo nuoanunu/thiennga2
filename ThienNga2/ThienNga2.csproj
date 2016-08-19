@@ -383,10 +383,17 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\formTemplate.css" />
+    <Content Include="Content\images\checking.png" />
+    <Content Include="Content\images\done.png" />
+    <Content Include="Content\images\donefixing.png" />
+    <Content Include="Content\images\error.png" />
+    <Content Include="Content\images\fixing.png" />
     <Content Include="Content\images\flying-drones.jpg" />
     <Content Include="Content\images\green.png" />
     <Content Include="Content\images\red.png" />
+    <Content Include="Content\images\reparing.png" />
     <Content Include="Content\images\special.png" />
+    <Content Include="Content\images\waitingree.png" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\navigation.css" />
     <Content Include="Content\SearchBar.css" />
