@@ -508,13 +508,16 @@
                             }
                        
                         </tr>
-
+                        <tr>
+                            <td>Ghi chú</td>
+                            <td>@Html.TextAreaFor(Model => item.Note, new { Value = item.Note }) </td>
+                        </tr>
                         <tr>
                             <td colspan="2" align="center">
                                 <button type="submit">Cập nhật trạng thái bảo hành</button>
                             </td>
                         </tr>
-
+                      
                     </table>
                 }
                 <div class="container" style="margin-top: 100px; margin-bottom: 100px;">

@@ -35,6 +35,7 @@ namespace ThienNga2.Models.Entities
         public string TenKhach { get; set; }
         public string SDT { get; set; }
         public int productDetailID { get; set; }
+        public string Note { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual AspNetUser AspNetUser1 { get; set; }

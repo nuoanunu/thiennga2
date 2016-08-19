@@ -238,6 +238,7 @@
           <Property Name="TenKhach" Type="nvarchar" MaxLength="50" />
           <Property Name="SDT" Type="nvarchar" MaxLength="50" />
           <Property Name="productDetailID" Type="int" Nullable="false" />
+          <Property Name="Note" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="tb_warrnaty_status">
           <Key>
@@ -1418,6 +1419,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <Property Name="SDT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="productDetailID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tb_product_detail" Relationship="ThienNgaDatabaseModel.FK_tb_warranty_activities_tb_product_detail" FromRole="tb_warranty_activities" ToRole="tb_product_detail" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_tb_warranty_activities_AspNetUsers">
           <End Type="ThienNgaDatabaseModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -2002,6 +2004,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <EntitySetMapping Name="tb_warranty_activities">
             <EntityTypeMapping TypeName="ThienNgaDatabaseModel.tb_warranty_activities">
               <MappingFragment StoreEntitySet="tb_warranty_activities">
+                <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="productDetailID" ColumnName="productDetailID" />
                 <ScalarProperty Name="SDT" ColumnName="SDT" />
                 <ScalarProperty Name="TenKhach" ColumnName="TenKhach" />

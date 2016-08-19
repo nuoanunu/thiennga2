@@ -233,6 +233,7 @@
     <Property Name="TenKhach" Type="nvarchar" MaxLength="50" />
     <Property Name="SDT" Type="nvarchar" MaxLength="50" />
     <Property Name="productDetailID" Type="int" Nullable="false" />
+    <Property Name="Note" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="tb_warrnaty_status">
     <Key>

@@ -408,6 +408,7 @@
     <EntitySetMapping Name="tb_warranty_activities">
       <EntityTypeMapping TypeName="ThienNgaDatabaseModel.tb_warranty_activities">
         <MappingFragment StoreEntitySet="tb_warranty_activities">
+          <ScalarProperty Name="Note" ColumnName="Note" />
           <ScalarProperty Name="productDetailID" ColumnName="productDetailID" />
           <ScalarProperty Name="SDT" ColumnName="SDT" />
           <ScalarProperty Name="TenKhach" ColumnName="TenKhach" />
