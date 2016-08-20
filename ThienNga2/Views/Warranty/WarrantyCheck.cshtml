@@ -294,6 +294,7 @@
                             <th>  Ngày hoàn tất sửa </th>
                             <th>  Ngày Trả </th>
                             <th>  Chi tiết  </th>
+
                         </tr>
 
                         @foreach (var item in (List<tb_warranty_activities>)ViewData["lsbh"])
@@ -519,8 +520,18 @@
                                 <button type="submit">Cập nhật trạng thái bảo hành</button>
                             </td>
                         </tr>
-                      
+                     
                     </table>
+                }
+                @if (item.status == 4 || item.status == 6)
+                {
+                <div>
+                    @using (Html.BeginForm("GenerateInvoiceBill", "Warranty"))
+                    {
+                        <input type="hidden" id="actid" name="actid" value="@(((tb_warranty_activities)ViewData["thisAct"]).id)" />
+                                    <button type="submit" name="Edit" value="Hoàn tất">Xuất Bill</button>
+                    }
+                </div>
                 }
                 <div class="container" style="margin-top: 100px; margin-bottom: 100px;">
                 

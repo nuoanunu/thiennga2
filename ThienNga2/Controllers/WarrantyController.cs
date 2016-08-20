@@ -7,6 +7,14 @@ using System.Web.Script.Serialization;
 using ThienNga2.Models.Entities;
 using ThienNga2.Models.ViewModel;
 using Microsoft.AspNet.Identity;
+using System.Text;
+using iTextSharp.text.html.simpleparser;
+using System.IO;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.Web.UI;
+using System.Data;
+
 namespace ThienNga2.Controllers
 {
     [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
@@ -439,6 +447,163 @@ namespace ThienNga2.Controllers
             catch
             {
                 return View();
+            }
+        }
+        public void GenerateInvoiceBill(String actid)
+        {
+            float totalheight = 100;
+            try
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.AddRange(new DataColumn[3] {
+
+                            new DataColumn("Tên sản phẩm/Số lượng", typeof(string)),
+
+                            new DataColumn(" Đơn giá", typeof(string)),
+
+                            new DataColumn("  Thành tiền", typeof(string))});
+                tb_warranty_activities act = am.tb_warranty_activities.Find(int.Parse(actid));
+                String MaBill = act.CodeBaoHanh;
+                String cusname = act.TenKhach;
+                String sdt = act.SDT;
+                String sp = act.tb_warranty.item.tb_product_detail.productName;
+                String mbh = act.tb_warranty.warrantyID;
+                String datetake = act.startDate.ToString();
+                String des = act.Description;
+
+                using (StringWriter sw = new StringWriter())
+                {
+                    using (HtmlTextWriter hw = new HtmlTextWriter(sw))
+                    {
+                        StringBuilder sb = new StringBuilder();
+
+                        //Generate Invoice (Bill) Header.
+                        sb.Append("<table width='100%' cellspacing='0' cellpadding='2'>");
+                        sb.Append("<tr><td align='center' style='background-color: #18B5F0' colspan = '2'><b>Phiếu bảo hành</b></td></tr>");
+                        sb.Append("<tr><td colspan = '2'></td></tr>");
+                        sb.Append("<tr><td><b>Mã số: </b>");
+                        sb.Append(MaBill);
+                        sb.Append("</td><td align = 'right'><b>Ngày: </b>");
+                        sb.Append(datetake);
+                        sb.Append(" </td></tr>");
+                        sb.Append("<tr><td colspan = '2'><b>Tên khách: </b>");
+                        sb.Append(cusname);
+                        sb.Append("</td></tr>");
+                        sb.Append("<tr><td colspan = '2'><b>SDT </b>");
+                        sb.Append(sdt);
+                        sb.Append("</td></tr>");
+                        sb.Append("<tr><td colspan = '2'><b>Mã bảo hành: </b>");
+                        sb.Append(mbh);
+                        sb.Append("</td></tr>");
+                        sb.Append("<tr><td colspan = '2'><b>Tên sản phẩm: </b>");
+                        sb.Append(sp);
+                        sb.Append("</td></tr>");
+                        sb.Append("<tr><td colspan = '2'><b>Tình trạng lúc nhận: </b>");
+                        sb.Append(des);
+                        sb.Append("</td></tr>");
+                        sb.Append("</table>");
+                        sb.Append("<br />");
+                        sb.Append("<table cellpadding='1' >");
+                        sb.Append("<tr>");
+                        foreach (DataColumn column in dt.Columns)
+                        {
+                            sb.Append("<th style = 'background-color: #000;color:#ffffff'>");
+                            sb.Append(column.ColumnName);
+                            sb.Append("</th>");
+                        }
+                        sb.Append("</tr>");
+                        float total = 0;
+                        foreach (warrantyActivityFee fee in act.warrantyActivityFees)
+                        {
+                            bool flag = true;
+                            if (fee.active != null) {  if( !(bool)fee.active)  flag = false; }
+                            if (flag)
+                            {
+                                tb_product_detail detail = am.ThienNga_FindProduct2(fee.productSKU).First();
+                                sb.Append("<tr>");
+                                sb.Append("<td height='1' colspan='3'><font size='2'>");
+                                sb.Append(detail.productName);
+                                sb.Append("</font></td>");
+                                sb.Append("</tr>");
+                                sb.Append("<tr>");
+                                sb.Append("<td height='1'><font size='2'>");
+                                sb.Append(fee.quantity);
+                                sb.Append("</font></td>");
+                                sb.Append("<td height='1'><font size='2'>");
+                                sb.Append(detail.price);
+                                sb.Append("</font></td>");
+                                sb.Append("<td height='1'><font size='2'>");
+                                sb.Append(Convert.ToDecimal(fee.fixingfee).ToString("#,##0"));
+                                sb.Append("</font></td>");
+                                sb.Append("</tr>");
+                                total = total +  (float)fee.fixingfee;
+                                totalheight = totalheight + 15;
+                            }
+                        }
+                        foreach (warrantyActivityFixingFee fee in act.warrantyActivityFixingFees)
+                        {
+                            bool flag = true;
+                            if (fee.active != null) { if (!(bool)fee.active) flag = false; }
+                            if (flag)
+                            {
+                               
+                                sb.Append("<tr>");
+                                sb.Append("<td height='1' colspan='3'><font size='2'>");
+                                sb.Append(fee.FixDetail);
+                                sb.Append("</font></td>");
+                                sb.Append("</tr>");
+                                sb.Append("<tr>");
+                                sb.Append("<td height='1'><font size='2'>");
+                                sb.Append('1');
+                                sb.Append("</font></td>");
+                                sb.Append("<td height='1' colspan='2'><font size='2'>");
+                                sb.Append(Convert.ToDecimal(fee.fee).ToString("#,##0"));
+                                sb.Append("</font></td>");
+                             
+                                sb.Append("</tr>");
+                                total = total + (float)fee.fee;
+                                totalheight = totalheight + 15;
+                            }
+                        }
+                        sb.Append("<tr><td align = 'right' colspan = '");
+                        sb.Append("1");
+                        sb.Append("'>Tong</td>");
+                        sb.Append("<td align='right' colspan = '2'>");
+                        sb.Append(Convert.ToDecimal(total).ToString("#,##0"));
+                        sb.Append("</td>");
+                        sb.Append("</tr>");
+                        sb.Append("</table>");
+
+
+                        //Export HTML String as PDF.
+                        Encoding encoding = Encoding.Unicode;
+                        var bytes = encoding.GetBytes(sb.ToString());
+                        string str = System.Text.Encoding.Unicode.GetString(bytes);
+                        StringReader sr = new StringReader(str);
+                        Document pdfDoc = new Document(new Rectangle(Utilities.MillimetersToPoints(78), Utilities.MillimetersToPoints(totalheight)), 0, 0, 0, 0);
+
+                        HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+                        PdfWriter writer = PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+                        pdfDoc.Open();
+                        FontFactory.Register(Server.MapPath("~/fonts/arial-unicode-ms.ttf"), "Arial Unicode MS");
+                        StyleSheet style = new StyleSheet();
+                        style.LoadTagStyle("body", "face", "Arial Unicode MS");
+                        style.LoadTagStyle("body", "encoding", BaseFont.IDENTITY_H);
+                        htmlparser.Style = style;
+                        htmlparser.StartDocument();
+                        htmlparser.Parse(sr);
+                        pdfDoc.Close();
+                        Response.ContentEncoding = Encoding.Unicode;
+                        Response.ContentType = "application/pdf";
+                        Response.AddHeader("content-disposition", "attachment;filename=PhieuBaoGia_" + MaBill + ".pdf");
+                        Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                        Response.Write(pdfDoc);
+                        Response.End();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
             }
         }
     }
