@@ -16,6 +16,7 @@
     <script>
 
         $(document).ready(function () {
+            $("#displaytotal").text($("#totalFixingReFee").text());
             $("#XacNhanSua").val($("#username").val());
             $('#CodeText').autocomplete({
                 source: '@Url.Action("Autocomplete")'
@@ -239,7 +240,7 @@
         {
 
             <div id="form" class="form-wrapper">
-                <table class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <table class="table table-striped table-bordered" cellspacing="0" >
                     <tr>
                         <td>
                             <input id="search" class="suggestionsinput" name="code" type="text" placeholder="Nhập mã hóa đơn/mã sản phẩm " required />
@@ -280,7 +281,7 @@
             <div>
                 @if (ViewData["lsbh"] != null)
                 {
-                    <table class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <table class="table table-striped table-bordered" cellspacing="0" >
                         <tr>
                             <th colspan="8"> <h6> Các kết quả tìm thấy </h6></th>
                         </tr>
@@ -359,6 +360,7 @@
         }
     }
 
+
     <div class="tab-content">
         <div id="home" class="tab-pane fade in active">
             @if (ViewData["warrantyDetail"] != null)
@@ -367,7 +369,7 @@
                 item it = (item)ViewData["itemDetail"];
 
                 {
-                    <table class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <table class="table table-striped table-bordered" cellspacing="0" >
                         <tr>
                             <td>
                                 <p>Tên sản phẩm: @it.tb_product_detail.productName </p>
@@ -392,7 +394,7 @@
                             <td align="center">
                                 @if (((DateTime)t.startdate).AddMonths(t.duration) < DateTime.Now)
                                 {
-                                    <img width="auto" height="auto" src="/Content/images/red.png" />
+                                    <img  src="/Content/images/red.png" />
                                 }
                                 else
                                 {
@@ -437,7 +439,7 @@
                     <input type="hidden" name="actid" value="@item.id" />
 
                     <input type="hidden" id="codebaohanh" value="@item.CodeBaoHanh" />
-                    <table class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <table class="table table-striped table-bordered" cellspacing="0" >
                         <tr>
                             <th colspan="2">
                                 <h6>Quản lý quy trình bảo hành của mã bảo hành : @item.CodeBaoHanh </h6>
@@ -617,7 +619,7 @@
 
 
             <div id="menu2" class="tab-pane fade">
-                <table id="fee" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <table id="fee" class="table table-striped table-bordered" cellspacing="0" >
                     <tr>
                         <th colspan="5">
                             <h6>Linh kiện thay mới</h6>
@@ -630,10 +632,23 @@
                         <th> Thêm</th>
                         <th> Xóa</th>
                     </tr>
+             
                     <tbody class="table table-striped table-bordered" cellspacing="0" width="100%">
-                        @foreach (warrantyActivityFee fee in item.warrantyActivityFees)
+                    @if (item.warrantyActivityFees.Count() > 0)
+                    { double total = 0;
+                        foreach (warrantyActivityFee fee in item.warrantyActivityFees)
 
                         {
+                            if (fee.active != null)
+                            {
+                                if ((bool)fee.active)
+                                {
+                                    total = total + Math.Floor(fee.fixingfee);
+                                }
+                            }
+                            else {
+                                total = total + Math.Floor(fee.fixingfee);
+                            }
                             String color = "#ffffff";
                             if (fee.active != null)
                             {
@@ -648,37 +663,38 @@
                                     @fee.quantity
                                 </td>
                                 <td bgcolor="@color" align="left">
+                                  
                                     @Convert.ToDecimal(Math.Floor(fee.fixingfee)).ToString("#,##0")
 
                                 </td>
                                 <td bgcolor="@color" align="left"></td>
                                 @if (fee.active != null)
-                                {
-                                    if ((Boolean)fee.active)
-                                    {
+                                            {
+                                            if ((Boolean)fee.active)
+                                            {
 
                                         <td align="left">
                                             @using (Html.BeginForm("XoaFee", "Warranty"))
-                                            {
+                                                    {
                                                 <input type="hidden" name="feeID" value="@fee.id" />
                                                 <input type="hidden" name="activitiesID" value="@item.itemID" />
                                                         <input type="submit" name="Xóa" value="Xóa" />
                                             }
                                         </td>
-                                    }
-                                    else
-                                    {
+                                            }
+                                            else
+                                            {
                                         <td bgcolor="@color"> Đã xóa</td>
-                                    }
+                                            }
 
-                                }
+                                        }
                                 else
                                 {
                                     <td class="text-left">
                                         @using (Html.BeginForm("XoaFee", "Warranty"))
                                         {
                                             <input type="hidden" name="feeID" value="@fee.id" />
-                                            <input type="hidden" name="activitiesID" value="@item.itemID" />
+                                            <input type="hidden" name="activitiesID" value="@fee.tb_warranty_activities.id" />
                                                     <input type="submit" name="Xóa" value="Xóa" />
                                         }
                                     </td>
@@ -688,6 +704,8 @@
 
                             </tr>
                         }
+                        <div id="totalFixingReFee" hidden="hidden">@Convert.ToDecimal(Math.Floor(total)).ToString("#,##0")</div>
+                    }
                     </tbody>
                     @using (Html.BeginForm("AddFee", "Warranty"))
                     {
@@ -700,14 +718,21 @@
                                 <input id="quantitySKU" type="text" name="quantity" />
                             </td>
                             <td>
-                                <input id="skuprice" type="text" name="fixPrice" />
+                                <input id="skuprice" type="text" name="fixPrice" readonly/>
                             </td>
                             <td>
                                 <input type="submit" name="ThêmS" />
                             </td>
                         </tr>
                     }
-
+                    <tr>
+                        <td colspan="2" align="center">
+                            Tổng cộng
+                        </td>
+                        <td colspan="3" align="left">
+                            <div id="displaytotal"> </div>
+                        </td>
+                    </tr>
                 </table>
 
                 <br /><br /><br />
@@ -736,8 +761,9 @@
                             <td></td>
                             <td>
                                 @using (Html.BeginForm("XoaFixingFee", "Warranty"))
-                                {<input type="hidden" name="feeID" value="@fee.id" />
-                                <input type="hidden" name="activitiesID" value="@item.itemID" />
+                                {
+                                <input type="hidden" name="feeID" value="@fee.id" />
+                                <input type="hidden" name="activitiesID" value="@fee.tb_warranty_activities.id" />
                                         <input type="submit" name="Xóa" value="Xóa" />
                                 }
                             </td>
@@ -772,11 +798,14 @@
             @if (ViewData["lsbh"] != null && ((List<tb_warranty_activities>)ViewData["lsbh"]).Count() > 0
             )
             {
+                String ieminame = "";
+                if(ViewData["warrantydetail"] != null) { ieminame = (((tb_warranty)ViewData["warrantydetail"]).warrantyID); }
 
 
-                <table class="table table-striped table-bordered" cellspacing="0" width="100%">
+
+                <table class="table table-striped table-bordered" cellspacing="0">
                     <tr>
-                        <th colspan="8"> <h6> Lịch Sử Bảo Hành </h6></th>
+                        <th colspan="8"> <h6> Lịch Sử Bảo Hành của IMEI /h6></th>
                     </tr>
                     <tr>
                         <th>Mã bill bảo hành   </th>

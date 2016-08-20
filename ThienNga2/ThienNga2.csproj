@@ -261,12 +261,6 @@
     <Compile Include="Models\Entities\CustomerType.cs">
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Entities\C__MigrationHistory.cs">
-      <DependentUpon>ThienNgaModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Entities\database_firewall_rules.cs">
-      <DependentUpon>ThienNgaModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Entities\employee.cs">
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
     </Compile>
@@ -292,9 +286,6 @@
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\sp_helpdiagrams_Result.cs">
-      <DependentUpon>ThienNgaModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Entities\sysdiagram.cs">
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\tb_cate.cs">

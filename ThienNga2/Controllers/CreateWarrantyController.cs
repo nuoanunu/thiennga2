@@ -61,7 +61,7 @@ namespace ThienNga2.Controllers
                     {
                         tb_warranty war = lst.ElementAt(0);
 
-                        item detail = am.items.SqlQuery("SELECT * FROM dbo.item WHERE productID='" + war.itemID + "'").FirstOrDefault();
+                        item detail = am.items.SqlQuery("SELECT * FROM dbo.item WHERE id=" + war.itemID ).FirstOrDefault();
                         if (detail != null)
                         {
                             vi.mieuTa = war.description;
@@ -127,19 +127,20 @@ namespace ThienNga2.Controllers
                 act.empFixer = (string)emplo2.Id;
                 act.AspNetUser1 = emplo2;
             }
+            tb_warranty lst = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE warrantyID='" + IMEI + "'").FirstOrDefault();
+            item detail = am.items.SqlQuery("SELECT * FROM dbo.item WHERE id=" + lst.itemID ).FirstOrDefault();
             act.TenKhach = cusname;
             act.SDT = phoneNumber;
             act.status = 1;
             act.Description = Descrip;
-            act.warrantyID = IMEI;
+            act.warrantyID = lst.id;
             act.startDate = DateTime.Today;
             String date = act.startDate.Day.ToString();
             if (date.Length == 1) date = "0" + date;
             String month = act.startDate.Month.ToString();
             if (month.Length == 1) month = "0" + month;
             act.CodeBaoHanh = date + month + "." + phoneNumber.Substring(phoneNumber.Length - 6);
-            tb_warranty lst = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE warrantyID='" + IMEI + "'").FirstOrDefault();
-            item detail = am.items.SqlQuery("SELECT * FROM dbo.item WHERE productID='" + lst.itemID + "'").FirstOrDefault();
+          
             act.productDetailID = detail.productDetailID;
             am.tb_warranty_activities.Add(act);
             am.SaveChanges();

@@ -27,11 +27,12 @@ namespace ThienNga2.Models.Entities
         public string address { get; set; }
         public Nullable<int> Type { get; set; }
         public string address2 { get; set; }
+        public string Email { get; set; }
     
+        public virtual CustomerType CustomerType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<item> items { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<order> orders { get; set; }
-        public virtual CustomerType CustomerType { get; set; }
     }
 }

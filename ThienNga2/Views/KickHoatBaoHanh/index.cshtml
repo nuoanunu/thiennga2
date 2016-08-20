@@ -190,7 +190,7 @@
                     {
                         foreach (tb_warranty war in (List<tb_warranty>)ViewData["warList"])
                         {
-                            string url = "/KickHoatBaoHanh/Delete?warrantyCode=" + @war.warrantyID + "&itemID=" + it.productID;
+                            string url = "/KickHoatBaoHanh/Delete?warrantyCode=" + @war.warrantyID + "&itemID=" + it.id;
                             <tr>
                                 <td>
                                     @war.warrantyID
@@ -218,7 +218,7 @@
                                     @using (Html.BeginForm("Delete", "KickHoatBaoHanh", FormMethod.Post))
                             {
                                         <input type="hidden" value="@war.id" name="warrantyID" />
-                                        <input type="hidden" value="@it.productID" name="itemID" />
+                                        <input type="hidden" value="@it.id" name="itemID" />
                                         <input type="submit" value="Xóa" />
                                     }
                                 </td>
@@ -241,7 +241,7 @@
 
                             <tr id='@id'>
                                 <td>
-                                    @Html.HiddenFor(x => x.lst[i].itemID, new { @class = "datefield form-control", @Value = it.productID })
+                                    @Html.HiddenFor(x => x.lst[i].itemID, new { @class = "datefield form-control", @Value = it.id })
                                     @Html.TextBoxFor(x => x.lst[i].warrantyID, new { @class = "datefield form-control" })
                                 </td>
                                 <td>

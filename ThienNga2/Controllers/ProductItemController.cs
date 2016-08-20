@@ -43,6 +43,7 @@ namespace ThienNga2.Controllers
                     cus.cusadd2 = findcus.address2;
                     cus.cusname = findcus.customerName;
                     cus.cussdt = findcus.phonenumber;
+                    
                     JavaScriptSerializer serializer = new JavaScriptSerializer();
                    return serializer.Serialize(cus);
                 }
@@ -223,6 +224,8 @@ namespace ThienNga2.Controllers
                     cus.customerName = tuple.cusName;
                     cus.phonenumber = tuple.phoneNumber;
                     cus.address = tuple.Adress;
+                    if(tuple.Email != null)
+                    cus.Email = tuple.Email;
                     am.tb_customer.Add(cus);
                     am.SaveChanges();
                   
@@ -234,7 +237,7 @@ namespace ThienNga2.Controllers
            
                 foreach (AnOrderDetail ao in tuple.items)
                 {
-                    total = total + ao.thanhTien;
+                    total = total +  (float)Math.Floor(ao.thanhTien);
                 }
                 ord.total = total;
 
@@ -712,6 +715,7 @@ namespace ThienNga2.Controllers
         }
         public void GenerateInvoiceBill2(String dataString)
         {
+            float totalheigh = 100;
             String[] rex1 = new string[] { ":eachrow" };
             String[] rex2 = new string[] { ":split" };
             String[] rows = dataString.Split(rex1, StringSplitOptions.None);
@@ -719,15 +723,14 @@ namespace ThienNga2.Controllers
      
             String MaBill = "";
             DataTable dt = new DataTable();
-
-            dt.Columns.AddRange(new DataColumn[7] {
-                            new DataColumn("Mã xuất kho", typeof(string)),
-                            new DataColumn("Tên sản phẩm", typeof(string)),
-                            new DataColumn(" Số lượng", typeof(string)),
+            dt.Columns.AddRange(new DataColumn[3] {
+                          
+                            new DataColumn("Tên sản phẩm/Số lượng", typeof(string)),
+                         
                             new DataColumn(" Đơn giá", typeof(string)),
-                            new DataColumn("Chiết Khấu %", typeof(string)),
-                            new DataColumn("    Chiết Khấu tt ", typeof(string)),
+                        
                             new DataColumn("  Thành tiền", typeof(string))});
+       
             String cusname = "";
             String add = "";
             String sdt = "";
@@ -756,7 +759,12 @@ namespace ThienNga2.Controllers
                     if (temp2.Length > 5)
                     {
                         if (temp2[4].Trim().Length > 0 && temp2[2].Trim().Length > 0 && temp2[3].Trim().Length > 0)
-                            dt.Rows.Add(temp2[1], temp2[2], temp2[3], temp2[4], temp2[5], temp2[6], temp2[7]);
+                        {
+                            dt.Rows.Add(temp2[2]);
+
+                            dt.Rows.Add(temp2[3], temp2[4], temp2[7]);
+                            totalheigh = totalheigh + 20;
+                        }
                         String price = temp2[7];
                         MaBill = temp2[1].Substring(0, temp2[1].IndexOf("."));
                         while (price.IndexOf(",") > 1)
@@ -773,9 +781,9 @@ namespace ThienNga2.Controllers
 
 
             }
-            String total = Convert.ToDecimal(totalprice).ToString("#,##0.00");
-            String vatt = Convert.ToDecimal(totalprice * 0.1).ToString("#,##0.00");
-            String vattt = Convert.ToDecimal(totalprice * 1.1).ToString("#,##0.00");
+            String total = Convert.ToDecimal(totalprice).ToString("#,##0");
+            String vatt = Convert.ToDecimal(totalprice * 0.1).ToString("#,##0");
+            String vattt = Convert.ToDecimal(totalprice * 1.1).ToString("#,##0");
             using (StringWriter sw = new StringWriter())
             {
                 using (HtmlTextWriter hw = new HtmlTextWriter(sw))
@@ -804,7 +812,7 @@ namespace ThienNga2.Controllers
                     sb.Append("<br />");
 
                     //Generate Invoice (Bill) Items Grid.
-                    sb.Append("<table border = '1'>");
+                    sb.Append("<table cellpadding='1' >");
                     sb.Append("<tr>");
                     foreach (DataColumn column in dt.Columns)
                     {
@@ -813,35 +821,41 @@ namespace ThienNga2.Controllers
                         sb.Append("</th>");
                     }
                     sb.Append("</tr>");
+                    int merge = 0;
                     foreach (DataRow row in dt.Rows)
                     {
                         sb.Append("<tr>");
                         foreach (DataColumn column in dt.Columns)
                         {
-                            sb.Append("<td>");
+                            if ( merge%2 == 0)
+                                sb.Append("<td height='1' colspan='3'><font size='2'>");
+                            else{
+                                sb.Append("<td height='1'> <font size='2'>");
+                            }
                             sb.Append(row[column]);
-                            sb.Append("</td>");
+                            sb.Append("</font></td>");
                         }
                         sb.Append("</tr>");
+                        merge = merge + 1;
                     }
                     sb.Append("<tr><td align = 'right' colspan = '");
-                    sb.Append(dt.Columns.Count - 4);
+                    sb.Append("1");
                     sb.Append("'>Tong</td>");
-                    sb.Append("<td colspan = '4'>");
+                    sb.Append("<td  align='right' colspan = '2'>");
                     sb.Append(total + "");
                     sb.Append("</td>");
                     sb.Append("</tr>");
                     sb.Append("<tr><td align = 'right' colspan = '");
-                    sb.Append(dt.Columns.Count - 4);
+                    sb.Append(1+"");
                     sb.Append("'>VAT 10%</td>");
-                    sb.Append("<td colspan = '4'>");
+                    sb.Append("<td align='right' colspan = '2'>");
                     sb.Append(vatt + "");
                     sb.Append("</td>");
                     sb.Append("</tr>");
                     sb.Append("<tr><td align = 'right' colspan = '");
-                    sb.Append(dt.Columns.Count - 4);
+                    sb.Append("1");
                     sb.Append("'>Thanh toan</td>");
-                    sb.Append("<td colspan = '4'>");
+                    sb.Append("<td  align='right' colspan = '2'>");
                     sb.Append(vattt + "");
                     sb.Append("</td>");
                     sb.Append("</tr>");
@@ -852,7 +866,11 @@ namespace ThienNga2.Controllers
                     var bytes = encoding.GetBytes(sb.ToString());
                     string str = System.Text.Encoding.Unicode.GetString(bytes);
                     StringReader sr = new StringReader(str);
-                    Document pdfDoc = new Document(PageSize.A7, 0, 0, 0, 0);
+              
+                    Utilities.MillimetersToPoints(78f);
+           
+                
+                    Document pdfDoc = new Document(new Rectangle(Utilities.MillimetersToPoints(78f),Utilities.MillimetersToPoints(totalheigh) ), 0, 0, 0, 0);
 
                     HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
                     PdfWriter writer = PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
@@ -880,18 +898,17 @@ namespace ThienNga2.Controllers
             String[] rex2 = new string[] { ":split" };
             String[] rows = dataString.Split(rex1, StringSplitOptions.None);
             float totalprice = 0;
-          
-            String MaBill ="";
+            float totalheigh = 100;
+            String MaBill = "";
             DataTable dt = new DataTable();
+            dt.Columns.AddRange(new DataColumn[3] {
 
-            dt.Columns.AddRange(new DataColumn[7] {
-                            new DataColumn("Mã xuất kho", typeof(string)),
-                            new DataColumn("Tên sản phẩm", typeof(string)),
-                            new DataColumn(" Số lượng", typeof(string)),
+                            new DataColumn("Tên sản phẩm/Số lượng", typeof(string)),
+
                             new DataColumn(" Đơn giá", typeof(string)),
-                            new DataColumn("Chiết Khấu %", typeof(string)),
-                            new DataColumn("    Chiết Khấu tt ", typeof(string)),
+
                             new DataColumn("  Thành tiền", typeof(string))});
+
             String cusname = "";
             String add = "";
             String sdt = "";
@@ -920,7 +937,12 @@ namespace ThienNga2.Controllers
                     if (temp2.Length > 5)
                     {
                         if (temp2[4].Trim().Length > 0 && temp2[2].Trim().Length > 0 && temp2[3].Trim().Length > 0)
-                            dt.Rows.Add(temp2[1], temp2[2], temp2[3], temp2[4], temp2[5], temp2[6], temp2[7]);
+                        {
+                            dt.Rows.Add(temp2[2]);
+
+                            dt.Rows.Add(temp2[3], temp2[4], temp2[7]);
+                            totalheigh = totalheigh + 20;
+                        }
                         String price = temp2[7];
                         MaBill = temp2[1].Substring(0, temp2[1].IndexOf("."));
                         while (price.IndexOf(",") > 1)
@@ -937,9 +959,9 @@ namespace ThienNga2.Controllers
 
 
             }
-            String total = Convert.ToDecimal(totalprice).ToString("#,##0.00");
-            String vatt = Convert.ToDecimal(totalprice * 0.1).ToString("#,##0.00");
-            String vattt = Convert.ToDecimal(totalprice * 1.1).ToString("#,##0.00");
+            String total = Convert.ToDecimal(totalprice).ToString("#,##0");
+            String vatt = Convert.ToDecimal(totalprice * 0.1).ToString("#,##0");
+            String vattt = Convert.ToDecimal(totalprice * 1.1).ToString("#,##0");
             using (StringWriter sw = new StringWriter())
             {
                 using (HtmlTextWriter hw = new HtmlTextWriter(sw))
@@ -968,7 +990,7 @@ namespace ThienNga2.Controllers
                     sb.Append("<br />");
 
                     //Generate Invoice (Bill) Items Grid.
-                    sb.Append("<table border = '1'>");
+                    sb.Append("<table cellpadding='1' >");
                     sb.Append("<tr>");
                     foreach (DataColumn column in dt.Columns)
                     {
@@ -977,25 +999,32 @@ namespace ThienNga2.Controllers
                         sb.Append("</th>");
                     }
                     sb.Append("</tr>");
+                    int merge = 0;
                     foreach (DataRow row in dt.Rows)
                     {
                         sb.Append("<tr>");
                         foreach (DataColumn column in dt.Columns)
                         {
-                            sb.Append("<td>");
+                            if (merge % 2 == 0)
+                                sb.Append("<td height='1' colspan='3'><font size='2'>");
+                            else
+                            {
+                                sb.Append("<td height='1'> <font size='2'>");
+                            }
                             sb.Append(row[column]);
-                            sb.Append("</td>");
+                            sb.Append("</font></td>");
                         }
                         sb.Append("</tr>");
+                        merge = merge + 1;
                     }
                     sb.Append("<tr><td align = 'right' colspan = '");
-                    sb.Append(dt.Columns.Count - 4);
+                    sb.Append("1");
                     sb.Append("'>Tong</td>");
-                    sb.Append("<td colspan = '4'>");
+                    sb.Append("<td align='right' colspan = '2'>");
                     sb.Append(total + "");
                     sb.Append("</td>");
                     sb.Append("</tr>");
-                    
+                   
                     sb.Append(" </table>");
 
                     //Export HTML String as PDF.
@@ -1003,7 +1032,7 @@ namespace ThienNga2.Controllers
                     var bytes = encoding.GetBytes(sb.ToString());
                     string str = System.Text.Encoding.Unicode.GetString(bytes);
                     StringReader sr = new StringReader(str);
-                    Document pdfDoc = new Document(PageSize.A7, 0, 0, 0, 0);
+                    Document pdfDoc = new Document(new Rectangle(Utilities.MillimetersToPoints(78), Utilities.MillimetersToPoints(totalheigh) ), 0, 0, 0, 0);
 
                     HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
                     PdfWriter writer = PdfWriter.GetInstance(pdfDoc, Response.OutputStream);

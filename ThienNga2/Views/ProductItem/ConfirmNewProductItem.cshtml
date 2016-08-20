@@ -55,20 +55,20 @@
             {
 
                 float thanhtien = (ao.thanhTien);
-                Convert.ToDecimal(thanhtien).ToString("#,##0.00");
+                String thanhtS = Convert.ToDecimal(thanhtien).ToString("#,##0");
                 float dongia = (ao.thanhTien / ao.quantity);
-                Convert.ToDecimal(dongia).ToString("#,##0.00");
+                String dongiaS =Convert.ToDecimal(dongia).ToString("#,##0");
                 float chietkhautt =( (ao.chietKhauTrucTiep));
-                Convert.ToDecimal(chietkhautt).ToString("#,##0.00");
+                String chietkhauttS = Convert.ToDecimal(chietkhautt).ToString("#,##0");
 
             <tr>
                 <td> @ao.productID</td>
                 <td> @ao.productName</td>
                 <td> @ao.quantity</td>
-                <td> @ao.DonGiaS </td>
-                <td> @(ao.chietKhauPhanTram + "")</td>
-                <td>  @ao.chietKhauTrucTiepS</td>
-                <td>  @ao.thanhTienS</td>
+                <td> @dongiaS </td>
+                <td > @(ao.chietKhauPhanTram + "")</td>
+                <td>  @chietkhauttS</td>
+                <td>  @thanhtS</td>
             </tr>
             }
         }

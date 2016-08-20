@@ -5,52 +5,50 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="424ff67c991c4a328e21d05e1a6eda3e" Name="Diagram1">
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.account" Width="1.5" PointX="3" PointY="14.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.AspNetRole" Width="1.5" PointX="5.75" PointY="10" IsExpanded="true" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.AspNetUserClaim" Width="1.5" PointX="10.25" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.AspNetUserLogin" Width="1.5" PointX="10.25" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.AspNetUser" Width="1.5" PointX="8" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.inventory" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.item" Width="1.5" PointX="6" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.log" Width="1.5" PointX="5.25" PointY="14.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.role" Width="1.5" PointX="0.75" PointY="14.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_cate" Width="1.5" PointX="1.5" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_customer" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_inventory_name" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_product_detail" Width="1.5" PointX="3.75" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_warranty" Width="1.5" PointX="2.75" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_warrnaty_status" Width="1.5" PointX="8.75" PointY="14.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.database_firewall_rules" Width="1.5" PointX="12.75" PointY="7.25" IsExpanded="true" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.FK_account_role" ManuallyRouted="false" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.FK_log_account" ManuallyRouted="false" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.FK_inventory_tb_inventory_name" ManuallyRouted="false" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.FK_item_tb_customer" ManuallyRouted="false" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.FK_item_tb_inventory_name" ManuallyRouted="false" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.FK_item_tb_product_detail" ManuallyRouted="false" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.FK_tb_product_detail_tb_cate" ManuallyRouted="false" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.AspNetUserRoles" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.warrantyActivityFee" Width="1.5" PointX="13.25" PointY="3" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.warrantyActivityFixingFee" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.employee" Width="1.5" PointX="6.375" PointY="0.75" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.sysdiagram" Width="1.5" PointX="12.375" PointY="10.75" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_warranty_activities" Width="1.5" PointX="11" PointY="14.25" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.account" Width="1.5" PointX="15" PointY="10.75" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.AspNetRole" Width="1.5" PointX="5.75" PointY="12.25" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.AspNetUserClaim" Width="1.5" PointX="10.25" PointY="13.375" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.AspNetUserLogin" Width="1.5" PointX="10.25" PointY="10.875" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.AspNetUser" Width="1.5" PointX="8" PointY="11" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.CustomerType" Width="1.5" PointX="3.75" PointY="13.125" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.employee" Width="1.5" PointX="5.75" PointY="1.5" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.inventory" Width="1.5" PointX="3" PointY="5" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.item" Width="1.5" PointX="6" PointY="4.625" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.log" Width="1.5" PointX="17.25" PointY="10.75" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.order" Width="1.5" PointX="3.75" PointY="9.5" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.orderDetail" Width="1.5" PointX="6" PointY="16.625" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.role" Width="1.5" PointX="12.75" PointY="11" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_cate" Width="1.5" PointX="1.5" PointY="1.75" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_customer" Width="1.5" PointX="1.5" PointY="9.5" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_inventory_name" Width="1.5" PointX="0.75" PointY="5.5" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_product_detail" Width="1.5" PointX="3.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_warranty" Width="1.5" PointX="8.25" PointY="5" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_warranty_activities" Width="1.5" PointX="10.5" PointY="4.25" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.tb_warrnaty_status" Width="1.5" PointX="7.75" PointY="1.5" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.warrantyActivityFee" Width="1.5" PointX="12.75" PointY="6.75" />
+        <EntityTypeShape EntityType="ThienNgaDatabaseModel.warrantyActivityFixingFee" Width="1.5" PointX="12.75" PointY="3.75" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_account_role" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_log_account" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_item_CustomerType" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_tb_customer_CustomerType" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_inventory_tb_inventory_name" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_item_order" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_item_tb_customer" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_item_tb_inventory_name" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_item_tb_product_detail" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_tb_warranty_item" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_order_tb_customer" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_orderDetail_order" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_tb_product_detail_tb_cate" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_tb_warranty_activities_tb_warranty" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_warrantyActivityFee_tb_warranty_activities" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.FK_warrantyActivityFixingFee_tb_warranty_activities" />
+        <AssociationConnector Association="ThienNgaDatabaseModel.AspNetUserRoles" />
         <AssociationConnector Association="ThienNgaDatabaseModel.FK_tb_warranty_activities_AspNetUsers" />
         <AssociationConnector Association="ThienNgaDatabaseModel.FK_tb_warranty_activities_AspNetUsers1" />
         <AssociationConnector Association="ThienNgaDatabaseModel.FK_tb_warranty_activities_tb_warrnaty_status" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.FK_warrantyActivityFee_tb_warranty_activities" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.FK_warrantyActivityFixingFee_tb_warranty_activities" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.order" Width="1.5" PointX="13.375" PointY="14.125" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.orderDetail" Width="1.5" PointX="15.625" PointY="14" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.FK_item_order" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.FK_orderDetail_order" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.FK_tb_warranty_activities_tb_product_detail" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.FK_order_tb_customer" />
-        <EntityTypeShape EntityType="ThienNgaDatabaseModel.CustomerType" Width="1.5" PointX="0.75" PointY="3.25" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.FK_item_CustomerType" />
-        <AssociationConnector Association="ThienNgaDatabaseModel.FK_tb_customer_CustomerType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

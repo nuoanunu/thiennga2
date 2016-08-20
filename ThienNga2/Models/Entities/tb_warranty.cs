@@ -14,13 +14,23 @@ namespace ThienNga2.Models.Entities
     
     public partial class tb_warranty
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tb_warranty()
+        {
+            this.tb_warranty_activities = new HashSet<tb_warranty_activities>();
+        }
+    
         public int id { get; set; }
         public string warrantyID { get; set; }
-        public string itemID { get; set; }
+        public int itemID { get; set; }
         public System.DateTime startdate { get; set; }
         public int duration { get; set; }
         public string description { get; set; }
         public bool MaChinh { get; set; }
         public Nullable<int> Special { get; set; }
+    
+        public virtual item item { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_warranty_activities> tb_warranty_activities { get; set; }
     }
 }

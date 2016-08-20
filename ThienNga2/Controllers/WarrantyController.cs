@@ -178,8 +178,8 @@ namespace ThienNga2.Controllers
                 newStatusa.status = item.status;
                 am.SaveChanges();
             }
-            ViewData["warrantydetail"] = (tb_warranty)am.ThienNga_findwarranty2(item.warrantyID).FirstOrDefault();
-            ViewData["lsbh"] = (List<tb_warranty_activities>)am.ThienNga_warrantyHistory2(item.warrantyID).ToList();
+            ViewData["warrantydetail"] = (tb_warranty)am.ThienNga_findwarranty2(item.tb_warranty.warrantyID).FirstOrDefault();
+            ViewData["lsbh"] = (List<tb_warranty_activities>)am.ThienNga_warrantyHistory2(item.tb_warranty.warrantyID).ToList();
             //  ViewData["dsspdt"] = am.inventories.ToList();
             return View("WarrantyCheck");
 
@@ -231,6 +231,7 @@ namespace ThienNga2.Controllers
                 editor.active = false;
                 am.SaveChanges();
             }
+            System.Diagnostics.Debug.WriteLine("dafug : " + activitiesID);
             return RedirectToAction("Search", "Warranty", new { code = activitiesID, searchType = "warrantyActID" });
 
         }
@@ -263,7 +264,7 @@ namespace ThienNga2.Controllers
                             warrantyActivityFee a = new warrantyActivityFee();
                             a.activityID = int.Parse(activitiesID);
                             a.productSKU = ksu;
-                            a.fixingfee = act.tb_product_detail.price * int.Parse(quantity);
+                            a.fixingfee = act.tb_warranty.item.tb_product_detail.price * int.Parse(quantity);
                             a.quantity = int.Parse(quantity);
                             am.warrantyActivityFees.Add(a);
                             am.SaveChanges();
@@ -311,17 +312,25 @@ namespace ThienNga2.Controllers
                 if (searchType.Equals("item"))
                 {
                     tb_product_detail thatitem = am.tb_product_detail.SqlQuery("select * from tb_product_detail where productStoreID='" + code+"'").FirstOrDefault();
+                    
                     if (thatitem != null)
                     {
                         System.Diagnostics.Debug.WriteLine("HEO CO NUL:LLLLLLLLE " );
-                        List<tb_warranty> temp1 =  am.tb_warranty.SqlQuery("SElect * from tb_warranty WHERE itemID like '%" + code + "%'").ToList();
+
+                        List<tb_warranty> temp1 = new List<tb_warranty>();
+                        if(thatitem.items.ToList().Count() >0)
+                        foreach (item itemm in thatitem.items.ToList()) {
+                            temp1.AddRange(itemm.tb_warranty.ToList());
+                        }
                         List<tb_warranty_activities> temp2 = new List<tb_warranty_activities>();
                         System.Diagnostics.Debug.WriteLine("co nhieu day thang ne  " + temp1.Count());
+                        if(temp1.Count > 0)
                         foreach (tb_warranty a in temp1)
                         {
-                            List<tb_warranty_activities> temp3 = am.tb_warranty_activities.SqlQuery("SELECT * From tb_warranty_activities where warrantyID ='" + a.warrantyID+"'").ToList();
-                            if (temp3 != null && temp3.Count() > 0)
-                                temp2.AddRange(temp3);
+                                if (a.tb_warranty_activities.ToList().Count() > 0) {
+                                    temp2.AddRange(a.tb_warranty_activities.ToList());
+                                }
+                     
                         }
                      
                         ViewData["lsbh"] = temp2;                                            
@@ -329,12 +338,13 @@ namespace ThienNga2.Controllers
                 }
                 if (searchType.Equals("warrantyIMEI"))
                 {
-                    ViewData["warrantydetail"] = am.ThienNga_findwarranty2(code).FirstOrDefault();
+                    tb_warranty wardetail = am.ThienNga_findwarranty2(code).FirstOrDefault();
+                    ViewData["warrantydetail"] = wardetail;
                     tb_warranty tempwar = (tb_warranty)ViewData["warrantydetail"];
-                    item tempitem = am.items.SqlQuery("SELECT * FROM item where productID='" + tempwar.itemID + "'").First();
+                    item tempitem = am.items.SqlQuery("SELECT * FROM item where id=" + tempwar.itemID ).First();
                     ViewData["itemDetail"] = tempitem;
-                  
-                    ViewData["lsbh"] = (List<tb_warranty_activities>)am.ThienNga_warrantyHistory2(code).ToList();
+                    
+                    ViewData["lsbh"] = wardetail.tb_warranty_activities.ToList();
                     if (am.ThienNga_warrantyHistory2(code).ToList().Count() == 1 )
                     {
                         if(am.ThienNga_warrantyHistory2(code).ToList().ElementAt(0).status != 4)
@@ -347,27 +357,27 @@ namespace ThienNga2.Controllers
                     var activity = am.tb_warranty_activities.SqlQuery("SELECT * FROM dbo.tb_warranty_activities WHERE CodeBaoHanh='" + code + "'").ToList();
                     if (activity.Count == 1)
                     {
-                        var activityList = am.tb_warranty_activities.SqlQuery("SELECT * FROM dbo.tb_warranty_activities WHERE warrantyID like '%" + activity.First().warrantyID + "%'").ToList();
+                        var activityList = am.tb_warranty_activities.SqlQuery("SELECT * FROM dbo.tb_warranty_activities WHERE warrantyID =" + activity.First().id ).ToList();
                         tb_warranty_activities act = activity.ElementAt(0);
                         ViewData["lsbh"] = activityList;
                         ViewData["thisAct"] = act;
                         ViewData["FlagShowKq"] = "false";
-                        ViewData["warrantydetail"] = am.ThienNga_findwarranty2(act.warrantyID).FirstOrDefault();
+                        ViewData["warrantydetail"] = act.tb_warranty;
                         tb_warranty tempwar = (tb_warranty)ViewData["warrantydetail"];
-                        item tempitem = am.items.SqlQuery("SELECT * FROM item where productID='" + tempwar.itemID + "'").First();
+                        item tempitem = am.items.SqlQuery("SELECT * FROM item where id=" + tempwar.itemID ).First();
                         ViewData["itemDetail"] = tempitem;
                     }
                     else
                     {
                         bool flag = true;
-                        String warrantyID = activity.ElementAt(0).warrantyID;
+                        int warrantyID = activity.ElementAt(0).tb_warranty.id;
                         foreach (tb_warranty_activities actt in activity) {
                             if (!warrantyID.Equals(actt.warrantyID)) flag = false;
                         }
                         if (flag) {
-                            ViewData["warrantydetail"] = am.tb_warranty.SqlQuery("SELECT * FROM tb_warranty where warrantyID='" + warrantyID + "'").FirstOrDefault();
+                            ViewData["warrantydetail"] = am.tb_warranty.SqlQuery("SELECT * FROM tb_warranty where id=" + warrantyID + "").FirstOrDefault();
                             tb_warranty tempwar = (tb_warranty)ViewData["warrantydetail"];
-                            item tempitem = am.items.SqlQuery("SELECT * FROM item where productID='" + tempwar.itemID + "'").First();
+                            item tempitem = am.items.SqlQuery("SELECT * FROM item where id=" + tempwar.itemID ).First();
                             ViewData["itemDetail"] = tempitem;
                         }
                         ViewData["lsbh"] = activity;
@@ -376,12 +386,15 @@ namespace ThienNga2.Controllers
                 if (searchType.Equals("warrantyCODEDate"))
                 {
                     var activity = am.tb_warranty_activities.SqlQuery("SELECT * FROM dbo.tb_warranty_activities WHERE CodeBaoHanh LIKE '%" + code + "%'").ToList();
-                    var activityList = am.tb_warranty_activities.SqlQuery("SELECT * FROM dbo.tb_warranty_activities WHERE warrantyID like '%" + activity.First().warrantyID + "%'").ToList();
-                    ViewData["lsbh"] = activityList;
+
+                    ViewData["lsbh"] = activity;
 
                 }
                 if (searchType.Equals("warrantyCODEPhone"))
                 {
+                    if (code.Length > 6) {
+                        code = code.Substring(code.Length - 6);
+                    }
                     var activity = am.tb_warranty_activities.SqlQuery("SELECT * FROM dbo.tb_warranty_activities WHERE CodeBaoHanh Like '%" + code + "%'").ToList();
                     ViewData["lsbh"] = activity;
 
@@ -391,13 +404,13 @@ namespace ThienNga2.Controllers
 
 
                     var activity = am.tb_warranty_activities.SqlQuery("SELECT * FROM dbo.tb_warranty_activities WHERE id = " + code).FirstOrDefault();
-                    var activityList = am.tb_warranty_activities.SqlQuery("SELECT * FROM dbo.tb_warranty_activities WHERE warrantyID like '%" + activity.warrantyID + "%'").ToList();
+                    var activityList = am.tb_warranty_activities.SqlQuery("SELECT * FROM dbo.tb_warranty_activities WHERE warrantyID =" + activity.warrantyID ).ToList();
                     ViewData["lsbh"] = activityList;
                     ViewData["thisAct"] = activity;
                     ViewData["FlagShowKq"] = "false";
-                    ViewData["warrantydetail"] = am.ThienNga_findwarranty2(activity.warrantyID).FirstOrDefault();
+                    ViewData["warrantydetail"] = activity.tb_warranty;
                     tb_warranty tempwar = (tb_warranty)ViewData["warrantydetail"];
-                    item tempitem = am.items.SqlQuery("SELECT * FROM item where productID='" + tempwar.itemID + "'").First();
+                    item tempitem = am.items.SqlQuery("SELECT * FROM item where id=" + tempwar.itemID).First();
                     ViewData["itemDetail"] = tempitem;
                 }
             }

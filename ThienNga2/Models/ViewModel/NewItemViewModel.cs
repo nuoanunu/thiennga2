@@ -13,7 +13,11 @@ namespace ThienNga2.Models.ViewModel
     {
         public Boolean VAT { get; set; }
         public String cusName { get; set; }
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number")]
         public String phoneNumber { get; set; }
+
+        public String Email { get; set; }
         public int custype { get; set; }
         public String Adress { get; set; }
         public String Adress2 { get; set; }

@@ -189,7 +189,9 @@
                 <div class="inner-wrap">
                     <label>Nhóm khách hàng @Html.DropDownListFor(Model => Model.custype, ls3)</label>
                     <label>Tên khách hàng @Html.TextBoxFor(Model => Model.cusName, new { @class = "form-control" })</label>
-                    <label>SDT @Html.TextBoxFor(Model => Model.phoneNumber, new { @class = "form-control" })</label>
+                    <label>SDT @Html.TextBoxFor(Model => Model.phoneNumber, new { @class = "form-control"  } )</label>
+                    <label>EMAIL @Html.TextBoxFor(Model => Model.Email, new { @class = "form-control" })</label>
+
                     <label>Địa chỉ @Html.TextBoxFor(Model => Model.Adress, new { @class = "form-control" })</label>
                     <label>Địa chỉ giao hàng @Html.TextBoxFor(Model => Model.Adress2, new { @class = "form-control" })</label>
                 </div>

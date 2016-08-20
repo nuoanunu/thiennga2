@@ -47,7 +47,7 @@ namespace ThienNga2.Controllers
                
 
                               item it = lst.ElementAt(0);
-                               ViewData["warList"] = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE itemID LIKE '%" + it.productID + "%'").ToList();
+                               ViewData["warList"] = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE itemID =" + it.id ).ToList();
                             }
                         }
                     }
@@ -60,11 +60,12 @@ namespace ThienNga2.Controllers
                             if (lst.Count == 1)
                             {
                                 item it = lst.ElementAt(0);
-                                ViewData["warList"] = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE itemID LIKE '%" + it.productID + "%'").ToList();
+                                ViewData["warList"] = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE itemID = " + it.id ).ToList();
                             }
                         }
                     }
                     else if (searchType.Equals("sdt")) {
+                        if (code.Length > 6) code = code.Substring(code.Length - 6);
                         var dssp = am.items.SqlQuery("SELECT * FROM dbo.item WHERE productID LIKE '%" + code + "%'").ToList();
                         if (dssp != null)
                         {
@@ -73,7 +74,7 @@ namespace ThienNga2.Controllers
                             if (lst.Count == 1)
                             {
                                 item it = lst.ElementAt(0);
-                                ViewData["warList"] = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE itemID LIKE '%" + it.productID + "%'").ToList();
+                                ViewData["warList"] = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE itemID = " + it.id ).ToList();
                             }
                         }
                     }
@@ -86,7 +87,7 @@ namespace ThienNga2.Controllers
                             if (lst.Count == 1)
                             {
                                 item it = lst.ElementAt(0);
-                                ViewData["warList"] = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE itemID LIKE '%" + it.productID + "%'").ToList();
+                                ViewData["warList"] = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE itemID  =" + it.id ).ToList();
                             }
                         }
                     }
@@ -146,7 +147,7 @@ namespace ThienNga2.Controllers
                         if (date != null)
                         {
                             if (date.Year > 2000 && date.Month > 0 && date.Day > 0)
-                                if (war.itemID != null && war.warrantyID != null && war.duration > 0)
+                                if (war.itemID >0 && war.warrantyID != null && war.duration > 0)
                                 {
 
 

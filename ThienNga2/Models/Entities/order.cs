@@ -31,8 +31,8 @@ namespace ThienNga2.Models.Entities
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<item> items { get; set; }
+        public virtual tb_customer tb_customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<orderDetail> orderDetails { get; set; }
-        public virtual tb_customer tb_customer { get; set; }
     }
 }
