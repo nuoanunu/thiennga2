@@ -77,10 +77,10 @@
                             }
                         </td>
                         <td>
-                            @using (Html.BeginForm("Confirrm", "CreateWarranty"))
+                            @using (Html.BeginForm("GenerateInvoiceBill", "CreateWarranty"))
                             {
                                 <input type="hidden" value="@act.id" name="actid" />
-                                <button type="submit" name="Edit" value="Hoàn tất" > Hoàn tất</button>
+                                <button type="submit" name="Edit" value="Hoàn tất" > In phiếu bảo hành</button>
                             }
                         </td>
                     </tr>

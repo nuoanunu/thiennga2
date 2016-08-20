@@ -39,13 +39,14 @@
                     <th>Trạng Thái</th>
                     <th>Ngày trả </th>
                     <th>Chi tiết</th>
+                    <th>In phiếu bảo hành</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (tb_warranty_activities wact in (List<tb_warranty_activities>)ViewData["allact"])
                 {
                     String linkEdit = "Search?code=" + wact.id + "&searchType=warrantyActID";
-
+                    String inphieu = "/CreateWarranty/GenerateInvoiceBill?code=" + wact.id;
                     <tr>
                         <td>
                             @wact.startDate
@@ -58,13 +59,17 @@
                             @wact.warrantyID
                         </td>
                         <td>
-                            @wact.tb_product_detail.productStoreID
+                            @wact.tb_warranty.item.tb_product_detail.productStoreID
                         </td>
                         <td>
                             @wact.AspNetUser.FullName
                         </td>
                         <td>
-                            @wact.AspNetUser1.FullName
+                            @if (wact.AspNetUser1 != null)
+                            {
+                                @wact.AspNetUser1.FullName
+                            }
+                            
                         </td>
                         
                         <td>
@@ -87,6 +92,13 @@
                         </td>
                         <td>
                             <a href="@linkEdit" > Chi tiết</a>
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("GenerateInvoiceBill", "CreateWarranty"))
+                            {
+                                <input type="hidden" value="@wact.id" name="actid" />
+                                <button type="submit" name="Edit" value="Hoàn tất"> Hoàn tất</button>
+                            }
                         </td>
                     </tr>
                 }
