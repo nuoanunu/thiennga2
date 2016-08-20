@@ -144,9 +144,9 @@
         }
         function finishEdit() {
             var newvalues = "?wactID=" + $("#waID").val() +"&newDate=" + $("#newDate").val() + "&newIMEI=" + $("#newIMEI").val() + "&newSKU=" + $("#newSKU").val() + "&newName=" + $("#newName").val() + "&newSDT=" + $("#newSDT").val() + "&newDuration=" + $("#newDuration").val() + "&newDescription=" + $("#newDescription").val();
-     
+            
             $.getJSON("/Warranty/updateWAR" + newvalues, function (result) {
-               
+                alert("Da yeu cau sua");
                 $.each(result, function (name, value) {
              
                     if (name == "name") {
@@ -198,7 +198,7 @@
                         }
                         if (name == "price") {
                             if (flag && value != null) {
-                                $("#pid" + (index - 1)).text(numberWithCommas(value));
+                                $("#lidgia").empty();
                                 $('#lidgia').val(numberWithCommas(value));
                             }
                         }
