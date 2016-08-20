@@ -111,7 +111,9 @@
                                     <label>SDT:  <input type="text" id="newSDT" value="" /></label>
                                     <label>Thời hạn:  <input type="text" id="newDuration" value="" /></label>
                                     <label>Miêu tả:  <input type="text" id="newDescription" value="" /></label>
-
+                                    <label>Mã chính:  <input type="radio" name="newChinhPhu" value="true"/></label>
+                                    <label>Mã phụ:  <input type="radio" name="newChinhPhu" value="false" /></label>
+                        
 
                                 </div>
                                 <div class="button-section">
@@ -143,10 +145,10 @@
           
         }
         function finishEdit() {
-            var newvalues = "?wactID=" + $("#waID").val() +"&newDate=" + $("#newDate").val() + "&newIMEI=" + $("#newIMEI").val() + "&newSKU=" + $("#newSKU").val() + "&newName=" + $("#newName").val() + "&newSDT=" + $("#newSDT").val() + "&newDuration=" + $("#newDuration").val() + "&newDescription=" + $("#newDescription").val();
-            
+            var newvalues = "?wactID=" + $("#waID").val() + "&newDate=" + $("#newDate").val() + "&newIMEI=" + $("#newIMEI").val() + "&newSKU=" + $("#newSKU").val() + "&newName=" + $("#newName").val() + "&newSDT=" + $("#newSDT").val() + "&newDuration=" + $("#newDuration").val() + "&newDescription=" + $("#newDescription").val() + "&newChinhPhu=" + $('input[name=newChinhPhu]:checked').val();
+            alert(newvalues);
             $.getJSON("/Warranty/updateWAR" + newvalues, function (result) {
-                alert("Da yeu cau sua");
+        
                 $.each(result, function (name, value) {
              
                     if (name == "name") {

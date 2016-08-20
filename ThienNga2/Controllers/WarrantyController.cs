@@ -87,11 +87,11 @@ namespace ThienNga2.Controllers
             }
         }
         public ActionResult IMEILIST() {
-           ViewData["allwar"]=am.tb_warranty.ToList();
-           // ViewData["allwar"] = am.tb_warranty.SqlQuery("SELECT  * from tb_warranty ").ToList();
+           //ViewData["allwar"]=am.tb_warranty.ToList();
+           ViewData["allwar"] = am.tb_warranty.SqlQuery("SELECT  * from tb_warranty ").ToList();
             return View("allIMEI");
         }
-        public String updateWAR(String wactID, String newDate,String newIMEI, String newSKU, String newName, String newSDT, String newDuration, String newDescription)
+        public String updateWAR(String wactID, String newDate,String newIMEI, String newSKU, String newName, String newSDT, String newDuration, String newDescription, String newChinhPhu)
         {
             System.Diagnostics.Debug.WriteLine("AAAA");
             try
@@ -100,7 +100,7 @@ namespace ThienNga2.Controllers
                 if (wact != null) {
                     DateTime date;
                
-                        date  = DateTime.ParseExact(newDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    date  = DateTime.ParseExact(newDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                   
                     
                     tb_product_detail dt = am.ThienNga_FindProduct2(newSKU).First();
@@ -129,6 +129,8 @@ namespace ThienNga2.Controllers
                         cus.phonenumber = newSDT;
                         cus.address = "ko co";cus.address2 = "ko co"; cus.Email = "ko co";
                     }
+                    if (newChinhPhu.Equals("true")) wact.MaChinh = true;
+                    else wact.MaChinh = false;
                     am.SaveChanges();
                 }
 
