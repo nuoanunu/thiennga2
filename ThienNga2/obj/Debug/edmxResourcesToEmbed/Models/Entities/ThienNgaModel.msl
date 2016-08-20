@@ -413,5 +413,18 @@
     <FunctionImportMapping FunctionImportName="ThienNga_FindProductName2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_FindProductName" />
     <FunctionImportMapping FunctionImportName="ThienNga_TimSDT2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_TimSDT" />
     <FunctionImportMapping FunctionImportName="ThienNga_checkkho2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_checkkho" />
+    <EntitySetMapping Name="temps">
+      <EntityTypeMapping TypeName="ThienNgaDatabaseModel.temp">
+        <MappingFragment StoreEntitySet="temp">
+          <ScalarProperty Name="series" ColumnName="series" />
+          <ScalarProperty Name="datecode" ColumnName="datecode" />
+          <ScalarProperty Name="fakename" ColumnName="fakename" />
+          <ScalarProperty Name="sdt" ColumnName="sdt" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

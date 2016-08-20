@@ -228,6 +228,18 @@
           <Property Name="id" Type="int" Nullable="false" />
           <Property Name="statusName" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
+        <EntityType Name="temp">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="date" Type="nvarchar" MaxLength="50" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="sdt" Type="nvarchar" MaxLength="50" />
+          <Property Name="fakename" Type="nvarchar" MaxLength="50" />
+          <Property Name="datecode" Type="nvarchar" MaxLength="50" />
+          <Property Name="series" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="warrantyActivityFee">
           <Key>
             <PropertyRef Name="id" />
@@ -629,6 +641,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <EntitySet Name="tb_warranty" EntityType="Self.tb_warranty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_warranty_activities" EntityType="Self.tb_warranty_activities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_warrnaty_status" EntityType="Self.tb_warrnaty_status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="temp" EntityType="Self.temp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="warrantyActivityFee" EntityType="Self.warrantyActivityFee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="warrantyActivityFixingFee" EntityType="Self.warrantyActivityFixingFee" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_account_role" Association="Self.FK_account_role">
@@ -936,6 +949,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <FunctionImport Name="ThienNga_checkkho2" EntitySet="inventories" ReturnType="Collection(ThienNgaDatabaseModel.inventory)">
           <Parameter Name="productcode" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="temps" EntityType="ThienNgaDatabaseModel.temp" />
           </EntityContainer>
         <ComplexType Name="ThienNga_checkkho_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
@@ -1586,6 +1600,18 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="temp">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="sdt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fakename" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="datecode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="series" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2004,6 +2030,19 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <FunctionImportMapping FunctionImportName="ThienNga_FindProductName2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_FindProductName" />
           <FunctionImportMapping FunctionImportName="ThienNga_TimSDT2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_TimSDT" />
           <FunctionImportMapping FunctionImportName="ThienNga_checkkho2" FunctionName="ThienNgaDatabaseModel.Store.ThienNga_checkkho" />
+          <EntitySetMapping Name="temps">
+            <EntityTypeMapping TypeName="ThienNgaDatabaseModel.temp">
+              <MappingFragment StoreEntitySet="temp">
+                <ScalarProperty Name="series" ColumnName="series" />
+                <ScalarProperty Name="datecode" ColumnName="datecode" />
+                <ScalarProperty Name="fakename" ColumnName="fakename" />
+                <ScalarProperty Name="sdt" ColumnName="sdt" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

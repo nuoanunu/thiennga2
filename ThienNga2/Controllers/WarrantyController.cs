@@ -14,6 +14,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.Web.UI;
 using System.Data;
+using System.Globalization;
 
 namespace ThienNga2.Controllers
 {
@@ -84,6 +85,60 @@ namespace ThienNga2.Controllers
                 tb_product_detail t = am.ThienNga_FindProduct2(e).FirstOrDefault();
                 allname.Add(t.productStoreID);
             }
+        }
+        public ActionResult IMEILIST() {
+           ViewData["allwar"]=am.tb_warranty.ToList();
+           // ViewData["allwar"] = am.tb_warranty.SqlQuery("SELECT  * from tb_warranty ").ToList();
+            return View("allIMEI");
+        }
+        public String updateWAR(String wactID, String newDate,String newIMEI, String newSKU, String newName, String newSDT, String newDuration, String newDescription)
+        {
+            System.Diagnostics.Debug.WriteLine("AAAA");
+            try
+            {
+                tb_warranty wact = am.tb_warranty.Find(int.Parse(wactID));
+                if (wact != null) {
+                    DateTime date = DateTime.ParseExact(newDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    tb_product_detail dt = am.ThienNga_FindProduct2(newSKU).First();
+                    tb_customer cus = null;
+                    if (am.tb_customer.SqlQuery("SELECT * FROM tb_customer where phonenumber='" + newSDT + "'").ToList().Count() >= 1) {
+                        cus = am.tb_customer.SqlQuery("SELECT * FROM tb_customer where phonenumber='" + newSDT + "'").First();
+                    }
+                    int newduration = int.Parse(newDuration);
+                    item itt = am.items.Find(wact.item.id);
+                    if (!wact.item.tb_product_detail.productStoreID.Equals(dt.productStoreID)) {
+                        
+                        itt.productDetailID = dt.id;
+                    }
+                    if (wact.duration != newduration) wact.duration = newduration;
+                    if (wact.startdate != date) wact.startdate = date;
+                    if (wact.description.Equals(newDescription)) wact.description = newDescription;
+                    if (!wact.warrantyID.Equals(newIMEI)) wact.warrantyID = newIMEI;
+                    if (cus != null)
+                    {
+                        if (cus.customerName.Equals(newName)) cus.customerName = newName;
+
+                    }
+                    else {
+                        cus = new tb_customer();
+                        cus.customerName = newName;
+                        cus.phonenumber = newSDT;
+                        cus.address = "ko co";cus.address2 = "ko co"; cus.Email = "ko co";
+                    }
+                    am.SaveChanges();
+                }
+
+                checkwarModel model = new checkwarModel();
+                model.name = "succeed";
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                return js.Serialize(model);
+            }
+            catch (Exception e) {
+                System.Diagnostics.Debug.WriteLine("LOI CMNR");
+            }
+           
+
+            return "";
         }
         public ActionResult Autocomplete(string term)
         {

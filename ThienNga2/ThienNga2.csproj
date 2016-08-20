@@ -309,6 +309,9 @@
     <Compile Include="Models\Entities\tb_warrnaty_status.cs">
       <DependentUpon>ThienNgaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\temp.cs">
+      <DependentUpon>ThienNgaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entities\ThienNgaModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -491,6 +494,7 @@
     <Content Include="Views\BaoGia\BaoGiaChiTiet.cshtml" />
     <Content Include="Views\Inventory\AllKho.cshtml" />
     <Content Include="Views\Customer\NhomKhachHang.cshtml" />
+    <Content Include="Views\Warranty\allIMEI.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
