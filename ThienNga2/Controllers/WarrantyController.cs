@@ -98,7 +98,14 @@ namespace ThienNga2.Controllers
             {
                 tb_warranty wact = am.tb_warranty.Find(int.Parse(wactID));
                 if (wact != null) {
-                    DateTime date = DateTime.ParseExact(newDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    DateTime date;
+                    try {
+                        date  = DateTime.ParseExact(newDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    }
+                    catch (Exception e) {
+                      date   = DateTime.ParseExact(newDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                    }
+                    
                     tb_product_detail dt = am.ThienNga_FindProduct2(newSKU).First();
                     tb_customer cus = null;
                     if (am.tb_customer.SqlQuery("SELECT * FROM tb_customer where phonenumber='" + newSDT + "'").ToList().Count() >= 1) {
