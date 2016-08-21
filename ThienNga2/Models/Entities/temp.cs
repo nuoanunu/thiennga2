@@ -21,5 +21,6 @@ namespace ThienNga2.Models.Entities
         public string fakename { get; set; }
         public string datecode { get; set; }
         public string series { get; set; }
+        public string code { get; set; }
     }
 }

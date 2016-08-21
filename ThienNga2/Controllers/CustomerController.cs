@@ -15,11 +15,12 @@ namespace ThienNga2.Controllers
             ViewData["typleList"] = am.CustomerTypes.ToList();
             return View("NhomKhachHang");
         }
-        public ActionResult CreateGroup(String name, String color) {
+        public ActionResult CreateGroup(String name, String color ,String thongtinbaohanh) {
             try {
                 CustomerType ct = new CustomerType();
                 ct.Color = color;
                 ct.GroupName = name;
+                ct.MoTaChinhSach = thongtinbaohanh;
                 am.CustomerTypes.Add(ct);
                 am.SaveChanges();
             }
@@ -30,6 +31,15 @@ namespace ThienNga2.Controllers
             
             ViewData["typleList"] =am.CustomerTypes.ToList();
             return RedirectToAction("Index","Customer");
+        }
+        public ActionResult deletethisid(String id) {
+            try
+            {
+                am.CustomerTypes.Remove(am.CustomerTypes.Find(int.Parse(id)));
+                am.SaveChanges();
+            }
+            catch (Exception e) { }
+            return RedirectToAction("Index");
         }
     }
 }

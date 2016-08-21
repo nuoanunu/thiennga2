@@ -73,6 +73,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="GroupName" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Color" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MoTaChinhSach" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="employee">
           <Key>
@@ -239,6 +240,7 @@
           <Property Name="fakename" Type="nvarchar" MaxLength="50" />
           <Property Name="datecode" Type="nvarchar" MaxLength="50" />
           <Property Name="series" Type="nvarchar(max)" />
+          <Property Name="code" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="warrantyActivityFee">
           <Key>
@@ -1132,6 +1134,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <Property Name="Color" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="items" Relationship="ThienNgaDatabaseModel.FK_item_CustomerType" FromRole="CustomerType" ToRole="item" />
           <NavigationProperty Name="tb_customer" Relationship="ThienNgaDatabaseModel.FK_tb_customer_CustomerType" FromRole="CustomerType" ToRole="tb_customer" />
+          <Property Name="MoTaChinhSach" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="employee">
           <Key>
@@ -1611,6 +1614,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <Property Name="fakename" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="datecode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="series" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1815,6 +1819,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <EntitySetMapping Name="CustomerTypes">
             <EntityTypeMapping TypeName="ThienNgaDatabaseModel.CustomerType">
               <MappingFragment StoreEntitySet="CustomerType">
+                <ScalarProperty Name="MoTaChinhSach" ColumnName="MoTaChinhSach" />
                 <ScalarProperty Name="Color" ColumnName="Color" />
                 <ScalarProperty Name="GroupName" ColumnName="GroupName" />
                 <ScalarProperty Name="id" ColumnName="id" />
@@ -2033,6 +2038,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <EntitySetMapping Name="temps">
             <EntityTypeMapping TypeName="ThienNgaDatabaseModel.temp">
               <MappingFragment StoreEntitySet="temp">
+                <ScalarProperty Name="code" ColumnName="code" />
                 <ScalarProperty Name="series" ColumnName="series" />
                 <ScalarProperty Name="datecode" ColumnName="datecode" />
                 <ScalarProperty Name="fakename" ColumnName="fakename" />

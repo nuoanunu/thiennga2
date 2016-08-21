@@ -30,6 +30,7 @@
                 <tr>
                     <th>Tên nhóm</th>
                     <th>Màu</th>
+                    <th>Chính sách bảo hành</th>
                     <th>Số khách thuộc nhóm này</th>
                     <th>Số sản phẩm thuộc nhóm này</th>
                    
@@ -39,13 +40,16 @@
                 @foreach (CustomerType wact in (List<CustomerType>)ViewData["typleList"])
                 {
                     //   String linkEdit = "Customer/Search?code=" + wact.id;
-                    String linkEdit = "";
+                    String linkEdit = "Customer/deletethisid?id=" + @wact.id;
                     <tr>
                         <td>
                             @wact.GroupName
                         </td>
                         <td  bgcolor="@wact.Color">
                             @wact.Color
+                        </td>
+                        <td>
+                            @wact.MoTaChinhSach
                         </td>
                         <td>
                             @wact.tb_customer.ToList().Count()
@@ -75,6 +79,9 @@
                     Màu
                 </th>
                 <th>
+                    Chính sách bảo hành
+                </th>
+                <th>
                    Hoàn tất
                 </th>
             </tr>
@@ -87,8 +94,12 @@
                     <input value="" name="color" type="color" />
                 </td>
                 <td>
+                    <input value="" name="thongtinbaohanh" type="text" />
+                </td>
+                <td>
                     <input value="Tạo" name="color" type="submit" />
                 </td>
+
              }
             </tr>
 

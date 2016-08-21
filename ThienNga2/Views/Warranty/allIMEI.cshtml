@@ -25,10 +25,13 @@
     </style>
 </head>
 <body>
+
+
     <div>
         <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
+                    <th>Mã xuất kho</th>
                     <th>Ngày kích hoạt</th>
                     <th>Mã IMEI</th>
                     <th>Mã sản phẩm</th>
@@ -37,23 +40,31 @@
                     <th>SDT khách hàng</th>
                     <th>Thời hạn</th>
                     <th>Miêu tả </th>
-                
+
                     <th>Sữa</th>
+                    <th>Hiển thị các mã phụ</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (tb_warranty wact in (List<tb_warranty>)ViewData["allwar"])
                 {
+                    item it = wact.item;
+                    List<tb_warranty> ls = it.tb_warranty.ToList();
+                    tb_warranty main = ls.First();
+                    foreach (tb_warranty t in ls) { if (t.MaChinh) { main = t; } }
                     String color = "";
                     if (wact.MaChinh) { color = "#e5e500"; }
-                    String dateID = wact.id + "date"; String warID = wact.id + "warID"; String SKUID = wact.id + "SKUID"; String NameID = wact.id + "NameID";
-                    String DurationID = wact.id + "DurationID"; String DescriptionID = wact.id + "DescriptionID"; String phoneID = wact.id + "phoneID";
-                    String chinhphuid = wact.id + "chinhphuid";
+                    String dateID = main.id + "date"; String warID = wact.id + "warID"; String SKUID = main.id + "SKUID"; String NameID = main.id + "NameID";
+                    String DurationID = wact.id + "DurationID"; String DescriptionID = wact.id + "DescriptionID"; String phoneID = main.id + "phoneID";
+                    String chinhphuid = wact.id + "chinhphuid"; String nhomkhachID = main.id + "nhomkhachID";
 
 
-                    <tr >
+                    <tr>
+                        <td bgcolor="@color" >
+                            @main.item.productID
+                        </td>
                         <td bgcolor="@color" id="@dateID">
-                            @wact.startdate.ToString("dd/MM/yyyy")
+                            @main.startdate.ToString("dd/MM/yyyy")
                         </td>
                         <td bgcolor="@color" id="@warID">
                             @wact.warrantyID
@@ -62,13 +73,13 @@
                             @wact.item.tb_product_detail.productStoreID
                         </td>
                         <td bgcolor="@color">
-                            @wact.item.tb_product_detail.productName
+                            @main.item.tb_product_detail.productName
                         </td>
                         <td bgcolor="@color" id="@NameID">
-                            @wact.item.tb_customer.customerName
+                            @main.item.tb_customer.customerName
                         </td>
                         <td bgcolor="@color" id="@phoneID">
-                            @wact.item.tb_customer.phonenumber
+                            @main.item.tb_customer.phonenumber
                         </td>
                         <td bgcolor="@color" id="@DurationID">
                             @wact.duration
@@ -77,12 +88,31 @@
                             @wact.description
                         </td>
                         <td bgcolor="@color">
-                            <button type="button" value="@wact.id" onclick="startEdit(@wact.id)" class="btn blue" data-toggle="modal" data-target="#addmodel">Thay đổi</button>
+                            <button type="button" value="@wact.id" onclick="startEdit(@wact.id ,@main.id)" class="btn blue" data-toggle="modal" data-target="#addmodel">Thay đổi</button>
                         </td>
                         <input type="hidden" id="@chinhphuid" value="@wact.MaChinh" />
-                 
-                       
-                        
+                        @if (@wact.item.CustomerType != null)
+                        {
+                            <input type="hidden" id="@nhomkhachID" value="@main.item.CustomerType" />
+                        }
+                        else
+                        {
+                            <input type="hidden" id="@nhomkhachID" />
+                        }
+                        @if (wact.MaChinh)
+                        {
+
+                            <td>
+                                <button onclick="hienthimaphu('@(wact.item.productID)')"> Hiển thị mã phụ </button>
+                            </td>
+                        }
+                        else {
+                            <td>
+
+                            </td>
+                        }
+
+
                     </tr>
                 }
 
@@ -98,35 +128,51 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Thay đổi thông tin mã bảo hành</h4>
                 </div>
-                <div class="modal-body">                      
-                        <div class="form-style-10">
+                <div class="modal-body">
+                    <div class="form-style-10">
+
+
+                        <div class="section"><span></span>Thông tin sản phẩm</div>
+                        <div class="inner-wrap">
+                            <input type="hidden" id="waID" value="" />
+                            <input type="hidden" id="mainID" value="" />
+                            <label>Ngày kích hoạt:  <input type="text" id="newDate" value="" /></label>
+                            <label>IMEI:  <input type="text" id="newIMEI" value="" /></label>
+                            <label id="lidname">Tên sản phẩm  </label>
+                            <label id="lidgia">Giá:  </label>
+                            <label>SKU:  <input type="text" id="newSKU" value="" /></label>
+                            <label>Tên khách:  <input type="text" id="newName" value="" /></label>
+
+
+                            @if (ViewData["dsnkh"] != null)
+                            {
+                                List<SelectListItem> ls2 = new List<SelectListItem>();
+                                foreach (CustomerType type in (List<CustomerType>)ViewData["dsnkh"])
+                                {
+                                    ls2.Add(new SelectListItem { Text = type.GroupName, Value = type.id + "" });
+
+                                }
+                                <label>Nhóm khách @Html.DropDownList("groupID", ls2)</label>
+
+                            }
                             
+                         
+                            <label>SDT:  <input type="text" id="newSDT" value="" /></label>
+                            <label>Thời hạn:  <input type="text" id="newDuration" value="" /></label>
+                            <label>Miêu tả:  <input type="text" id="newDescription" value="" /></label>
 
-                                <div class="section"><span></span>Thông tin sản phẩm</div>
-                                <div class="inner-wrap">
-                                    <input type="hidden" id="waID" value="" /><
-                                    <label>Ngày kích hoạt:  <input type="text" id="newDate" value="" /></label>
-                                    <label>IMEI:  <input type="text" id="newIMEI" value="" /></label>
-                                    <label id="lidname">Tên sản phẩm  </label>
-                                    <label id="lidgia">Giá:  </label>
-                                    <label>SKU:  <input type="text" id="newSKU" value="" /></label>
-                                    <label>Tên khách:  <input type="text" id="newName" value="" /></label>
-                                    <label>SDT:  <input type="text" id="newSDT" value="" /></label>
-                                    <label>Thời hạn:  <input type="text" id="newDuration" value="" /></label>
-                                    <label>Miêu tả:  <input type="text" id="newDescription" value="" /></label>
+                            <label>Mã chính:  <input type="radio" id="chinh" name="newChinhPhu" value="true" /></label>
+                            <label>Mã phụ:  <input type="radio" id="phu" name="newChinhPhu" value="false" /></label>
 
-                                    <label>Mã chính:  <input type="radio" id="chinh" name="newChinhPhu" value="true"/></label>
-                                    <label>Mã phụ:  <input type="radio" id="phu" name="newChinhPhu" value="false" /></label>
-                        
 
-                                </div>
-                                <div class="button-section">
-                                    <button id="btnSend" onclick="finishEdit()">Sửa</button>
-
-                                </div>
-                          
                         </div>
-                    
+                        <div class="button-section">
+                            <button id="btnSend" onclick="finishEdit()">Sửa</button>
+
+                        </div>
+
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
@@ -137,49 +183,84 @@
         </div>
     </div>
     <script>
-        function startEdit(id){
+        function hienthimaphu(productID ) {
+
+            
+            $('input[type=search]').val(productID);
+            var e = jQuery.Event("keypress");
+            e.which = 13; //choose the one you want
+         
+            $('input[type=search]').focus();
+            $('input[type=search]').keyup();
+            $('input[type=search]').onchange();
+            $('input[type=search]').search($('input[type=search]').val());
+            $('input[type=search]').draw();
+            
+        }
+        function startEdit(id, mainID) {
             $("#waID").val(id);
-            $("#newDate").val($("#" + id + "date").text().trim());
+            $("#mainID").val(mainID);
+            $("#newDate").val($("#" + mainID + "date").text().trim());
             $("#newIMEI").val($("#" + id + "warID").text().trim());
-            $("#newSKU").val($("#" + id + "SKUID").text().trim());
-            $("#newName").val($("#" + id + "NameID").text().trim());
-            $("#newSDT").val($("#" + id + "phoneID").text().trim()); 
-            $("#newDuration").val($("#" + id + "DurationID").text().trim()); 
-            $("#newDescription").val($("#" + id + "DescriptionID").text().trim()); 
-            if( $("#"+id+"chinhphuid").val() == "value") {
-                $('#chinh').prop( "checked", true );
+            $("#newSKU").val($("#" + mainID + "SKUID").text().trim());
+            $("#newName").val($("#" + mainID + "NameID").text().trim());
+            $("#newSDT").val($("#" + mainID + "phoneID").text().trim());
+            $("#newDuration").val($("#" + id + "DurationID").text().trim());
+            $("#groupID").val($("#" + mainID + "nhomkhachID").val());
+           
+            $("#newDescription").val($("#" + id + "DescriptionID").text().trim());
+            if ($("#" + id + "chinhphuid").val() == "value") {
+                $('#chinh').prop("checked", true);
             }
             else {
-                $('#phu').prop( "checked", true );
+                $('#phu').prop("checked", true);
             }
         }
         function finishEdit() {
-            var newvalues = "?wactID=" + $("#waID").val() + "&newDate=" + $("#newDate").val() + "&newIMEI=" + $("#newIMEI").val() + "&newSKU=" + $("#newSKU").val() + "&newName=" + $("#newName").val() + "&newSDT=" + $("#newSDT").val() + "&newDuration=" + $("#newDuration").val() + "&newDescription=" + $("#newDescription").val() + "&newChinhPhu=" + $('input[name=newChinhPhu]:checked').val();
-       
+            var newvalues = "?wactID=" + $("#waID").val() + "&newDate=" + $("#newDate").val() + "&newIMEI=" + $("#newIMEI").val() + "&newSKU=" + $("#newSKU").val() + "&newName=" + $("#newName").val() + "&newSDT=" + $("#newSDT").val() + "&newDuration=" + $("#newDuration").val() + "&newDescription=" + $("#newDescription").val() + "&newChinhPhu=" + $('input[name=newChinhPhu]:checked').val() + "&newNhomKhach=" + $("#groupID").val();
+
             $.getJSON("/Warranty/updateWAR" + newvalues, function (result) {
-        
+
                 $.each(result, function (name, value) {
-             
+
                     if (name == "name") {
                         if (value == "succeed") {
-                            alert("Da sua xong");
-                            $("#" + $("#waID").val() + "date").text($("#newDate").val());
+                            alert("Da cap nhat thanh cong");
+                            jQuery("td[id="+ $("#mainID").val() + "date"+ "]").each(function () {
+                                $(this).text($("#newDate").val());
+                            });
+                            jQuery("td[id=" +$("#mainID").val() + "SKUID" + "]").each(function () {
+                                $(this).text($("#newSKU").val());
+                            });
+                            jQuery("td[id=" + $("#mainID").val() + "NameID" + "]").each(function () {
+                                $(this).text($("#newName").val());
+                            });
+                            jQuery("td[id=" +$("#mainID").val() + "phoneID" + "]").each(function () {
+                                $(this).text($("#newSDT").val());
+                            });
+                       
+                            jQuery("td[id=" + $("#mainID").val() + "nhomkhachID"+ "]").each(function () {
+                                $(this).text($("#groupID").val());
+                            });
+
+
+
+                            //$("#" + $("#mainID").val() + "date").text($("#newDate").val());
+                            //$("#" + $("#mainID").val() + "SKUID").text($("#newSKU").val());
+                            //$("#" + $("#mainID").val() + "NameID").text($("#newName").val());
+                            //($("#" + $("#mainID")).val() + "phoneID").text($("#newSDT").val());
+                           
+                            //($("#" + $("#mainID").val() + "nhomkhachID").val($("#groupID").val));
+                
                             $("#" + $("#waID").val() + "warID").text($("#newIMEI").val());
-                            $("#" + $("#waID").val() + "SKUID").text($("#newSKU").val());
-                            $("#" + $("#waID").val() + "NameID").text($("#newName").val());
-                            $("#" + $("#waID").val() + "DurationID").text($("#newDuration").val()); 
-                            $("#" + $("#waID").val() + "DescriptionID").text($("#newDescription").val()); 
-                            ($("#" + $("#waID").val() + "phoneID").text($("#newSDT").val)); 
-                            $("#"+$("#waID")+"chinhphuid").val( $('input[name=newChinhPhu]:checked').val());
+                            $("#" + $("#waID").val() + "DurationID").text($("#newDuration").val());
+                            $("#" + $("#waID").val() + "DescriptionID").text($("#newDescription").val());
+                       
+                   
+                            $("#" + $("#waID") + "chinhphuid").val($('input[name=newChinhPhu]:checked').val());
                         }
                         else {
-                            $("#newDate").val($("#" + id + "date").text().trim());
-                            $("#newIMEI").val($("#" + id + "warID").text().trim());
-                            $("#newSKU").val($("#" + id + "SKUID").text().trim());
-                            $("#newName").val($("#" + id + "NameID").text().trim());
-                            $("#newSDT").val($("#" + id + "phoneID").text().trim());
-                            $("#newDuration").val($("#" + id + "DurationID").text().trim());
-                            $("#newDescription").val($("#" + id + "DescriptionID").text().trim());
+                            alert("Cập nhật thất bại, hãy coi lại dữ liệu");
                         }
                     }
                 });
@@ -191,8 +272,8 @@
             var name = $("#newSKU").val();
 
             if (currentsku != name) {
-            var flag = false;
-            currentsku = name;
+                var flag = false;
+                currentsku = name;
                 $.getJSON("/ProductItem/getAllData?name=" + name, function (result) {
 
                     $.each(result, function (name, value) {
@@ -216,12 +297,12 @@
                         }
                     })
                 });
-            
-            if (!flag) {
-                $('#newSKU').css("background-color", "orange");
-          
-                $('#newSKU').css("color", "white");
-            }
+
+                if (!flag) {
+                    $('#newSKU').css("background-color", "orange");
+
+                    $('#newSKU').css("color", "white");
+                }
             }
         };
         function numberWithCommas(x) {

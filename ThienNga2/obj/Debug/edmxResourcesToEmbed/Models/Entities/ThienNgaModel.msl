@@ -198,6 +198,7 @@
     <EntitySetMapping Name="CustomerTypes">
       <EntityTypeMapping TypeName="ThienNgaDatabaseModel.CustomerType">
         <MappingFragment StoreEntitySet="CustomerType">
+          <ScalarProperty Name="MoTaChinhSach" ColumnName="MoTaChinhSach" />
           <ScalarProperty Name="Color" ColumnName="Color" />
           <ScalarProperty Name="GroupName" ColumnName="GroupName" />
           <ScalarProperty Name="id" ColumnName="id" />
@@ -416,6 +417,7 @@
     <EntitySetMapping Name="temps">
       <EntityTypeMapping TypeName="ThienNgaDatabaseModel.temp">
         <MappingFragment StoreEntitySet="temp">
+          <ScalarProperty Name="code" ColumnName="code" />
           <ScalarProperty Name="series" ColumnName="series" />
           <ScalarProperty Name="datecode" ColumnName="datecode" />
           <ScalarProperty Name="fakename" ColumnName="fakename" />

@@ -391,6 +391,7 @@
     <Property Name="Color" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="items" Relationship="ThienNgaDatabaseModel.FK_item_CustomerType" FromRole="CustomerType" ToRole="item" />
     <NavigationProperty Name="tb_customer" Relationship="ThienNgaDatabaseModel.FK_tb_customer_CustomerType" FromRole="CustomerType" ToRole="tb_customer" />
+    <Property Name="MoTaChinhSach" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="employee">
     <Key>
@@ -870,5 +871,6 @@
     <Property Name="fakename" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="datecode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="series" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
 </Schema>

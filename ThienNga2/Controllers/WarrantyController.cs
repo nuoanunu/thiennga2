@@ -89,9 +89,10 @@ namespace ThienNga2.Controllers
         public ActionResult IMEILIST() {
            //ViewData["allwar"]=am.tb_warranty.ToList();
            ViewData["allwar"] = am.tb_warranty.SqlQuery("SELECT  * from tb_warranty ").ToList();
+           ViewData["dsnkh"] = am.CustomerTypes.ToList();
             return View("allIMEI");
         }
-        public String updateWAR(String wactID, String newDate,String newIMEI, String newSKU, String newName, String newSDT, String newDuration, String newDescription, String newChinhPhu)
+        public String updateWAR(String wactID, String newDate,String newIMEI, String newSKU, String newName, String newSDT, String newDuration, String newDescription, String newChinhPhu , String newNhomKhach)
         {
             System.Diagnostics.Debug.WriteLine("AAAA");
             try
@@ -110,6 +111,7 @@ namespace ThienNga2.Controllers
                     }
                     int newduration = int.Parse(newDuration);
                     item itt = am.items.Find(wact.item.id);
+                
                     if (!wact.item.tb_product_detail.productStoreID.Equals(dt.productStoreID)) {
                         
                         itt.productDetailID = dt.id;
@@ -120,7 +122,8 @@ namespace ThienNga2.Controllers
                     if (!wact.warrantyID.Equals(newIMEI)) wact.warrantyID = newIMEI;
                     if (cus != null)
                     {
-                        if (cus.customerName.Equals(newName)) cus.customerName = newName;
+                        if (!cus.customerName.Equals(newName)) cus.customerName = newName;
+                        am.SaveChanges();
 
                     }
                     else {
@@ -128,9 +131,22 @@ namespace ThienNga2.Controllers
                         cus.customerName = newName;
                         cus.phonenumber = newSDT;
                         cus.address = "ko co";cus.address2 = "ko co"; cus.Email = "ko co";
+                        am.tb_customer.Add(cus);
+                        am.SaveChanges();
+                        itt.customerID = cus.id;
                     }
                     if (newChinhPhu.Equals("true")) wact.MaChinh = true;
                     else wact.MaChinh = false;
+                    wact.item.customerID = cus.id;
+                    try
+                    {
+                        itt.CustomerType = int.Parse(newNhomKhach);
+                        cus.Type = int.Parse(newNhomKhach);
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
                     am.SaveChanges();
                 }
 

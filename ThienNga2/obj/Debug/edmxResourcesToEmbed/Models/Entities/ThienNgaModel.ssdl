@@ -68,6 +68,7 @@
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="GroupName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Color" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="MoTaChinhSach" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="employee">
     <Key>
@@ -234,6 +235,7 @@
     <Property Name="fakename" Type="nvarchar" MaxLength="50" />
     <Property Name="datecode" Type="nvarchar" MaxLength="50" />
     <Property Name="series" Type="nvarchar(max)" />
+    <Property Name="code" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="warrantyActivityFee">
     <Key>
