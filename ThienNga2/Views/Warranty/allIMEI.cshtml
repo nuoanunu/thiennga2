@@ -44,39 +44,42 @@
             <tbody>
                 @foreach (tb_warranty wact in (List<tb_warranty>)ViewData["allwar"])
                 {
+                    String color = "";
+                    if (wact.MaChinh) { color = "#e5e500"; }
                     String dateID = wact.id + "date"; String warID = wact.id + "warID"; String SKUID = wact.id + "SKUID"; String NameID = wact.id + "NameID";
                     String DurationID = wact.id + "DurationID"; String DescriptionID = wact.id + "DescriptionID"; String phoneID = wact.id + "phoneID";
+                    String chinhphuid = wact.id + "chinhphuid";
 
 
-
-                    <tr>
-                        <td id="@dateID">
+                    <tr >
+                        <td bgcolor="@color" id="@dateID">
                             @wact.startdate.ToString("dd/MM/yyyy")
                         </td>
-                        <td id="@warID">
+                        <td bgcolor="@color" id="@warID">
                             @wact.warrantyID
                         </td>
-                        <td id="@SKUID">
+                        <td bgcolor="@color" id="@SKUID">
                             @wact.item.tb_product_detail.productStoreID
                         </td>
-                        <td>
+                        <td bgcolor="@color">
                             @wact.item.tb_product_detail.productName
                         </td>
-                        <td id="@NameID">
+                        <td bgcolor="@color" id="@NameID">
                             @wact.item.tb_customer.customerName
                         </td>
-                        <td id="@phoneID">
+                        <td bgcolor="@color" id="@phoneID">
                             @wact.item.tb_customer.phonenumber
                         </td>
-                        <td id="@DurationID">
+                        <td bgcolor="@color" id="@DurationID">
                             @wact.duration
                         </td>
-                        <td id="@DescriptionID">
+                        <td bgcolor="@color" id="@DescriptionID">
                             @wact.description
                         </td>
-                        <td>
+                        <td bgcolor="@color">
                             <button type="button" value="@wact.id" onclick="startEdit(@wact.id)" class="btn blue" data-toggle="modal" data-target="#addmodel">Thay đổi</button>
                         </td>
+                        <input type="hidden" id="@chinhphuid" value="@wact.MaChinh" />
                  
                        
                         
@@ -111,8 +114,9 @@
                                     <label>SDT:  <input type="text" id="newSDT" value="" /></label>
                                     <label>Thời hạn:  <input type="text" id="newDuration" value="" /></label>
                                     <label>Miêu tả:  <input type="text" id="newDescription" value="" /></label>
-                                    <label>Mã chính:  <input type="radio" name="newChinhPhu" value="true"/></label>
-                                    <label>Mã phụ:  <input type="radio" name="newChinhPhu" value="false" /></label>
+
+                                    <label>Mã chính:  <input type="radio" id="chinh" name="newChinhPhu" value="true"/></label>
+                                    <label>Mã phụ:  <input type="radio" id="phu" name="newChinhPhu" value="false" /></label>
                         
 
                                 </div>
@@ -142,11 +146,16 @@
             $("#newSDT").val($("#" + id + "phoneID").text().trim()); 
             $("#newDuration").val($("#" + id + "DurationID").text().trim()); 
             $("#newDescription").val($("#" + id + "DescriptionID").text().trim()); 
-          
+            if( $("#"+id+"chinhphuid").val() == "value") {
+                $('#chinh').prop( "checked", true );
+            }
+            else {
+                $('#phu').prop( "checked", true );
+            }
         }
         function finishEdit() {
             var newvalues = "?wactID=" + $("#waID").val() + "&newDate=" + $("#newDate").val() + "&newIMEI=" + $("#newIMEI").val() + "&newSKU=" + $("#newSKU").val() + "&newName=" + $("#newName").val() + "&newSDT=" + $("#newSDT").val() + "&newDuration=" + $("#newDuration").val() + "&newDescription=" + $("#newDescription").val() + "&newChinhPhu=" + $('input[name=newChinhPhu]:checked').val();
-            alert(newvalues);
+       
             $.getJSON("/Warranty/updateWAR" + newvalues, function (result) {
         
                 $.each(result, function (name, value) {
@@ -161,6 +170,7 @@
                             $("#" + $("#waID").val() + "DurationID").text($("#newDuration").val()); 
                             $("#" + $("#waID").val() + "DescriptionID").text($("#newDescription").val()); 
                             ($("#" + $("#waID").val() + "phoneID").text($("#newSDT").val)); 
+                            $("#"+$("#waID")+"chinhphuid").val( $('input[name=newChinhPhu]:checked').val());
                         }
                         else {
                             $("#newDate").val($("#" + id + "date").text().trim());
