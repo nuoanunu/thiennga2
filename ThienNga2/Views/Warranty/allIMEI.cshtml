@@ -51,7 +51,8 @@
                     item it = wact.item;
                     List<tb_warranty> ls = it.tb_warranty.ToList();
                     tb_warranty main = ls.First();
-                    foreach (tb_warranty t in ls) { if (t.MaChinh) { main = t; } }
+                   // foreach (tb_warranty t in ls) { if (t.MaChinh) { main = t; } }
+                   
                     String color = "";
                     if (wact.MaChinh) { color = "#e5e500"; }
                     String dateID = main.id + "date"; String warID = wact.id + "warID"; String SKUID = main.id + "SKUID"; String NameID = main.id + "NameID";
@@ -61,6 +62,7 @@
 
                     <tr>
                         <td bgcolor="@color" >
+                            
                             @main.item.productID
                         </td>
                         <td bgcolor="@color" id="@dateID">
