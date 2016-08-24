@@ -48,11 +48,8 @@
             <tbody>
                 @foreach (tb_warranty wact in (List<tb_warranty>)ViewData["allwar"])
                 {
-                    item it = wact.item;
-                    List<tb_warranty> ls = it.tb_warranty.ToList();
-                    tb_warranty main = ls.First();
-                   // foreach (tb_warranty t in ls) { if (t.MaChinh) { main = t; } }
-                   
+                    item it = wact.item;                  
+                    tb_warranty main = wact.item.tb_warranty.First();                                  
                     String color = "";
                     if (wact.MaChinh) { color = "#e5e500"; }
                     String dateID = main.id + "date"; String warID = wact.id + "warID"; String SKUID = main.id + "SKUID"; String NameID = main.id + "NameID";
