@@ -38,7 +38,7 @@
             <tbody>
                 @foreach (order wact in (List<order>)ViewData["allBaoGia"])
                 {
-                    String linkEdit = "Search?code=" + wact.id;
+                    String linkEdit = "/Search?code=" + wact.id;
                     <tr>
                         <td>
                            @wact.date
