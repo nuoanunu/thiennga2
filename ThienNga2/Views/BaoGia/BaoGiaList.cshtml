@@ -43,8 +43,9 @@
                         <td>
                            @wact.date
                         </td>
-                        @if (wact.tb_customer != null) {
-                       
+                        @if (wact.tb_customer != null && wact.tb_customer.customerName != null && wact.tb_customer.phonenumber != null)
+                        {
+
                         <td>
                             @wact.tb_customer.customerName
                         </td>
