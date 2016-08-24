@@ -22,7 +22,7 @@ namespace ThienNga2.Controllers
         // GET: BaoGia
         public ActionResult Index()
         {
-            ViewData["allBaoGia"] = am.orders.SqlQuery("Select * from order where total > " +0).ToList();
+            ViewData["allBaoGia"] = am.orders.SqlQuery("Select * from [order] where total > " +0).ToList();
             return View("BaoGiaList");
         }
         public ActionResult Search(String code)
