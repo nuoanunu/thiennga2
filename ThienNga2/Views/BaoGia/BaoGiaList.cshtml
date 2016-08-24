@@ -63,7 +63,8 @@
                             </td>
                         }
                         <td>
-                            @wact.total
+                            @Convert.ToDecimal(wact.total).ToString("#,##0");
+                            
                         </td>
                         <td>
                             <a href="@linkEdit">Chi tiết</a>
