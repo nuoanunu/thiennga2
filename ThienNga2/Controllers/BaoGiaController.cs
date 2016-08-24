@@ -22,7 +22,7 @@ namespace ThienNga2.Controllers
         // GET: BaoGia
         public ActionResult Index()
         {
-            ViewData["allBaoGia"] = am.orders.ToList();
+            ViewData["allBaoGia"] = am.orders.SqlQuery("Select * from order where total > " +0).ToList();
             return View("BaoGiaList");
         }
         public ActionResult Search(String code)
@@ -50,6 +50,7 @@ namespace ThienNga2.Controllers
                     ViewData["oderdetails"] = lst;
                     foreach (orderDetail orddetail in lst)
                     {
+                    
                         tuple.items[index].chietKhauPhanTram = float.Parse(orddetail.ChietKhauPhanTram);
                         tuple.items[index].chietKhauTrucTiep = float.Parse(orddetail.ChietKhauTrucTiep);
                         tb_product_detail dt = am.ThienNga_FindProduct2(orddetail.productDetailID).First();
