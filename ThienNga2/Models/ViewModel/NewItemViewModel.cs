@@ -145,6 +145,7 @@ namespace ThienNga2.Models.ViewModel
         public string thanhTienS { get; set; }
         public string chietKhauTrucTiepS { get; set; }
         public string DonGiaS { get; set; }
+        public string DonGiaS2 { get; set; }
 
     }
     public class HoaDonBaoHanhCheck {

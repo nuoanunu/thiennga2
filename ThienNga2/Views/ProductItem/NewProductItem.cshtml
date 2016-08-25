@@ -35,14 +35,43 @@
         var temp = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
         function checkHidden() {
             for (i = 1 ; i < 20; i++) {
-           
+
+                if ($('#items_' + (i - 1) + '__SKU').val() != "") {
+                    $('#items_' + (i - 1) + '__newSKU').prop('disabled', true);
+         
+                    $('#items_' + (i - 1) + '__newSKU').css("background-color", "gray");
+                }
+                else {
+                    $('#items_' + (i - 1) + '__newSKU').prop('disabled', false);
+                   
+                 
+                        
+                        $('#items_' + (i - 1) + '__newSKU').css("color", "black");
+
+                        $('#items_' + (i - 1) + '__newSKU').css("background-color", "");
+                    
+
+                }
+                if ($('#items_' + (i - 1) + '__newSKU').val() != "") {
+                    $('#items_' + (i - 1) + '__SKU').prop('disabled', true);
+                    $('#items_' + (i - 1) + '__SKU').css("background-color", "gray");
+                }
+                else {
+                    $('#items_' + (i - 1) + '__SKU').prop('disabled', false);
+                    if ($('#items_' + (i - 1) + '__SKU').css("background-color").toString().indexOf("138") > 1) {
+                        $('#items_' + (i - 1) + '__SKU').css("color", "black");
+                        $('#items_' + (i - 1) + '__SKU').css("background-color", "");
+                    }
+                }
                 if ($('#items_' + (i - 1) + '__SKU').val() == "" && $('#items_' + (i - 1) + '__newSKU').val() == "") {
                     $('#items_' + (i - 1) + '__SKU').css("background-color", "white");
                     $('#divid' + i).hide();
+                    $('#items_' + (i - 1) + '__DonGiaS2').hide();
                 }
                 else {
                     if ($('#items_' + (i - 1) + '__SKU').val() != temp[i - 1] && $('#items_' + (i - 1) + '__SKU').val().length > 0) {
                         temp[i - 1] = $('#items_' + (i - 1) + '__SKU').val();
+
                         checkPrice($('#items_' + (i - 1) + '__SKU').val(), i);
                     }
                     if ($('#items_' + (i - 1) + '__SKU').val().length > 0) {
@@ -50,6 +79,7 @@
                     }
                     if ($('#items_' + (i - 1) + '__newSKU').val().length > 0) {
                         updatePrice22(i);
+                        $('#items_' + (i - 1) + '__DonGiaS2').show();
                     }
 
                     
@@ -75,12 +105,18 @@
             $('#items_' + (index - 1) + '__thanhTien').val(temp3);
         }
         function updatePrice22(index) {
-      
-            var temp =  $('#items_' + (index - 1) + '__thanhTienS').val();
-            while(temp.indexOf(",") >0) {
-                temp = temp.replace(',', '');
-            }
-            $('#items_' + (index - 1) + '__thanhTienS').val(numberWithCommas(temp));
+            var tempstr = $('#items_' + (index - 1) + '__DonGiaS2').val();
+            while (tempstr.indexOf(',') != -1) tempstr = tempstr.replace(',', '');
+            var temp = parseFloat(tempstr);
+            var quantity = $('#items_' + (index - 1) + '__quantity').val();
+            var CKTT = $('#items_' + (index - 1) + '__chietKhauTrucTiep').val();
+            var CKPT = $('#items_' + (index - 1) + '__chietKhauPhanTram').val();
+            var temp3 = temp * quantity * (100 - CKPT) / 100 - CKTT;
+            temp3 = Math.floor(temp3);
+            $('#items_' + (index - 1) + '__thanhTienS').val(numberWithCommas(temp3));
+            $('#items_' + (index - 1) + '__thanhTien').val(temp3);
+
+            $('#items_' + (index - 1) + '__DonGiaS2').val(numberWithCommas(tempstr));
 
         }
         var currentsdt = "";
@@ -128,7 +164,7 @@
                     }
                 })
             });
-            if (!flag && $('#items_' + (index - 1) + '__SKU').VAL() != null) {
+            if (!flag && $('#items_' + (index - 1) + '__SKU').val() != null) {
                 $('#items_' + (index - 1) + '__SKU').css("background-color", "orange");
                 $('input[type="submit"]').prop('disabled', true);
                 $('#items_' + (index - 1) + '__SKU').css("color", "white");
@@ -227,7 +263,7 @@
                                     <label>Tên/Mã nhà máy/SKU @Html.TextBoxFor(Model => Model.items[i].SKU, new { @class = "form-control" })</label>
                                 </td>
                                 <td>
-                                    <label>Mã sản phẩm chưa lưu @Html.TextBoxFor(Model => Model.items[i].newSKU, new { @class = "form-control" })</label>
+                                    <label>Mã/Mã sản phẩm chưa lưu @Html.TextBoxFor(Model => Model.items[i].newSKU, new { @class = "form-control" })</label>
                                 </td>
                                 <td>
 
@@ -236,16 +272,14 @@
                                 <td>
                                     @Html.HiddenFor(Model => Model.items[i].DonGiaS, new { @class = "form-control", value = "0" })
                                     <label>Đợn giá <label id="@idp"></label> </label>
+                                    @Html.TextBoxFor(Model => Model.items[i].DonGiaS2, new { @class = "form-control",  style = "display: none;" })
                                 </td>
 
                                 <td>
                                  
                                     <label>Số lượng @Html.TextBoxFor(Model => Model.items[i].quantity, new { @class = "form-control", value = "1" })</label>
                                 </td>
-                                <td>
                         
-                                    <label>Thành tiền @Html.TextBoxFor(Model => Model.items[i].thanhTienS, new { @class = "form-control", value = "0"})</label>
-                                </td>
                                 <td>
                                 
                                     <label>Chiết khấu % @Html.TextBoxFor(Model => Model.items[i].chietKhauPhanTram, new { @class = "form-control", value = "0", @type = "number" })</label>
@@ -253,6 +287,10 @@
                                 <td>
                               
                                     <label>Chiết khấu trực tiếp @Html.TextBoxFor(Model => Model.items[i].chietKhauTrucTiep, new { @class = "form-control", value = "0" , @type = "number" })</label>
+                                </td>
+                                <td>
+
+                                    <label>Thành tiền @Html.TextBoxFor(Model => Model.items[i].thanhTienS, new { @class = "form-control", value = "0" })</label>
                                 </td>
                                 @Html.HiddenFor(Model => Model.items[i].thanhTien, new { @class = "form-control", value = "0" })
                                
