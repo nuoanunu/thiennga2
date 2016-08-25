@@ -16,6 +16,7 @@ namespace ThienNga2.Controllers
         public ActionResult Index()
         {
             var model = new KichHoatBaoHanh();
+            ViewData["dspspgd"] = am.items.SqlQuery("SELECT TOP 100 * FROM dbo.item  where productDetailID != 481 ORDER BY DateOfSold DESC ").ToList();
             return View(model);
         }
 

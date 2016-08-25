@@ -15,6 +15,11 @@
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"> </script>
     <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"> </script>
 
+    <script>
+        $(document).ready(function () {
+            $('#fee2').DataTable();
+        });
+    </script>
 
     <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
@@ -51,11 +56,11 @@
             var flag = false;
 
             $.getJSON("/KickHoatBaoHanh/checking?IMEI=" + name, function (result) {
-               
+
                 $.each(result, function (name, value) {
                     if (name == "name") {
-                        
-                        
+
+
                         if (value != null) {
                             $('#lst_' + (index - 1) + '__warrantyID').css("background-color", "red");
                             flag = true;
@@ -86,7 +91,7 @@
                         temp[i - 1] = $('#lst_' + (i - 1) + '__warrantyID').val();
                         checkPrice($('#lst_' + (i - 1) + '__warrantyID').val(), i);
                     }
-                
+
                 }
             }
 
@@ -135,7 +140,76 @@
 
 
         }
+        <div>
+            Danh sách sản phẩm gần đây
+            @if (ViewData["dspspgd"] != null)
+            {
+                <table id="fee2" class="table table-striped table-bordered" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                Mã xuất kho
+                            </th>
+                            <th>
+                                SKU
+                            </th>
+                            <th>
+                                Tên sản phẩm
+                            </th>
+                            <th>
+                                Tên khách
+                            </th>
+                            <th>
+                                SDT Khách
+                            </th>
+                            <th>Nhóm khách</th>
+                            <th>
+                                Ngày mua
+                            </th>
+                            <th>Chi tiết</th>
 
+
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        @foreach (item ee in (List<item>)ViewData["dspspgd"])
+                        {
+                            <tr>
+
+                                <td>@ee.productID</td>
+                                <td>
+                                    @ee.tb_product_detail.productStoreID
+                                </td>
+                                <td>@ee.tb_product_detail.productName</td>
+                                <td>@ee.tb_customer.customerName</td>
+                                <td>@ee.tb_customer.phonenumber</td>
+                                @if (ee.CustomerType1 != null)
+                                {
+
+                                    <td bgcolor="@ee.CustomerType1.Color">Nhóm khách: @ee.CustomerType1.GroupName</td>
+
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                                <td>
+                                    @ee.DateOfSold</td>
+                                <td>
+                                    @using (Html.BeginForm("Search", "KickHoatBaoHanh"))
+                                    {
+                                        <input type="hidden" name="code" value="@ee.productID" />
+                                        <input type="hidden" name="searchType" value="masp" />
+                                        <button type="submit" name=" Chi tiết">Chi tiết</button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
         @if (ViewData["dspsp"] != null)
         {
 
@@ -234,7 +308,7 @@
                                 </td>
                                 <td bgcolor="@color">
                                     @using (Html.BeginForm("Delete", "KickHoatBaoHanh", FormMethod.Post))
-                            {
+                                    {
                                         <input type="hidden" value="@war.id" name="warrantyID" />
                                         <input type="hidden" value="@it.id" name="itemID" />
                                         <input type="submit" value="Xóa" />
@@ -303,8 +377,8 @@
                     </tr>
 
                     @foreach (item i in (List
-                    <item>
-                        )ViewData["dspsp"])
+                <item>
+                    )ViewData["dspsp"])
                     {
                         <tr>
                             <td>
