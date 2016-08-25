@@ -52,18 +52,29 @@ namespace ThienNga2.Controllers
                     {
                     
                         tuple.items[index].chietKhauPhanTram = float.Parse(orddetail.ChietKhauPhanTram);
-                        tuple.items[index].chietKhauTrucTiep = float.Parse(orddetail.ChietKhauTrucTiep);
+                        tuple.items[index].chietKhauTrucTiepS =(orddetail.ChietKhauTrucTiep);
                         tb_product_detail dt = am.ThienNga_FindProduct2(orddetail.productDetailID).First();
-                        tuple.items[index].dongia = (float)dt.price;
+                        tuple.items[index].chietKhauTrucTiepS = Convert.ToDecimal(tuple.items[index].chietKhauTrucTiep).ToString("#,##0");
                         tuple.items[index].SKU = orddetail.productDetailID;
                         tuple.items[index].quantity = int.Parse(orddetail.Quantity);
                         tuple.items[index].thanhTien = (float)(int.Parse(orddetail.Quantity) * dt.price);
+                        tuple.items[index].dongia = (float)dt.price;
                         tuple.items[index].productName = dt.productName;
-                        tuple.items[index].DonGiaS = Convert.ToDecimal(tuple.items[index].dongia).ToString("#,##0");
-                        tuple.items[index].thanhTienS = Convert.ToDecimal(tuple.items[index].thanhTien).ToString("#,##0");
-                        tuple.items[index].chietKhauTrucTiepS = Convert.ToDecimal(tuple.items[index].chietKhauTrucTiep).ToString("#,##0");
+                        if (orddetail.DonGia == null && orddetail.productDetailID != "00000000")
+                        {
+                            tuple.items[index].DonGiaS = Convert.ToDecimal(tuple.items[index].dongia).ToString("#,##0");
+                            tuple.items[index].thanhTienS = Convert.ToDecimal(tuple.items[index].thanhTien).ToString("#,##0");
+     
+                        }
+                        else {
+                            tuple.items[index].DonGiaS = orddetail.DonGia;
+                            tuple.items[index].thanhTienS = orddetail.ThanhTien;
+                        }
+          
                         String temp = "000000";
                         if (ord.tb_customer.phonenumber.Length >= 6) temp = ord.tb_customer.phonenumber.Substring(ord.tb_customer.phonenumber.Length - 6);
+                        String temp2 = "******";
+                        if (!dt.productStoreID.Equals("0000000")) temp2 = dt.productStoreID;
                         tuple.items[index].productID = ord.MaBill  +"."+dt.productStoreID+  "." + temp;
                         index = index + 1;
                     }

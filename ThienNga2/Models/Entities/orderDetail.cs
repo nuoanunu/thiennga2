@@ -21,6 +21,8 @@ namespace ThienNga2.Models.Entities
         public string ChietKhauTrucTiep { get; set; }
         public string SoLuong { get; set; }
         public int orderID { get; set; }
+        public string DonGia { get; set; }
+        public string ThanhTien { get; set; }
     
         public virtual order order { get; set; }
     }

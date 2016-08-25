@@ -135,12 +135,14 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="productDetailID" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="Quantity" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="ChietKhauPhanTram" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="ChietKhauTrucTiep" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="SoLuong" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="productDetailID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Quantity" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ChietKhauPhanTram" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ChietKhauTrucTiep" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SoLuong" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="orderID" Type="int" Nullable="false" />
+          <Property Name="DonGia" Type="nvarchar" MaxLength="50" />
+          <Property Name="ThanhTien" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="role">
           <Key>
@@ -1207,13 +1209,15 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="productDetailID" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Quantity" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="ChietKhauPhanTram" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="ChietKhauTrucTiep" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="SoLuong" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="productDetailID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Quantity" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ChietKhauPhanTram" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ChietKhauTrucTiep" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SoLuong" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="orderID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="order" Relationship="ThienNgaDatabaseModel.FK_orderDetail_order" FromRole="orderDetail" ToRole="order" />
+          <Property Name="DonGia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ThanhTien" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="role">
           <Key>
@@ -1889,6 +1893,8 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <EntitySetMapping Name="orderDetails">
             <EntityTypeMapping TypeName="ThienNgaDatabaseModel.orderDetail">
               <MappingFragment StoreEntitySet="orderDetail">
+                <ScalarProperty Name="ThanhTien" ColumnName="ThanhTien" />
+                <ScalarProperty Name="DonGia" ColumnName="DonGia" />
                 <ScalarProperty Name="orderID" ColumnName="orderID" />
                 <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
                 <ScalarProperty Name="ChietKhauTrucTiep" ColumnName="ChietKhauTrucTiep" />

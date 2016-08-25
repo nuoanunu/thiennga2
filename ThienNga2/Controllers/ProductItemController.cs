@@ -338,6 +338,8 @@ namespace ThienNga2.Controllers
                             detail.SoLuong = ao.quantity + "";
                             detail.orderID = ord.id;
                             detail.productDetailID = "00000000";
+                                detail.DonGia = ao.DonGiaS;
+                                detail.ThanhTien = ao.thanhTienS;
                             am.orderDetails.Add(detail);
                             am.SaveChanges();
                             lstOrderDetaiLID.Add(detail.id);

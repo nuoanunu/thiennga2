@@ -130,12 +130,14 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="productDetailID" Type="nchar" MaxLength="10" Nullable="false" />
-    <Property Name="Quantity" Type="nchar" MaxLength="10" Nullable="false" />
-    <Property Name="ChietKhauPhanTram" Type="nchar" MaxLength="10" Nullable="false" />
-    <Property Name="ChietKhauTrucTiep" Type="nchar" MaxLength="10" Nullable="false" />
-    <Property Name="SoLuong" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="productDetailID" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Quantity" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ChietKhauPhanTram" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ChietKhauTrucTiep" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="SoLuong" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="orderID" Type="int" Nullable="false" />
+    <Property Name="DonGia" Type="nvarchar" MaxLength="50" />
+    <Property Name="ThanhTien" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="role">
     <Key>
