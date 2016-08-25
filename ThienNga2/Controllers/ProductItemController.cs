@@ -239,15 +239,15 @@ namespace ThienNga2.Controllers
                 {
                     total = total +  (float)Math.Floor(ao.thanhTien);
                     if (ao.thanhTien < 10 && ao.thanhTienS != null) {
-                        String tempppp = ao.thanhTienS;
-                        while (tempppp.IndexOf(",") > 0)
+                        String temppppp = ao.thanhTienS;
+                        while (temppppp.IndexOf(",") > 0)
                         {
-                            tempppp = tempppp.Replace(",", "");
+                            temppppp = temppppp.Replace(",", "");
 
                         }
                         try
                         {
-                            total = total + float.Parse(tempppp);
+                            total = total + float.Parse(temppppp);
                         }
                         catch (Exception e) { }
                     }
