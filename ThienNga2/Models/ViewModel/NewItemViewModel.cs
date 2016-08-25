@@ -134,6 +134,7 @@ namespace ThienNga2.Models.ViewModel
     }
     public class AnOrderDetail{
         public String SKU { get; set; }
+        public String newSKU { get; set; }
         public int quantity { get; set; }
         public float chietKhauPhanTram { get; set; }
         public float chietKhauTrucTiep { get; set; }
