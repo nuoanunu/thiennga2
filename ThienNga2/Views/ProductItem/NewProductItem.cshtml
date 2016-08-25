@@ -49,7 +49,7 @@
                         updatePrice(i);
                     }
                     if ($('#items_' + (i - 1) + '__newSKU').val().length > 0) {
-                        updatePrice2(i);
+                        updatePrice22(i);
                     }
 
                     
@@ -74,7 +74,7 @@
             $('#items_' + (index - 1) + '__thanhTienS').val(numberWithCommas(temp3));
             $('#items_' + (index - 1) + '__thanhTien').val(temp3);
         }
-        function updatePrice2(index) {
+        function updatePrice22(index) {
       
             var temp =  $('#items_' + (index - 1) + '__thanhTienS').val();
             while(temp.indexOf(",") >0) {
