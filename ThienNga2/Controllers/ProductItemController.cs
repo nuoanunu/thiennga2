@@ -232,12 +232,26 @@ namespace ThienNga2.Controllers
              
                 }
                 ord.date = soldDate;
-
+                int TEMP = am.items.ToList().Count() + 2;
 
            
                 foreach (AnOrderDetail ao in tuple.items)
                 {
                     total = total +  (float)Math.Floor(ao.thanhTien);
+                    if (ao.thanhTien < 10 && ao.thanhTienS != null) {
+                        String tempppp = ao.thanhTienS;
+                        while (tempppp.IndexOf(",") > 0)
+                        {
+                            tempppp = tempppp.Replace(",", "");
+
+                        }
+                        try
+                        {
+                            total = total + float.Parse(tempppp);
+                        }
+                        catch (Exception e) { }
+                    }
+
                 }
                 ord.total = total;
 
@@ -256,11 +270,11 @@ namespace ThienNga2.Controllers
                         if(ao.SKU.Trim().Length > 0)
                         pd = am.ThienNga_FindProduct2(ao.SKU).FirstOrDefault();
                     }
-                       
+
                     if (pd != null)
                     {
                         inventory ivenQuantity
-                             = am.inventories.SqlQuery("SELECT * FROM inventory WHERE productStoreCode='" + pd.productStoreID + "' and inventoryID="+ inventoryID).FirstOrDefault();
+                             = am.inventories.SqlQuery("SELECT * FROM inventory WHERE productStoreCode='" + pd.productStoreID + "' and inventoryID=" + inventoryID).FirstOrDefault();
                         ivenQuantity.quantity = ivenQuantity.quantity - ao.quantity;
                         am.SaveChanges();
                         orderDetail detail = new orderDetail();
@@ -287,24 +301,85 @@ namespace ThienNga2.Controllers
                             String minute = DateTime.Now.Minute + ""; if (minute.Length == 1) minute = "0" + minute;
                             String second = DateTime.Now.Second + ""; if (second.Length == 1) second = "0" + second;
                             String subphone = "000000";
-                            if (cus.phonenumber.Length > 6) subphone= cus.phonenumber.Substring(cus.phonenumber.Length - 6);
-                            it.productID = ord.MaBill+ "."+pd.productStoreID+"." + subphone + "."+i;
+                            if (cus.phonenumber.Length > 6) subphone = cus.phonenumber.Substring(cus.phonenumber.Length - 6);
+                            it.productID = ord.MaBill + "." + pd.productStoreID + "." + subphone + "." + i;
                             it.DateOfSold = soldDate;
-                            if (am.CustomerTypes.Find(tuple.custype) != null) {
-                                    it.CustomerType = tuple.custype;
-                                    it.CustomerType1 = am.CustomerTypes.Find(tuple.custype);
-                                }
-                            
-                          
+                            if (am.CustomerTypes.Find(tuple.custype) != null)
+                            {
+                                it.CustomerType = tuple.custype;
+                                it.CustomerType1 = am.CustomerTypes.Find(tuple.custype);
+                            }
+
+
                             am.items.Add(it);
                             am.SaveChanges();
                             lstItemID.Add(it.id);
-                            ao.productID = ord.MaBill + "." + pd.productStoreID + "." + subphone + ".(" + i + ")"; 
+                            ao.productID = ord.MaBill + "." + pd.productStoreID + "." + subphone + ".(" + i + ")";
                             ao.productName = pd.productName;
-                            ao.thanhTienS  = Convert.ToDecimal(ao.thanhTien).ToString("#,##0.00");
-                            ao.DonGiaS = Convert.ToDecimal( (ao.thanhTien/ao.quantity)).ToString("#,##0.00");
+                            ao.thanhTienS = Convert.ToDecimal(ao.thanhTien).ToString("#,##0.00");
+                            ao.DonGiaS = Convert.ToDecimal((ao.thanhTien / ao.quantity)).ToString("#,##0.00");
                             ao.chietKhauTrucTiepS = Convert.ToDecimal(ao.chietKhauTrucTiep).ToString("#,##0.00");
-                            
+
+                        }
+                    }
+                    else {
+                        System.Diagnostics.Debug.WriteLine("AAAAAAAAA 2");
+                        if(ao.newSKU != null)
+                        if (ao.newSKU.Trim().Length > 0)
+                        {
+                          //  inventory ivenQuantity
+                          //       = am.inventories.SqlQuery("SELECT * FROM inventory WHERE productStoreCode='" + pd.productStoreID + "' and inventoryID=" + inventoryID).FirstOrDefault();
+                         //   ivenQuantity.quantity = ivenQuantity.quantity - ao.quantity;
+                         //   am.SaveChanges();
+                            orderDetail detail = new orderDetail();
+                            detail.ChietKhauPhanTram = ao.chietKhauPhanTram + "";
+                            detail.ChietKhauTrucTiep = ao.chietKhauTrucTiep + "";
+                            detail.Quantity = ao.quantity + "";
+                            detail.SoLuong = ao.quantity + "";
+                            detail.orderID = ord.id;
+                            detail.productDetailID = "00000000";
+                            am.orderDetails.Add(detail);
+                            am.SaveChanges();
+                            lstOrderDetaiLID.Add(detail.id);
+                            for (int i = 0; i < ao.quantity; i++)
+                            {
+                                item it = new item();
+                                it.customerID = cus.id;
+                                it.orderID = ord.id;
+                                it.inventoryID = inventoryID;
+                                it.productDetailID =499;
+                                String day = DateTime.Today.Day + ""; if (day.Length == 1) day = "0" + day;
+                                String month = DateTime.Today.Month + ""; if (month.Length == 1) month = "0" + month;
+                                String year = DateTime.Today.Year + ""; if (year.Length == 1) year = "0" + year;
+                                String hour = DateTime.Now.Hour + ""; if (hour.Length == 1) hour = "0" + hour;
+                                String minute = DateTime.Now.Minute + ""; if (minute.Length == 1) minute = "0" + minute;
+                                String second = DateTime.Now.Second + ""; if (second.Length == 1) second = "0" + second;
+                                String subphone = "000000";
+                                if (cus.phonenumber.Length > 6) subphone = cus.phonenumber.Substring(cus.phonenumber.Length - 6);
+                               
+                                it.productID = ord.MaBill + "." + "******" + "." + subphone + "." + TEMP;
+                                TEMP = TEMP + 1;
+                                it.DateOfSold = soldDate;
+                                if (am.CustomerTypes.Find(tuple.custype) != null)
+                                {
+                                    it.CustomerType = tuple.custype;
+                                    it.CustomerType1 = am.CustomerTypes.Find(tuple.custype);
+                                }
+
+
+                                am.items.Add(it);
+                                am.SaveChanges();
+                                lstItemID.Add(it.id);
+                                ao.productName = ao.newSKU;
+                                ao.productID = ord.MaBill + "." + "*******"+ "." + subphone + ".(" + i + ")";
+                                ao.quantity = ao.quantity;
+                                ao.thanhTienS = ao.thanhTienS;
+                  
+                                //ao.DonGiaS = Convert.ToDecimal((ao.thanhTien / ao.quantity)).ToString("#,##0.00");
+                                ao.chietKhauTrucTiepS = Convert.ToDecimal(ao.chietKhauTrucTiepS).ToString("#,##0.00");
+                                System.Diagnostics.Debug.WriteLine("AAAAAAAAA ");
+                                System.Diagnostics.Debug.WriteLine("AAAAAAAAA "  + ao.newSKU + "  " + ao.productID);
+                            }
                         }
                     }
                 }
