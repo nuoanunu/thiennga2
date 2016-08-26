@@ -32,10 +32,28 @@
     </script>
     
     <script>
-        
+        var useUpTo = 1;
         var temp = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
+        function checkppricelientuc() {
+            for (var i = 1 ; i < 20 ; i++) {
+                if (temp[i - 1] != $('#items_' + (i - 1) + '__SKU').val()) {
+                    temp[i - 1] = $('#items_' + (i - 1) + '__SKU').val();
+                    if ($('#items_' + (i - 1) + '__SKU').val().length > 0) {
+                        checkPrice($('#items_' + (i - 1) + '__SKU').val(), i);
+                        updatePrice(i);
+                    }
+                }
+                if ($('#items_' + (i - 1) + '__newSKU').val().length > 0) {
+                    updatePrice22(i);
+                    $('#items_' + (i - 1) + '__DonGiaS2').show();
+                }
+            }
+        
+
+        }
+        setInterval(checkppricelientuc, 50);
         function checkHidden() {
-            for (i = 1 ; i < 50; i++) {
+            for (var i = 1 ; i < 20; i++) {
 
                 if ($('#items_' + (i - 1) + '__SKU').val() != "") {
                     $('#items_' + (i - 1) + '__newSKU').prop('disabled', true);
@@ -65,9 +83,22 @@
                     }
                 }
                 if ($('#items_' + (i - 1) + '__SKU').val() == "" && $('#items_' + (i - 1) + '__newSKU').val() == "") {
+                    $('#items_' + (i - 1) + '__thanhTienS').val("");
+            
+                    $('#items_' + (i - 1) + '__chietKhauTrucTiep').val("0");
+                    $('#items_' + (i - 1) + '__chietKhauPhanTram').val("0");
+                    $('#items_' + (i - 1) + '__quantity').val("0");
+                    $('#items_' + (i - 1) ).val("");
+                    $('#lid' + (i - 1)).text("");
+                    $('#pid' + (i - 1)).text("");
                     $('#items_' + (i - 1) + '__SKU').css("background-color", "white");
-                    $('#divid' + i).hide();
-                    $('#items_' + (i - 1) + '__DonGiaS2').hide();
+                    if (i > useUpTo) {
+                        $('#divid' + i).hide();
+                        $('#items_' + (i - 1) + '__DonGiaS2').hide();
+                    }
+
+
+                 
                 }
                 else {
                     if ($('#items_' + (i - 1) + '__SKU').val() != temp[i - 1] && $('#items_' + (i - 1) + '__SKU').val().length > 0) {
@@ -85,6 +116,7 @@
 
                     
                     $('#divid' + i).show();
+                    useUpTo = useUpTo + 1;
                 }
             }
 
@@ -104,7 +136,7 @@
             var vat = 0;
             var totalb4vat = 0;
             var totalatervat = 0;
-            for (var i = 0 ; i < 50 ; i++) {
+            for (var i = 0 ; i < 20 ; i++) {
                 var tempstr = $('#items_' + (i ) + '__thanhTienS').val();
                 while (tempstr.indexOf(',') != -1) tempstr = tempstr.replace(',', '');
                 var temp = parseFloat(tempstr);
@@ -212,7 +244,7 @@
             }
         };
         function removeselect(i) {
-            for (var index = i; index < 50 ; index++) {
+            for (var index = i; index < 20 ; index++) {
                 if ($('#items_' + (index + 1) + '__SKU').val() != "" || $('#items_' + (index + 1) + '__newSKU').val() != "") {
                     $('#items_' + (index) + '__SKU').val($('#items_' + (index + 1) + '__SKU').val());
                     $('#items_' + (index) + '__newSKU').val($('#items_' + (index + 1) + '__newSKU').val());
@@ -252,7 +284,7 @@
         }
         $(document).ready(function () {
         
-            for (i = 0; i < 50 ; i++) {
+            for (i = 0; i < 20 ; i++) {
                 $('#items_' + (i ) + '__SKU').autocomplete({
 
                     source: '@Url.Action("Autocomplete")'
@@ -271,7 +303,8 @@
         function preventEnterSubmit(e) {
             if (e.which == 13) {
                 var $targ = $(e.target);
-
+                alert("A");
+                alert($targ.id);
                 if (!$targ.is("textarea") && !$targ.is(":button,:submit")) {
                     var focusNext = false;
                     $(this).find(":input:visible:not([disabled],[readonly]), a").each(function () {
@@ -362,11 +395,11 @@
                         
                                 <td>
                                 
-                                    <label>Chiết khấu % @Html.TextBoxFor(Model => Model.items[i].chietKhauPhanTram, new { @class = "form-control", value = "0", @type = "number" })</label>
+                                    <label>Chiết khấu % @Html.TextBoxFor(Model => Model.items[i].chietKhauPhanTram, new { @class = "form-control", value = "0" })</label>
                                 </td>
                                 <td>
                               
-                                    <label>Chiết khấu trực tiếp @Html.TextBoxFor(Model => Model.items[i].chietKhauTrucTiep, new { @class = "form-control", value = "0" , @type = "number" })</label>
+                                    <label>Chiết khấu trực tiếp @Html.TextBoxFor(Model => Model.items[i].chietKhauTrucTiep, new { @class = "form-control", value = "0" })</label>
                                 </td>
                                 <td>
 
@@ -414,21 +447,25 @@
             $('input').on("keypress", function (e) {
                 /* ENTER PRESSED*/
                 var t = e.keyCode;
+             
+                var idd = parseInt((this.id).substr(this.id.indexOf("__") - 1, 1));
+                idd = idd + 1;
+              
                 if (t == 13) {
                     /* FOCUS ELEMENT */
                     var inputs = $(this).parents("form").eq(0).find(":input");
                     var idx = inputs.index(this);
-
+               
                     if (idx == inputs.length - 1) {
                         inputs[0].select()
                     } else {
                         
                         if ((idx + 1 - 10) % 7 == 0 || (idx + 1 - 15) % 7 ==0) {
-                            inputs[idx + 2].focus();
+                            $("#items_"+idd+"__SKU").focus();
                         }
                         else
-                        inputs[idx + 1].focus();
-                      
+                            $("#items_" + idd + "__SKU").focus();
+                        
 
                     }
                     return false;

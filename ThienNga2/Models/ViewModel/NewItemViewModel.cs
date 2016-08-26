@@ -28,7 +28,7 @@ namespace ThienNga2.Models.ViewModel
 
         public NewItemViewModel() {
             items = new List<AnOrderDetail>();
-            for (int i = 0; i < 50; i++) {
+            for (int i = 0; i < 20; i++) {
                 AnOrderDetail war = new AnOrderDetail();
                 items.Add(war);
 
