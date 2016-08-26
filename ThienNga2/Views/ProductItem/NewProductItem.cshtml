@@ -189,9 +189,17 @@
                         
                     }
                     if (name == "price") {
-                        if (flag && value!= null) {
-                            $("#pid" + (index - 1)).text(numberWithCommas(value));
-                            $('#items_' + (index - 1) + '__DonGiaS').val(numberWithCommas(value));
+                        if (flag && value != null) {
+                            var tempstr = value;
+                            
+                            if (tempstr.indexOf(".") > 0) {
+                                tempstr = tempstr.substring(0, tempstr.indexOf("."));
+                            }
+                            var temp = parseFloat(tempstr);
+                           
+                            alert(temp);
+                            $("#pid" + (index - 1)).text(numberWithCommas(temp));
+                            $('#items_' + (index - 1) + '__DonGiaS').val(numberWithCommas(temp));
                         }
                     }
                 })
