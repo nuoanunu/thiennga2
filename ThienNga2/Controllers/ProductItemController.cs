@@ -66,7 +66,7 @@ namespace ThienNga2.Controllers
                         if (lst.Count == 1)
                         {
                             if (lst.ElementAt(0).productName.Length >= 17)
-                            vi.name = lst.ElementAt(0).productName.Substring(0, 16);
+                                vi.name = lst.ElementAt(0).productName;
 
                             vi.price = lst.ElementAt(0).price + "";
                         }
@@ -315,6 +315,10 @@ namespace ThienNga2.Controllers
                             am.SaveChanges();
                             lstItemID.Add(it.id);
                             ao.productID = ord.MaBill + "." + pd.productStoreID + "." + subphone + ".(" + i + ")";
+                            if (ao.productName.Length > 16) {
+                                ao.productName = pd.productName.Substring(0,16);
+                            }
+                            else
                             ao.productName = pd.productName;
                             ao.thanhTienS = Convert.ToDecimal(ao.thanhTien).ToString("#,##0.00");
                             ao.DonGiaS = Convert.ToDecimal((ao.thanhTien / ao.quantity)).ToString("#,##0.00");
