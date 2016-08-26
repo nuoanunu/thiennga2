@@ -332,9 +332,9 @@ namespace ThienNga2.Controllers
                                 am.SaveChanges();
                                 lstItemID.Add(it.id);
                                 ao.productID = ord.MaBill + "." + pd.productStoreID + "." + subphone + ".(" + i + ")";
-                                if (ao.productName != null)
+                                if (pd.productName != null)
                                 {
-                                    if (ao.productName.Length > 16)
+                                    if (pd.productName.Length > 16)
                                     {
                                         ao.productName = pd.productName.Substring(0, 16);
                                     }
@@ -545,6 +545,7 @@ namespace ThienNga2.Controllers
                             new DataColumn("Chiết Khấu phần trăm", typeof(string)),
                             new DataColumn("    Chiết Khấu trực tiếp  ", typeof(string)),
                             new DataColumn("  Thành tiền", typeof(string))});
+            int indextemp = 0;
 
             for (int i = 5; i < rows.Length; i++)
             {
@@ -553,10 +554,7 @@ namespace ThienNga2.Controllers
                 try
                 {
                     temp2 = rows[i].Split(rex2, StringSplitOptions.None);
-                    for (int eee = 0; eee < temp2.Length; eee++)
-                    {
-
-                    }
+              
                     if (temp2.Length > 5)
                     {
                         if (temp2[4].Trim().Length > 0 && temp2[2].Trim().Length > 0 && temp2[3].Trim().Length > 0)
@@ -577,7 +575,9 @@ namespace ThienNga2.Controllers
 
             }
             String total = Convert.ToDecimal(totalprice).ToString("#,##0.00");
-
+            if (add.Equals("ko co")) add = "";
+            if (cusname.Equals("ko co")) cusname = "";
+            if (sdt.Equals("ko co")) sdt = "";
             using (StringWriter sw = new StringWriter())
             {
                 using (HtmlTextWriter hw = new HtmlTextWriter(sw))
@@ -591,7 +591,7 @@ namespace ThienNga2.Controllers
                     sb.Append("<tr><td><b>Mã số: </b>");
                     sb.Append(MaBill);
                     sb.Append("</td><td align = 'right'><b>Ngày: </b>");
-                    sb.Append(DateTime.Now);
+                    sb.Append(DateTime.Now.AddHours(7));
                     sb.Append(" </td></tr>");
                     sb.Append("<tr><td colspan = '2'><b>Tên khách </b>");
                     sb.Append(cusname);
@@ -724,6 +724,9 @@ namespace ThienNga2.Controllers
 
 
             }
+            if (add.Equals("ko co")) add = "";
+            if (cusname.Equals("ko co")) cusname = "";
+            if (sdt.Equals("ko co")) sdt = "";
             String total = Convert.ToDecimal(totalprice).ToString("#,##0.00");
             String vatt = Convert.ToDecimal(totalprice * 0.1).ToString("#,##0.00");
             String vattt = Convert.ToDecimal(totalprice * 1.1).ToString("#,##0.00");
@@ -740,7 +743,7 @@ namespace ThienNga2.Controllers
                     sb.Append("<tr><td><b>Mã số: </b>");
                     sb.Append(MaBill);
                     sb.Append("</td><td align = 'right'><b>Ngày: </b>");
-                    sb.Append(DateTime.Now);
+                    sb.Append(DateTime.Now.AddHours(7));
                     sb.Append(" </td></tr>");
                     sb.Append("<tr><td colspan = '2'><b>Tên khách </b>");
                     sb.Append(cusname);
@@ -896,6 +899,9 @@ namespace ThienNga2.Controllers
             String total = Convert.ToDecimal(totalprice).ToString("#,##0");
             String vatt = Convert.ToDecimal(totalprice * 0.1).ToString("#,##0");
             String vattt = Convert.ToDecimal(totalprice * 1.1).ToString("#,##0");
+            if (add.Equals("ko co")) add = "";
+            if (cusname.Equals("ko co")) cusname = "";
+            if (sdt.Equals("ko co")) sdt = "";
             using (StringWriter sw = new StringWriter())
             {
                 using (HtmlTextWriter hw = new HtmlTextWriter(sw))
@@ -909,7 +915,7 @@ namespace ThienNga2.Controllers
                     sb.Append("<tr><td><b>Mã số: </b>");
                     sb.Append(MaBill);
                     sb.Append("</td><td align = 'right'><b>Ngày: </b>");
-                    sb.Append(DateTime.Now);
+                    sb.Append(DateTime.Now.AddHours(7));
                     sb.Append(" </td></tr>");
                     sb.Append("<tr><td colspan = '2'><b>Tên khách </b>");
                     sb.Append(cusname);
@@ -1075,6 +1081,9 @@ namespace ThienNga2.Controllers
             String total = Convert.ToDecimal(totalprice).ToString("#,##0");
             String vatt = Convert.ToDecimal(totalprice * 0.1).ToString("#,##0");
             String vattt = Convert.ToDecimal(totalprice * 1.1).ToString("#,##0");
+            if (add.Equals("ko co")) add = "";
+            if (cusname.Equals("ko co")) cusname = "";
+            if (sdt.Equals("ko co")) sdt = "";
             using (StringWriter sw = new StringWriter())
             {
                 using (HtmlTextWriter hw = new HtmlTextWriter(sw))
@@ -1088,7 +1097,7 @@ namespace ThienNga2.Controllers
                     sb.Append("<tr><td><b>Mã số: </b>");
                     sb.Append(MaBill);
                     sb.Append("</td><td align = 'right'><b>Ngày: </b>");
-                    sb.Append(DateTime.Now);
+                    sb.Append(DateTime.Now.AddHours(7));
                     sb.Append(" </td></tr>");
                     sb.Append("<tr><td colspan = '2'><b>Tên khách </b>");
                     sb.Append(cusname);

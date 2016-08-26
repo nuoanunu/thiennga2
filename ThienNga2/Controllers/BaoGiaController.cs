@@ -22,6 +22,8 @@ namespace ThienNga2.Controllers
         // GET: BaoGia
         public ActionResult Index()
         {
+            
+           
             ViewData["allBaoGia"] = am.orders.SqlQuery("Select * from [order] where total > " +0).ToList();
             return View("BaoGiaList");
         }
@@ -165,7 +167,9 @@ namespace ThienNga2.Controllers
 
             }
             String total = Convert.ToDecimal(totalprice).ToString("#,##0.00");
-
+            if (add.Equals("ko co")) add = "";
+            if (cusname.Equals("ko co")) cusname = "";
+            if (sdt.Equals("ko co")) sdt = "";
             using (StringWriter sw = new StringWriter())
             {
                 using (HtmlTextWriter hw = new HtmlTextWriter(sw))
@@ -179,7 +183,7 @@ namespace ThienNga2.Controllers
                     sb.Append("<tr><td><b>Mã số: </b>");
                     sb.Append(MaBill);
                     sb.Append("</td><td align = 'right'><b>Ngày: </b>");
-                    sb.Append(DateTime.Now);
+                    sb.Append(DateTime.Now.AddHours(7));
                     sb.Append(" </td></tr>");
                     sb.Append("<tr><td colspan = '2'><b>Tên khách </b>");
                     sb.Append(cusname);
@@ -312,6 +316,9 @@ namespace ThienNga2.Controllers
 
 
             }
+            if (add.Equals("ko co")) add = "";
+            if (cusname.Equals("ko co")) cusname = "";
+            if (sdt.Equals("ko co")) sdt = "";
             String total = Convert.ToDecimal(totalprice).ToString("#,##0.00");
             String vatt = Convert.ToDecimal(totalprice * 0.1).ToString("#,##0.00");
             String vattt = Convert.ToDecimal(totalprice * 1.1).ToString("#,##0.00");
@@ -328,7 +335,7 @@ namespace ThienNga2.Controllers
                     sb.Append("<tr><td><b>Mã số: </b>");
                     sb.Append(MaBill);
                     sb.Append("</td><td align = 'right'><b>Ngày: </b>");
-                    sb.Append(DateTime.Now);
+                    sb.Append(DateTime.Now.AddHours(7));
                     sb.Append(" </td></tr>");
                     sb.Append("<tr><td colspan = '2'><b>Tên khách </b>");
                     sb.Append(cusname);
@@ -481,6 +488,9 @@ namespace ThienNga2.Controllers
 
 
             }
+            if (add.Equals("ko co")) add = "";
+            if (cusname.Equals("ko co")) cusname = "";
+            if (sdt.Equals("ko co")) sdt = "";
             String total = Convert.ToDecimal(totalprice).ToString("#,##0");
             String vatt = Convert.ToDecimal(totalprice * 0.1).ToString("#,##0");
             String vattt = Convert.ToDecimal(totalprice * 1.1).ToString("#,##0");
@@ -497,7 +507,7 @@ namespace ThienNga2.Controllers
                     sb.Append("<tr><td><b>Mã số: </b>");
                     sb.Append(MaBill);
                     sb.Append("</td><td align = 'right'><b>Ngày: </b>");
-                    sb.Append(DateTime.Now);
+                    sb.Append(DateTime.Now.AddHours(7));
                     sb.Append(" </td></tr>");
                     sb.Append("<tr><td colspan = '2'><b>Tên khách </b>");
                     sb.Append(cusname);
@@ -660,6 +670,9 @@ namespace ThienNga2.Controllers
 
 
             }
+            if (add.Equals("ko co")) add = "";
+            if (cusname.Equals("ko co")) cusname = "";
+            if (sdt.Equals("ko co")) sdt = "";
             String total = Convert.ToDecimal(totalprice).ToString("#,##0");
             String vatt = Convert.ToDecimal(totalprice * 0.1).ToString("#,##0");
             String vattt = Convert.ToDecimal(totalprice * 1.1).ToString("#,##0");
@@ -676,7 +689,7 @@ namespace ThienNga2.Controllers
                     sb.Append("<tr><td><b>Mã số: </b>");
                     sb.Append(MaBill);
                     sb.Append("</td><td align = 'right'><b>Ngày: </b>");
-                    sb.Append(DateTime.Now);
+                    sb.Append(DateTime.Now.AddHours(7));
                     sb.Append(" </td></tr>");
                     sb.Append("<tr><td colspan = '2'><b>Tên khách </b>");
                     sb.Append(cusname);
