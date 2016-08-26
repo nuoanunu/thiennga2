@@ -119,7 +119,7 @@
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="customerID" Type="int" />
-    <Property Name="date" Type="date" Nullable="false" />
+    <Property Name="date" Type="datetime" Nullable="false" />
     <Property Name="total" Type="float" Nullable="false" />
     <Property Name="MaBill" Type="varchar" MaxLength="50" />
     <Property Name="vat" Type="bit" />

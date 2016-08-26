@@ -124,7 +124,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="customerID" Type="int" />
-          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
           <Property Name="total" Type="float" Nullable="false" />
           <Property Name="MaBill" Type="varchar" MaxLength="50" />
           <Property Name="vat" Type="bit" />
@@ -1195,7 +1195,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="customerID" Type="Int32" />
-          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="total" Type="Double" Nullable="false" />
           <Property Name="MaBill" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="vat" Type="Boolean" />

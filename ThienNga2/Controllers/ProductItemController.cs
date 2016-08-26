@@ -180,8 +180,15 @@ namespace ThienNga2.Controllers
             float total = 0;
 
             DateTime soldDate = DateTime.Now;
-            try { soldDate = new DateTime(tuple.year, tuple.month, tuple.date); }
+            try { soldDate = new DateTime(tuple.year, tuple.month, tuple.date);
+                soldDate=soldDate.AddHours(DateTime.Now.Hour + 7);
+                soldDate=soldDate.AddMinutes(DateTime.Now.Minute);
+            }
+
+
             catch (Exception e) { }
+
+            System.Diagnostics.Debug.WriteLine("HAHAHA " + soldDate.ToString());
             int inventoryID = tuple.inventoryID;
             tb_inventory_name inname = am.tb_inventory_name.Find(inventoryID);
             order ord = new order();
@@ -242,6 +249,7 @@ namespace ThienNga2.Controllers
 
                 }
                 ord.date = soldDate;
+                System.Diagnostics.Debug.WriteLine("HAHAHA 2 " + ord.date.ToString());
                 int TEMP = am.items.ToList().Count() + 2;
 
 
