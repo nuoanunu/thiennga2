@@ -32,9 +32,10 @@
     </script>
     
     <script>
+        
         var temp = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
         function checkHidden() {
-            for (i = 1 ; i < 20; i++) {
+            for (i = 1 ; i < 50; i++) {
 
                 if ($('#items_' + (i - 1) + '__SKU').val() != "") {
                     $('#items_' + (i - 1) + '__newSKU').prop('disabled', true);
@@ -103,7 +104,7 @@
             var vat = 0;
             var totalb4vat = 0;
             var totalatervat = 0;
-            for (var i = 0 ; i < 20 ; i++) {
+            for (var i = 0 ; i < 50 ; i++) {
                 var tempstr = $('#items_' + (i ) + '__thanhTienS').val();
                 while (tempstr.indexOf(',') != -1) tempstr = tempstr.replace(',', '');
                 var temp = parseFloat(tempstr);
@@ -179,7 +180,7 @@
                 
                         if (value != null) {
                             $('#items_' + (index - 1) + '__SKU').css("background-color", "green");
-                            $('input[type="submit"]').prop('disabled', false);
+                     
                             $('#items_' + (index - 1) + '__SKU').css("color", "white");
                                 $("#lid" + (index - 1)).empty();
                                 $("#lid" + (index - 1)).append(value);
@@ -197,13 +198,53 @@
             });
             if (!flag && $('#items_' + (index - 1) + '__SKU').val() != null) {
                 $('#items_' + (index - 1) + '__SKU').css("background-color", "orange");
-                $('input[type="submit"]').prop('disabled', true);
+     
+
                 $('#items_' + (index - 1) + '__SKU').css("color", "white");
             }
         };
+        function removeselect(i) {
+            for (var index = i; index < 50 ; index++) {
+                if ($('#items_' + (index + 1) + '__SKU').val() != "" || $('#items_' + (index + 1) + '__newSKU').val() != "") {
+                    $('#items_' + (index) + '__SKU').val($('#items_' + (index + 1) + '__SKU').val());
+                    $('#items_' + (index) + '__newSKU').val($('#items_' + (index + 1) + '__newSKU').val());
+                    $('#items_' + (index) + '__quantity').val($('#items_' + (index + 1) + '__quantity').val());
+                    $('#items_' + (index) + '__chietKhauPhanTram').val($('#items_' + (index + 1) + '__chietKhauPhanTram').val());
+                    $('#items_' + (index) + '__chietKhauTrucTiep').val($('#items_' + (index + 1) + '__chietKhauTrucTiep').val());
+                    $('#items_' + (index) + '__thanhTien').val($('#items_' + (index + 1) + '__thanhTien').val());
+                    $('#items_' + (index) + '__dongia').val($('#items_' + (index + 1) + '__dongia').val());
+                    $('#items_' + (index) + '__productID').val($('#items_' + (index + 1) + '__productID').val());
+                    $('#items_' + (index) + '__productName').val($('#items_' + (index + 1) + '__productName').val());
+                    $('#items_' + (index) + '__thanhTienS').val($('#items_' + (index + 1) + '__thanhTienS').val());
+                    $('#items_' + (index) + '__chietKhauTrucTiepS').val($('#items_' + (index + 1) + '__chietKhauTrucTiepS').val());
+                    $('#items_' + (index) + '__DonGiaS').val($('#items_' + (index + 1) + '__DonGiaS').val());
+                    $('#items_' + (index) + '__DonGiaS2').val($('#items_' + (index + 1) + '__DonGiaS2').val());
+                    $('#pid' + index).val($('#pid' + (index + 1)).val());
+                    $('#lid' + index).val($('#lid' + (index + 1)).val());
+                }
+                else {
+                    $('#items_' + (index) + '__SKU').val(null);
+                    $('#items_' + (index) + '__newSKU').val(null);
+                    $('#items_' + (index) + '__quantity').val(null);
+                    $('#items_' + (index) + '__chietKhauPhanTram').val(null);
+                    $('#items_' + (index) + '__chietKhauTrucTiep').val(null);
+                    $('#items_' + (index) + '__thanhTien').val(null);
+                    $('#items_' + (index) + '__dongia').val(null);
+                    $('#items_' + (index) + '__productID').val(null);
+                    $('#items_' + (index) + '__productName').val(null);
+                    $('#items_' + (index) + '__thanhTienS').val(null);
+                    $('#items_' + (index) + '__chietKhauTrucTiepS').val(null);
+                    $('#items_' + (index) + '__DonGiaS').val(null);
+                    $('#items_' + (index) + '__DonGiaS2').val(null);
+                    $('#pid' + index).val(null);
+                    $('#lid' + index).val(null);
+                }
+
+            }
+        }
         $(document).ready(function () {
         
-            for (i = 0; i < 20 ; i++) {
+            for (i = 0; i < 50 ; i++) {
                 $('#items_' + (i ) + '__SKU').autocomplete({
 
                     source: '@Url.Action("Autocomplete")'
@@ -324,7 +365,10 @@
                                     <label>Thành tiền @Html.TextBoxFor(Model => Model.items[i].thanhTienS, new { @class = "form-control", value = "0" })</label>
                                 </td>
                                 @Html.HiddenFor(Model => Model.items[i].thanhTien, new { @class = "form-control", value = "0" })
-                               
+                                @*<td align="center">
+                                    <img src="~/Content/images/red-delete-button-icon-62906.png" onclick="removeselect(@i)"/>
+                       
+                                </td>*@
                                
                             </tr>
 
@@ -332,15 +376,15 @@
                         @*</div>*@
                     }
                     <tr id="trVAT" style="display:none">
-                        <td colspan="7" align="left">VAT</td>
+                        <td colspan="7" align="right">VAT</td>
                         <td id="TotalVAT">  </td>
                     </tr>
                     <tr>
-                        <td colspan="7"  align="left">Tổng</td>
+                        <td colspan="7"  align="right">Tổng</td>
                         <td id="Totalb4VAT">  </td>
                     </tr>
                     <tr id="trTT" style="display:none">
-                        <td colspan="7"  align="left">Thành tiền</td>
+                        <td colspan="7"  align="right">Thành tiền</td>
                         <td id="TotalAterVAT">  </td>
                     </tr>
                     

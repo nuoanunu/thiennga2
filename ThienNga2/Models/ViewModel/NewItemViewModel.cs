@@ -13,8 +13,7 @@ namespace ThienNga2.Models.ViewModel
     {
         public Boolean VAT { get; set; }
         public String cusName { get; set; }
-        [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number")]
+
         public String phoneNumber { get; set; }
 
         public String Email { get; set; }
@@ -29,7 +28,7 @@ namespace ThienNga2.Models.ViewModel
 
         public NewItemViewModel() {
             items = new List<AnOrderDetail>();
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < 50; i++) {
                 AnOrderDetail war = new AnOrderDetail();
                 items.Add(war);
 
