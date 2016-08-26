@@ -89,6 +89,37 @@
 
         };
         setInterval(checkHidden, 100);
+        setInterval(tinhtotal, 100);
+        function tinhtotal() {
+            if ($("#VAT").is(':checked')) {
+         
+                $("#trTT").show();
+                $("#trVAT").show();
+            }
+            else {
+                $("#trVAT").hide();
+                $("#trTT").hide();
+            }
+            var vat = 0;
+            var totalb4vat = 0;
+            var totalatervat = 0;
+            for (var i = 0 ; i < 20 ; i++) {
+                var tempstr = $('#items_' + (i ) + '__thanhTienS').val();
+                while (tempstr.indexOf(',') != -1) tempstr = tempstr.replace(',', '');
+                var temp = parseFloat(tempstr);
+               // alert(temp);
+                if (temp > 0) {
+                    totalb4vat =Math.floor(  totalb4vat + temp);
+                    totalatervat = Math.floor( totalb4vat * 1.1);
+                    vat = Math.floor( totalb4vat * 0.1);
+                }
+              
+            }
+            $("#Totalb4VAT").text(numberWithCommas(totalb4vat));
+            $("#TotalAterVAT").text(numberWithCommas(totalatervat));
+            $("#TotalVAT").text(numberWithCommas(vat));
+            
+        }
         function numberWithCommas(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
@@ -300,7 +331,19 @@
 
                         @*</div>*@
                     }
-
+                    <tr id="trVAT" style="display:none">
+                        <td colspan="7" align="left">VAT</td>
+                        <td id="TotalVAT">  </td>
+                    </tr>
+                    <tr>
+                        <td colspan="7"  align="left">Tổng</td>
+                        <td id="Totalb4VAT">  </td>
+                    </tr>
+                    <tr id="trTT" style="display:none">
+                        <td colspan="7"  align="left">Thành tiền</td>
+                        <td id="TotalAterVAT">  </td>
+                    </tr>
+                    
                 </table>
                 <div class="button-section">
                     VAT @Html.CheckBoxFor(m => m.VAT)

@@ -18,6 +18,7 @@
     <script>
         $(document).ready(function () {
             $('#fee2').DataTable();
+            $('#fee').DataTable();
         });
     </script>
 
@@ -141,9 +142,11 @@
 
         }
         <div>
-            Danh sách sản phẩm gần đây
+           
             @if (ViewData["dspspgd"] != null)
             {
+
+                <p>Danh sách sản phẩm gần đây</p>
                 <table id="fee2" class="table table-striped table-bordered" cellspacing="0">
                     <thead>
                         <tr>
@@ -364,54 +367,55 @@
                 </table>
             }
             else
-            {
-                <table id="fee" class="table table-striped table-bordered" cellspacing="0">
+            {<div>
+            <table id="fee" class="table table-striped table-bordered" cellspacing="0">
+                <tr>
+                    <th> SKU </th>
+                    <th> Mã báo giá </th>
+                    <th> Tên sản phẩm </th>
+                    <th> Tên Khách </th>
+                    <th> SDT</th>
+                    <th> Ngày giờ mua</th>
+                    <th> Chi tiết</th>
+                </tr>
+
+                @foreach (item i in (List
+                    <item>
+                        )ViewData["dspsp"])
+                {
                     <tr>
-                        <th> SKU </th>
-                        <th> Mã báo giá </th>
-                        <th> Tên sản phẩm </th>
-                        <th> Tên Khách </th>
-                        <th> SDT</th>
-                        <th> Ngày giờ mua</th>
-                        <th> Chi tiết</th>
-                    </tr>
+                        <td>
+                            @i.tb_product_detail.productStoreID
+                        </td>
+                        <td>
+                            @i.productID
+                        </td>
 
-                    @foreach (item i in (List
-                <item>
-                    )ViewData["dspsp"])
-                    {
-                        <tr>
-                            <td>
-                                @i.tb_product_detail.productStoreID
-                            </td>
-                            <td>
-                                @i.productID
-                            </td>
-
-                            <td>
-                                @i.tb_product_detail.productName
-                            </td>
-                            <td>
-                                @i.tb_customer.customerName
-                            </td>
-                            <td>
-                                @i.tb_customer.phonenumber
-                            </td>
-                            <td>
-                                @i.DateOfSold
-                            </td>
-                            <td>
-                                @using (Html.BeginForm("Search", "KickHoatBaoHanh"))
-                                {
-                                    <input type="hidden" name="code" value="@i.productID" />
+                        <td>
+                            @i.tb_product_detail.productName
+                        </td>
+                        <td>
+                            @i.tb_customer.customerName
+                        </td>
+                        <td>
+                            @i.tb_customer.phonenumber
+                        </td>
+                        <td>
+                            @i.DateOfSold
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("Search", "KickHoatBaoHanh"))
+                            {
+                                <input type="hidden" name="code" value="@i.productID" />
                                     <input type="hidden" name="searchType" value="masp" />
                                     <button type="submit" name=" Chi tiết">Chi tiết</button>
-                                }
-                            </td>
-                        </tr>
-                    }
+                            }
+                        </td>
+                    </tr>
+                }
 
-                </table>
+            </table>
+        </div>
             }
         }
 
