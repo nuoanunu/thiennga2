@@ -212,6 +212,9 @@
                             <th>
                                 Ngày mua
                             </th>
+                            <th>
+                                Số lượng IMEI đã nhập
+                            </th>
                             <th>Chi tiết</th>
 
 
@@ -234,7 +237,7 @@
                                 @if (ee.CustomerType1 != null)
                                 {
 
-                                    <td bgcolor="@ee.CustomerType1.Color">Nhóm khách: @ee.CustomerType1.GroupName</td>
+                                    <td bgcolor="@ee.CustomerType1.Color">@ee.CustomerType1.GroupName</td>
 
                                 }
                                 else
@@ -244,6 +247,17 @@
                                 <td>
                                     @ee.DateOfSold
                                 </td>
+                               
+                                   @if (ee.warrantyAvailable == true)
+                                   {
+                                    <td>
+                                        @ee.tb_warranty.ToList().Count()
+                                    </td>
+                                   }
+                                   else {
+                                       <td>Sản phẩm ko được bảo hành</td>
+                                   }
+
                                 <td>
                                     @using (Html.BeginForm("Search", "KickHoatBaoHanh"))
                                     {
