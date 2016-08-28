@@ -30,6 +30,8 @@ namespace ThienNga2.Models.ViewModel
             items = new List<AnOrderDetail>();
             for (int i = 0; i < 20; i++) {
                 AnOrderDetail war = new AnOrderDetail();
+                war.warrantyAvailable = true;
+              
                 items.Add(war);
 
             }
@@ -145,6 +147,7 @@ namespace ThienNga2.Models.ViewModel
         public string chietKhauTrucTiepS { get; set; }
         public string DonGiaS { get; set; }
         public string DonGiaS2 { get; set; }
+        public bool warrantyAvailable { get; set; }
 
     }
     public class HoaDonBaoHanhCheck {

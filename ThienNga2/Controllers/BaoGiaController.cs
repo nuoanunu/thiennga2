@@ -61,6 +61,11 @@ namespace ThienNga2.Controllers
                         tuple.items[index].quantity = int.Parse(orddetail.Quantity);
                         tuple.items[index].thanhTien = (float)(int.Parse(orddetail.Quantity) * dt.price);
                         tuple.items[index].dongia = (float)dt.price;
+                        if (dt.id == 499) {
+                            tuple.items[index].productName = orddetail.TempName;
+                        
+                        }
+                        else
                         tuple.items[index].productName = dt.productName;
                         if (orddetail.DonGia == null && orddetail.productDetailID != "00000000")
                         {

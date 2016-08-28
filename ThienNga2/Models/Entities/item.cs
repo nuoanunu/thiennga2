@@ -28,6 +28,8 @@ namespace ThienNga2.Models.Entities
         public System.DateTime DateOfSold { get; set; }
         public int orderID { get; set; }
         public Nullable<int> CustomerType { get; set; }
+        public Nullable<bool> warrantyAvailable { get; set; }
+        public string tempname { get; set; }
     
         public virtual CustomerType CustomerType1 { get; set; }
         public virtual order order { get; set; }

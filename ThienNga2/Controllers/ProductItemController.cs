@@ -134,25 +134,30 @@ namespace ThienNga2.Controllers
         }
         public ActionResult Autocomplete(string term)
         {
-
-            allname = am.ThienNga_FindProductName2("").ToList();
-
-            foreach (tb_product_detail a in am.tb_product_detail.ToList())
-            {
-                if (!a.productStoreID.Contains("NULL"))
-                    allname.Add(a.producFactoryID);
-                allname.Add(a.productStoreID);
-            }
-
             List<String> result = new List<string>();
-            foreach (String e in allname)
+            try
             {
-                if (e.IndexOf(term, StringComparison.InvariantCultureIgnoreCase) >= 0)
+                allname = am.ThienNga_FindProductName2("").ToList();
+
+                foreach (tb_product_detail a in am.tb_product_detail.ToList())
                 {
-                    result.Add(e);
+                    if (!a.productStoreID.Contains("NULL"))
+                        allname.Add(a.producFactoryID);
+                    allname.Add(a.productStoreID);
                 }
+
+               
+                foreach (String e in allname)
+                {
+                    if (e.IndexOf(term, StringComparison.InvariantCultureIgnoreCase) >= 0)
+                    {
+                        result.Add(e);
+                    }
+                }
+                //  return Json(result);
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
-            //  return Json(result);
+            catch (Exception e) { }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         // GET: ProductItem/Details/5
@@ -315,6 +320,7 @@ namespace ThienNga2.Controllers
                             for (int i = 0; i < ao.quantity; i++)
                             {
                                 item it = new item();
+                                it.warrantyAvailable = ao.warrantyAvailable;
                                 it.customerID = cus.id;
                                 it.orderID = ord.id;
                                 it.inventoryID = inventoryID;
@@ -372,18 +378,22 @@ namespace ThienNga2.Controllers
                                     detail.SoLuong = ao.quantity + "";
                                     detail.orderID = ord.id;
                                     detail.productDetailID = "00000000";
-                                    detail.DonGia = ao.DonGiaS;
+                                    detail.DonGia = ao.DonGiaS2;
                                     detail.ThanhTien = ao.thanhTienS;
+                                    detail.TempName = ao.newSKU;
                                     am.orderDetails.Add(detail);
                                     am.SaveChanges();
                                     lstOrderDetaiLID.Add(detail.id);
                                     for (int i = 0; i < ao.quantity; i++)
                                     {
                                         item it = new item();
+                                        it.warrantyAvailable = ao.warrantyAvailable;
                                         it.customerID = cus.id;
                                         it.orderID = ord.id;
                                         it.inventoryID = inventoryID;
                                         it.productDetailID = 499;
+                                        it.tempname = ao.newSKU;
+
                                         String day = DateTime.Today.Day + ""; if (day.Length == 1) day = "0" + day;
                                         String month = DateTime.Today.Month + ""; if (month.Length == 1) month = "0" + month;
                                         String year = DateTime.Today.Year + ""; if (year.Length == 1) year = "0" + year;

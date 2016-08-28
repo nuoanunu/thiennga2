@@ -102,6 +102,8 @@
     <Property Name="DateOfSold" Type="date" Nullable="false" />
     <Property Name="orderID" Type="int" Nullable="false" />
     <Property Name="CustomerType" Type="int" />
+    <Property Name="warrantyAvailable" Type="bit" />
+    <Property Name="tempname" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="log">
     <Key>
@@ -138,6 +140,7 @@
     <Property Name="orderID" Type="int" Nullable="false" />
     <Property Name="DonGia" Type="nvarchar" MaxLength="50" />
     <Property Name="ThanhTien" Type="nvarchar" MaxLength="50" />
+    <Property Name="TempName" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="role">
     <Key>

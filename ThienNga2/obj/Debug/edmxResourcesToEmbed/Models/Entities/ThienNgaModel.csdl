@@ -432,6 +432,8 @@
     <NavigationProperty Name="tb_inventory_name" Relationship="ThienNgaDatabaseModel.FK_item_tb_inventory_name" FromRole="item" ToRole="tb_inventory_name" />
     <NavigationProperty Name="tb_product_detail" Relationship="ThienNgaDatabaseModel.FK_item_tb_product_detail" FromRole="item" ToRole="tb_product_detail" />
     <NavigationProperty Name="tb_warranty" Relationship="ThienNgaDatabaseModel.FK_tb_warranty_item" FromRole="item" ToRole="tb_warranty" />
+    <Property Name="warrantyAvailable" Type="Boolean" />
+    <Property Name="tempname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="log">
     <Key>
@@ -473,6 +475,7 @@
     <NavigationProperty Name="order" Relationship="ThienNgaDatabaseModel.FK_orderDetail_order" FromRole="orderDetail" ToRole="order" />
     <Property Name="DonGia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ThanhTien" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TempName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="role">
     <Key>

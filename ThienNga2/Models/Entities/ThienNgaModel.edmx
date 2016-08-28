@@ -107,6 +107,8 @@
           <Property Name="DateOfSold" Type="date" Nullable="false" />
           <Property Name="orderID" Type="int" Nullable="false" />
           <Property Name="CustomerType" Type="int" />
+          <Property Name="warrantyAvailable" Type="bit" />
+          <Property Name="tempname" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="log">
           <Key>
@@ -143,6 +145,7 @@
           <Property Name="orderID" Type="int" Nullable="false" />
           <Property Name="DonGia" Type="nvarchar" MaxLength="50" />
           <Property Name="ThanhTien" Type="nvarchar" MaxLength="50" />
+          <Property Name="TempName" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="role">
           <Key>
@@ -1177,6 +1180,8 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <NavigationProperty Name="tb_inventory_name" Relationship="ThienNgaDatabaseModel.FK_item_tb_inventory_name" FromRole="item" ToRole="tb_inventory_name" />
           <NavigationProperty Name="tb_product_detail" Relationship="ThienNgaDatabaseModel.FK_item_tb_product_detail" FromRole="item" ToRole="tb_product_detail" />
           <NavigationProperty Name="tb_warranty" Relationship="ThienNgaDatabaseModel.FK_tb_warranty_item" FromRole="item" ToRole="tb_warranty" />
+          <Property Name="warrantyAvailable" Type="Boolean" />
+          <Property Name="tempname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="log">
           <Key>
@@ -1218,6 +1223,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <NavigationProperty Name="order" Relationship="ThienNgaDatabaseModel.FK_orderDetail_order" FromRole="orderDetail" ToRole="order" />
           <Property Name="DonGia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ThanhTien" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TempName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="role">
           <Key>
@@ -1855,6 +1861,8 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <EntitySetMapping Name="items">
             <EntityTypeMapping TypeName="ThienNgaDatabaseModel.item">
               <MappingFragment StoreEntitySet="item">
+                <ScalarProperty Name="tempname" ColumnName="tempname" />
+                <ScalarProperty Name="warrantyAvailable" ColumnName="warrantyAvailable" />
                 <ScalarProperty Name="CustomerType" ColumnName="CustomerType" />
                 <ScalarProperty Name="orderID" ColumnName="orderID" />
                 <ScalarProperty Name="DateOfSold" ColumnName="DateOfSold" />
@@ -1893,6 +1901,7 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <EntitySetMapping Name="orderDetails">
             <EntityTypeMapping TypeName="ThienNgaDatabaseModel.orderDetail">
               <MappingFragment StoreEntitySet="orderDetail">
+                <ScalarProperty Name="TempName" ColumnName="TempName" />
                 <ScalarProperty Name="ThanhTien" ColumnName="ThanhTien" />
                 <ScalarProperty Name="DonGia" ColumnName="DonGia" />
                 <ScalarProperty Name="orderID" ColumnName="orderID" />
