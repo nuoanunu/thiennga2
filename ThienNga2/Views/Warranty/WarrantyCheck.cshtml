@@ -280,7 +280,8 @@
         {
             <div>
                 @if (ViewData["lsbh"] != null)
-                {
+                { if( ((List<tb_warranty_activities>)ViewData["lsbh"]).Count() >1)
+                    {
                     <table class="table table-striped table-bordered" cellspacing="0" >
                         <tr>
                             <th colspan="8"> <h6> Các kết quả tìm thấy </h6></th>
@@ -332,11 +333,12 @@
                         }
 
                     </table>
+                    }
                 }
                 else
                 {
                     <font color="red">Ko tìm thấy kết quả nào</font>
-                }
+        }
             </div>
         }
     }
