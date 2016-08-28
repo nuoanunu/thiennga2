@@ -34,25 +34,49 @@ namespace ThienNga2.Controllers
         // GET: KickHoatBaoHanh/Search
         public ActionResult Search(String code, String searchType)
         {
-            try {  
-            code = code.Trim();
-            if (searchType == null) searchType = "id";          
-                if (code.Trim().Length > 0) {
-                    if (searchType.Equals("masp")) {
-                        var dssp = am.items.SqlQuery("SELECT * FROM dbo.item WHERE productID LIKE '%" + code + "%'").ToList();
-                        if(dssp!=null){
+            try
+            {
+                code = code.Trim();
+                if (searchType == null) searchType = "id";
+
+                if (code.Trim().Length > 0)
+                {
+                    if (searchType.Equals("id")) {
+                        var dssp = am.items.SqlQuery("SELECT * FROM dbo.item WHERE id =" + code).ToList();
+                        if (dssp != null)
+                        {
                             ViewData["dspsp"] = dssp;
                             List<item> lst = dssp;
-                     
-                            if (lst.Count == 1) {
-               
 
-                              item it = lst.ElementAt(0);
-                               ViewData["warList"] = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE itemID =" + it.id ).ToList();
+                            if (lst.Count == 1)
+                            {
+
+
+                                item it = lst.ElementAt(0);
+                                ViewData["warList"] = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE itemID =" + it.id).ToList();
                             }
                         }
                     }
-                    else if (searchType.Equals("date")) {
+                    else
+                    if (searchType.Equals("masp"))
+                    {
+                        var dssp = am.items.SqlQuery("SELECT * FROM dbo.item WHERE productID LIKE '%" + code + "%'").ToList();
+                        if (dssp != null)
+                        {
+                            ViewData["dspsp"] = dssp;
+                            List<item> lst = dssp;
+
+                            if (lst.Count == 1)
+                            {
+
+
+                                item it = lst.ElementAt(0);
+                                ViewData["warList"] = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE itemID =" + it.id).ToList();
+                            }
+                        }
+                    }
+                    else if (searchType.Equals("date"))
+                    {
                         var dssp = am.items.SqlQuery("SELECT * FROM dbo.item WHERE productID LIKE '%" + code + "%'").ToList();
                         if (dssp != null)
                         {
@@ -61,11 +85,12 @@ namespace ThienNga2.Controllers
                             if (lst.Count == 1)
                             {
                                 item it = lst.ElementAt(0);
-                                ViewData["warList"] = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE itemID = " + it.id ).ToList();
+                                ViewData["warList"] = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE itemID = " + it.id).ToList();
                             }
                         }
                     }
-                    else if (searchType.Equals("sdt")) {
+                    else if (searchType.Equals("sdt"))
+                    {
                         if (code.Length > 6) code = code.Substring(code.Length - 6);
                         var dssp = am.items.SqlQuery("SELECT * FROM dbo.item WHERE productID LIKE '%" + code + "%'").ToList();
                         if (dssp != null)
@@ -75,11 +100,12 @@ namespace ThienNga2.Controllers
                             if (lst.Count == 1)
                             {
                                 item it = lst.ElementAt(0);
-                                ViewData["warList"] = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE itemID = " + it.id ).ToList();
+                                ViewData["warList"] = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE itemID = " + it.id).ToList();
                             }
                         }
                     }
-                    else if (searchType.Equals("sku")) {
+                    else if (searchType.Equals("sku"))
+                    {
                         var dssp = am.items.SqlQuery("SELECT * FROM dbo.item WHERE productID LIKE '%" + code + "%'").ToList();
                         if (dssp != null)
                         {
@@ -88,30 +114,46 @@ namespace ThienNga2.Controllers
                             if (lst.Count == 1)
                             {
                                 item it = lst.ElementAt(0);
-                                ViewData["warList"] = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE itemID  =" + it.id ).ToList();
+                                ViewData["warList"] = am.tb_warranty.SqlQuery("SELECT * FROM dbo.tb_warranty WHERE itemID  =" + it.id).ToList();
                             }
                         }
                     }
                 }
             }
-            catch (Exception e) {
-               
+            catch (Exception e)
+            {
+
             }
             var model = new KichHoatBaoHanh();
-            return View("index" , model);
+            return View("index", model);
         }
-        [HttpPost]
+
         public ActionResult Delete(String warrantyID, String itemID)
         {
             System.Diagnostics.Debug.WriteLine("cc j vay " + int.Parse(warrantyID));
 
-           
+
             tb_warranty a = am.tb_warranty.Find(int.Parse(warrantyID));
             am.tb_warranty.Remove(a);
             am.SaveChanges();
-            return RedirectToAction("Search", "KickHoatBaoHanh", new { code = itemID, searchType = "masp" });
+            return RedirectToAction("Search", "KickHoatBaoHanh", new { code = itemID, searchType = "id" });
         }
-        public String checking(String IMEI) {
+        public ActionResult Delete2(String warrantyID, String itemID)
+        {
+
+            try
+            {
+                tb_warranty a = am.tb_warranty.SqlQuery("SELECT * FROM tb_warranty where warrantyID='" + warrantyID + "'").FirstOrDefault();
+                am.tb_warranty.Remove(a);
+                am.SaveChanges();
+                return RedirectToAction("Search", "KickHoatBaoHanh", new { code = itemID, searchType = "id" });
+            }
+            catch (Exception e) { }
+            return RedirectToAction("Search", "KickHoatBaoHanh", new { code = itemID, searchType = "id" });
+
+        }
+        public String checking(String IMEI)
+        {
             try
             {
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -124,50 +166,54 @@ namespace ThienNga2.Controllers
                         wwww.name = "co";
                         return serializer.Serialize(wwww);
                     }
-                        
+
                 }
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
 
             }
             return "";
         }
-        public ActionResult newWarranty( KichHoatBaoHanh kick) {
-           
+        public String newWarranty(String imei, int day, int month, int year, int duration, String mieuta, String chinhphu, int itemID)
+        {
+            tb_warranty war = new tb_warranty();
+            war.itemID = itemID;
+            war.warrantyID = imei;
+            war.duration = duration;
+            war.MaChinh = bool.Parse(chinhphu);
+            war.description = mieuta;
             try
             {
-                int i = 0;
-                foreach (tb_warranty war in kick.lst)
+                DateTime date = new DateTime(year, month, day);
+                if (date != null)
                 {
-                   
-                    
-                    System.Diagnostics.Debug.WriteLine("dahel " + i + " "+ war.itemID + "   " + war.warrantyID + "  " + war.startdate);
-                    try
-                    {
-                        DateTime date = new DateTime(kick.lstYear[i], kick.lstMonth[i], kick.lstDay[i]);
-                        if (date != null)
+                    if (date.Year > 2000 && date.Month > 0 && date.Day > 0)
+                        if (war.itemID > 0 && war.warrantyID != null && war.duration > 0)
                         {
-                            if (date.Year > 2000 && date.Month > 0 && date.Day > 0)
-                                if (war.itemID >0 && war.warrantyID != null && war.duration > 0)
-                                {
 
 
-                                    war.startdate = date;
-                                    am.tb_warranty.Add(war);
-                                }
+                            war.startdate = date;
+                            am.tb_warranty.Add(war);
+                            am.SaveChanges();
+
+                            JavaScriptSerializer serializer = new JavaScriptSerializer();
+                            checkwarModel model = new checkwarModel();
+                            model.name = "thanhcong";
+                            return serializer.Serialize(model);
                         }
-                    }
-                    catch (Exception e) {
-
-                    }
-                    i = i + 1;
                 }
-                am.SaveChanges();
             }
-            catch (Exception e) { }
-            return RedirectToAction("Search", "KickHoatBaoHanh", new { code = kick.itemID, searchType = "masp" });
+            catch (Exception e)
+            {
+
+            }
+
+
+
+            return "";
         }
-        
+
         // POST: KickHoatBaoHanh/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
@@ -207,9 +253,9 @@ namespace ThienNga2.Controllers
         }
 
         // GET: KickHoatBaoHanh/Delete/5
-  
+
 
         // POST: KickHoatBaoHanh/Delete/5
-        
+
     }
 }

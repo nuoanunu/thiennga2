@@ -20,6 +20,49 @@
             $('#fee2').DataTable();
             $('#fee').DataTable();
         });
+        function KichHoatBaoHanh(index) {
+            var itemid = $("#lst_" + index + "__itemID").val();
+            var imei = $("#lst_" + index + "__warrantyID").val();
+            var day = $("#lstDay_" + index + "_").val();
+            var month = $("#lstMonth_" + index + "_").val();
+            var year = $("#lstYear_" + index + "_").val();
+            var duration = $("#lst_" + index + "__duration").val();
+            var chinphu = "false";
+            if ($("#lst_"+index+"__MaChinh").is(':checked'))
+            {
+                chinphu = "true";
+            }
+            var mota = $("#lst_" + index + "__description").val();
+
+            $.getJSON("/KickHoatBaoHanh/newWarranty?imei=" + imei + "&day=" + day + "&month=" + month + "&year=" + year + "&duration=" + duration + "&mieuta=" + mota + "&chinhphu=" + chinphu + "&itemID=" + itemid, function (result) {
+                $.each(result, function (name, value) {
+                    if (name == "name") {
+                        if (value == "thanhcong") {
+                            alert("Cập nhật thành công");
+                            $("#tdwarrantyID" + index).text(imei);
+
+                            $("#tddate" + index).text(day+ "/" +month + "/" + year);
+
+                            $("#dtduration" + index).text(duration);
+
+                            $("#description" + index).text(mota);
+                            if ($("#lst_"+index+"__MaChinh").is(':checked'))
+                                {
+                                $("#machim" + index).text("Mã Chính");
+                            }
+                            else 
+                                $("#machim" + index).text("Mã phụ");
+                            }
+                         
+                            $("#cainut" + index).text("");
+                            $("#cainut" + index).append('<a href="/KickHoatBaoHanh/Delete2?warrantyID=' + imei + '&itemID=' + itemid + '">Xóa</a>');
+                        }                
+
+                });
+
+            });
+        }
+
     </script>
 
     <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
@@ -142,7 +185,7 @@
 
         }
         <div>
-           
+
             @if (ViewData["dspspgd"] != null)
             {
 
@@ -172,6 +215,7 @@
                             <th>Chi tiết</th>
 
 
+
                         </tr>
 
                     </thead>
@@ -198,7 +242,8 @@
                                     <td></td>
                                 }
                                 <td>
-                                    @ee.DateOfSold</td>
+                                    @ee.DateOfSold
+                                </td>
                                 <td>
                                     @using (Html.BeginForm("Search", "KickHoatBaoHanh"))
                                     {
@@ -264,9 +309,11 @@
                         <th>
                             Mã chính
                         </th>
+                        <th>Cập nhật</th>
                         <th>
                             xóa
                         </th>
+
                     </tr>
                     @if (ViewData["warList"] != null)
                     {
@@ -321,49 +368,46 @@
                         }
                     }
 
-                    @using (Html.BeginForm("newWarranty", "KickHoatBaoHanh", FormMethod.Post))
+
+
+                    @model KichHoatBaoHanh
+                    @Html.HiddenFor(x => x.itemID, new { @Value = it.productID })
+                    @for (var i = 0; i < Model.lst.Count; i++)
                     {
 
-                        @model KichHoatBaoHanh
-                        @Html.AntiForgeryToken()
+                        string id = "tr" + i;
+                        @Html.HiddenFor(x => x.lst[i].itemID, new { @class = "datefield form-control", @Value = it.id })
+                        <tr id='@id'>
+                            <td id="@("tdwarrantyID"+i)">
 
-
-                        @Html.HiddenFor(x => x.itemID, new { @Value = it.productID })
-                        for (var i = 0; i < Model.lst.Count; i++)
-                        {
-
-                            string id = "tr" + i;
-
-                            <tr id='@id'>
-                                <td>
-                                    @Html.HiddenFor(x => x.lst[i].itemID, new { @class = "datefield form-control", @Value = it.id })
-                                    @Html.TextBoxFor(x => x.lst[i].warrantyID, new { @class = "datefield form-control" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(x => x.lstDay[i], new { @class = "singleTextBox", @Value = DateTime.Now.Day })
-                                    @Html.TextBoxFor(x => x.lstMonth[i], new { @class = "singleTextBox", @Value = DateTime.Now.Month })
-                                    @Html.TextBoxFor(x => x.lstYear[i], new { @class = "singleTextBox", @Value = DateTime.Now.Year })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(x => x.lst[i].duration, new { @class = "datefield form-control" })
-                                </td>
-
-                                <td>
-                                    @Html.TextBoxFor(x => x.lst[i].description, new { @class = "datefield form-control" })
-                                </td>
-                                <td>
-                                    @Html.CheckBoxFor(x => x.lst[i].MaChinh, new { @class = "datefield form-control" })
-                                </td>
-                            </tr>
-                        }
-                        <tr>
-                            <td>
-                                <input type="submit" value="Cập nhật" />
+                                @Html.TextBoxFor(x => x.lst[i].warrantyID, new { @class = "datefield form-control" })
+                            </td>
+                            <td id="@("tddate"+i)">
+                                @Html.TextBoxFor(x => x.lstDay[i], new { @class = "singleTextBox", @Value = DateTime.Now.Day })
+                                @Html.TextBoxFor(x => x.lstMonth[i], new { @class = "singleTextBox", @Value = DateTime.Now.Month })
+                                @Html.TextBoxFor(x => x.lstYear[i], new { @class = "singleTextBox", @Value = DateTime.Now.Year })
+                            </td>
+                            <td id="@("dtduration"+i)">
+                                
+                                @Html.TextBoxFor(x => x.lst[i].duration, new { @class = "datefield form-control" })
                             </td>
 
+                            <td id="@("description"+i)">
+                                
+                                @Html.TextBoxFor(x => x.lst[i].description, new { @class = "datefield form-control" })
+                            </td>
+                            <td id="@("machim"+i)">
+                                
+                                @Html.CheckBoxFor(x => x.lst[i].MaChinh, new { @class = "datefield form-control" })
+                            </td>
+                            <td id="@("cainut"+i)">
+                                <button onclick="KichHoatBaoHanh(@i)"  >Cập nhật </button>
+                            </td>
                         </tr>
-
                     }
+
+
+
                 </table>
             }
             else
@@ -380,8 +424,8 @@
                 </tr>
 
                 @foreach (item i in (List
-                    <item>
-                        )ViewData["dspsp"])
+                        <item>
+                            )ViewData["dspsp"])
                 {
                     <tr>
                         <td>
@@ -407,7 +451,7 @@
                             @using (Html.BeginForm("Search", "KickHoatBaoHanh"))
                             {
                                 <input type="hidden" name="code" value="@i.productID" />
-                                    <input type="hidden" name="searchType" value="masp" />
+                                <input type="hidden" name="searchType" value="masp" />
                                     <button type="submit" name=" Chi tiết">Chi tiết</button>
                             }
                         </td>
