@@ -59,40 +59,32 @@ namespace ThienNga2.Areas.Admin.Controllers
         [HttpPost]
         // POST: ProductDetail/Create
         public ActionResult Create(tb_product_detail Model)
-        {
-            if (Model != null)
+        {   try
             {
-                int id = -1;
-                if (am.ThienNga_FindProductDetailID(Model.productStoreID).FirstOrDefault().HasValue )
-                    id = (int)am.ThienNga_FindProductDetailID(Model.productStoreID).FirstOrDefault().Value;
-                else if (am.ThienNga_FindProductDetailID(Model.producFactoryID).FirstOrDefault().HasValue)
-                    id = (int)am.ThienNga_FindProductDetailID(Model.producFactoryID).FirstOrDefault().Value;
-                else if (am.ThienNga_FindProductDetailID(Model.productName).FirstOrDefault().HasValue )
-                    id = (int)am.ThienNga_FindProductDetailID(Model.productName).FirstOrDefault().Value;
-                if (id < 1 )
+                if (Model != null)
                 {
-                    Model.tb_cate = am.tb_cate.Find(Model.cateID);
-                    if (Model.producFactoryID == null || Model.producFactoryID.Equals("")) { Model.producFactoryID = Model.productStoreID; }
-                    am.tb_product_detail.Add(Model);
-                    am.SaveChangesAsync();
-                }
-                else {
-       
-                    tb_product_detail edit = am.tb_product_detail.Find(id);
-                    edit.cateID = Model.cateID;
-             
-                    edit.price = Model.price;
-                    edit.producFactoryID = Model.producFactoryID;
-                    edit.productStoreID = Model.productStoreID;
+                    int id = -1;
                     
-                    edit.minThresHold = Model.minThresHold;
-                    System.Diagnostics.Debug.WriteLine("CCCCCCC " + edit.minThresHold);
-                    edit.productName = Model.productName;
-                    am.SaveChanges();
+                    if (id < 1)
+                    {
+                        Model.tb_cate = am.tb_cate.Find(Model.cateID);
+                        if (Model.producFactoryID == null || Model.producFactoryID.Equals("")) {
+                            Model.producFactoryID = Model.productStoreID;
+                        }
+                        if (Model.productStoreID == null || Model.productStoreID.Equals(""))
+                        {
+                            Model.productStoreID = Model.producFactoryID;
+                        }
+                        am.tb_product_detail.Add(Model);
+                        am.SaveChanges();
+                    }
+                    
+                    ViewData["newproduct"] = Model;
+                    return View("ConfirmNewProduct");
                 }
-                ViewData["newproduct"] = Model;
-                return View("ConfirmNewProduct");
             }
+            catch (Exception e) {
+     }
             return View("NewProduct");
         }
         [HttpPost]
