@@ -31,8 +31,9 @@ namespace ThienNga2.Areas.Admin.Controllers
         public String getAllData(String sku) {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             try {
-                tb_product_detail dt = am.ThienNga_FindProduct2(sku).First();
-                if (dt != null) {
+                tb_product_detail dt = am.tb_product_detail.SqlQuery("SELECT * FROM tb_product_detail where productStoreID='" + sku + "' or producFactoryID='" + sku + "'").FirstOrDefault();
+                if (dt != null)
+                {
                     productDetailView pdv = new productDetailView();
                     if (dt.minThresHold != 0)
                         pdv.minThreashold = dt.minThresHold.ToString();
@@ -43,9 +44,14 @@ namespace ThienNga2.Areas.Admin.Controllers
                     pdv.price = dt.price.ToString();
                     return serializer.Serialize(pdv);
                 }
+                else {
+                    productDetailView pdv = new productDetailView();
+                    pdv.productName = "";
+                    return serializer.Serialize(pdv);
+                }
             }
             catch (Exception e) {
-
+               
             }
             return "";
         }

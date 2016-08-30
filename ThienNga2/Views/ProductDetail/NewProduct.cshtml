@@ -8,22 +8,69 @@
     <link rel="stylesheet" type="text/css" href="~/Content/formTemplate.css">
     <script>
         var sku = "";
+        var factt = "";
+        var active1 = true;
+        var active2 = true;
         function checkPD() {
-             
+            var ii = 0;
+           
             if ($("#productStoreID").val() != sku) {
+               
                 sku = $("#productStoreID").val();
                 $.getJSON("/ProductDetail/getAllData?sku=" + sku, function (result) {
                     $.each(result, function (name, value) {
-                        if (name == "productName") { $("#productName").val(value); }
-                        if (name == "minThresHold") { $("#minThresHold").val(value); }
-                        if (name == "factCoe") { $("#producFactoryID").val(value); }
-                        if (name == "price") { $("#price").val(value); }
+                        if (name == "productName") {
+                            if (value != "") {
+                                active1 = false;
+                                $('#productStoreID').css("background-color", "red");
+                                $('#productStoreID').css("color", "white");
+                            }
+                            else {
+                                active1 = true;
+                                $('#productStoreID').css("background-color", "white");
+                                $('#productStoreID').css("color", "black");
+                            }
+                        }
                     });
 
                 });
+              
+
+            }
+          
+            if ($("#producFactoryID").val() != factt) {
+                var flag2 = true;
+                factt = $("#producFactoryID").val();
+                $.getJSON("/ProductDetail/getAllData?sku=" + factt, function (result) {
+                    $.each(result, function (name, value) {
+                        if (name == "productName") {
+                            if (value != "") {
+                                 active2 = false;
+                                $('#producFactoryID').css("background-color", "red");
+                                $('#producFactoryID').css("color", "white");
+                            }
+                            else {
+                                 active2 = true;
+                                $('#producFactoryID').css("background-color", "white");
+                                $('#producFactoryID').css("color", "black");
+                            }
+                          
+                        }
+                    });
+
+                });
+        
+            }
+            if (!active2 || !active2) {
+                $('#gui').prop('disabled', true);
+            }
+            else {
+                $('#gui').prop('disabled', false);
             }
         }
+        
         setInterval(checkPD, 100);
+
     </script>
 </head>
 <body>
@@ -43,25 +90,26 @@
 
                 </div>
                 <div class="button-section">
-                    <input type="submit" name="Tạo" />
+                    <input id="gui" type="submit" name="Tạo" />
 
                 </div>
             </form>
-            </div>
-            }
+        </div>
+    }
 
     <h1> Update thông tin từ file xml</h1>
 
     @using (Html.BeginForm("UpdateFromXML", "ProductDetail", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
-        if (ViewData["updateResult"] != null) {
-            String resultttt = (String) ViewData["updateResult"];
+        if (ViewData["updateResult"] != null)
+        {
+            String resultttt = (String)ViewData["updateResult"];
             <h2> @resultttt</h2>
         }
-    <input type="file" name="file" />
-    <div class="button-section">
-        <input type="submit" value="Upload" />
-    </div>
+        <input type="file" name="file" />
+        <div class="button-section">
+            <input type="submit" value="Upload" />
+        </div>
     }
 </body>
 </html>

@@ -4,7 +4,9 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using ThienNga2.Models.Entities;
+using ThienNga2.Models.ViewModel;
 
 namespace ThienNga2.Controllers
 {
@@ -14,6 +16,7 @@ namespace ThienNga2.Controllers
 
 
         // GET: Product
+        
         public ActionResult Index()
         {
 

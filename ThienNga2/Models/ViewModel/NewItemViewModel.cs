@@ -6,6 +6,10 @@ using ThienNga2.Models.Entities;
 using System.ComponentModel.DataAnnotations;
 namespace ThienNga2.Models.ViewModel
 {
+    public class checkDetailModel {
+        public String skutrung { get; set; }
+        public String factTrung { get; set; }
+    }
     public class checkwarModel {
         public String name { get; set; }
     }
