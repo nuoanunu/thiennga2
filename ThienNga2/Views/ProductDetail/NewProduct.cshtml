@@ -1,4 +1,4 @@
-﻿
+﻿@using ThienNga2.Models.Entities;
 <!DOCTYPE html>
 
 <html>
@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>NewProduct</title>
     <link rel="stylesheet" type="text/css" href="~/Content/formTemplate.css">
+    <script src="//code.jquery.com/jquery-1.12.3.js"> </script>
     <script>
         var sku = "";
         var factt = "";
@@ -72,6 +73,22 @@
         setInterval(checkPD, 100);
 
     </script>
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"> </script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"> </script>
+    <script>
+        $(document).ready(function () {
+            $('#datatable').DataTable();
+        });
+    </script>
+
+
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
+    <style>
+        body {
+            background: url('') no-repeat center center fixed;
+        }
+    </style>
 </head>
 <body>
     @using (Html.BeginForm("Create", "ProductDetail"))
@@ -111,5 +128,34 @@
             <input type="submit" value="Upload" />
         </div>
     }
+    <div>
+        @if (ViewData["last50"] != null) {
+                <table id="datatable"  class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>SKU</th>
+                            <th>Mã nhà máy</th>
+                            <th>Giá</th>
+                            <th>Tên</th>
+                            <th>Số lượng tối thiểu</th>
+                  
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (tb_product_detail dt in (List<tb_product_detail>)ViewData["last50"])
+                        {
+                            <tr>
+                                <td>@dt.productStoreID</td>
+                                <td>@dt.producFactoryID</td>
+                                <td>@dt.price</td>
+                                <td>@dt.productName</td>
+                                <td>@dt.minThresHold</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+        }
+    </div>
 </body>
 </html>

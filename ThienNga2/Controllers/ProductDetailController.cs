@@ -19,7 +19,7 @@ namespace ThienNga2.Areas.Admin.Controllers
         // GET: ProductDetail
         public ActionResult Index()
         {
-           
+            ViewData["last50"] = am.tb_product_detail.SqlQuery(" select  top 50  * from tb_product_detail order by id desc  ").ToList();
             return View("NewProduct");
         }
 
@@ -28,6 +28,7 @@ namespace ThienNga2.Areas.Admin.Controllers
         {
             return View();
         }
+        
         public String getAllData(String sku) {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             try {
@@ -123,7 +124,7 @@ namespace ThienNga2.Areas.Admin.Controllers
            
             if (Command.Equals("save")) {
                 ModelState.Clear();
-                return View("NewProduct");
+                return RedirectToAction("index");
             }
             else if(Command.Equals ( "edit")) {
                 return View("NewProduct" ,t);
