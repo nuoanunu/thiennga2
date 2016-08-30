@@ -77,7 +77,9 @@
     <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"> </script>
     <script>
         $(document).ready(function () {
-            $('#datatable').DataTable();
+            $('#datatable').dataTable({
+                "bSort": false
+            });
         });
     </script>
 
@@ -130,7 +132,7 @@
     }
     <div>
         @if (ViewData["last50"] != null) {
-                <table id="datatable"  class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <table id="datatable"  class="table table-striped table-bordered" cellspacing="0" width="100%"  data-sort-name="ID" data-sort-order="desc">
                     <thead>
                         <tr>
                             <th>ID</th>
