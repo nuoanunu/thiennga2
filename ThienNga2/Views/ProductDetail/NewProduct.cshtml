@@ -197,7 +197,7 @@
                                     <input type="text" id="@(dt.id+"FAC")" value="@dt.producFactoryID" disabled="disabled" />
                                 </td>
                                 <td>
-                                    <input type="text" id="@(dt.id+"PRICE")" value="@dt.price" disabled="disabled" /></td>
+                                    <input type="text" id="@(dt.id+"PRICE")" value="@(Convert.ToDecimal(dt.price).ToString("#,##0");)" disabled="disabled" /></td>
                                 <td>                   
                                 <input type="text" id="@(dt.id+"NAME")" value="@dt.productName" disabled="disabled" />                 
                                 </td>
