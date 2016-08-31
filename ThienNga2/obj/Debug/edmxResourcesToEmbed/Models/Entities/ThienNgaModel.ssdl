@@ -141,6 +141,8 @@
     <Property Name="DonGia" Type="nvarchar" MaxLength="50" />
     <Property Name="ThanhTien" Type="nvarchar" MaxLength="50" />
     <Property Name="TempName" Type="nvarchar(max)" />
+    <Property Name="QuiCach" Type="nvarchar" MaxLength="50" />
+    <Property Name="warrantyAvailable" Type="bit" />
   </EntityType>
   <EntityType Name="role">
     <Key>

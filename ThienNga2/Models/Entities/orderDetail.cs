@@ -24,6 +24,8 @@ namespace ThienNga2.Models.Entities
         public string DonGia { get; set; }
         public string ThanhTien { get; set; }
         public string TempName { get; set; }
+        public string QuiCach { get; set; }
+        public Nullable<bool> warrantyAvailable { get; set; }
     
         public virtual order order { get; set; }
     }

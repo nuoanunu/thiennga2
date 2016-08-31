@@ -476,6 +476,8 @@
     <Property Name="DonGia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ThanhTien" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="TempName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="QuiCach" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="warrantyAvailable" Type="Boolean" />
   </EntityType>
   <EntityType Name="role">
     <Key>

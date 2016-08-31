@@ -270,6 +270,8 @@
     <EntitySetMapping Name="orderDetails">
       <EntityTypeMapping TypeName="ThienNgaDatabaseModel.orderDetail">
         <MappingFragment StoreEntitySet="orderDetail">
+          <ScalarProperty Name="warrantyAvailable" ColumnName="warrantyAvailable" />
+          <ScalarProperty Name="QuiCach" ColumnName="QuiCach" />
           <ScalarProperty Name="TempName" ColumnName="TempName" />
           <ScalarProperty Name="ThanhTien" ColumnName="ThanhTien" />
           <ScalarProperty Name="DonGia" ColumnName="DonGia" />

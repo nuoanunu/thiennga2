@@ -21,9 +21,10 @@
     <table class="responstable" id="myTable">
 
 
-        <tr> <td> Tên Khách </td><td>  @a.cusName </td></tr>
-        <tr> <td>Sdt</td><td> @a.phoneNumber </td></tr>
-        <tr> <td>Địa chỉa</td><td> @a.Adress </td></tr>
+        <tr> <td colspan="4"> Tên Khách </td><td colspan="3"> @a.cusName </td></tr>
+        <tr> <td colspan="4">SĐT</td><td colspan="3"> @a.phoneNumber </td></tr>
+        <tr> <td colspan="4">Địa chỉ</td><td colspan="3"> @a.Adress </td></tr>
+        <tr> <td colspan="4">Ghi chú thêm </td><td colspan="3"> @a.Adress2 </td></tr>
         <tr>
             <th>
                 Mã unit
@@ -35,23 +36,29 @@
                 Số lượng
             </th>
             <th>
-                Đơn giá trên 1 sản phẩm
+               Qui Cách
+            </th>
+            <th>
+                Đơn giá
             </th>
          
             <th>
-                Chiết Khấu phần trăm
+                Chiết Khấu %
             </th>
             <th>
-                Chiết Khấu trực tiếp
+                Chiết Khấu Tiền Mặt
             </th>
             <th>
                 Thành tiền
+            </th>
+            <th>
+                Chế độ bảo hành
             </th>
         </tr>
         @for (int i = 0 ; i < a.items.Count; i ++)
         {
             AnOrderDetail ao = a.items[i];
-            if (ao.quantity > 0)
+            if (ao.quantity > 0 && ao.thanhTien > 0)
             {
 
                 float thanhtien = (ao.thanhTien);
@@ -65,25 +72,35 @@
                 <td> @ao.productID</td>
                 <td> @ao.productName</td>
                 <td> @ao.quantity</td>
+                <td> @ao.quicach</td>
                 <td> @dongiaS </td>
                 <td > @(ao.chietKhauPhanTram + "")</td>
                 <td>  @chietkhauttS</td>
                 <td>  @ao.thanhTienS</td>
+                @if (ao.warrantyAvailable)
+                {
+                    <td> Có </td>
+                }
+                else
+                {
+                    <td> Không </td>
+                }
+
             </tr>
             }
         }
         <tr>
-            <td colspan="6">Tổng cộng</td>
+            <td colspan="7">Tổng cộng</td>
             <td> @TempData["total"]  </td>
         </tr>
        @if (TempData["VAT"].Equals("true"))
        {
         <tr>
-            <td colspan="6">VAT</td>
+            <td colspan="7">VAT 10%</td>
             <td> @TempData["totalVAT"]  </td>
         </tr>
         <tr>
-            <td colspan="6">Thành tiền</td>
+            <td colspan="7">TỔNG THANH TOÁN</td>
             <td> @TempData["TotalAfterVAT"]  </td>
         </tr>
        }

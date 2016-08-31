@@ -24,6 +24,7 @@
             <tr> <td> Tên Khách </td><td>  @a.cusName </td></tr>
             <tr> <td>Sdt</td><td> @a.phoneNumber </td></tr>
             <tr> <td>Địa chỉa</td><td> @a.Adress </td></tr>
+            <tr> <td>Ghi chú thêm</td><td> @a.Adress2 </td></tr>
             <tr>
                 <th>
                     Mã unit
@@ -33,6 +34,9 @@
                 </th>
                 <th>
                     Số lượng
+                </th>
+                <th>
+                   Qui cách
                 </th>
                 <th>
                     Đơn giá trên 1 sản phẩm
@@ -46,6 +50,9 @@
                 </th>
                 <th>
                     Thành tiền
+                </th>
+                <th>
+                    Bảo hành
                 </th>
             </tr>
             @for (int i = 0; i < a.items.Count; i++)
@@ -65,25 +72,35 @@
                         <td> @ao.productID</td>
                         <td> @ao.productName</td>
                         <td> @ao.quantity</td>
+                        <td> @ao.quicach</td>
                         <td> @ao.DonGiaS </td>
                         <td> @(ao.chietKhauPhanTram + "")</td>
                         <td>  @ao.chietKhauTrucTiepS</td>
                         <td>  @ao.thanhTienS</td>
+                
+                        @if (ao.warrantyAvailable)
+                        {
+                            <td> Có </td>
+                        }
+                        else
+                        {
+                            <td> Không </td>
+                        }
                     </tr>
                 }
             }
             <tr>
-                <td colspan="6">Tổng cộng</td>
+                <td colspan="7">Tổng cộng</td>
                 <td> @TempData["total"]  </td>
             </tr>
             @if (TempData["VAT"].Equals("true"))
             {
                 <tr>
-                    <td colspan="6">VAT</td>
+                    <td colspan="7">VAT</td>
                     <td> @TempData["totalVAT"]  </td>
                 </tr>
                 <tr>
-                    <td colspan="6">Thành tiền</td>
+                    <td colspan="7">Thành tiền</td>
                     <td> @TempData["TotalAfterVAT"]  </td>
                 </tr>
             }

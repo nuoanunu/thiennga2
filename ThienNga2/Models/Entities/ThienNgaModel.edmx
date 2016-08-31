@@ -146,6 +146,8 @@
           <Property Name="DonGia" Type="nvarchar" MaxLength="50" />
           <Property Name="ThanhTien" Type="nvarchar" MaxLength="50" />
           <Property Name="TempName" Type="nvarchar(max)" />
+          <Property Name="QuiCach" Type="nvarchar" MaxLength="50" />
+          <Property Name="warrantyAvailable" Type="bit" />
         </EntityType>
         <EntityType Name="role">
           <Key>
@@ -1224,6 +1226,8 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <Property Name="DonGia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ThanhTien" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TempName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="QuiCach" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="warrantyAvailable" Type="Boolean" />
         </EntityType>
         <EntityType Name="role">
           <Key>
@@ -1901,6 +1905,8 @@ warning 6035: The relationship 'key_auto_update' has columns that are not part o
           <EntitySetMapping Name="orderDetails">
             <EntityTypeMapping TypeName="ThienNgaDatabaseModel.orderDetail">
               <MappingFragment StoreEntitySet="orderDetail">
+                <ScalarProperty Name="warrantyAvailable" ColumnName="warrantyAvailable" />
+                <ScalarProperty Name="QuiCach" ColumnName="QuiCach" />
                 <ScalarProperty Name="TempName" ColumnName="TempName" />
                 <ScalarProperty Name="ThanhTien" ColumnName="ThanhTien" />
                 <ScalarProperty Name="DonGia" ColumnName="DonGia" />
