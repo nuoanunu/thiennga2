@@ -78,12 +78,51 @@
     <script>
         $(document).ready(function () {
             $('#datatable').dataTable({
-                "bSort": false
+                "aaSorting": [[0, "desc"]]
             });
         });
     </script>
+    <script>
+        function unlock(index) {
+            $("#" + index + "SKU").prop("disabled", "");
+            $("#" + index + "FAC").prop("disabled", "");
+            $("#" + index + "NAME").prop("disabled", "");
+            $("#" + index + "PRICE").prop("disabled", "");
+            $("#" + index + "MIN").prop("disabled", "");
+            $("#" + index + "btn2").show();
+            $("#" + index + "btn3").show();
+            $("#" + index + "btn1").hide();
+        };
+        function lock(index) {
+            $("#" + index + "SKU").prop("disabled", "disabled");
+            $("#" + index + "FAC").prop("disabled", "disabled");
+            $("#" + index + "NAME").prop("disabled", "disabled");
+            $("#" + index + "PRICE").prop("disabled", "disabled");
+            $("#" + index + "MIN").prop("disabled", "disabled");
+            $("#" + index + "btn1").show();
+            $("#" + index + "btn2").hide();
+            $("#" + index + "btn3").hide();
+        };
+        function edit(index) {
+            var newSKU = $("#" + index + "SKU").val();
+            var newFACT = $("#" + index + "FAC").val();
+            var newPrice = $("#" + index + "PRICE").val();
+            var newThres =$("#" + index + "MIN").val();
+            var newName =$("#" + index + "NAME").val();
+            $.getJSON("/ProductDetail/fixxit?id=" + index + "&name=" + newName + "&SKU=" + newSKU + "&factCode=" + newFACT + "&price=" + newPrice + "&mini=" + newThres, function (result) {
+                $.each(result, function (name, value) {
+                    if (name == "name") { 
+                        if (value != "") { 
+                            alert("Chỉnh sửa thành công"); 
+                            lock(index);
+                        }
+                    }
 
+                });
 
+            });
+        };
+    </script>
     <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
     <style>
@@ -141,19 +180,34 @@
                             <th>Giá</th>
                             <th>Tên</th>
                             <th>Số lượng tối thiểu</th>
-                  
+                            <th>Chỉnh sửa</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (tb_product_detail dt in (List<tb_product_detail>)ViewData["last50"])
                         {
                             <tr>
-                                <td>@dt.id</td>
-                                <td>@dt.productStoreID</td>
-                                <td>@dt.producFactoryID</td>
-                                <td>@dt.price</td>
-                                <td>@dt.productName</td>
-                                <td>@dt.minThresHold</td>
+                                <td>@dt.id
+                                   <input type="hidden" id="@(dt.id+"ID")" value="@dt.id"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="@(dt.id+"SKU")" value="@dt.productStoreID" disabled="disabled" />
+                                </td>
+                                <td>
+                                    <input type="text" id="@(dt.id+"FAC")" value="@dt.producFactoryID" disabled="disabled" />
+                                </td>
+                                <td>
+                                    <input type="text" id="@(dt.id+"PRICE")" value="@dt.price" disabled="disabled" /></td>
+                                <td>                   
+                                <input type="text" id="@(dt.id+"NAME")" value="@dt.productName" disabled="disabled" />                 
+                                </td>
+                                <td><input type="text" id="@(dt.id+"MIN")" value="@dt.minThresHold" disabled="disabled" /></td>
+                                <td> 
+                                    <button id="@(dt.id+"btn1")" onclick="unlock(@dt.id)" >Chỉnh sửa</button>
+                                    <button id="@(dt.id+"btn3")" hidden="hidden" onclick="lock(@dt.id)">Hủy</button>
+                                    <button id="@(dt.id+"btn2")" hidden="hidden" onclick="edit(@dt.id)">XÁC NHẬN</button>
+                                </td>
+                             
                             </tr>
                         }
                     </tbody>

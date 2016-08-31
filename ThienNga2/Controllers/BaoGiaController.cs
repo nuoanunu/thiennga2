@@ -109,6 +109,7 @@ namespace ThienNga2.Controllers
                     if ((Boolean)ord.vat) tuple.VAT = true;
                     else tuple.VAT = false;
                 }
+             
                 else tuple.VAT = false;
                 if (tuple.VAT)
                 {
@@ -118,7 +119,7 @@ namespace ThienNga2.Controllers
                 return View("BaoGiaChiTiet", tuple);
             }
             catch (Exception e) { }
-            ViewData["allBaoGia"] = am.orders.SqlQuery("Select * from [order] where total > " + 0).ToList();
+            ViewData["allBaoGia"] = am.orders.SqlQuery("Select * from [order] where total > " + 0 + " order by id desc ").ToList();
             return View("BaoGiaList");
         }
         public void GenerateInvoicePDF(String dataString)

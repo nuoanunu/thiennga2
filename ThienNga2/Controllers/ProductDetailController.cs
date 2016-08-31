@@ -19,7 +19,7 @@ namespace ThienNga2.Areas.Admin.Controllers
         // GET: ProductDetail
         public ActionResult Index()
         {
-            ViewData["last50"] = am.tb_product_detail.SqlQuery(" select  top 50  * from tb_product_detail order by id desc  ").ToList();
+            ViewData["last50"] = am.tb_product_detail.SqlQuery(" select   * from tb_product_detail order by id desc  ").ToList();
             return View("NewProduct");
         }
 
@@ -54,6 +54,37 @@ namespace ThienNga2.Areas.Admin.Controllers
             catch (Exception e) {
                
             }
+            return "";
+        }
+        public String fixxit(int id, String name, String SKU, String factCode, float price, int mini) {
+         
+                tb_product_detail dt = am.tb_product_detail.Find(id);
+            List<inventory> invens = am.inventories.SqlQuery("SELECT * FROM inventory where productStoreCode='" + dt.productStoreID + "' and productFactoryCode='" + dt.producFactoryID + "'").ToList();
+            foreach (inventory inv in invens) {
+                inv.productFactoryCode = "00000000";
+                inv.productStoreCode = "0000000";
+            }
+            am.SaveChanges();
+                if (dt != null) {
+                    dt.productName = name;
+                    dt.productStoreID = SKU;
+                    dt.producFactoryID = factCode;
+                    dt.minThresHold = mini;
+                    dt.price = price;
+                }
+                am.SaveChanges();
+            foreach (inventory inv in invens)
+            {
+                inv.productFactoryCode = factCode;
+                inv.productStoreCode = SKU;
+            }
+            am.SaveChanges();
+            checkwarModel model = new checkwarModel();
+                model.name = "succeed";
+                JavaScriptSerializer javas = new JavaScriptSerializer();
+                return javas.Serialize(model);
+        
+            
             return "";
         }
         [HttpPost]
