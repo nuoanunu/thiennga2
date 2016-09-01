@@ -530,7 +530,262 @@ namespace ThienNga2.Controllers
         }
 
 
+        public void BaoGia(String dataString, bool covat)
+        {
+            String[] rex1 = new string[] { ":eachrow" };
+            String[] rex2 = new string[] { ":split" };
+            String[] rows = dataString.Split(rex1, StringSplitOptions.None);
+            float totalprice = 0;
 
+            String MaBill = "";
+            DataTable dt = new DataTable();
+
+            dt.Columns.AddRange(new DataColumn[13] {
+                            new DataColumn("SKU", typeof(string)),
+                            new DataColumn("Mã tạm", typeof(string)),
+                            new DataColumn("Tên sản phẩm", typeof(string)),
+                            new DataColumn("Tên sản phẩm2", typeof(string)),
+                            new DataColumn("Tên sản phẩm3", typeof(string)),
+                            new DataColumn(" Số lượng", typeof(string)),
+                            new DataColumn(" Qui Cách", typeof(string)),
+                            new DataColumn(" Đơn giá", typeof(string)),
+                            new DataColumn("CK %", typeof(string)),
+                            new DataColumn("CKTM", typeof(string)),
+                            new DataColumn("  Thành tiền", typeof(string)),
+                            new DataColumn("  Thành tiền2", typeof(string)),
+                            new DataColumn("Bảo hành", typeof(string))});
+            String cusname = "";
+            String add = "";
+            String sdt = "";
+            String add2 = "";
+            try
+            {
+                cusname = rows[0].Split(rex2, StringSplitOptions.None)[1];
+                add = rows[2].Split(rex2, StringSplitOptions.None)[1];
+                sdt = rows[1].Split(rex2, StringSplitOptions.None)[1];
+                add2 = rows[3].Split(rex2, StringSplitOptions.None)[1];
+            }
+            catch (Exception e)
+            {
+
+            }
+
+            for (int i = 4; i < rows.Length; i++)
+            {
+                String[] temp2;
+                System.Diagnostics.Debug.WriteLine(rows[i]);
+                try
+                {
+                  
+                    temp2 = rows[i].Split(rex2, StringSplitOptions.None);
+       
+                    if (temp2.Length > 5)
+                    {
+                        if (temp2[4].Trim().Length > 0 && temp2[2].Trim().Length > 0 && temp2[3].Trim().Length > 0)
+                            dt.Rows.Add( temp2[0],temp2[1], temp2[2],"","" ,temp2[3], temp2[4], temp2[5], temp2[6], temp2[7], temp2[8],"", temp2[9]);
+                        System.Diagnostics.Debug.WriteLine(temp2[0]);
+                        System.Diagnostics.Debug.WriteLine(temp2[1]);
+                        System.Diagnostics.Debug.WriteLine(temp2[2]);
+                        System.Diagnostics.Debug.WriteLine(temp2[3]);
+                        System.Diagnostics.Debug.WriteLine(temp2[4]);
+                        System.Diagnostics.Debug.WriteLine(temp2[5]);
+                        System.Diagnostics.Debug.WriteLine(temp2[6]);
+                        System.Diagnostics.Debug.WriteLine(temp2[7]);
+                        String price = temp2[8];
+                      
+                        while (price.IndexOf(",") > 1)
+                        {
+                            price = price.Replace(",", "");
+                        }
+
+                        totalprice = float.Parse(price) + totalprice;
+
+                    }
+                }
+                catch (Exception e) { }
+
+
+
+            }
+            if (add.Equals("ko co")) add = "";
+            if (cusname.Equals("ko co")) cusname = "";
+            if (sdt.Equals("ko co")) sdt = "";
+            String total = Convert.ToDecimal(totalprice).ToString("#,##0");
+            String vatt = Convert.ToDecimal(totalprice * 0.1).ToString("#,##0");
+            String vattt = Convert.ToDecimal(totalprice * 1.1).ToString("#,##0");
+            using (StringWriter sw = new StringWriter())
+            {
+                using (HtmlTextWriter hw = new HtmlTextWriter(sw))
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    //Generate Invoice (Bill) Header.
+                    sb.Append("<table width='100%' cellspacing='0' cellpadding='2'>");
+                    sb.Append("<tr><td align='center' colspan = '2'><b>PHIẾU BÁO GIÁ</b></td></tr>");
+                    sb.Append("<tr><td align = 'right'><b>Ngày: </b>");
+                    sb.Append(DateTime.Now.AddHours(7));
+                    sb.Append(" </td></tr>");
+            
+                    sb.Append("<tr><td colspan = '2'><b>Tên khách </b>");
+                    sb.Append(cusname);
+                    sb.Append("</td></tr>");
+                    sb.Append("<tr><td colspan = '2'><b>SDT </b>");
+                    sb.Append(sdt);
+                    sb.Append("</td></tr>");
+                    sb.Append("<tr><td colspan = '2'><b>Địa chỉ giao hàng </b>");
+                    sb.Append(add);
+                    sb.Append("</td></tr>");
+                    sb.Append("<tr><td colspan = '2'><b>Ghi chú thêm</b>");
+                    sb.Append(add2);
+                    sb.Append("</td></tr>");
+                    sb.Append("</table>");
+                    sb.Append("<br />");
+
+                    //Generate Invoice (Bill) Items Grid.
+                    sb.Append("<table border = '1' style='width: 100 %;'");
+                    sb.Append("<tr>");
+                    int index = 0;
+                    foreach (DataColumn column in dt.Columns)
+                    {
+                        if (index != 1 && index != 3 && index != 4 && index != 11)
+                        {
+                            if (index == 2) { sb.Append("<th colspan='3'> <font size='2' >"); }
+                            else
+                            if (index == 10) { sb.Append("<th colspan='2'>  <font size='2'>"); }
+                            else
+                            if (index == 0) { sb.Append("<th colspan='2'>  <font size='2'>"); }
+                            else
+                            {
+                                sb.Append("<th style='width:1px; '> <font size='2'>");
+                            }
+
+
+                            sb.Append(column.ColumnName);
+                            sb.Append(" </font></th>");
+                        }
+                        index = index + 1;
+                    }
+                    sb.Append("</tr>");
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        int index2 = 0;
+                        sb.Append("<tr>");
+                        String temp = "";
+
+                        if (! ((String)row[dt.Columns[1]]).Equals("-")) {
+                            temp = row[dt.Columns[1]] + "";
+                        }
+                        foreach (DataColumn column in dt.Columns)
+                        {
+                           
+                          
+                            if (index2 != 1 && index2 != 3 && index2 != 4 && index2 != 11) {
+                                if (!temp.Equals("") && (index2 == 0 || index2==1 || index2==2))
+                                {
+                                    if (index2 == 0) {
+                                        sb.Append("<td align='center' colspan='5'>");
+                                        sb.Append(" <font size='1'>");
+                                
+                                            sb.Append( "(Mã tạm) " +temp);
+                                        sb.Append(" </font>");
+                                        sb.Append("</td>");
+                                    }
+                               
+                                }
+                                else
+                                {
+                                    if (index2 == 2) {
+                                        sb.Append("<td colspan='3'>");
+                                    }
+                                    else if (index2 == 10)
+                                    {
+                                        sb.Append("<td colspan='2'>");
+                                    }
+                                    else if (index2 == 0)
+                                    {
+                                        sb.Append("<td colspan='2'>");
+                                    }
+                                    else
+                                    {
+                                        sb.Append("<td>");
+                                    }
+
+
+                                    sb.Append(" <font size='1'>");
+                                    if (index2 == 2 && !temp.Equals("")) { sb.Append(temp); }
+                                    else
+                                        sb.Append(row[column]);
+                                    sb.Append(" </font>");
+                                    sb.Append("</td>");
+                                }
+
+                               
+                            }
+                  
+                            index2 = index2 + 1;
+                        }
+                        sb.Append("</tr>");
+                    }
+                    sb.Append("<tr><td align = 'right' colspan = '");
+                    sb.Append(dt.Columns.Count - 3);
+                    sb.Append("'>TỔNG CỘNG</td>");
+                    sb.Append("<td colspan = '3' >");
+                    sb.Append(total + "");
+                    sb.Append("</td>");
+                    sb.Append("</tr>");
+                    if (covat) {
+                        sb.Append("<tr><td align = 'right' colspan = '");
+                        sb.Append(dt.Columns.Count - 1);
+                        sb.Append("'>VAT 10%</td>");
+                        sb.Append("<td>");
+                        sb.Append(vatt + "");
+                        sb.Append("</td>");
+                        sb.Append("</tr>");
+                        sb.Append("<tr><td align = 'right' colspan = '");
+                        sb.Append(dt.Columns.Count - 1);
+                        sb.Append("'>Tổng thanh toán</td>");
+                        sb.Append("<td>");
+                        sb.Append(vattt + "");
+                        sb.Append("</td>");
+                        sb.Append("</tr>");
+                    }
+
+                    sb.Append(" </table>");
+                    sb.Append("<p> Ghi chú: </p>");
+                    sb.Append("<p> -Đơn giá trên có giá trị trong vòn 7 ngày kể từ ngày lập báo giá </p>");
+                    sb.Append("<p> -Hóa đơn đỏ được giao cho khách hàng sau ngày 20 của mỗi tháng </p>");
+                    sb.Append("<p> -Các sản phẩm được bảo hành theo chính sách của từng hãng khác nhau </p>");
+                    sb.Append("<p>vui lòng tham khảo file phụ lục hoặc trên website của chúng tôi </p>");
+                    sb.Append("<p> -Mọi thắc mắc hay yêu cầu khác, quý khách vui long liên hệ bộ phận </p>");
+                    sb.Append("<p>sale qua số điện thoại 08.3835.3962 </p>");
+                    //Export HTML String as PDF.
+                    Encoding encoding = Encoding.Unicode;
+                    var bytes = encoding.GetBytes(sb.ToString());
+                    string str = System.Text.Encoding.Unicode.GetString(bytes);
+                    StringReader sr = new StringReader(str);
+                    Document pdfDoc = new Document(PageSize.A4, 0, 0, 0, 0);
+
+                    HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+                    PdfWriter writer = PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+                    pdfDoc.Open();
+                    FontFactory.Register(Server.MapPath("~/fonts/arial-unicode-ms.ttf"), "Arial Unicode MS");
+                    StyleSheet style = new StyleSheet();
+                    style.LoadTagStyle("body", "face", "Arial Unicode MS");
+                    style.LoadTagStyle("body", "encoding", BaseFont.IDENTITY_H);
+                    htmlparser.Style = style;
+                    htmlparser.StartDocument();
+                    htmlparser.Parse(sr);
+                    pdfDoc.Close();
+                    Response.ContentEncoding = Encoding.Unicode;
+                    Response.ContentType = "application/pdf";
+                    Response.AddHeader("content-disposition", "attachment;filename=PhieuBaoGia_" + MaBill + ".pdf");
+                    Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                    Response.Write(pdfDoc);
+                    Response.End();
+                }
+            }
+        }
         // POST: ProductItem/Delete/5
         public void GenerateInvoicePDF(String dataString)
         {
@@ -855,7 +1110,7 @@ namespace ThienNga2.Controllers
                                 sb.Append("<td width='12.5%'>");
                             }
                             index = index + 1;
-                            sb.Append("<td>");
+                 
                             sb.Append(row[column]);
                             sb.Append("</td>");
                         }
