@@ -328,7 +328,7 @@
 
     @model ThienNga2.Models.ViewModel.NewItemViewModel
 
-    @using (Html.BeginForm("CreateWhenSale", "ProductItem"))
+    @using (Html.BeginForm("CreateWhenSale", "ProductItem" , FormMethod.Post, new { id = "guiform" }))
     {
         List<SelectListItem> ls2 = new List<SelectListItem>();
         String date= (DateTime.Now.ToString("M'/'dd'/'yyyy"));
@@ -429,24 +429,24 @@
                         @*</div>*@
                     }
                     <tr id="trVAT" style="display:none">
-                        <td colspan="7" align="right">VAT 10%</td>
+                        <td colspan="9" align="right">VAT 10%</td>
                         <td id="TotalVAT">  </td>
                     </tr>
                     <tr>
-                        <td colspan="7"  align="right">Tổng</td>
-                        <td id="Totalb4VAT">  </td>
+                        <td colspan="9"  align="right">Tổng</td>
+                        <td   id="Totalb4VAT">  </td>
                     </tr>
                     <tr id="trTT" style="display:none">
-                        <td colspan="7"  align="right">Thành tiền</td>
+                        <td colspan="9"  align="right">Thành tiền</td>
                         <td id="TotalAterVAT">  </td>
                     </tr>
-                    
+                    <tr> <td align="right" colspan="10" > <button onclick="removeAll()">Xóa hết</button></td></tr>
                 </table>
 
    
                 <div class="button-section">
                     Có VAT @Html.CheckBoxFor(m => m.VAT)
-                    <input type="submit" name="Hoàn tất" value="Hoàn tất" />
+                    <input type="button" onclick="guidi()" name="Hoàn tất" value="Hoàn tất" />
                    
                 </div>
             </form>
@@ -466,6 +466,12 @@
     </div>
 
     <script>
+        function removeAll() {
+            for(var i = 0 ; i < 20 ; i ++) {
+                $("#items_" + i + "__SKU").val("");
+                $("#items_" + i + "__newSKU").val("");
+            }
+        }
         $(document).ready(function () {
             $('input').on("keypress", function (e) {
                 /* ENTER PRESSED*/
@@ -499,6 +505,18 @@
         
     </script>
     <script>
+     
+function guidi() {
+    var txt;
+    var r = confirm("Kiểm tra thật kỹ dữ liệu trước khi bấm hoàn tất. Một khi đã bấm hoàn tất, dữ liệu kho sẽ bị thay đổi");
+    if (r == true) {
+        $("#guiform").submit();
+    } else {
+
+    }
+
+}
+  
         function inbill() {
             if ($("#VAT").is(':checked')) {
                 $("#datavat").val("true");
