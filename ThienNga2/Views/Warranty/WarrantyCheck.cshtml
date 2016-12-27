@@ -110,7 +110,6 @@
     <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
     <style>
-      
         .hiddenStepInfo {
             display: none;
         }
@@ -150,7 +149,6 @@
 
         .step {
             text-align: center;
-            
         }
 
             .step .col-md-2 {
@@ -178,7 +176,7 @@
 
             .step .activestep {
                 color: #F58723;
-                height:50px;
+                height: 50px;
                 margin-top: -7px;
                 padding-top: 7px;
                 border-left: 6px solid #5CB85C !important;
@@ -195,42 +193,44 @@
     </style>
 
     <script type="text/javascript">
-    function resetActive(thisID, step) {
-        var tab = document.getElementById(thisID);
-        $("div").each(function () {
-            if ($(this).hasClass("activestep")) {
-                $(this).removeClass("activestep");
+        function resetActive(thisID, step) {
+            var tab = document.getElementById(thisID);
+            $("div").each(function () {
+                if ($(this).hasClass("activestep")) {
+                    $(this).removeClass("activestep");
+                }
+            });
+
+            if (tab.className == "col-md-2") {
+                $(tab).addClass("activestep");
             }
-        });
-
-        if (tab.className == "col-md-2") {
-            $(tab).addClass("activestep");
-        }
-        else {
-            $(tab.parentNode).addClass("activestep");
-        }
-
-        hideSteps();
-        showCurrentStepInfo(step);
-    }
-
-    function hideSteps() {
-        $("div").each(function () {
-            if ($(this).hasClass("activeStepInfo")) {
-                $(this).removeClass("activeStepInfo");
-                $(this).addClass("hiddenStepInfo");
+            else {
+                $(tab.parentNode).addClass("activestep");
             }
-        });
-    }
 
-    function showCurrentStepInfo(step) {
-        var id = "#step-" + step;
-        $(id).addClass("activeStepInfo");
-    }
-    $(document).ready(function () {
-        var data = $("#datastatus").text();
-        resetActive("divtab" + data, data);
-    });
+            hideSteps();
+            showCurrentStepInfo(step);
+        }
+
+        function hideSteps() {
+            $("div").each(function () {
+                if ($(this).hasClass("activeStepInfo")) {
+                    $(this).removeClass("activeStepInfo");
+                    $(this).addClass("hiddenStepInfo");
+                }
+            });
+        }
+
+        function showCurrentStepInfo(step) {
+            var id = "#step-" + step;
+            $(id).addClass("activeStepInfo");
+        }
+        $(document).ready(function () {
+            var data = $("#datastatus").text();
+            resetActive("divtab" + data, data);
+
+            $("#allact").DataTable();
+        });
     </script>
 </head>
 <body>
@@ -240,7 +240,7 @@
         {
 
             <div id="form" class="form-wrapper">
-                <table class="table table-striped table-bordered" cellspacing="0" >
+                <table class="table table-striped table-bordered" cellspacing="0">
                     <tr>
                         <td>
                             <input id="search" class="suggestionsinput" name="code" type="text" placeholder="Nhập mã hóa đơn/mã sản phẩm " required />
@@ -274,71 +274,157 @@
 
 
     </div>
+    @if (ViewData["AllWarranty"] != null)
+    {
+        <h1>Hoạt động bảo hành / sữa chữa</h1>
+        <table id="allact" class="table table-striped table-bordered" cellspacing="0">
+            <thead>
+                <tr>
+                    <td>Mã hóa đơn bảo hành</td>
+                    <td>SKU</td>
+                    <td>Tên khách</td>
+                    <td>SDT</td>
+                    <td>Ngày tiếp nhận</td>
+                    <td>Tình trạng lúc nhận</td>
+                    <td>Nhân Viên đang sửa</td>
+                    <td>Tác vụ </td>
+                </tr>
+
+
+            </thead>
+            <tbody>
+                @foreach (tb_warranty_activities act in (List<tb_warranty_activities>)ViewData["AllWarranty"])
+                {
+                    <tr>
+                        <td>
+                            @act.CodeBaoHanh
+                        </td>
+                        <td>
+                            @act.tb_warranty.item.tb_product_detail.productStoreID
+                        </td>
+                        <td>
+                            @act.TenKhach
+                        </td>
+                        <td>
+                            @act.SDT
+                        </td>
+                        <td>
+                            @act.startDate
+                        </td>
+                        <td>
+                            @act.Description
+                        </td>
+
+
+                        @if (act.empFixer != null)
+                        {
+                            <td>@act.AspNetUser1.FullName</td>
+                        }
+                        else
+                        {
+                            <td>CHƯA CÓ NGƯỜI NHẬN</td>
+                        }
+                        <td>
+                            <a href="/Warranty/search?code=@(act.id)&searchtype=warrantyActID" class="btn btn-info btn-lg" >Chi tiết</a>
+                            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#MyempList@(act.id)">Giao việc</button>
+                        </td>
+                    </tr>
+                    <div class="modal fade" id="MyempList@(act.id)" role="dialog">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Modal Header</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="Warranty/GiaoViec" method="post">
+                                        Chọn nhân viện
+                                        <input type="hidden" value="@act.id" name="actid" />
+                                        <select name="empId">
+                                            @foreach (AspNetUser user in (List<AspNetUser>)ViewData["NhanVienKyThuat"])
+                                            {
+                                                <option value="@user.Id"> @user.FullName</option>
+                                            }
+                                        </select>
+                                        <button type="submit"> Giao </button>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </tbody>
+        </table>
+    }
     @if (ViewData["FlagShowKq"] != null)
     {
         if (((String)ViewData["FlagShowKq"]).Equals("true"))
         {
             <div>
                 @if (ViewData["lsbh"] != null)
-                { if( ((List<tb_warranty_activities>)ViewData["lsbh"]).Count() >1)
+                {
+                    if (((List<tb_warranty_activities>)ViewData["lsbh"]).Count() > 1)
                     {
-                    <table class="table table-striped table-bordered" cellspacing="0" >
-                        <tr>
-                            <th colspan="8"> <h6> Các kết quả tìm thấy </h6></th>
-                        </tr>
-                        <tr>
-                            <th>Mã bill bảo hành   </th>
-                            <th>Ngày nhận  </th>
-                            <th>Nhân viên nhận </th>
-                            <th>Nhân viên sửa </th>
-                            <th>Tình trạng lúc nhận </th>
-                            <th>  Ngày hoàn tất sửa </th>
-                            <th>  Ngày Trả </th>
-                            <th>  Chi tiết  </th>
-
-                        </tr>
-
-                        @foreach (var item in (List<tb_warranty_activities>)ViewData["lsbh"])
-                        {
-                            String color = "";
-                            if (item.status == 4) { color = "#7e7e7e"; }
-
-                            <tr bgcolor="@color">
-                                <td>@item.CodeBaoHanh </td>
-                                <td>@item.startDate </td>
-                                <td>@item.AspNetUser.FullName </td>
-                                <td>
-                                    @if (item.AspNetUser1 != null)
-                                    {
-                                        @item.AspNetUser1.FullName
-
-                                    }
-                                </td>
-                                <td>@item.tb_warrnaty_status.statusName </td>
-                                <td>@item.finishFixingDate</td>
-                                <td>@item.realeaseDATE </td>
-                                @using (Html.BeginForm("Search", "Warranty"))
-                                {
-                                    <td>
-                                        <input type="hidden" value="@item.id" name="code" />
-                                        <input type="hidden" value="warrantyActID" name="searchType" />
-                                        <button type="submit" value="submit" name="submit"> Chi tiết</button>
-                                    </td>
-                                }
-
+                        <table class="table table-striped table-bordered" cellspacing="0">
+                            <tr>
+                                <th colspan="8"> <h6> Các kết quả tìm thấy </h6></th>
+                            </tr>
+                            <tr>
+                                <th>Mã bill bảo hành   </th>
+                                <th>Ngày nhận  </th>
+                                <th>Nhân viên nhận </th>
+                                <th>Nhân viên sửa </th>
+                                <th>Tình trạng lúc nhận </th>
+                                <th>  Ngày hoàn tất sửa </th>
+                                <th>  Ngày Trả </th>
+                                <th>  Chi tiết  </th>
 
                             </tr>
 
+                            @foreach (var item in (List<tb_warranty_activities>)ViewData["lsbh"])
+                            {
+                                String color = "";
+                                if (item.status == 4) { color = "#7e7e7e"; }
 
-                        }
+                                <tr bgcolor="@color">
+                                    <td>@item.CodeBaoHanh </td>
+                                    <td>@item.startDate </td>
+                                    <td>@item.AspNetUser.FullName </td>
+                                    <td>
+                                        @if (item.AspNetUser1 != null)
+                                        {
+                                            @item.AspNetUser1.FullName
 
-                    </table>
+                                        }
+                                    </td>
+                                    <td>@item.tb_warrnaty_status.statusName </td>
+                                    <td>@item.finishFixingDate</td>
+                                    <td>@item.realeaseDATE </td>
+                                    @using (Html.BeginForm("Search", "Warranty"))
+                                {
+                                        <td>
+                                            <input type="hidden" value="@item.id" name="code" />
+                                            <input type="hidden" value="warrantyActID" name="searchType" />
+                                            <button type="submit" value="submit" name="submit"> Chi tiết</button>
+                                        </td>
+                                    }
+
+
+                                </tr>
+
+
+                            }
+
+                        </table>
                     }
                 }
                 else
                 {
                     <font color="red">Ko tìm thấy kết quả nào</font>
-        }
+                }
             </div>
         }
     }
@@ -372,7 +458,7 @@
                 item it = (item)ViewData["itemDetail"];
 
                 {
-                    <table class="table table-striped table-bordered" cellspacing="0" >
+                    <table class="table table-striped table-bordered" cellspacing="0">
                         <tr>
                             <td>
                                 <p>Tên sản phẩm: @it.tb_product_detail.productName </p>
@@ -397,7 +483,7 @@
                             <td align="center">
                                 @if (((DateTime)t.startdate).AddMonths(t.duration) < DateTime.Now)
                                 {
-                                    <img  src="/Content/images/red.png" />
+                                    <img src="/Content/images/red.png" />
                                 }
                                 else
                                 {
@@ -442,7 +528,7 @@
                     <input type="hidden" name="actid" value="@item.id" />
 
                     <input type="hidden" id="codebaohanh" value="@item.CodeBaoHanh" />
-                    <table class="table table-striped table-bordered" cellspacing="0" >
+                    <table class="table table-striped table-bordered" cellspacing="0">
                         <tr>
                             <th colspan="2">
                                 <h6>Quản lý quy trình bảo hành của mã bảo hành : @item.CodeBaoHanh </h6>
@@ -474,7 +560,7 @@
 
                         <tr>
                             <td>Trạng thái hiện tại </td>
-                            
+
                             <td> @item.tb_warrnaty_status.statusName </td>
 
                         </tr>
@@ -485,33 +571,33 @@
 
                         </tr>
 
-                        <tr id="dateBanGiao" >
+                        <tr id="dateBanGiao">
                             <td>Ngày bàn giao  </td>
                             @if (item.finishFixingDate != null)
                             {
-                                <td> Ngày <input type="text" name="day1" value="@(((DateTime)item.finishFixingDate).Day)" />Tháng  <input type="text" name="month1" value="@(((DateTime)item.finishFixingDate).Month)"/>Năm<input type="text" name="year1" value="@(((DateTime)item.finishFixingDate).Year)"/></td>
+                                <td> Ngày <input type="text" name="day1" value="@(((DateTime)item.finishFixingDate).Day)" />Tháng  <input type="text" name="month1" value="@(((DateTime)item.finishFixingDate).Month)" />Năm<input type="text" name="year1" value="@(((DateTime)item.finishFixingDate).Year)" /></td>
                             }
                             else
                             {
                                 <td> Ngày <input type="text" name="day1" />Tháng  <input type="text" name="month1" />Năm<input type="text" name="year1" /></td>
                             }
-                            
+
                         </tr>
 
                         <tr></tr>
 
-                        <tr id="dateFinish" >
+                        <tr id="dateFinish">
                             <td>Ngày sửa xong  </td>
                             @if (item.realeaseDATE != null)
                             {
-                                
-                              <td> Ngày <input type = "text" name = "day2" value = "@(((DateTime)item.realeaseDATE).Day)"/> Tháng <input type = "text" name = "month2" value = "@(((DateTime)item.realeaseDATE).Month)"/> Năm <input type = "text" name = "year2" value = "@(((DateTime)item.realeaseDATE).Year)"/></td>
+
+                                <td> Ngày <input type="text" name="day2" value="@(((DateTime)item.realeaseDATE).Day)" /> Tháng <input type="text" name="month2" value="@(((DateTime)item.realeaseDATE).Month)" /> Năm <input type="text" name="year2" value="@(((DateTime)item.realeaseDATE).Year)" /></td>
                             }
                             else
                             {
                                 <td> Ngày <input type="text" name="day2" />Tháng  <input type="text" name="month2" />Năm<input type="text" name="year2" /></td>
                             }
-                       
+
                         </tr>
                         <tr>
                             <td>Ghi chú</td>
@@ -522,45 +608,45 @@
                                 <button type="submit">Cập nhật trạng thái bảo hành</button>
                             </td>
                         </tr>
-                     
+
                     </table>
                 }
                 @if (item.status == 4 || item.status == 6)
                 {
-                <div>
-                    @using (Html.BeginForm("GenerateInvoiceBill", "Warranty"))
+                    <div>
+                        @using (Html.BeginForm("GenerateInvoiceBill", "Warranty"))
                     {
-                        <input type="hidden" id="actid" name="actid" value="@(((tb_warranty_activities)ViewData["thisAct"]).id)" />
-                                    <button type="submit" name="Edit" value="Hoàn tất">Xuất Bill</button>
-                    }
-                </div>
+                            <input type="hidden" id="actid" name="actid" value="@(((tb_warranty_activities)ViewData["thisAct"]).id)" />
+                            <button type="submit" name="Edit" value="Hoàn tất">Xuất Bill</button>
+                        }
+                    </div>
                 }
                 <div class="container" style="margin-top: 100px; margin-bottom: 100px;">
-                
+
                     <div class="row">
                         <div class="row step">
-                            <div id="divtab1" class="col-md-2" >
-                              
+                            <div id="divtab1" class="col-md-2">
+
                                 <p>Đang kiểm tra</p>
                             </div>
-                            <div class="col-md-2 activestep" id="divtab6" >
-                           
+                            <div class="col-md-2 activestep" id="divtab6">
+
                                 <p>Đang đợi khách xác nhận</p>
                             </div>
                             <div class="col-md-2" id="divtab2">
-                          
+
                                 <p>Đang sửa</p>
                             </div>
                             <div class="col-md-2" id="divtab3">
-                          
+
                                 <p>Đã sửa xong</p>
                             </div>
                             <div class="col-md-2" id="divtab4">
-                            
+
                                 <p>Đã giao</p>
                             </div>
-                            <div class="col-md-2"  id="divtab5">
-                            
+                            <div class="col-md-2" id="divtab5">
+
                                 <p>Đã giao nhưng chưa sửa</p>
                             </div>
                         </div>
@@ -571,7 +657,7 @@
                                 <h1>ĐANG KIỂM TRA</h1>
                                 <div class="underline">Sản phẩm đang được nhân viên kiểm tra lỗi</div>
                                 <img src="~/Content/images/checking.png" />
-                               
+
                             </div>
                         </div>
                     </div>
@@ -632,7 +718,7 @@
 
 
             <div id="menu2" class="tab-pane fade">
-                <table id="fee" class="table table-striped table-bordered" cellspacing="0" >
+                <table id="fee" class="table table-striped table-bordered" cellspacing="0">
                     <tr>
                         <th colspan="5">
                             <h6>Linh kiện thay mới</h6>
@@ -645,80 +731,82 @@
                         <th> Thêm</th>
                         <th> Xóa</th>
                     </tr>
-             
-                    <tbody class="table table-striped table-bordered" cellspacing="0" width="100%">
-                    @if (item.warrantyActivityFees.Count() > 0)
-                    { double total = 0;
-                        foreach (warrantyActivityFee fee in item.warrantyActivityFees)
 
+                    <tbody class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        @if (item.warrantyActivityFees.Count() > 0)
                         {
-                            if (fee.active != null)
+                            double total = 0;
+                            foreach (warrantyActivityFee fee in item.warrantyActivityFees)
+
                             {
-                                if ((bool)fee.active)
+                                if (fee.active != null)
+                                {
+                                    if ((bool)fee.active)
+                                    {
+                                        total = total + Math.Floor(fee.fixingfee);
+                                    }
+                                }
+                                else
                                 {
                                     total = total + Math.Floor(fee.fixingfee);
                                 }
-                            }
-                            else {
-                                total = total + Math.Floor(fee.fixingfee);
-                            }
-                            String color = "#ffffff";
-                            if (fee.active != null)
-                            {
-                                if (!(Boolean)fee.active) { color = "#c0c0c0"; }
-                            }
-
-                            <tr bgcolor="@color">
-                                <td bgcolor="@color" align="left">
-                                    @fee.productSKU
-                                </td>
-                                <td bgcolor="@color" align="left">
-                                    @fee.quantity
-                                </td>
-                                <td bgcolor="@color" align="left">
-                                  
-                                    @Convert.ToDecimal(Math.Floor(fee.fixingfee)).ToString("#,##0")
-
-                                </td>
-                                <td bgcolor="@color" align="left"></td>
-                                @if (fee.active != null)
-                                            {
-                                            if ((Boolean)fee.active)
-                                            {
-
-                                        <td align="left">
-                                            @using (Html.BeginForm("XoaFee", "Warranty"))
-                                                    {
-                                                <input type="hidden" name="feeID" value="@fee.id" />
-                                                <input type="hidden" name="activitiesID" value="@item.itemID" />
-                                                        <input type="submit" name="Xóa" value="Xóa" />
-                                            }
-                                        </td>
-                                            }
-                                            else
-                                            {
-                                        <td bgcolor="@color"> Đã xóa</td>
-                                            }
-
-                                        }
-                                else
+                                String color = "#ffffff";
+                                if (fee.active != null)
                                 {
-                                    <td class="text-left">
-                                        @using (Html.BeginForm("XoaFee", "Warranty"))
-                                        {
-                                            <input type="hidden" name="feeID" value="@fee.id" />
-                                            <input type="hidden" name="activitiesID" value="@fee.tb_warranty_activities.id" />
-                                                    <input type="submit" name="Xóa" value="Xóa" />
-                                        }
-                                    </td>
+                                    if (!(Boolean)fee.active) { color = "#c0c0c0"; }
                                 }
 
+                                <tr bgcolor="@color">
+                                    <td bgcolor="@color" align="left">
+                                        @fee.productSKU
+                                    </td>
+                                    <td bgcolor="@color" align="left">
+                                        @fee.quantity
+                                    </td>
+                                    <td bgcolor="@color" align="left">
+
+                                        @Convert.ToDecimal(Math.Floor(fee.fixingfee)).ToString("#,##0")
+
+                                    </td>
+                                    <td bgcolor="@color" align="left"></td>
+                                    @if (fee.active != null)
+                                    {
+                                        if ((Boolean)fee.active)
+                                        {
+
+                                            <td align="left">
+                                                @using (Html.BeginForm("XoaFee", "Warranty"))
+                                                {
+                                                    <input type="hidden" name="feeID" value="@fee.id" />
+                                                    <input type="hidden" name="activitiesID" value="@item.itemID" />
+                                                    <input type="submit" name="Xóa" value="Xóa" />
+                                                }
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td bgcolor="@color"> Đã xóa</td>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <td class="text-left">
+                                            @using (Html.BeginForm("XoaFee", "Warranty"))
+                                            {
+                                                <input type="hidden" name="feeID" value="@fee.id" />
+                                                <input type="hidden" name="activitiesID" value="@fee.tb_warranty_activities.id" />
+                                                <input type="submit" name="Xóa" value="Xóa" />
+                                            }
+                                        </td>
+                                    }
 
 
-                            </tr>
+
+                                </tr>
+                            }
+                            <div id="totalFixingReFee" hidden="hidden">@Convert.ToDecimal(Math.Floor(total)).ToString("#,##0")</div>
                         }
-                        <div id="totalFixingReFee" hidden="hidden">@Convert.ToDecimal(Math.Floor(total)).ToString("#,##0")</div>
-                    }
                     </tbody>
                     @using (Html.BeginForm("AddFee", "Warranty"))
                     {
@@ -731,7 +819,7 @@
                                 <input id="quantitySKU" type="text" name="quantity" />
                             </td>
                             <td>
-                                <input id="skuprice" type="text" name="fixPrice" readonly/>
+                                <input id="skuprice" type="text" name="fixPrice" readonly />
                             </td>
                             <td>
                                 <input type="submit" name="ThêmS" />
@@ -775,9 +863,9 @@
                             <td>
                                 @using (Html.BeginForm("XoaFixingFee", "Warranty"))
                                 {
-                                <input type="hidden" name="feeID" value="@fee.id" />
-                                <input type="hidden" name="activitiesID" value="@fee.tb_warranty_activities.id" />
-                                        <input type="submit" name="Xóa" value="Xóa" />
+                                    <input type="hidden" name="feeID" value="@fee.id" />
+                                    <input type="hidden" name="activitiesID" value="@fee.tb_warranty_activities.id" />
+                                    <input type="submit" name="Xóa" value="Xóa" />
                                 }
                             </td>
 
@@ -812,7 +900,7 @@
             )
             {
                 String ieminame = "";
-                if(ViewData["warrantydetail"] != null) { ieminame = (((tb_warranty)ViewData["warrantydetail"]).warrantyID); }
+                if (ViewData["warrantydetail"] != null) { ieminame = (((tb_warranty)ViewData["warrantydetail"]).warrantyID); }
 
 
 

@@ -18,16 +18,37 @@ using System.Globalization;
 
 namespace ThienNga2.Controllers
 {
-    [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
+    
 
     public class WarrantyController : EntitiesAM
     {
 
         // GET: Warranty
+
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         public ActionResult Index()
         {
+            ViewData["AllWarranty"] = am.tb_warranty_activities.ToList();
+            List<SelectListItem> list = new List<SelectListItem>();
+            AspNetRole role = am.AspNetRoles.SqlQuery("SELECT * FROM AspNetRoles where  id='c58194a2-1502-4623-b549-00cea9250711'").FirstOrDefault();
+            List<AspNetUser> nhanviens = role.AspNetUsers.ToList();
+           
+            ViewData["NhanVienKyThuat"] = nhanviens;
             return View("WarrantyCheck");
         }
+        [Authorize(Roles = "Admin,Admin Hà Nội,Nhân Viên Quản Lý Sửa Chữa")]
+        public ActionResult GiaoViec(int actid, string empId)
+        {
+            tb_warranty_activities act= am.tb_warranty_activities.Find(actid);
+            AspNetUser user = am.AspNetUsers.Find(empId);
+            if (user != null && act != null) {
+                act.empFixer = user.Id;
+                am.SaveChanges();
+            }
+
+            return RedirectToAction("Search", new { code = act.id, searchType= "warrantyActID" });
+        }
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         public String getTen(String email)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -51,7 +72,7 @@ namespace ThienNga2.Controllers
 
         }
         private List<String> allname = new List<String>();
-
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         public ActionResult ConfirmBaoHanh(String idwar, String iduser)
         {
             try
@@ -77,6 +98,7 @@ namespace ThienNga2.Controllers
 
 
         }
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         public void getAllName()
         {
             allname = am.ThienNga_FindProductName2("").ToList();
@@ -86,12 +108,16 @@ namespace ThienNga2.Controllers
                 allname.Add(t.productStoreID);
             }
         }
+
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         public ActionResult IMEILIST() {
            //ViewData["allwar"]=am.tb_warranty.ToList();
            ViewData["allwar"] = am.tb_warranty.SqlQuery("SELECT  * from tb_warranty ").ToList();
            ViewData["dsnkh"] = am.CustomerTypes.ToList();
             return View("allIMEI");
         }
+
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         public String updateWAR(String wactID, String newDate,String newIMEI, String newSKU, String newName, String newSDT, String newDuration, String newDescription, String newChinhPhu , String newNhomKhach)
         {
             System.Diagnostics.Debug.WriteLine("AAAA");
@@ -162,6 +188,7 @@ namespace ThienNga2.Controllers
 
             return "";
         }
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         public ActionResult Autocomplete(string term)
         {
             allname = am.ThienNga_FindProductName2("").ToList();
@@ -179,17 +206,19 @@ namespace ThienNga2.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         // GET: Warranty/Details/5
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         public ActionResult Details(int id)
         {
             return View();
         }
 
         // GET: Warranty/Create
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         public ActionResult Create()
         {
             return View();
         }
-
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         public ActionResult Update(String actid, String itemstatus, String day1, String month1, String year1, String day2, String month2, String year2)
         {
             try
@@ -241,6 +270,7 @@ namespace ThienNga2.Controllers
             return View("WarrantyCheck");
 
         }
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         public double loadPrice(String code, int quantity)
         {
 
@@ -254,6 +284,7 @@ namespace ThienNga2.Controllers
             if (t == null) return 0;
             else return t.price * quantity;
         }
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         public ActionResult UpdateWithFee(tb_warranty_activities item)
         {
             if (User.Identity.GetUserName().Equals(item.AspNetUser1.Email))
@@ -270,7 +301,7 @@ namespace ThienNga2.Controllers
 
         }
 
-        // POST: Warranty/Create
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]// POST: Warranty/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
@@ -285,16 +316,17 @@ namespace ThienNga2.Controllers
                 return View();
             }
         }
-
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         // GET: Warranty/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
-
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         // POST: Warranty/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]public ActionResult Edit(int id, FormCollection collection)
         {
             try
             {
@@ -320,6 +352,7 @@ namespace ThienNga2.Controllers
             return RedirectToAction("Search", "Warranty", new { code = activitiesID, searchType = "warrantyActID" });
 
         }
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         public ActionResult XoaFixingFee(String feeID, String activitiesID)
         {
             warrantyActivityFixingFee item = am.warrantyActivityFixingFees.Find(int.Parse(feeID));
@@ -332,6 +365,7 @@ namespace ThienNga2.Controllers
             return RedirectToAction("Search", "Warranty", new { code = activitiesID, searchType = "warrantyActID" });
 
         }
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         public ActionResult AddFee(String activitiesID, String ksu, String quantity, String fixPrice)
         {
             if (ksu != null && ksu.Trim().Length > 0)
@@ -359,12 +393,13 @@ namespace ThienNga2.Controllers
             }
             return RedirectToAction("Search", "Warranty", new { code = activitiesID, searchType = "warrantyActID" });
         }
-
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         public ActionResult AllWarranty()
         {
             ViewData["allact"] = am.tb_warranty_activities.ToList();
             return View("WarrantyList");
         }
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         public ActionResult AddFixingFee(String fixDetail, String price, String activitiesID)
         {
             tb_warranty_activities act = am.tb_warranty_activities.Find(int.Parse(activitiesID));
@@ -387,6 +422,7 @@ namespace ThienNga2.Controllers
             }
             return RedirectToAction("Search", "Warranty", new { code = activitiesID, searchType = "warrantyActID" });
         }
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         public ActionResult Search(string code, string searchType)
         {
             try
@@ -510,7 +546,7 @@ namespace ThienNga2.Controllers
         {
             return View();
         }
-
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         // POST: Warranty/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
@@ -526,6 +562,7 @@ namespace ThienNga2.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = "Admin,Nhân Viên kỹ thuật,Bán hàng,Admin Hà Nội")]
         public void GenerateInvoiceBill(String actid)
         {
             float totalheight = 100;

@@ -172,31 +172,31 @@ namespace ThienNga2.Controllers
             }
 
             bool flag = false;
-            if (model.Name.Equals("Nhân Viên")) {
-                flag = true;
+            //if (model.Name.Equals("Nhân Viên")) {
+            //    flag = true;
        
-            }
-            else
-            {
-                if (model.Name.Equals("Admin") || model.Name.Equals("Bán Hàng") || model.Name.Equals("Quản lý kho"))
-                {
-                    if (rolesArray == null)
-                    {
-                        ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
-                      //  return View(model);
-                    }
-                    else
-                        foreach (string role in rolesArray)
-                        {
+            //}
+            //else
+            //{
+            //    if (model.Name.Equals("Admin") || model.Name.Equals("Bán Hàng") || model.Name.Equals("Quản lý kho"))
+            //    {
+            //        if (rolesArray == null)
+            //        {
+            //            ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
+            //          //  return View(model);
+            //        }
+            //        else
+            //            foreach (string role in rolesArray)
+            //            {
 
-                            if (role.Equals("Admin")) flag = true;
-                        }
-                }
-            }
-            if (!flag) {
-                ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
-              //  return View(model);
-            }
+            //                if (role.Equals("Admin")) flag = true;
+            //            }
+            //    }
+            //}
+            //if (!flag) {
+            //    ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
+            //  //  return View(model);
+            //}
 
             if (ModelState.IsValid )
 
